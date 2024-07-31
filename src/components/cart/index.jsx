@@ -92,7 +92,7 @@ const Cart = () => {
     try {
       // Send the data to the appropriate backend endpoint based on the type
       const response = await axios.post(
-        "http://localhost:8080/api/sale/setsale",
+        "https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/sale/setsale",
         { sale: sale, theme: theme } // Wrap the sale data in an object with the key "sale"
       );
       const responses = response.data;
