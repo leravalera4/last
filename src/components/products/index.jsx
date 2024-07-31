@@ -163,7 +163,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/stores")
+      .get("https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -181,7 +181,7 @@ const Products = ({ cartData }) => {
     console.log(store)
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/stores/${selectedStore}`
+        `https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -228,7 +228,7 @@ const Products = ({ cartData }) => {
    const selectedStoresID = JSON.parse(localStorage.getItem('stores1'))
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/updateLocation",
+        "https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
