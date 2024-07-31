@@ -143,7 +143,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/stores")
+      .get("https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -156,7 +156,7 @@ const Index = () => {
     setSelectedStore(selectedStore);
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/stores/${selectedStore}`
+        `https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -226,7 +226,7 @@ const Index = () => {
     setSelectedLocation(storedData.location);
     console.log("selectedStore", selectedStore);
     try {
-      const response = await axios.post("http://localhost:8080/api/sale", {
+      const response = await axios.post("https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/sale", {
         selectedStoresID: [newSelectedLocationValue],
       });
       // Assuming the response contains the data you need
