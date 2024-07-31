@@ -179,15 +179,15 @@ const Index = () => {
   console.log("Дата тут", responseData);
 
 
-  function transformString(inputString) {
-    // Split the input string by '$' and filter out empty strings
-    const parts = inputString.split('$').filter(Boolean);
+  function transformString(transformedString) {
+    // // Split the input string by '$' and filter out empty strings
+    // const parts = inputString.split('$').filter(Boolean);
   
-    // Ensure unique parts using a Set (removes duplicates)
-    const uniqueParts = Array.from(new Set(parts));
+    // // Ensure unique parts using a Set (removes duplicates)
+    // const uniqueParts = Array.from(new Set(parts));
   
-    // Join unique parts back with '$' separator
-    const transformedString = uniqueParts.join('$');
+    // // Join unique parts back with '$' separator
+    // const transformedString = uniqueParts.join('$');
   
     return transformedString;
   }
