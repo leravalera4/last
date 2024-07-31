@@ -119,7 +119,7 @@ const StoreSelector = () => {
 
   useEffect(() => {
     axios
-      .get('ttps://last-shoppy-scan.vercel.app/api/stores')
+      .get('https://last-shoppy-scan.vercel.app/api/stores')
       .then((response) => {
         setAvailableStores(response.data)
       })
@@ -133,7 +133,7 @@ const StoreSelector = () => {
     setSelectedStore(selectedStore) // сюда кладем выбранный из списка магазин (из массива выбираем один из)
     try {
       const response = await axios.get(
-        `ttps://last-shoppy-scan.vercel.app/api/stores/${selectedStore}`
+        `https://last-shoppy-scan.vercel.app/api/stores/${selectedStore}`
       )
 
       if (response.status === 200) {
