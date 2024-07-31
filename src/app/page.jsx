@@ -119,7 +119,7 @@ const StoreSelector = () => {
 
   useEffect(() => {
     axios
-      .get('https://last-shoppy-scan.vercel.app/api/stores')
+      .get('https://server-blue-ten.vercel.app/api/stores')
       .then((response) => {
         setAvailableStores(response.data)
       })
@@ -133,7 +133,7 @@ const StoreSelector = () => {
     setSelectedStore(selectedStore) // сюда кладем выбранный из списка магазин (из массива выбираем один из)
     try {
       const response = await axios.get(
-        `https://last-shoppy-scan.vercel.app/api/stores/${selectedStore}`
+        `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
       )
 
       if (response.status === 200) {
@@ -172,7 +172,7 @@ const StoreSelector = () => {
   const handleButtonClick = async () => {
     try {
       const response = await axios.post(
-        'ttps://last-shoppy-scan.vercel.app/api/updateLocation',
+        'https://server-blue-ten.vercel.app/api/updateLocation',
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
