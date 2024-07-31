@@ -163,7 +163,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/stores")
+      .get("https://server-blue-ten.vercel.app/api/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -181,7 +181,7 @@ const Products = ({ cartData }) => {
     console.log(store)
     try {
       const response = await axios.get(
-        `https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/stores/${selectedStore}`
+        `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -228,7 +228,7 @@ const Products = ({ cartData }) => {
    const selectedStoresID = JSON.parse(localStorage.getItem('stores1'))
     try {
       const response = await axios.post(
-        "https://server-ese3csi3j-valeriias-projects-0eaecc7d.vercel.app/api/updateLocation",
+        "https://server-blue-ten.vercel.app/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
