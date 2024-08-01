@@ -1075,15 +1075,7 @@ const removeStore = (storeId) => {
                       fontSize: "14px",
                     }}
                   >
-                    {item.products[0].weight == ""
-                      ? "$" +
-                        (item.products[0].prices.unitPriceValue * 10).toFixed(
-                          2
-                        ) +
-                        " / 1" +
-                        " " +
-                        "kg"
-                      : item.products[0].weight}
+                    {item.products[0].weight}
                   </div>
                   <button
                     className={`${noir.className} box`}
