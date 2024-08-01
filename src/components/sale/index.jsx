@@ -695,7 +695,7 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
+                                {transformString(item.saleprice)}
                                 {transformString(item.wasprice) && (
                                   <s
                                     style={{
@@ -842,7 +842,7 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
+                                {transformString(item.saleprice)}
                                 {transformString(item.wasprice) && (
                                   <s
                                     style={{
@@ -981,7 +981,7 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
+                                {transformString(item.saleprice)}
                                 {transformString(item.wasprice) && (
                                   <s
                                     style={{
@@ -1269,7 +1269,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}{" "}
+                                    {transformString(item.saleprice)}{" "}
                                     <s>({transformString(item.wasprice)})</s>
                                   </p>
                                 )}
@@ -1414,7 +1414,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -1576,7 +1576,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -1737,7 +1737,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -1899,7 +1899,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -2061,7 +2061,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -2223,7 +2223,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -2385,7 +2385,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -2545,7 +2545,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -2706,7 +2706,7 @@ const Index = () => {
                                   className={`${noir.className} price-paragraph`}
                                   data-testid="price"
                                 >
-                                  ${transformString(item.saleprice)}
+                                  {transformString(item.saleprice)}
                                   {transformString(item.wasprice) && (
                                     <s
                                       style={{
@@ -2871,7 +2871,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -3030,7 +3030,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -3189,7 +3189,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -3348,7 +3348,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -3507,7 +3507,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}{" "}
+                                    {transformString(item.saleprice)}{" "}
                                     <s>({transformString(item.wasprice)})</s>
                                   </p>
                                 )}
@@ -3658,7 +3658,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -3818,7 +3818,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -3979,7 +3979,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -4140,7 +4140,7 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
+                                    {transformString(item.saleprice)}
                                     {transformString(item.wasprice) && (
                                       <s
                                         style={{
@@ -4290,7 +4290,7 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
+                                {transformString(item.saleprice)}
                                 {transformString(item.wasprice) && (
                                   <s
                                     style={{
@@ -4428,7 +4428,7 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
+                                {transformString(item.saleprice)}
                                 {transformString(item.wasprice) && (
                                   <s
                                     style={{
