@@ -1,5 +1,5 @@
 "use client";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef  } from "react";
 import axios from "axios";
 import localFont from "next/font/local";
 import { Carattere, Lora } from "next/font/google";
@@ -102,6 +102,7 @@ const Products = ({ cartData }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [firstTime, setFirstTime] = useState(true);
   const[selectedSel,setSelectedSel]= useState([]);
+  const buttonRef = useRef(null);
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
   );
@@ -149,6 +150,13 @@ const Products = ({ cartData }) => {
  
   console.log("mimimi",selectedAll)
 
+    const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Предотвращает действие по умолчанию
+      buttonRef.current.click(); // Имитирует нажатие кнопки
+    }
+  };
+  
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.clear();
@@ -911,62 +919,64 @@ const removeStore = (storeId) => {
             Add Store
           </button>}
           {selectedAll.length > 0 && 
-          <>
-          <label
-            style={{ paddingRight: "8px", fontSize: "18px" }}
-            className={noir.className}
-          >
-            Search:
-          </label>
-          <input
-            className={noir.className}
-            placeholder="Search for..."
-            style={{
-              padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-              fontSize: "1rem",
-              marginRight: "16px",
-              fontWeight: "400",
-              lineHeight: "1.5",
-              color: "#212529",
-              backgroundColor: "#fff",
-              border: "1px solid #ced4da",
-              borderRadius: "0.25rem",
-              transition:
-                "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-              width: "120px",
-            }}
-            type="text"
-            value={searchText}
-            onChange={handleSearchChange}
-            required
-          />
+                     (<div onKeyDown={handleKeyDown} tabIndex="0">
+              <label
+                style={{ paddingRight: "8px", fontSize: "18px" }}
+                className={noir.className}
+              >
+                Search:
+              </label>
+              <input
+                className={noir.className}
+                placeholder="Search for..."
+                style={{
+                  padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                  fontSize: "1rem",
+                  marginRight: "16px",
+                  fontWeight: "400",
+                  lineHeight: "1.5",
+                  color: "#212529",
+                  backgroundColor: "#fff",
+                  border: "1px solid #ced4da",
+                  borderRadius: "0.25rem",
+                  transition:
+                    "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                  width: "120px",
+                }}
+                type="text"
+                value={searchText}
+                onChange={handleSearchChange}
+                required
+              />
 
-          <button
-            className={noir.className}
-            style={{
-              outline: "0",
-              height:'38px',
-              cursor: "pointer",
-              padding: "5px 16px",
-              fontSize: "14px",
-              fontWeight: "500",
-              lineHeight: "20px",
-              verticalAlign: "middle",
-              border: "1px solid",
-              borderRadius: " 6px",
-              color: " #24292e",
-              backgroundColor: "#fafbfc",
-              borderColor: "#1b1f2326",
-              boxShadow:
-                "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-            }}
-            disabled={searchText === null || selectedLocation === null}
-            onClick={handleButtonClick}
-          >
-            Search
-          </button>
-          </>}
+              <button
+                className={noir.className}
+                style={{
+                  outline: "0",
+                  height: "38px",
+                  cursor: "pointer",
+                  padding: "5px 16px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  lineHeight: "20px",
+                  verticalAlign: "middle",
+                  border: "1px solid",
+                  borderRadius: " 6px",
+                  color: " #24292e",
+                  backgroundColor: "#fafbfc",
+                  borderColor: "#1b1f2326",
+                  boxShadow:
+                    "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                }}
+                //disabled={searchText === null || selectedLocation === null}
+                onClick={handleButtonClick}
+                ref={buttonRef}
+                disabled={!searchText || !selectedLocation}
+              >
+                Search
+              </button>
+            </div>)}
         </div>
         {firstTime && selectedAll.length === 0 ? (
           <Ab />
