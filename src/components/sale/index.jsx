@@ -823,7 +823,7 @@ const Index = () => {
                                 </div>
                                  <Zoom zoomZindex={1}>
                                   <div className="zoom-image-container">
-                                  <img
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
@@ -963,7 +963,7 @@ const Index = () => {
                                   )}
                                 </div>
                                 <Zoom>
-                                  <img
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
@@ -1102,7 +1102,7 @@ const Index = () => {
                                   )}
                                 </div>
                                 <Zoom>
-                                  <img
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
@@ -1251,7 +1251,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -1396,7 +1396,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -1558,7 +1558,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -1719,7 +1719,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -1881,7 +1881,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -2043,7 +2043,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -2205,7 +2205,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -2367,7 +2367,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -2527,7 +2527,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom zoomZindex={1}>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -2688,7 +2688,7 @@ const Index = () => {
                                     )}
                                   </div>
                                   <Zoom>
-                                    <img
+                                    <Image
                                       alt="skksks"
                                       src={item.image}
                                       //loading="lazy"
@@ -2853,7 +2853,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3012,7 +3012,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3171,7 +3171,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3330,7 +3330,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3489,7 +3489,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3640,7 +3640,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3800,7 +3800,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -3961,7 +3961,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -4122,7 +4122,7 @@ const Index = () => {
                                       )}
                                     </div>
                                     <Zoom>
-                                      <img
+                                      <Image
                                         alt="skksks"
                                         src={item.image}
                                         //loading="lazy"
@@ -4272,7 +4272,7 @@ const Index = () => {
                                   )}
                                 </div>
                                 <Zoom>
-                                  <img
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
@@ -4410,7 +4410,7 @@ const Index = () => {
                                   )}
                                 </div>
                                 <Zoom>
-                                  <img
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
