@@ -612,7 +612,7 @@ const Index = () => {
                   Fruits & Vegetables
                 </a>
                 <a className={`${noir.className} links`} href="#part2">
-                  Snacks, Chips & Candy
+                  Snacks
                 </a>
                 <a className={`${noir.className} links`} href="#part3">
                   Dairy & Eggs
@@ -622,6 +622,9 @@ const Index = () => {
                 </a>
                 <a className={`${noir.className} links`} href="#part5">
                   Bakery
+                </a>
+                <a className={`${noir.className} links`} href="#part10">
+                  Organics
                 </a>
                 <a className={`${noir.className} links`} href="#part6">
                   Deli
@@ -634,9 +637,6 @@ const Index = () => {
                 </a>
                 <a className={`${noir.className} links`} href="#part9">
                   Frozen Food
-                </a>
-                <a className={`${noir.className} links`} href="#part10">
-                  Other products
                 </a>
               </div>
               <h2 id="part1" className={noir.className}>
@@ -1513,7 +1513,7 @@ const Index = () => {
               {loading ? (
                 <Skeleton />
               ) : (
-                <h2 id="part6" className={noir.className}>
+                <h2 id="part10" className={noir.className}>
                   Natural and Organic
                 </h2>
               )}
