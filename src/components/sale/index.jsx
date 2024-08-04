@@ -821,7 +821,7 @@ const Index = () => {
                                     " "
                                   )}
                                 </div>
-                               // <Zoom>
+    
                                   <Image
                                     alt="skksks"
                                     src={item.image}
@@ -829,7 +829,7 @@ const Index = () => {
                                     className="product-image"
                                     //aria-hidden="true"
                                   />
-                               // </Zoom>
+
                               </>
                             )}
                           </div>
