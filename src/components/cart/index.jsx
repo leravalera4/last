@@ -338,7 +338,7 @@ const Cart = () => {
         height={40}
         onClick={() => setState({ isPaneOpen: true })}
       />
-      <p className={noir.className}>Cart</p>
+      <p className={noir.className}>List</p>
       {len === null ? <p>(0)</p> : <p>({len})</p>}
       <SlidingPane
         width="90%"
