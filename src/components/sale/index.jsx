@@ -821,15 +821,15 @@ const Index = () => {
                                     " "
                                   )}
                                 </div>
-                                <Zoom>
-                                  <img
+                               // <Zoom>
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
                                     className="product-image"
                                     //aria-hidden="true"
                                   />
-                                </Zoom>
+                               // </Zoom>
                               </>
                             )}
                           </div>
