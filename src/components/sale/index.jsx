@@ -674,7 +674,7 @@ const Index = () => {
                                 </div>
                                 <Zoom zoomZindex={1}>
                                   <div className="zoom-image-container">
-                                  <img
+                                  <Image
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
