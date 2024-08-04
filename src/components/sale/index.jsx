@@ -441,7 +441,7 @@ const Index = () => {
         }}
         className={noir.className}
       >
-        Special Price
+        Products on Sale
       </h1>
       <p
         style={{
