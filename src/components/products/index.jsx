@@ -1106,9 +1106,9 @@ const removeStore = (storeId) => {
                     onClick={() => handleAddToCart(item, index)}
                   >
                     {addedToCart[index] ? (
-                      <p style={{ color: "green",padding:" 0px 19px"}}>Added to cart</p>
+                      <p style={{ color: "green",padding:" 0px 19px"}}>Added to List</p>
                     ) : (
-                      <p style={{ color: "black",padding:" 0px 19px"}}>Add to Cart</p>
+                      <p style={{ color: "black",padding:" 0px 19px"}}>Add to List</p>
                     )}
                   </button>
                   <div style={{ display: "flex", paddingBottom: "20px",marginTop: "30px"}}>
