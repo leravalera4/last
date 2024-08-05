@@ -1,31 +1,26 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef  } from "react";
 import axios from "axios";
 import localFont from "next/font/local";
-import styles from "./sale.module.css";
-import "./item.css";
-import Spiner from "../spiner";
-import HistoriesLoader from "../loaders";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import "../products/products.css";
-import About from "../about";
-import Funfact from "../facts/facts.jsx";
+import { Carattere, Lora } from "next/font/google";
+import { Playfair } from "next/font/google";
+import Image from "next/image.js";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import spiner from "../../app/images/sp.gif";
+import dynamic from "next/dynamic";
+import SlidingPane from "react-sliding-pane";
+import "react-sliding-pane/dist/react-sliding-pane.css";
+import basket from "../../app/images/basket.png";
+import "./products.css";
 import Loading from "../loaders";
-import { useRouter } from "next/navigation";
-import { constants } from "buffer";
+import Ab from "../ab";
 import added from "../../app/images/added.svg";
-import Image from "next/image.js";
-import { useRef } from "react";
-import generatePDF from "react-to-pdf";
-
-//import { useContext } from "react";
-//import { AppContext } from '../../app/context'
-
+// import Sale from '../components/sale';
+// import Item from '../components/item';
+// import Cart from  '../components/header';
+// import About from  '../components/about';
+import Spiner from "../spiner";
+// const Header = dynamic(()=>import('./components/Header'),{ssr:false})
 const noir = localFont({
   src: [
     {
@@ -43,104 +38,122 @@ const noir = localFont({
       weight: "700",
       style: "normal",
     },
+  ],
+});
+const grape = localFont({
+  src: [
     {
-      path: "../../app/fonts/NoirPro-Medium.otf",
-      weight: "500",
+      path: "../../app/fonts/GrapeNuts-Regular.ttf",
+      weight: "200",
       style: "normal",
     },
   ],
 });
-
-const Index = () => {
-  const [availableStores, setAvailableStores] = useState([]);
-  const [selectedStore, setSelectedStore] = useState(null);
-  const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [selectedLocationsObject, setSelectedLocationsObject] = useState(null);
-  const [responseData, setResponseData] = useState([]);
-  const [isStoreAdded, setIsStoreAdded] = useState(false);
-  const [loading, setLoading] = useState();
-  const [namesss, setNamesss] = useState();
-  const [image, setImage] = useState(false);
+const arrows = localFont({
+  src: [
+    {
+      path: "../../app/fonts/Pwnewarrows-mjrV.ttf",
+      weight: "200",
+      style: "normal",
+    },
+  ],
+});
+// const noir_b = localFont({ src: './fonts/NoirPro-Bold.ttf' });
+// const noir = localFont({ src: './fonts/NoirPro-Regular.ttf' });
+// const noir_l = localFont({ src: './fonts/NoirPro-Light.ttf' });
+const lora = Lora({
+  weight: ["700"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
+const play = Playfair({
+  weight: ["500"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
+const Products = ({ cartData }) => {
+  const [availableStores, setAvailableStores] = useState([]); //тут весь список магазинов
+  const [selectedStore, setSelectedStore] = useState(null); //выбранный магазин из списка
+  const [locations, setLocations] = useState([]); //массив из всех локаций выбранного магазина
+  const [selectedLocation, setSelectedLocation] = useState(null); //выбранная локация магазина
+  const [searchText, setSearchText] = useState(null); //то,что вбивается в поиск
+  const [selectedLocationValue, setSelectedLocationValue] = useState(null); // номер магазина
+  const [selectedLocationsObject, setSelectedLocationsObject] = useState(null); // {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}
+  const [responseData, setResponseData] = useState([]); //ответ с бэка
+  const [selectedStores, setSelectedStores] = useState([]); //весь список магазинов
+  const [selectedStoresID, setSelectedStoresID] = useState([]);
+  const [selectedAll, setSelectedAll] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [items, setItems] = useState([]);
+  const [cartTrigger, setCartTrigger] = useState({});
+  const [hideNonMatching, setHideNonMatching] = useState(false);
+  const [error, setError] = useState();
+  const [isAnimating, setIsAnimating] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [firstTime, setFirstTime] = useState(true);
-  const [special, setSpecial] = useState();
-  const [selectedStoresLalala, setSelectedStoresLalala] = useState([]);
-
+  const[selectedSel,setSelectedSel]= useState([]);
+  const buttonRef = useRef(null);
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
   );
-
   const [addedToCartImage, setAddedToCartImage] = useState(
     Array(responseData.length).fill(false)
   );
-  const targetRef = useRef();
-
+  const [state, setState] = useState({
+    isPaneOpen: false,
+    isPaneOpenLeft: false,
+  });
+  function toggle() {
+    setIsOpen((isOpen) => !isOpen);
+  }
+  // useEffect(() => {
+  //   window.addEventListener("storage", () => {
+  //     const storedStores = localStorage.getItem("temp");
+  //     // Parse the stored state if it exists
+  //     if (storedStores) {
+  //       const parsedStores = JSON.parse(storedStores);
+	@@ -130,33 +129,26 @@
+  //       setCart(parsedStores);
+  //       // Similarly, update other state variables as needed
+  //     }
+  //   });
+  // }, []);
   React.useEffect(() => {
     window.addEventListener("storage", () => {
-      //const theme = JSON.parse(localStorage.getItem('stores'))
-      const sale = JSON.parse(localStorage.getItem("sale"));
-      const responseData = JSON.parse(localStorage.getItem("responseData"));
-      const special = JSON.parse(localStorage.getItem("special"));
-      const names = JSON.parse(localStorage.getItem("names"));
-      setNamesss(names);
-
-      console.log(special);
-      console.log(sale);
-      console.log(responseData);
-      console.log(sale);
-      console.log(names);
-      setSpecial(special);
-      console.log(special);
-      console.log(namesss);
-      setSelectedStore(sale.store);
-      setSelectedLocation(sale.location);
-      setResponseData(responseData);
-      // if (names === null && special) {
-      //   console.log("noooooo");
-      //   setAddedToCartImage(Array(responseData.length).fill(false))
-      // }
-      console.log(addedToCartImage);
+      const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
+      const selectedLocation = JSON.parse(localStorage.getItem("selectedLocation"));
+      const store1 = JSON.parse(localStorage.getItem("store1"));
+      const selectedAll = JSON.parse(localStorage.getItem("selectedAll"));
+      //const responseData1 = JSON.parse(localStorage.getItem("responseData1"));
+      console.log(selectedStore)
+      setSelectedLocation(selectedLocation)
+      setSelectedStore(selectedStore)
+      setSelectedStoresID(store1)
+      //setResponseData(responseData);
     });
-  }, [selectedLocation, namesss]);
+  }, [selectedLocation,selectedStore,selectedAll,selectedStoresID]);
 
-  React.useEffect(() => {
-    window.addEventListener("storage", () => {
-      if (namesss === null && special) {
-        console.log("noooooo");
-        setAddedToCartImage(Array(responseData.length).fill(false));
-      }
-    });
-  }, [namesss]);
+  console.log("mimimi",selectedAll)
+
+    const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Предотвращает действие по умолчанию
+      buttonRef.current.click(); // Имитирует нажатие кнопки
+    }
+  };
 
   useEffect(() => {
-    // Function to handle changes in localStorage
-    const handleStorageChange = () => {
-      const sale = JSON.parse(localStorage.getItem("sale"));
-      const storedResponseData = JSON.parse(
-        localStorage.getItem("responseData")
-      );
-      if (sale) {
-        setSelectedStore(sale.store);
-        handleStoreChange(sale.store);
-        setSelectedLocation(sale.location);
-      }
-      if (storedResponseData) {
-        setResponseData(storedResponseData);
-      }
+    const handleBeforeUnload = () => {
+      localStorage.clear();
     };
-
-    // Initial setup from localStorage
-    handleStorageChange();
-
-    // Listen for changes in localStorage
-    window.addEventListener("storage", handleStorageChange);
-
-    // Cleanup function
+    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-
   useEffect(() => {
     axios
       .get("https://server-blue-ten.vercel.app/api/stores")
@@ -148,366 +161,603 @@ const Index = () => {
         setAvailableStores(response.data);
       })
       .catch((error) => {
+        setError("Error fetching available stores");
         console.error("Error fetching available stores:", error);
       });
-  }, []);
-
+  }, []); // получаем список магазинов
   const handleStoreChange = async (selectedStore) => {
-    setSelectedStore(selectedStore);
+    setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+    localStorage.setItem('selectedStore', JSON.stringify(selectedStore));
+    console.log(selectedStore)
+    const store = JSON.parse(localStorage.getItem("selectedStore"));
+    console.log(store)
     try {
       const response = await axios.get(
         `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
       );
-
       if (response.status === 200) {
-        const locationsObject = response.data.locations;
-        const locationsArray = Object.keys(locationsObject);
-        setLocations(locationsArray);
-        setSelectedLocationsObject(locationsObject);
-
-        console.log(locationsObject);
+        const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
+        const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
+        setLocations(locationsArray); // сюда кладутся все локации выбранного магазина
+        setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
+        // console.log(selectedLocationsObject);
       } else {
-        console.error(
+        setError(
           `Error fetching locations. Server returned: ${response.status}`
+        );
+        console.error(
+          "Error fetching locations. Server returned:",
+          response.status
         );
       }
     } catch (error) {
+      setError(`Error fetching locations: ${error.message}`);
       console.error("Error fetching locations:", error.message);
     }
   };
-
-  console.log("Дата тут", responseData);
-
-
-  function transformString(transformedString) {
-    // // Split the input string by '$' and filter out empty strings
-    // const parts = inputString.split('$').filter(Boolean);
-  
-    // // Ensure unique parts using a Set (removes duplicates)
-    // const uniqueParts = Array.from(new Set(parts));
-  
-    // // Join unique parts back with '$' separator
-    // const transformedString = uniqueParts.join('$');
-  
-    return transformedString;
-  }
-
-  const handleAddStore = async () => {
-    setLoading(true);
-    if (!selectedLocation) {
-      console.warn("Please select a location before adding.");
-      return;
-    }
-
-    const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
-
-    console.log("newSelectedLocationValue", newSelectedLocationValue);
-    const newStoreLocationObject = {
-      store: selectedStore,
-      location: selectedLocation,
-      id: newSelectedLocationValue,
-    };
-
-    const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
-    if (!storesNames.includes(newStoreLocationObject)) {
-      storesNames.push(newStoreLocationObject);
-      localStorage.setItem("storesName", JSON.stringify(storesNames));
-    }
-
-    console.log("newStoreLocationObject", newStoreLocationObject);
-
-    const saveCartData = (newStoreLocationObject) => {
-      localStorage.setItem("sale", JSON.stringify(newStoreLocationObject));
-    };
-    saveCartData(newStoreLocationObject);
-    const storedData = JSON.parse(localStorage.getItem("sale"));
-    console.log("storedData", storedData);
-    setSelectedStore(storedData.store);
-    setSelectedLocation(storedData.location);
-    console.log("selectedStore", selectedStore);
-    try {
-      const response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
-        selectedStoresID: [newSelectedLocationValue],
-      });
-      // Assuming the response contains the data you need
-      const storesData = response.data;
-      setResponseData(storesData);
-      //setResponseData(storesData);
-      console.log("responseData", responseData);
-      const dataToLocalStorage = localStorage.setItem(
-        "responseData",
-        JSON.stringify(storesData)
-      );
-      window.dispatchEvent(new Event("storage"));
-
-      const handleAddToCart = (index) => {
-        const arrayOfItems = [];
-        const selectedItem = storesData[index];
-
-        const ItemCode = selectedItem.productID;
-        localStorage.setItem("storedField", ItemCode);
-      };
-      //console.log(storesData);
-      setLoading(false);
-      q;
-      setFirstTime(false);
-      saveCartData(newStoreLocationObject);
-    } catch (error) {
-      console.error("Error fetching stores data:", error.message);
-      // Handle the error (display a message to the user, log it, etc.)
-    }
-
-    // Reset selected location for the next selection
-    //setSelectedLocation(null);
+  let getStores;
+  const handleSearchChange = (event) => {
+    // тут ищем продукт
+    setSearchText(event.target.value);
+    // getStores = localStorage.getItem("stores");
+    // console.log(getStores);
   };
-
+  const handleLocationChange = async (selectedLocation) => {
+    // выбираем локацию из списка
+    const newSelectedLocationValue = selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
+    setSelectedLocationValue(newSelectedLocationValue); // тут теперь хранится value(цифра) выбранной локации
+    setSelectedLocation(selectedLocation); // тут только имя локации
+    localStorage.setItem('selectedLocation', JSON.stringify(selectedLocation))
+  };
+  //const getStoresFromLocalStorage = localStorage.getItem("stores") || [];
+  const handleButtonClick = async () => {
+   const selectedStoresID = JSON.parse(localStorage.getItem('stores1'))
+    try {
+      const response = await axios.post(
+        "https://server-blue-ten.vercel.app/api/updateLocation",
+        {
+          selectedStoresID: selectedStoresID,
+          searchText: searchText,
+        }
+      );
+      //console.log('Данные успешно отправлены на бэкенд', response.data)
+      const responseData = response.data;
+      console.log("Tyt data",responseData)
+      setResponseData(responseData);
+      setAddedToCartImage(Array(responseData.length).fill(false))
+      // const getStorage = localStorage.getItem("stores") || [];
+      // console.log(getStorage)
+      // console.log(selectedStoresID); //тут нужные циферки
+      // let id;
+      // getStorage.forEach((item) => {
+      //   id = item[item];
+      // });
+      // getStoresFromLocalStorage.push(id);
+      //localStorage.setItem('stores', JSON.stringify(selectedStoresID));
+      // const getStorage = localStorage.getItem("stores");
+      // let storesArray;
+      // if (getStorage) {
+      //   storesArray = JSON.parse(getStorage); // Parse the retrieved value as JSON
+      // } else {
+      //   storesArray = []; // If no value is retrieved or it's not valid JSON, initialize storesArray as an empty array
+      // }
+      // console.log(getStorage);
+      // console.log(selectedStoresID); // Assuming this is where you get your desired IDs
+      // selectedStoresID.forEach((id) => {
+      //   storesArray.push(id); // Push each selectedStoresID into storesArray
+      // });
+      // localStorage.setItem("stores", JSON.stringify(storesArray));
+      const getStorage = localStorage.getItem("stores_1234");
+      const getStorage1 = localStorage.getItem("stores1");
+      let storesSet = new Set();
+      let storesSet1 = new Set();
+      if (getStorage) {
+        storesSet = new Set(JSON.parse(getStorage)); // Parse the retrieved value as JSON and initialize storesSet as a Set
+      }
+      if (getStorage1) {
+        storesSet1 = new Set(JSON.parse(getStorage1)); // Parse the retrieved value as JSON and initialize storesSet as a Set
+      }
+      console.log(getStorage);
+      console.log(selectedStoresID);
+      // Add selectedStoresID to the storesSet to ensure uniqueness
+      selectedStoresID.forEach((id) => {
+        storesSet.add(id);
+      });
+      selectedStoresID.forEach((id) => {
+        storesSet1.add(id);
+      });
+      // Convert the storesSet back to an array before storing in localStorage
+      const storesArray = Array.from(storesSet);
+      const storesArray1 = Array.from(storesSet1);
+      // Update "stores" key in localStorage with the updated storesArray
+      localStorage.setItem("stores_1234", JSON.stringify(storesArray));
+      localStorage.setItem("stores1", JSON.stringify(storesArray1));
+      console.log("Here is the data",responseData);
+     // setIsLoading(false);
+    } catch (error) {
+      console.error("Ошибка при отправке данных на бэкенд", error);
+    }
+  };
+  const handleAddStore = () => {
+    const existingStores = JSON.parse(localStorage.getItem("stores1"));
+    if (!selectedStores.includes(selectedLocation)) {
+      setSelectedStores([...selectedStores, selectedLocation]); // кладем выбранные локации в массив
+      const newSelectedLocationValue =
+        selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
+      const newStoreLocationObject = {
+        store: selectedStore,
+        location: selectedLocation,
+        id: newSelectedLocationValue,
+      };
+      const storesNames = JSON.parse(localStorage.getItem('storesName')) || []
+      if (!storesNames.some(store => store.id === newStoreLocationObject.id)) {
+        storesNames.push(newStoreLocationObject);
+        localStorage.setItem('storesName',JSON.stringify(storesNames))
+      }
+      setSelectedAll((prevSelectedAll) => [
+        ...prevSelectedAll,
+        newStoreLocationObject,
+      ]);
+      
+      const selectedAll = JSON.parse(localStorage.getItem('selectedAll')) || []
+      if (!selectedAll.includes(newStoreLocationObject)) {
+        storesNames.push(newStoreLocationObject);
+        localStorage.setItem('selectedAll',JSON.stringify(selectedAll))
+      }
+      const storesNames1 = JSON.parse(localStorage.getItem("sel")) || [];
+      if (!storesNames1.includes(newStoreLocationObject)) {
+        storesNames1.push(newStoreLocationObject);
+        localStorage.setItem("sel", JSON.stringify(storesNames1));
+      }
+      const names1 = JSON.parse(localStorage.getItem("stores1")) || [];
+      if (!names1.includes(newStoreLocationObject.id)) {
+        names1.push(newStoreLocationObject.id);
+        localStorage.setItem("stores1", JSON.stringify(names1));
+      }
+      setSelectedSel(storesNames1)
+      setSelectedStoresID(existingStores)
+      console.log(selectedSel)
+      setSelectedLocationValue(newSelectedLocationValue); // сюда кладем номер каждого магазина
+      setSelectedStoresID([...selectedStoresID, newSelectedLocationValue]); // получаем массив из номеров магазинов
+      setFirstTime(false);
+      if (searchText && searchText.length > 0) {
+        handleButtonClick();
+      }
+      //localStorage.setItem("stores1",JSON.stringify(selectedStoresID))
+      // const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
+      // if (!storesNames1.includes(newStoreLocationObject.id)) {
+      //   localStorage.setItem("stores1", JSON.stringify(existingStores));
+      // }
+    }
+  };
+  // const lengthMatchesArray = responseData.map(
+  //   (product) => selectedAll.length === product.products.length
+  // );
+  const handleAddToCart = async (product, index) => {
+    const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const title = JSON.parse(localStorage.getItem("names")) || [];
+    
+    console.log(existingItems);
+    try {
+      console.log(existingItems);
+      const updatedCart = cart.map((shop) => ({ ...shop }));
+      localStorage.setItem("temp", JSON.stringify(updatedCart));
+      for (const item of product.products) {
+        const storeIndex = updatedCart.findIndex(
+          (store) => store.storeID === item.storeID
+        );
+        if (storeIndex === -1) {
+          updatedCart.push({
+            storeID: item.storeID,
+            storeName: item.store,
+            items: [
+              {
+                name: product.title,
+                id: item.productID,
+              },
+            ],
+          });
+        } else {
+          updatedCart[storeIndex].items.push({
+            name: product.title,
+            id: item.productID,
+          });
+        }
+      }
+      //const extractedIDs = new Set();
+      //console.log(extractedIDs);
+      //      let ids;
+      // updatedCart.forEach((store) => {
+      //   store.items.forEach((item) => {
+      //     ids = item.id;
+      //     console.log(ids); // This will log each ID separately
+      //     existingItems.push(ids); // This will add each ID to existingItems one by one
+      //   });
+      // });
+      // updatedCart[0].items.forEach((item) => {
+      //   let ids = item.id;
+      //   console.log(ids); // This will log each ID separately
+      //   existingItems.push(ids); // This will add each ID to existingItems one by one
+      // });
+      let id;
+      let name;
+      updatedCart[0].items.forEach((item) => {
+        id = item.id;
+      });
+      existingItems.push(id);
+      updatedCart[0].items.forEach((item) => {
+        name = item.name
+    });
+       title.push(name);
+      console.log("names", title);
+      console.log("existing", existingItems);
+      localStorage.setItem("cart", JSON.stringify(existingItems));
+      localStorage.setItem("names", JSON.stringify(title));
+     
+      const updatedAddedToCart = [...addedToCart];
+      updatedAddedToCart[index] = true;
+      setAddedToCart(updatedAddedToCart);
+      const updatedAddedToCartImage = [...addedToCartImage];
+      updatedAddedToCartImage[index] = true;
+      setAddedToCartImage(updatedAddedToCartImage);
+      setTimeout(() => {
+        const resetAddedToCart = [...updatedAddedToCart];
+        resetAddedToCart[index] = false;
+        setAddedToCart(resetAddedToCart);
+      }, 1000);
+      // console.log(ids)
+      // existingItems.push(ids)
+      // const uniqueIDs = Array.from(extractedIDs);
+      if (!localStorage.getItem("temp")) {
+        localStorage.setItem("temp", JSON.stringify(updatedCart));
+      }
+      setCart(updatedCart); // Update the cart state with the data from the temp storage
+      setItems(id);
+      if (!existingItems.includes(id)) {
+        // Add the item code to the existing array of items
+        // existingItems.push(uniqueIDs);
+        // Save the updated array back to localStorage
+        localStorage.setItem("cart", JSON.stringify(existingItems));
+        window.dispatchEvent(new Event("storage"));
+      } else {
+        console.log("Item already exists in the cart.");
+      }
+      //existingItems.push(uniqueIDs);
+      // console.log(uniqueIDs);
+      if (!title.includes(name)) {
+        //existingItems.push(uniqueIDs);
+        localStorage.setItem("names", JSON.stringify(title));
+        window.dispatchEvent(new Event("storage"));
+      }
+      
+      if (!title.includes(name)) {
+        // Add the item code to the existing array of items
+        // existingItems.push(uniqueIDs);
+        // Save the updated array back to localStorage
+        localStorage.setItem("names", JSON.stringify(title));
+        window.dispatchEvent(new Event("storage"));
+      } else {
+        console.log("Item already exists in the cart.");
+      }
+      //existingItems.push(uniqueIDs);
+      // console.log(uniqueIDs);
+      if (!title.includes(name)) {
+        //existingItems.push(uniqueIDs);
+        localStorage.setItem("names", JSON.stringify(title));
+        window.dispatchEvent(new Event("storage"));
+      }
+      setCart(updatedCart);
+      // setItems(uniqueIDs);
+      // const mim = JSON.parse(localStorage.getItem("temp"))
+      // console.log(mim)
+      // setCart(mim)
+      window.dispatchEvent(new Event("storage"));
+      const existingTempData = JSON.parse(localStorage.getItem("temp"));
+      console.log(existingTempData);
+      if (existingTempData !== null && existingTempData !== undefined) {
+        localStorage.setItem("temp", JSON.stringify(cart));
+        console.log(cart);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      // Handle errors appropriately
+    }
+  }; // works
+  // console.log(uniqueIDs);
+  // if (!existingItems.includes(uniqueIDs)) {
+  //   //existingItems.push(uniqueIDs);
+  // const clearData = () => {
+  //   const zeroPriceIndexes = [];
+  //   cart.forEach((store) => {
+  //     store.items.forEach((item, itemIndex) => {
+  //       if (item.price === 0) {
+  //         zeroPriceIndexes.push(itemIndex);
+  //       }
+  //     });
+  //   });
+  //   console.log(zeroPriceIndexes);
+  //   console.log(cart.length);
+  // };
+  // clearData();
+  // const saveCartData = (items) => {
+  //   localStorage.setItem('cart', JSON.stringify(items));
+  //   window.dispatchEvent(new Event("storage"))
+  // };
+  // const loadCartData = () => {
+  //   const savedCart = localStorage.getItem('cart');
+  //   if (savedCart) {
+  //     setCart(JSON.parse(savedCart));
+  //     console.log(cart);
+  //   }
+  // };
+  console.log("cart", cart);
+  console.log(cartData);
+  // async function getItemPriceForStore(productId, storeId) {
+  //   if (productId == null) {
+  //     const pr = 0;
+  //     return pr;
+  //   } else {
+  //     const response = await axios.get(
+  //       `https://grocerytracker.ca/api/pc/search/${storeId}/${productId}`
+  //     );
+  //     const price = response.data;
+  //     console.log(price);
+  //     //const value = price.filter((item) => storeId == item.storeID);
+  //     //const pr = value[0].prices[value[0].prices.length - 1].price;
+  //     const pr = price.results[0].prices.price;
+  //     return pr;
+  //   }
+  // }
+  //   useEffect(() => {
+  //   window.addEventListener("storage", () => {
+  //     const storedStores = localStorage.getItem("temp");
+  //     // Parse the stored state if it exists
+  //     if (storedStores) {
+  //       const parsedStores = JSON.parse(storedStores);
+  //       // Update component state with parsed stored state
+  //       setCart(parsedStores);
+  //       // Similarly, update other state variables as needed
+  //     }
+  //   });
+  // }, []);
+  console.log("selectedAll",selectedAll);
+  console.log(selectedStoresID);
+  console.log(selectedStoresID);
+  //   const removeStore = (storeId) => {
+  //     // Filter out the store with the given ID from the data array
+  //     const updatedData = selectedAll.filter((store) => store.id !== storeId);
+  //     // Update the data array with the filtered data
+  //     //setSelectedStoresID(updatedData);
+  //     setSelectedAll(updatedData);
+  //     console.log(updatedData);
+  // //     const up = responseData.map((item) =>
+  // //     item.products.filter((product) => product.storeID !== storeId)
+  // // );
+  // //     console.log(up);
+  //     //console.log("Filtered Local Storage Data:", filteredLocalStorageData);
+  //     const get = JSON.parse(localStorage.getItem("stores"));
+  //     if (get) {
+  //       console.log(get);
+  //       const da = get.filter((store) => store !== storeId);
+  //       console.log(da);
+  //       //selectedStoresID(da)
+  //       localStorage.setItem("stores", JSON.stringify(da));
+  //     }
+  //     function removeProductByID(data, productID) {
+  //       return data.products.filter(product => product.productID !== productID);
+  //   }
+  //   // Assign the modified products array to a new variable
+  //   let newData = {
+  //       ...data,
+  //       products: removeProductByID(responseData, storeId)
+  //   };
+  //   };
+  // const removeStore = (storeId) => {
+  //   // Filter out the store with the given ID from the data array
+  //   const updatedData = selectedAll.filter((store) => store.id !== storeId);
+  //   const stores = JSON.parse(localStorage.getItem("stores1"));
+  //   setSelectedAll(updatedData);
+    
+  //   console.log("updatedData",updatedData)
+  //   console.log("selectedStoresID",selectedStoresID)
+    
+  //   const updatedStoresID = stores.filter(
+  //     (store) => store !== storeId
+  //   );
+    
+  //   console.log("updated",updatedStoresID)
+  //   setSelectedStoresID(updatedStoresID)
+  //   // Update local storage
+  //   const localStorageData = JSON.parse(localStorage.getItem("stores"));
+  //   const all = JSON.parse(localStorage.getItem("sel"));
+  //   const names = JSON.parse(localStorage.getItem("storesName"));
+   
+  //   if (localStorageData) {
+  //     const updatedLocalStorageData = localStorageData.filter(
+  //       (store) => store !== storeId
+  //     );
+  //     localStorage.setItem("stores", JSON.stringify(updatedLocalStorageData));
+  //   }
+  //   if (stores) {
+  //     const updatedLocalStorageData = stores.filter(
+  //       (store) => store !== storeId
+  //     );
+  //     localStorage.setItem("stores1", JSON.stringify(updatedLocalStorageData));
+  //     setSelectedStoresID(updatedLocalStorageData)
+  //   }
+  //   if (all) {
+  //     const updatedLocalStorageData = all.filter(
+  //       (store) => store.id !== storeId
+  //     );
+  //     localStorage.setItem("sel", JSON.stringify(updatedLocalStorageData));
+  //   }
+  //   if (names) {
+  //     const updatedLocalStorageData = all.filter(
+  //       (store) => store.id !== storeId
+  //     );
+  //     localStorage.setItem("storesName", JSON.stringify(updatedLocalStorageData));
+  //   }
+  //   // Remove associated products
+  //   const updatedResponseData = responseData.map((item) => ({
+  //     ...item,
+  //     products: removeProductByID(item.products, storeId),
+  //   }));
+    
+  //   console.log(updatedstoresResponseData);
+  //   function removeProductByID(products, storeId) {
+  //     return products.filter((product) => product.storeID.toString() !== storeId.toString());
+  //   }
+  //   handleButtonClick();
+  // };  //тут удаление было
+console.log(selectedSel)
+  
+const removeStore = (storeId) => {
+    const data = JSON.parse(localStorage.getItem("stores1"))
+    console.log(data)
+    const updatedData = JSON.parse(localStorage.getItem("sel"))
+    const updatedData3 = JSON.parse(localStorage.getItem("storesName"))
+    // Filter out the store with the given ID from the data array
+    const updatedData1 = updatedData.filter((store) => store.id != storeId);
+    const updatedData4 = updatedData3.filter((store) => store.id != storeId);
+    localStorage.setItem("sel", JSON.stringify(updatedData1));
+    localStorage.setItem("storesName", JSON.stringify(updatedData4));
+    setSelectedAll(updatedData1);
+    const da = data.filter((store) => store != storeId);
+    console.log("da",da)
+    const updatedData2 = JSON.parse(localStorage.getItem("stores_1234"))
+    let stores;
+    if (updatedData2)
+    {
+    stores = updatedData2.filter((store) => store != storeId);
+    }
+    console.log("da",da)
+    // if (updatedData.length < 1) {
+    //   localStorage.removeItem("cart");
+    //   localStorage.removeItem("names");
+    // }
+    localStorage.setItem("stores1", JSON.stringify(da));
+    localStorage.setItem("stores_1234", JSON.stringify(stores));
+    setSelectedStores(selectedAll.map((item) => item.location))
+    console.log(selectedStores)
+    setSelectedStoresID(da)
+    setSelectedStores(selectedAll)
+    handleButtonClick();
+  };
+  
+  React.useEffect(() => {
+    window.addEventListener("storage", () => {
+      const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
+      const selectedLocation = JSON.parse(localStorage.getItem("selectedLocation"));
+      const selectedAll = JSON.parse(localStorage.getItem("sel"));
+      const stores1 = JSON.parse(localStorage.getItem("stores1"));
+      console.log("lalala",selectedLocation)
+      console.log("lalalalalal",selectedStore)
+      console.log("lalala",selectedAll)
+      console.log("stores_1234",stores1)
+    });
+  }, [selectedLocation,selectedStore,selectedAll]);
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.clear();
+    // Function to handle changes in localStorage
+    const handleStorageChange = () => {
+      const sale = JSON.parse(localStorage.getItem("selectedStore"));
+      const selectedAll = JSON.parse(localStorage.getItem("sel"));
+      const storedResponseData = JSON.parse(
+        localStorage.getItem("selectedLocation")
+      );
+      const stores1 = JSON.parse(localStorage.getItem("stores1"));
+      // const stores1 = JSON.parse(
+      //   localStorage.getItem("stores1")
+      // );
+      const cartNames = JSON.parse(localStorage.getItem("selectedAll"))
+      if (cartNames){
+        setSelectedAll(cartNames)
+      }
+      if (sale) {
+        setSelectedStore(sale);
+        handleStoreChange(sale);
+      }
+      if (storedResponseData) {
+        setSelectedLocation(storedResponseData);
+      }
+      if (selectedAll) {
+        setSelectedAll(selectedAll);
+      }
+      // if (stores1) {
+      //   setSelectedStoresID(stores1);
+      // }
     };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
+    // Initial setup from localStorage
+    handleStorageChange();
+    // Listen for changes in localStorage
+    window.addEventListener("storage", handleStorageChange);
+    // Cleanup function
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-
-  // const handleAddToCart = (index)=>{
-  //   const arrayOfItems = [];
-  //   const selectedItem = responseData[index];
-  //   const ItemCode = selectedItem.code;
-  //   arrayOfItems.push(ItemCode)
-  //   localStorage.setItem('storedField', arrayOfItems);
-  // }
-
-  const handleAddToCart = (item, index) => {
-    // Retrieve existing items from localStorage or initialize an empty array
-    const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
-    //const existingStores = JSON.parse(localStorage.getItem("stores")) || [];
-    //console.log(existingStores)
-    //const stores_la = JSON.parse(localStorage.getItem("stores_lalala")) || [];
-    const title = JSON.parse(localStorage.getItem("names")) || [];
-    const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
-
-    // Get the selected item from the responseData based on the index
-    const selectedItem = responseData[index];
-    const itemCode = selectedItem.productID;
-    const name = selectedItem.title;
-    let storeID = selectedItem.storeid;
-    let storeID_new = selectedItem.storeID;
-
-    // Check if storeID and storeID_new are defined and push them to arrayOfStores
-    // if (storeID !== undefined) {
-    //   arrayOfStores.push(storeID);
-    // }
-    // if (storeID_new !== undefined) {
-    //   arrayOfStores.push(storeID_new);
-    // }
-
-    console.log("New store", storeID_new);
-    console.log("New store from DB", storeID);
-
-    if (
-      arrayOfStores.includes(storeID_new) ||
-      arrayOfStores.includes(storeID)
-    ) {
-      console.log("Store already exists in the cart.");
-    } else {
-      if (storeID !== undefined) {
-        arrayOfStores.push(storeID);
-      }
-      if (storeID_new !== undefined) {
-        arrayOfStores.push(storeID_new);
-      }
-      localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
-      window.dispatchEvent(new Event("storage"));
-    }
-
-    console.log("Array of stores", arrayOfStores);
-
-    // Push name to the title array
-    title.push(name);
-    localStorage.setItem("names", JSON.stringify(title));
-    localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
-
-    //Check if storeID already exists in stores_la array
-    // if (!stores_la.includes(storeID)) {
-    //   // If it doesn't exist, push storeID to stores_la array
-    //   stores_la.push(storeID);
-    //   localStorage.setItem("stores_lalala", JSON.stringify(stores_la));
-    //   window.dispatchEvent(new Event("storage"));
-    // } else {
-    //   console.log("Store already exists in the cart.");
-    // }
-
-    // if (!existingStores.includes(selectedItem.storeID)) {
-    //   existingStores.push(selectedItem.storeID);
-    //   localStorage.setItem("stores_lalala", JSON.stringify(existingStores));
-    //   window.dispatchEvent(new Event("storage"));
-    // } else {
-    //   console.log("Item already exists in the cart.");
-    // }
-
-    // Update UI state for added items
-    const updatedAddedToCart = [...addedToCart];
-    updatedAddedToCart[index] = true;
-    setAddedToCart(updatedAddedToCart);
-
-    const updatedAddedToCartImage = [...addedToCartImage];
-    updatedAddedToCartImage[index] = true;
-    setAddedToCartImage(updatedAddedToCartImage);
-    localStorage.setItem("special", JSON.stringify(updatedAddedToCartImage));
-
-    // Reset addedToCart state after 1 second
-    setTimeout(() => {
-      const resetAddedToCart = [...updatedAddedToCart];
-      resetAddedToCart[index] = false;
-      setAddedToCart(resetAddedToCart);
-    }, 1000);
-
-    // Add the item code to the existing array of items in cart
-    existingItems.push(itemCode);
-    localStorage.setItem("cart", JSON.stringify(existingItems));
-    window.dispatchEvent(new Event("storage"));
-
-    // //Add the storeID to existing array of stores
-    // if (!existingStores.includes(selectedItem.storeID)) {
-    //   existingStores.push(selectedItem.storeID);
-    //   localStorage.setItem("stores", JSON.stringify(existingStores));
-    //   window.dispatchEvent(new Event("storage"));
-    // } else {
-    //   console.log("Item already exists in the cart.");
-    // }
-  };
-
-  console.log("Response Data", responseData);
-
-  const undefinedAisleCount = responseData.filter(
-    (item) => item.category === undefined
-  ).length;
-  console.log("Длина", undefinedAisleCount);
-  const fishAisleCount = responseData.filter(
-    (item) => item.category === "Fish & Seafood"
-  ).length;
-  const preparedAisleCount = responseData.filter(
-    (item) => item.category === "Prepared Meals"
-  ).length;
-  const pantryAisleCount = responseData.filter(
-    (item) => item.category === "Pantry"
-  ).length;
-  const naturalAisleCount = responseData.filter(
-    (item) => item.category === "Natural and Organic"
-  ).length;
-  console.log("Длина рыбы", fishAisleCount);
-  const fruitsAisleCount = responseData.filter(
-    (item) => item.category === "Fruits & Vegetables"
-  ).length;
-  const snacksAisleCount = responseData.filter(
-    (item) => item.category === "Snacks, Chips & Candy"
-  ).length;
-  const dairyAisleCount = responseData.filter(
-    (item) => item.category === "Dairy & Eggs"
-  ).length;
-  const drinksAisleCount = responseData.filter(
-    (item) => item.category === "Drinks" || "Juice"
-  ).length;
-  const bakeryAisleCount = responseData.filter(
-    (item) => item.category === "Bakery"
-  ).length;
-  const deliAisleCount = responseData.filter(
-    (item) => item.category === "Deli" || '"Deli Cheese"'
-  ).length;
-  const meatAisleCount = responseData.filter(
-    (item) => item.category === "Meat"
-  ).length;
-  const frozenAisleCount = responseData.filter(
-    (item) => item.category === "Frozen Food"
-  ).length;
-
-  const houseAisleCount = responseData.filter(
-    (item) => item.category === "Household Supplies"
-  ).length;
-
   return (
-    <div
-      style={{ marginLeft: "80px", marginRight: "80px", paddingTop: "10px" }}
-    >
-      <h1
-        style={{
-          textAlign: "center",
-          paddingBottom: "0px",
-          marginBottom: "0px",
-        }}
-        className={noir.className}
-      >
-        Products on Sale
-      </h1>
-      <p
-        style={{
-          textAlign: "center",
-          paddingTop: "0px",
-          marginTop: "0px",
-          paddingBottom: "18px",
-        }}
-        className={noir.className}
-      >
-        Select the stores you'd like to compare prices for various products
-      </p>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <label
+    <div>
+      <div style={{ marginLeft: "80px", marginRight: "80px" }}>
+        <h1
           style={{
-            paddingRight: "8px",
-            fontSize: "18px",
-            paddingLeft: "24px",
+            textAlign: "center",
+            paddingBottom: "0px",
+            marginBottom: "0px",
           }}
           className={noir.className}
         >
-          Select Store:
-        </label>
-        <select
-          className={noir.className}
+          Compare Prices
+        </h1>
+        <p
           style={{
-            width: "232px",
-            height: "38px",
-            padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-            fontSize: "1rem",
-            fontWeight: "400",
-            lineHeight: "1.5",
-            color: "#212529",
-            backgroundColor: "#fff",
-            border: "1px solid #ced4da",
-            borderRadius: "0.25rem",
-            transition:
-              "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+            textAlign: "center",
+            paddingTop: "0px",
+            marginTop: "0px",
+            paddingBottom: "18px",
           }}
-          onChange={(e) => handleStoreChange(e.target.value)}
-          value={selectedStore}
+          className={noir.className}
         >
-          <option
-            style={{ color: "#212529" }}
-            value=""
-            disabled
-            selected
-            hidden
+          Select the stores you'd like to compare prices for various products
+        </p>
+        <div>
+          <label
+            style={{
+              paddingRight: "8px",
+              fontSize: "18px",
+            }}
             className={noir.className}
           >
-            Please Choose Store...
-          </option>
-          {availableStores.map((store) => (
-            <option className={noir.className} key={store} value={store}>
-              {store}
+            Select Store:
+          </label>
+          <select
+            className={noir.className}
+            style={{
+              width: "210px",
+              height: "38px",
+              padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+              fontSize: "1rem",
+              fontWeight: "400",
+              lineHeight: "1.5",
+              color: "#212529",
+              backgroundColor: "#fff",
+              border: "1px solid #ced4da",
+              borderRadius: "0.25rem",
+              transition:
+                "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+            }}
+            onChange={(e) => handleStoreChange(e.target.value)}
+            value={selectedStore}
+          >
+            <option className={noir.className} value="">
+              Select...
             </option>
-          ))}
-        </select>
-        {selectedStore !== null && (
-          <>
+            {availableStores.map((store) => (
+              <option className={noir.className} key={store} value={store}>
+                {store}
+              </option>
+            ))}
+          </select>
+ {selectedStore && <>
             <label
               style={{
                 paddingRight: "8px",
@@ -522,6 +772,8 @@ const Index = () => {
               className={noir.className}
               style={{
                 height: "38px",
+                marginRight: "16px",
+                maxWidth: "320px",
                 padding: "0.375rem 0.25rem 0.375rem 0.75rem",
                 fontSize: "1rem",
                 fontWeight: "400",
@@ -533,45 +785,28 @@ const Index = () => {
                 transition:
                   "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
               }}
-              onChange={(e) => setSelectedLocation(e.target.value)}
+              onChange={(e) => handleLocationChange(e.target.value)}
               value={selectedLocation}
             >
-              <option
-                value=""
-                disabled
-                selected
-                hidden
-                className={noir.className}
-              >
-                Please Choose Location
-              </option>
-              <option
-                value={selectedLocation}
-                selected
-                hidden
-                className={noir.className}
-              >
-                {selectedLocation}
-              </option>
-              {locations.map((location, index) => (
-                <option
-                  className={noir.className}
-                  key={location}
-                  value={location}
-                >
-                  {location}
-                </option>
-              ))}
+              <option value="">Select...</option>
+              {
+                locations.map((location, index) => (
+                  <option
+                    className={noir.className}
+                    key={index}
+                    value={location}
+                  >
+                    {location}
+                  </option>
+                ))}
             </select>
-          </>
-        )}
-        {selectedLocation !== null && (
-          <button
-            className={noir.className}
+          </>}
+          {selectedLocation  && <button
             style={{
               outline: "0",
-              height: "38px",
-              marginLeft: "20px",
+              cursor: "pointer",
+              height:'38px',
+              marginRight: "24px",
               padding: "5px 16px",
               fontSize: "14px",
               fontWeight: "500",
@@ -586,3937 +821,323 @@ const Index = () => {
                 "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
               transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
             }}
+            disabled={selectedLocation === null}
+            className={noir.className}
             onClick={handleAddStore}
           >
-            Search
-          </button>
-        )}
-      </div>
-      {selectedStore !== null &&
-      selectedLocation !== null &&
-      responseData.length !== 0 ? (
-        <div style={{ overflowX: "auto", minWidth: "100%", marginTop: "32px" }}>
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+            Add Store
+          </button>}
+          {selectedAll.length > 0 && 
+                     (<div onKeyDown={handleKeyDown} tabIndex="0">
+              <label
+                style={{ paddingRight: "8px", fontSize: "18px" }}
+                className={noir.className}
               >
-                <a className={`${noir.className} links`} href="#part1">
-                  Fruits & Vegetables
-                </a>
-                <a className={`${noir.className} links`} href="#part2">
-                  Snacks
-                </a>
-                <a className={`${noir.className} links`} href="#part3">
-                  Dairy & Eggs
-                </a>
-                <a className={`${noir.className} links`} href="#part4">
-                  Drinks
-                </a>
-                <a className={`${noir.className} links`} href="#part5">
-                  Bakery
-                </a>
-                <a className={`${noir.className} links`} href="#part10">
-                  Organics
-                </a>
-                <a className={`${noir.className} links`} href="#part6">
-                  Deli
-                </a>
-                <a className={`${noir.className} links`} href="#part7">
-                  Meat
-                </a>
-                <a className={`${noir.className} links`} href="#part8">
-                  Fish & Seafood
-                </a>
-                <a className={`${noir.className} links`} href="#part9">
-                  Frozen Food
-                </a>
-              </div>
-              <h2 id="part1" className={noir.className}>
-                Fruits & Vegetables
-              </h2>
-            </>
-          )}
-          <ul
-            className="product-list"
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {responseData &&
-              responseData.map(
-                (item, index) =>
-                  item.category === "Fruits & Vegetables" && (
-                    <li key={index} tabIndex="-1" className="product-list-item">
-                      <div className="product-container">
-                        <div className="product-info-container">
-                          <div className="product-image-container">
-                            {loading ? (
-                              <Skeleton width={110} height={110} />
-                            ) : (
-                              <>
-                                <div style={{ height: "35px" }}>
-                                  {namesss &&
-                                  namesss.length > 0 &&
-                                  addedToCartImage[index] ? (
-                                    <img
-                                      style={{ paddingLeft: "90px" }}
-                                      width={35}
-                                      height={35}
-                                      src={added}
-                                    />
-                                  ) : null}
-                                </div>
-                                <Zoom zoomZindex={1}>
-                                  <div className="zoom-image-container">
-                                  <img
-                                    alt="skksks"
-                                    src={item.image}
-                                    //loading="lazy"
-                                    className="product-image"
-                                    //aria-hidden="true"
-                                  />
-                                    </div>
-                                </Zoom>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="price-container"
-                            data-testid="price-product-tile"
-                          >
-                            {loading ? (
-                              <Skeleton width={70} height={16} />
-                            ) : (
-                              <p
-                                className={`${noir.className} price-paragraph`}
-                                data-testid="price"
-                              >
-                                {transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
-                                  <s
-                                    style={{
-                                      marginRight: "10px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    ({transformString(item.wasprice)})
-                                  </s>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                          {/* <a href="lalal" className="link-box-overlay"> */}
-                          <div className="overlay-container">
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className={`${noir.className} product-brand-paragraph`}
-                                data-testid="product-brand"
-                              >
-                                {item.brand}
-                              </p>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <h3
-                                className={`${noir.className} product-title-heading`}
-                                data-testid="product-title"
-                              >
-                                {item.title}
-                              </h3>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className="package-size-paragraph"
-                                data-testid="product-package-size"
-                              >
-                                {item.size == ""
-                                  ? "$" +
-                                    (item.weight).toFixed(
-                                      2
-                                    ) +
-                                    " / 1" +
-                                    " " +
-                                    "kg"
-                                  : item.weight}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          <button
-                            onClick={() => handleAddToCart(item, index)}
-                            className={`${noir.className} box`}
-                            style={{
-                              outline: "0",
-                              height: "38px",
-                              cursor: "pointer",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              border: "1px solid",
-                              borderRadius: " 6px",
-                              color: " #24292e",
-                              backgroundColor: "#fafbfc",
-                              borderColor: "#1b1f2326",
-                              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                            }}
-                          >
-                            {addedToCart[index]
-                              ? "Added to cart"
-                              : "Add to Cart"}
-                          </button>
-                        )}
-                      </div>
-                    </li>
-                  )
-              )}
-          </ul>
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <h2 id="part2" className={noir.className}>
-              Snacks, Chips & Candy
-            </h2>
-          )}
-          <ul
-            className="product-list"
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {responseData &&
-              responseData.map(
-                (item, index) =>
-                  item.category === "Snacks, Chips & Candy" && (
-                    <li key={index} tabIndex="-1" className="product-list-item">
-                      <div className="product-container">
-                        <div className="product-info-container">
-                          <div className="product-image-container">
-                            {loading ? (
-                              <Skeleton width={110} height={110} />
-                            ) : (
-                              <>
-                                <div style={{ height: "35px" }}>
-                                  {addedToCartImage[index] ? (
-                                    <img
-                                      style={{ paddingLeft: "90px" }}
-                                      width={35}
-                                      height={35}
-                                      src={added}
-                                    />
-                                  ) : (
-                                    " "
-                                  )}
-                                </div>
-                                 <Zoom zoomZindex={1}>
-                                  <div className="zoom-image-container">
-                                  <img
-                                    alt="skksks"
-                                    src={item.image}
-                                    //loading="lazy"
-                                    className="product-image"
-                                    //aria-hidden="true"
-                                  />
-                                    </div>
-                                </Zoom>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="price-container"
-                            data-testid="price-product-tile"
-                          >
-                            {loading ? (
-                              <Skeleton width={70} height={16} />
-                            ) : (
-                              <p
-                                className={`${noir.className} price-paragraph`}
-                                data-testid="price"
-                              >
-                                {transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
-                                  <s
-                                    style={{
-                                      marginRight: "10px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    ({transformString(item.wasprice)})
-                                  </s>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                          {/* <a href="lalal" className="link-box-overlay"> */}
-                          <div className="overlay-container">
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className={`${noir.className} product-brand-paragraph`}
-                                data-testid="product-brand"
-                              >
-                                {item.brand}
-                              </p>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <h3
-                                className={`${noir.className} product-title-heading`}
-                                data-testid="product-title"
-                              >
-                                {item.title}
-                              </h3>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className="package-size-paragraph"
-                                data-testid="product-package-size"
-                              >
-                                {item.weight}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          <button
-                            onClick={() => handleAddToCart(item, index)}
-                            className={`${noir.className} box`}
-                            style={{
-                              outline: "0",
-                              height: "38px",
-                              cursor: "pointer",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              border: "1px solid",
-                              borderRadius: " 6px",
-                              color: " #24292e",
-                              backgroundColor: "#fafbfc",
-                              borderColor: "#1b1f2326",
-                              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                            }}
-                          >
-                            {addedToCart[index]
-                              ? "Added to cart"
-                              : "Add to Cart"}
-                          </button>
-                        )}
-                      </div>
-                    </li>
-                  )
-              )}
-          </ul>
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <h2 id="part3" className={noir.className}>
-              Dairy & Eggs
-            </h2>
-          )}
-          <ul
-            className="product-list"
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {responseData &&
-              responseData.map(
-                (item, index) =>
-                  item.category === "Dairy & Eggs" && (
-                    <li key={index} tabIndex="-1" className="product-list-item">
-                      <div className="product-container">
-                        <div className="product-info-container">
-                          <div className="product-image-container">
-                            {loading ? (
-                              <Skeleton width={110} height={110} />
-                            ) : (
-                              <>
-                                <div style={{ height: "35px" }}>
-                                  {addedToCartImage[index] ? (
-                                    <img
-                                      style={{ paddingLeft: "90px" }}
-                                      width={35}
-                                      height={35}
-                                      src={added}
-                                    />
-                                  ) : (
-                                    " "
-                                  )}
-                                </div>
-                                <Zoom>
-                                  <img
-                                    alt="skksks"
-                                    src={item.image}
-                                    //loading="lazy"
-                                    className="product-image"
-                                    //aria-hidden="true"
-                                  />
-                                </Zoom>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="price-container"
-                            data-testid="price-product-tile"
-                          >
-                            {loading ? (
-                              <Skeleton width={70} height={16} />
-                            ) : (
-                              <p
-                                className={`${noir.className} price-paragraph`}
-                                data-testid="price"
-                              >
-                                {transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
-                                  <s
-                                    style={{
-                                      marginRight: "10px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    ({transformString(item.wasprice)})
-                                  </s>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                          {/* <a href="lalal" className="link-box-overlay"> */}
-                          <div className="overlay-container">
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className={`${noir.className} product-brand-paragraph`}
-                                data-testid="product-brand"
-                              >
-                                {item.brand}
-                              </p>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <h3
-                                className={`${noir.className} product-title-heading`}
-                                data-testid="product-title"
-                              >
-                                {item.title}
-                              </h3>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className="package-size-paragraph"
-                                data-testid="product-package-size"
-                              >
-                               {item.weight}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          <button
-                            onClick={() => handleAddToCart(item, index)}
-                            className={`${noir.className} box`}
-                            style={{
-                              outline: "0",
-                              height: "38px",
-                              cursor: "pointer",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              border: "1px solid",
-                              borderRadius: " 6px",
-                              color: " #24292e",
-                              backgroundColor: "#fafbfc",
-                              borderColor: "#1b1f2326",
-                              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                            }}
-                          >
-                            {addedToCart[index]
-                              ? "Added to cart"
-                              : "Add to Cart"}
-                          </button>
-                        )}
-                      </div>
-                    </li>
-                  )
-              )}
-          </ul>
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <h2 id="part4" className={noir.className}>
-              Drinks
-            </h2>
-          )}
-          <ul
-            className="product-list"
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {responseData &&
-              responseData.map(
-                (item, index) =>
-                  item.category === "Drinks" || item.category === "Juice"  && (
-                    <li key={index} tabIndex="-1" className="product-list-item">
-                      <div className="product-container">
-                        <div className="product-info-container">
-                          <div className="product-image-container">
-                            {loading ? (
-                              <Skeleton width={110} height={110} />
-                            ) : (
-                              <>
-                                <div style={{ height: "35px" }}>
-                                  {addedToCartImage[index] ? (
-                                    <img
-                                      style={{ paddingLeft: "90px" }}
-                                      width={35}
-                                      height={35}
-                                      src={added}
-                                    />
-                                  ) : (
-                                    " "
-                                  )}
-                                </div>
-                                <Zoom>
-                                  <img
-                                    alt="skksks"
-                                    src={item.image}
-                                    //loading="lazy"
-                                    className="product-image"
-                                    //aria-hidden="true"
-                                  />
-                                </Zoom>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="price-container"
-                            data-testid="price-product-tile"
-                          >
-                            {loading ? (
-                              <Skeleton width={70} height={16} />
-                            ) : (
-                              <p
-                                className={`${noir.className} price-paragraph`}
-                                data-testid="price"
-                              >
-                                {transformString(item.saleprice)}
-                                {transformString(item.saleprice) && (
-                                  <s
-                                    style={{
-                                      marginRight: "10px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    ({transformString(item.wasprice)})
-                                  </s>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                          {/* <a href="lalal" className="link-box-overlay"> */}
-                          <div className="overlay-container">
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className={`${noir.className} product-brand-paragraph`}
-                                data-testid="product-brand"
-                              >
-                                {item.brand}
-                              </p>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <h3
-                                className={`${noir.className} product-title-heading`}
-                                data-testid="product-title"
-                              >
-                                {item.title}
-                              </h3>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className="package-size-paragraph"
-                                data-testid="product-package-size"
-                              >
-                                {item.weight}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          <button
-                            onClick={() => handleAddToCart(item, index)}
-                            className={`${noir.className} box`}
-                            style={{
-                              outline: "0",
-                              height: "38px",
-                              cursor: "pointer",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              border: "1px solid",
-                              borderRadius: " 6px",
-                              color: " #24292e",
-                              backgroundColor: "#fafbfc",
-                              borderColor: "#1b1f2326",
-                              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                            }}
-                          >
-                            {addedToCart[index]
-                              ? "Added to cart"
-                              : "Add to Cart"}
-                          </button>
-                        )}
-                      </div>
-                    </li>
-                  )
-              )}
-          </ul>
-          {bakeryAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part5" className={noir.className}>
-                  Bakery
-                </h2>
-              )}
-              <ul
-                className="product-list"
+                Search:
+              </label>
+              <input
+                className={noir.className}
+                placeholder="Search for..."
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
+                  padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                  fontSize: "1rem",
+                  marginRight: "16px",
+                  fontWeight: "400",
+                  lineHeight: "1.5",
+                  color: "#212529",
+                  backgroundColor: "#fff",
+                  border: "1px solid #ced4da",
+                  borderRadius: "0.25rem",
+                  transition:
+                    "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                  width: "120px",
                 }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Bakery" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}{" "}
-                                    <s>({transformString(item.wasprice)})</s>
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {bakeryAisleCount === 0 ? null : null}
+                type="text"
+                value={searchText}
+                onChange={handleSearchChange}
+                required
+              />
 
-          {deliAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part6" className={noir.className}>
-                  Deli
-                </h2>
-              )}
-              <ul
-                className="product-list"
+              <button
+                className={noir.className}
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
+                  outline: "0",
+                  height: "38px",
+                  cursor: "pointer",
+                  padding: "5px 16px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  lineHeight: "20px",
+                  verticalAlign: "middle",
+                  border: "1px solid",
+                  borderRadius: " 6px",
+                  color: " #24292e",
+                  backgroundColor: "#fafbfc",
+                  borderColor: "#1b1f2326",
+                  boxShadow:
+                    "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
                 }}
+                //disabled={searchText === null || selectedLocation === null}
+                onClick={handleButtonClick}
+                ref={buttonRef}
+                disabled={!searchText || !selectedLocation}
               >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Deli" || item.category === "Deli Cheese" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {deliAisleCount ? null : null}
-
-          {naturalAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part10" className={noir.className}>
-                  Natural and Organic
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Natural and Organic" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {naturalAisleCount ? null : null}
-          {preparedAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part6" className={noir.className}>
-                  Prepared Meals
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Prepared Meals" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {preparedAisleCount ? null : null}
-
-          {pantryAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part6" className={noir.className}>
-                  Pantry
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Pantry" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {pantryAisleCount ? null : null}
-
-          {meatAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part7" className={noir.className}>
-                  Meat
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Meat" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {meatAisleCount ? null : null}
-
-          {fishAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part8" className={noir.className}>
-                  Fish & Seafood
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Fish & Seafood" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {fishAisleCount === 0 ? null : null}
-
-          {frozenAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part9" className={noir.className}>
-                  Frozen Food
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Frozen Food" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {frozenAisleCount === 0 ? null : null}
-
-          {houseAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Household Supplies</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Household Supplies" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {houseAisleCount === 0 ? null : null}
-
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <h2 id="part10" className={noir.className}>
-              Other products
-            </h2>
-          )}
-          {undefinedAisleCount > 0 ? (
-            <ul
-              className="product-list"
+                Search
+              </button>
+            </div>)}
+        </div>
+        {firstTime && selectedAll.length === 0 ? (
+          <Ab />
+        ) : (
+          <>
+            <div>
+              {searchText && searchText.length > 0 && selectedAll.length > 0 && responseData.length >0 && responseData && <div style={{display:'flex',flexDirection:'row',justifyContent: "flex-end",
+    marginRight: "60px"}}>
+              </div>}
+              {selectedAll.length >0 && <> <h3 className={noir.className}>Selected Stores:</h3>
+              <ul value={selectedAll}>
+                {selectedAll.map((store, index) => (
+                  <li className={noir.className} key={index}>
+                    {store.store} : {store.location}
+                    <button 
+                                      style={{
+                                        outline: "0px",
+                                        // marginLeft: "20px"
+                                        fontSize: "15px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        color: "red",
+                                        border: "0px",
+                                        cursor: "pointer",
+                                        backgroundColor: "transparent",
+                                      }}
+                                      className={noir.className}
+                    onClick={() => removeStore(store.id)}
+                    title="Delete Store">
+                      X
+                    </button>
+                  </li>
+                ))}
+              </ul></>}
+            </div>
+            <div
               style={{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
+                justifyContent: "center",
+                alignItems: "stretch",
               }}
             >
-              {responseData &&
-                responseData.map(
-                  (item, index) =>
-                    item.category === null && (
-                      <li
-                        key={index}
-                        tabIndex="-1"
-                        className="product-list-item"
-                      >
-                        <div className="product-container">
-                          <div className="product-info-container">
-                            <div className="product-image-container">
-                              {loading ? (
-                                <Skeleton width={110} height={110} />
-                              ) : (
-                                <>
-                                  <div style={{ height: "35px" }}>
-                                    {addedToCartImage[index] ? (
-                                      <img
-                                        style={{ paddingLeft: "90px" }}
-                                        width={35}
-                                        height={35}
-                                        src={added}
-                                      />
-                                    ) : (
-                                      " "
-                                    )}
-                                  </div>
-                                  <Zoom>
-                                    <img
-                                      alt="skksks"
-                                      src={item.image}
-                                      //loading="lazy"
-                                      className="product-image"
-                                      //aria-hidden="true"
+              {responseData.map((item, index) => (
+                <div
+                  style={{
+                    width: "480px",
+                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginRight: "20px",
+                    flexShrink: "0",
+                    marginBottom: "20px",
+                  }}
+                  key={index}
+                >
+                  <div>
+                    <p
+                      className={noir.className}
+                      style={{
+                        fontSize: "20px",
+                        maxWidth: "350px",
+                        paddingTop: "20px",
+                        height: "56px",
+                      }}
+                    >
+                      {item.title}
+                    </p>
+                    {/* <p>{item.brand}</p> */}
+                  </div>
+                  <>
+                                <div style={{ height: "35px" }}>
+                                  {addedToCartImage[index] ? (
+                                    <Image
+                                      style={{ paddingLeft: "90px" }}
+                                      width={35}
+                                      height={35}
+                                      src={added}
                                     />
-                                  </Zoom>
-                                </>
-                              )}
-                            </div>
-                            <div
-                              className="price-container"
-                              data-testid="price-product-tile"
-                            >
-                              {loading ? (
-                                <Skeleton width={70} height={16} />
-                              ) : (
-                                <p
-                                  className={`${noir.className} price-paragraph`}
-                                  data-testid="price"
-                                >
-                                  {transformString(item.saleprice)}
-                                  {transformString(item.wasprice) && (
-                                    <s
-                                      style={{
-                                        marginRight: "10px",
-                                        marginBottom: "5px",
-                                      }}
-                                    >
-                                      ({transformString(item.wasprice)})
-                                    </s>
+                                  ) : (
+                                    " "
                                   )}
-                                </p>
-                              )}
-                            </div>
-                            {/* <a href="lalal" className="link-box-overlay"> */}
-                            <div className="overlay-container">
-                              {loading ? (
-                                <Skeleton width={154} height={12} />
-                              ) : (
-                                <p
-                                  className={`${noir.className} product-brand-paragraph`}
-                                  data-testid="product-brand"
-                                >
-                                  {item.brand}
-                                </p>
-                              )}
-                              {loading ? (
-                                <Skeleton width={154} height={12} />
-                              ) : (
-                                <h3
-                                  className={`${noir.className} product-title-heading`}
-                                  data-testid="product-title"
-                                >
-                                  {item.title}
-                                </h3>
-                              )}
-                              {loading ? (
-                                <Skeleton width={154} height={12} />
-                              ) : (
-                                <p
-                                  className="package-size-paragraph"
-                                  data-testid="product-package-size"
-                                >
-                                  {item.weight == ""
-                                    ? "$" +
-                                      (item.prices.unitPriceValue * 10).toFixed(
-                                        2
-                                      ) +
-                                      " / 1" +
-                                      " " +
-                                      "kg"
-                                    : item.weight}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                          {loading ? (
-                            <Skeleton />
+                                </div>
+                                <Zoom>
+                    <img
+                      style={{
+                        width: "120px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                      src={item.photo}
+                      alt={`Photo of ${item.title}`}
+                    />
+                  </Zoom>
+                              </>
+                  <div
+                    className={noir.className}
+                    style={{
+                      marginBottom: "20px",
+                      fontWeight: "normal",
+                      color: "grey",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {item.products[0].weight}
+                  </div>
+                  <button
+                    className={`${noir.className} box`}
+                    style={{
+                      outline: "0",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      lineHeight: "20px",
+                      verticalAlign: "middle",
+                      border: "1px solid",
+                      borderRadius: " 6px",
+                      color: " #24292e",
+                      backgroundColor: "#fafbfc",
+                      borderColor: "#1b1f2326",
+                      transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                    }}
+                    onClick={() => handleAddToCart(item, index)}
+                  >
+                    {addedToCart[index] ? (
+                      <p style={{ color: "green",padding:" 0px 19px"}}>Added to cart</p>
+                    ) : (
+                      <p style={{ color: "black",padding:" 0px 19px"}}>Add to Cart</p>
+                    )}
+                  </button>
+                  <div style={{ display: "flex", paddingBottom: "20px",marginTop: "30px"}}>
+                    <div style={{ paddingRight: "20px", flexDirection: "row" }}>
+                      {item.products.map((store, index) => (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent:'space-between'
+                          }}
+                          key={index}
+                        >
+                          <p
+                            className={noir.className}
+                            style={{ paddingRight: "12px", maxWidth: "250px" }}
+                            key={index}
+                          >
+                            {store.store}
+                          </p>
+                          {store.saleprice !== null ? (
+                            <p
+                              className={noir.className}
+                              style={{ fontWeight: "700", color: "red" }}
+                            >
+                              {store.saleprice}
+                            </p>
                           ) : (
-                            <button
-                              onClick={() => handleAddToCart(item, index)}
-                              className={`${noir.className} box`}
+                            <p
+                              className={noir.className}
+                              style={{ fontWeight: "700" }}
+                            >
+                              {
+                                store.regprice}
+                            </p>
+                          )}
+                          {store.wasPrice && (
+                            <s
                               style={{
-                                outline: "0",
-                                cursor: "pointer",
-                                height: "38px",
-                                padding: "5px 16px",
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                lineHeight: "20px",
-                                verticalAlign: "middle",
-                                border: "1px solid",
-                                borderRadius: " 6px",
-                                color: " #24292e",
-                                backgroundColor: "#fafbfc",
-                                borderColor: "#1b1f2326",
-                                transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                marginRight: "10px",
+                                marginBottom: "5px",
                               }}
                             >
-                              {addedToCart[index]
-                                ? "Added to cart"
-                                : "Add to Cart"}
-                            </button>
+                              ({store.wasPrice})
+                            </s>
                           )}
+                          {store.stock}
+                          {store.points}
+                          {store.sale}
                         </div>
-                      </li>
-                    )
-                )}
-            </ul>
-          ) : (
-            "Nothing today"
-          )}
-        </div>
-      ) : firstTime && loading ? (
-        <Loading />
-      ) : firstTime ? (
-        <About />
-      ) : (
-        <div style={{ overflowX: "auto", minWidth: "100%", marginTop: "32px" }}>
-          {fruitsAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Other products</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Fruits & Vegetables" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {fruitsAisleCount === 0 ? null : null}
-          {snacksAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Snacks, Chips & Candy</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Snacks, Chips & Candy" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {snacksAisleCount === 0 ? null : null}
-          {dairyAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Dairy & Eggs</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Dairy & Eggs" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {dairyAisleCount === 0 ? null : null}
-          {drinksAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Drinks</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Drinks" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {drinksAisleCount === 0 ? null : null}
-          {bakeryAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Bakery</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Bakery" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}{" "}
-                                    <s>({transformString(item.wasprice)})</s>
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {bakeryAisleCount === 0 ? null : null}
-
-          {deliAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Deli</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Deli" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {deliAisleCount === 0 ? null : null}
-
-          {meatAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Meat</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Meat" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {meatAisleCount === 0 ? null : null}
-
-          {fishAisleCount > 0 && (
-            <>
-              {" "}
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Fish & Seafood</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Fish & Seafood" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {fishAisleCount ? null : null}
-
-          {frozenAisleCount > 0 && (
-            <>
-              {" "}
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 className={noir.className}>Frozen</h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Frozen" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <img
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    {transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  cursor: "pointer",
-                                  height: "38px",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to cart"
-                                  : "Add to Cart"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {frozenAisleCount ? null : null}
-
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <h2 className={noir.className}>Other products</h2>
-          )}
-          <ul
-            className="product-list"
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {responseData &&
-              responseData.map(
-                (item, index) =>
-                  item.category === null && (
-                    <li key={index} tabIndex="-1" className="product-list-item">
-                      <div className="product-container">
-                        <div className="product-info-container">
-                          <div className="product-image-container">
-                            {loading ? (
-                              <Skeleton width={110} height={110} />
-                            ) : (
-                              <>
-                                <div style={{ height: "35px" }}>
-                                  {addedToCartImage[index] ? (
-                                    <img
-                                      style={{ paddingLeft: "90px" }}
-                                      width={35}
-                                      height={35}
-                                      src={added}
-                                    />
-                                  ) : (
-                                    " "
-                                  )}
-                                </div>
-                                <Zoom>
-                                  <img
-                                    alt="skksks"
-                                    src={item.image}
-                                    //loading="lazy"
-                                    className="product-image"
-                                    //aria-hidden="true"
-                                  />
-                                </Zoom>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="price-container"
-                            data-testid="price-product-tile"
-                          >
-                            {loading ? (
-                              <Skeleton width={70} height={16} />
-                            ) : (
-                              <p
-                                className={`${noir.className} price-paragraph`}
-                                data-testid="price"
-                              >
-                                {transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
-                                  <s
-                                    style={{
-                                      marginRight: "10px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    ({transformString(item.wasprice)})
-                                  </s>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                          {/* <a href="lalal" className="link-box-overlay"> */}
-                          <div className="overlay-container">
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className={`${noir.className} product-brand-paragraph`}
-                                data-testid="product-brand"
-                              >
-                                {item.brand}
-                              </p>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <h3
-                                className={`${noir.className} product-title-heading`}
-                                data-testid="product-title"
-                              >
-                                {item.title}
-                              </h3>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className="package-size-paragraph"
-                                data-testid="product-package-size"
-                              >
-                                {item.weight}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          <button
-                            onClick={() => handleAddToCart(item, index)}
-                            className={`${noir.className} box`}
-                            style={{
-                              outline: "0",
-                              cursor: "pointer",
-                              height: "38px",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              border: "1px solid",
-                              borderRadius: " 6px",
-                              color: " #24292e",
-                              backgroundColor: "#fafbfc",
-                              borderColor: "#1b1f2326",
-                              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                            }}
-                          >
-                            {addedToCart[index]
-                              ? "Added to cart"
-                              : "Add to Cart"}
-                          </button>
-                        )}
-                      </div>
-                    </li>
-                  )
-              )}
-          </ul>
-
-          {loading ? (
-            <Skeleton />
-          ) : (
-            <h2 className={noir.className}>Other products</h2>
-          )}
-          <ul
-            className="product-list"
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-          >
-            {responseData &&
-              responseData.map(
-                (item, index) =>
-                  item.category === "Fruits & Vegetables" && (
-                    <li key={index} tabIndex="-1" className="product-list-item">
-                      <div className="product-container">
-                        <div className="product-info-container">
-                          <div className="product-image-container">
-                            {loading ? (
-                              <Skeleton width={110} height={110} />
-                            ) : (
-                              <>
-                                <div style={{ height: "35px" }}>
-                                  {addedToCartImage[index] ? (
-                                    <img
-                                      style={{ paddingLeft: "90px" }}
-                                      width={35}
-                                      height={35}
-                                      src={added}
-                                    />
-                                  ) : (
-                                    " "
-                                  )}
-                                </div>
-                                <Zoom>
-                                  <img
-                                    alt="skksks"
-                                    src={item.image}
-                                    //loading="lazy"
-                                    className="product-image"
-                                    //aria-hidden="true"
-                                  />
-                                </Zoom>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="price-container"
-                            data-testid="price-product-tile"
-                          >
-                            {loading ? (
-                              <Skeleton width={70} height={16} />
-                            ) : (
-                              <p
-                                className={`${noir.className} price-paragraph`}
-                                data-testid="price"
-                              >
-                                {transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
-                                  <s
-                                    style={{
-                                      marginRight: "10px",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    ({transformString(item.wasprice)})
-                                  </s>
-                                )}
-                              </p>
-                            )}
-                          </div>
-                          {/* <a href="lalal" className="link-box-overlay"> */}
-                          <div className="overlay-container">
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className={`${noir.className} product-brand-paragraph`}
-                                data-testid="product-brand"
-                              >
-                                {item.brand}
-                              </p>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <h3
-                                className={`${noir.className} product-title-heading`}
-                                data-testid="product-title"
-                              >
-                                {item.title}
-                              </h3>
-                            )}
-                            {loading ? (
-                              <Skeleton width={154} height={12} />
-                            ) : (
-                              <p
-                                className="package-size-paragraph"
-                                data-testid="product-package-size"
-                              >
-                                {item.weight}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          <button
-                            onClick={() => handleAddToCart(item, index)}
-                            className={`${noir.className} box`}
-                            style={{
-                              outline: "0",
-                              cursor: "pointer",
-                              height: "38px",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              border: "1px solid",
-                              borderRadius: " 6px",
-                              color: " #24292e",
-                              backgroundColor: "#fafbfc",
-                              borderColor: "#1b1f2326",
-                              transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                            }}
-                          >
-                            {addedToCart[index]
-                              ? "Added to cart"
-                              : "Add to Cart"}
-                          </button>
-                        )}
-                      </div>
-                    </li>
-                  )
-              )}
-          </ul>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      {cart.length !== 0 && (
+        <div
+          style={{
+            position: "sticky",
+            rigth: "50",
+            bottom: "0",
+            float: "right",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              //position: 'sticky',
+              height: "40px",
+              backgroundColor: "white",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          ></div>
         </div>
       )}
+      <SlidingPane
+        className={noir.className}
+        overlayClassName={noir.className}
+        isOpen={state.isPaneOpen}
+        title="Cart"
+        onRequestClose={() => {
+          setState({ isPaneOpen: false });
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            opacity: "100",
+            transition: "all .75s ease",
+          }}
+        >
+          Lalalalalallalalal
+          {/* {cart.map((store, storeIndex) => (
+            <div style={{ marginRight: "32px" }} key={storeIndex}>
+              <h3>{store.storeName}</h3>
+              <ol>
+                {store.items.map((item, itemIndex) => (
+                  <>
+                    <li key={itemIndex}>
+                      {item.name + " " + "$" + item.price}
+                    </li>
+                  </>
+                ))}
+              </ol>
+              <p>
+                <b>Total price:</b> {parseFloat(store.sum.toFixed(2))}
+              </p>
+            </div>
+          ))} */}
+        </div>
+      </SlidingPane>
     </div>
   );
 };
-
-export default Index;
+export default Products;
