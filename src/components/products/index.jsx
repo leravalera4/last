@@ -15,12 +15,14 @@ import "./products.css";
 import Loading from "../loaders";
 import Ab from "../ab";
 import added from "../../app/images/added.svg";
+
 // import Sale from '../components/sale';
 // import Item from '../components/item';
 // import Cart from  '../components/header';
 // import About from  '../components/about';
 import Spiner from "../spiner";
 // const Header = dynamic(()=>import('./components/Header'),{ssr:false})
+
 const noir = localFont({
   src: [
     {
@@ -40,6 +42,7 @@ const noir = localFont({
     },
   ],
 });
+
 const grape = localFont({
   src: [
     {
@@ -49,6 +52,7 @@ const grape = localFont({
     },
   ],
 });
+
 const arrows = localFont({
   src: [
     {
@@ -58,6 +62,7 @@ const arrows = localFont({
     },
   ],
 });
+
 // const noir_b = localFont({ src: './fonts/NoirPro-Bold.ttf' });
 // const noir = localFont({ src: './fonts/NoirPro-Regular.ttf' });
 // const noir_l = localFont({ src: './fonts/NoirPro-Light.ttf' });
@@ -67,12 +72,14 @@ const lora = Lora({
   subsets: ["latin"],
   display: "swap",
 });
+
 const play = Playfair({
   weight: ["500"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
 });
+
 const Products = ({ cartData }) => {
   const [availableStores, setAvailableStores] = useState([]); //тут весь список магазинов
   const [selectedStore, setSelectedStore] = useState(null); //выбранный магазин из списка
@@ -106,21 +113,26 @@ const Products = ({ cartData }) => {
     isPaneOpen: false,
     isPaneOpenLeft: false,
   });
+
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
   }
+
   // useEffect(() => {
   //   window.addEventListener("storage", () => {
   //     const storedStores = localStorage.getItem("temp");
+
   //     // Parse the stored state if it exists
   //     if (storedStores) {
   //       const parsedStores = JSON.parse(storedStores);
-	@@ -130,33 +129,26 @@
+
+  //       // Update component state with parsed stored state
   //       setCart(parsedStores);
   //       // Similarly, update other state variables as needed
   //     }
   //   });
   // }, []);
+
   React.useEffect(() => {
     window.addEventListener("storage", () => {
       const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
@@ -135,7 +147,7 @@ const Products = ({ cartData }) => {
       //setResponseData(responseData);
     });
   }, [selectedLocation,selectedStore,selectedAll,selectedStoresID]);
-
+ 
   console.log("mimimi",selectedAll)
 
     const handleKeyDown = (event) => {
@@ -144,16 +156,19 @@ const Products = ({ cartData }) => {
       buttonRef.current.click(); // Имитирует нажатие кнопки
     }
   };
-
+  
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.clear();
     };
+
     window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
+
   useEffect(() => {
     axios
       .get("https://server-blue-ten.vercel.app/api/stores")
@@ -165,6 +180,7 @@ const Products = ({ cartData }) => {
         console.error("Error fetching available stores:", error);
       });
   }, []); // получаем список магазинов
+
   const handleStoreChange = async (selectedStore) => {
     setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
     localStorage.setItem('selectedStore', JSON.stringify(selectedStore));
@@ -175,6 +191,7 @@ const Products = ({ cartData }) => {
       const response = await axios.get(
         `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
       );
+
       if (response.status === 200) {
         const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
         const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
@@ -195,13 +212,16 @@ const Products = ({ cartData }) => {
       console.error("Error fetching locations:", error.message);
     }
   };
+
   let getStores;
+
   const handleSearchChange = (event) => {
     // тут ищем продукт
     setSearchText(event.target.value);
     // getStores = localStorage.getItem("stores");
     // console.log(getStores);
   };
+
   const handleLocationChange = async (selectedLocation) => {
     // выбираем локацию из списка
     const newSelectedLocationValue = selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
@@ -209,7 +229,9 @@ const Products = ({ cartData }) => {
     setSelectedLocation(selectedLocation); // тут только имя локации
     localStorage.setItem('selectedLocation', JSON.stringify(selectedLocation))
   };
+
   //const getStoresFromLocalStorage = localStorage.getItem("stores") || [];
+
   const handleButtonClick = async () => {
    const selectedStoresID = JSON.parse(localStorage.getItem('stores1'))
     try {
@@ -225,24 +247,32 @@ const Products = ({ cartData }) => {
       console.log("Tyt data",responseData)
       setResponseData(responseData);
       setAddedToCartImage(Array(responseData.length).fill(false))
+
       // const getStorage = localStorage.getItem("stores") || [];
       // console.log(getStorage)
       // console.log(selectedStoresID); //тут нужные циферки
+
       // let id;
       // getStorage.forEach((item) => {
       //   id = item[item];
       // });
+
       // getStoresFromLocalStorage.push(id);
+
       //localStorage.setItem('stores', JSON.stringify(selectedStoresID));
+
       // const getStorage = localStorage.getItem("stores");
       // let storesArray;
+
       // if (getStorage) {
       //   storesArray = JSON.parse(getStorage); // Parse the retrieved value as JSON
       // } else {
       //   storesArray = []; // If no value is retrieved or it's not valid JSON, initialize storesArray as an empty array
       // }
+
       // console.log(getStorage);
       // console.log(selectedStoresID); // Assuming this is where you get your desired IDs
+
       // selectedStoresID.forEach((id) => {
       //   storesArray.push(id); // Push each selectedStoresID into storesArray
       // });
@@ -251,24 +281,31 @@ const Products = ({ cartData }) => {
       const getStorage1 = localStorage.getItem("stores1");
       let storesSet = new Set();
       let storesSet1 = new Set();
+
       if (getStorage) {
         storesSet = new Set(JSON.parse(getStorage)); // Parse the retrieved value as JSON and initialize storesSet as a Set
       }
+
       if (getStorage1) {
         storesSet1 = new Set(JSON.parse(getStorage1)); // Parse the retrieved value as JSON and initialize storesSet as a Set
       }
+
       console.log(getStorage);
       console.log(selectedStoresID);
+
       // Add selectedStoresID to the storesSet to ensure uniqueness
       selectedStoresID.forEach((id) => {
         storesSet.add(id);
       });
+
       selectedStoresID.forEach((id) => {
         storesSet1.add(id);
       });
+
       // Convert the storesSet back to an array before storing in localStorage
       const storesArray = Array.from(storesSet);
       const storesArray1 = Array.from(storesSet1);
+
       // Update "stores" key in localStorage with the updated storesArray
       localStorage.setItem("stores_1234", JSON.stringify(storesArray));
       localStorage.setItem("stores1", JSON.stringify(storesArray1));
@@ -278,6 +315,8 @@ const Products = ({ cartData }) => {
       console.error("Ошибка при отправке данных на бэкенд", error);
     }
   };
+
+
   const handleAddStore = () => {
     const existingStores = JSON.parse(localStorage.getItem("stores1"));
     if (!selectedStores.includes(selectedLocation)) {
@@ -289,11 +328,13 @@ const Products = ({ cartData }) => {
         location: selectedLocation,
         id: newSelectedLocationValue,
       };
+
       const storesNames = JSON.parse(localStorage.getItem('storesName')) || []
       if (!storesNames.some(store => store.id === newStoreLocationObject.id)) {
         storesNames.push(newStoreLocationObject);
         localStorage.setItem('storesName',JSON.stringify(storesNames))
       }
+
       setSelectedAll((prevSelectedAll) => [
         ...prevSelectedAll,
         newStoreLocationObject,
@@ -330,9 +371,11 @@ const Products = ({ cartData }) => {
       // }
     }
   };
+
   // const lengthMatchesArray = responseData.map(
   //   (product) => selectedAll.length === product.products.length
   // );
+
   const handleAddToCart = async (product, index) => {
     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
     const title = JSON.parse(localStorage.getItem("names")) || [];
@@ -346,6 +389,7 @@ const Products = ({ cartData }) => {
         const storeIndex = updatedCart.findIndex(
           (store) => store.storeID === item.storeID
         );
+
         if (storeIndex === -1) {
           updatedCart.push({
             storeID: item.storeID,
@@ -364,9 +408,12 @@ const Products = ({ cartData }) => {
           });
         }
       }
+
       //const extractedIDs = new Set();
       //console.log(extractedIDs);
+
       //      let ids;
+
       // updatedCart.forEach((store) => {
       //   store.items.forEach((item) => {
       //     ids = item.id;
@@ -374,6 +421,7 @@ const Products = ({ cartData }) => {
       //     existingItems.push(ids); // This will add each ID to existingItems one by one
       //   });
       // });
+
       // updatedCart[0].items.forEach((item) => {
       //   let ids = item.id;
       //   console.log(ids); // This will log each ID separately
@@ -385,12 +433,15 @@ const Products = ({ cartData }) => {
         id = item.id;
       });
       existingItems.push(id);
+
       updatedCart[0].items.forEach((item) => {
         name = item.name
     });
        title.push(name);
+
       console.log("names", title);
       console.log("existing", existingItems);
+
       localStorage.setItem("cart", JSON.stringify(existingItems));
       localStorage.setItem("names", JSON.stringify(title));
      
@@ -400,6 +451,7 @@ const Products = ({ cartData }) => {
       const updatedAddedToCartImage = [...addedToCartImage];
       updatedAddedToCartImage[index] = true;
       setAddedToCartImage(updatedAddedToCartImage);
+
       setTimeout(() => {
         const resetAddedToCart = [...updatedAddedToCart];
         resetAddedToCart[index] = false;
@@ -407,10 +459,12 @@ const Products = ({ cartData }) => {
       }, 1000);
       // console.log(ids)
       // existingItems.push(ids)
+
       // const uniqueIDs = Array.from(extractedIDs);
       if (!localStorage.getItem("temp")) {
         localStorage.setItem("temp", JSON.stringify(updatedCart));
       }
+
       setCart(updatedCart); // Update the cart state with the data from the temp storage
       setItems(id);
       if (!existingItems.includes(id)) {
@@ -446,6 +500,7 @@ const Products = ({ cartData }) => {
         localStorage.setItem("names", JSON.stringify(title));
         window.dispatchEvent(new Event("storage"));
       }
+
       setCart(updatedCart);
       // setItems(uniqueIDs);
       // const mim = JSON.parse(localStorage.getItem("temp"))
@@ -463,11 +518,15 @@ const Products = ({ cartData }) => {
       // Handle errors appropriately
     }
   }; // works
+
+
   // console.log(uniqueIDs);
   // if (!existingItems.includes(uniqueIDs)) {
   //   //existingItems.push(uniqueIDs);
+
   // const clearData = () => {
   //   const zeroPriceIndexes = [];
+
   //   cart.forEach((store) => {
   //     store.items.forEach((item, itemIndex) => {
   //       if (item.price === 0) {
@@ -478,11 +537,14 @@ const Products = ({ cartData }) => {
   //   console.log(zeroPriceIndexes);
   //   console.log(cart.length);
   // };
+
   // clearData();
+
   // const saveCartData = (items) => {
   //   localStorage.setItem('cart', JSON.stringify(items));
   //   window.dispatchEvent(new Event("storage"))
   // };
+
   // const loadCartData = () => {
   //   const savedCart = localStorage.getItem('cart');
   //   if (savedCart) {
@@ -492,6 +554,7 @@ const Products = ({ cartData }) => {
   // };
   console.log("cart", cart);
   console.log(cartData);
+
   // async function getItemPriceForStore(productId, storeId) {
   //   if (productId == null) {
   //     const pr = 0;
@@ -508,18 +571,22 @@ const Products = ({ cartData }) => {
   //     return pr;
   //   }
   // }
+
   //   useEffect(() => {
   //   window.addEventListener("storage", () => {
   //     const storedStores = localStorage.getItem("temp");
+
   //     // Parse the stored state if it exists
   //     if (storedStores) {
   //       const parsedStores = JSON.parse(storedStores);
+
   //       // Update component state with parsed stored state
   //       setCart(parsedStores);
   //       // Similarly, update other state variables as needed
   //     }
   //   });
   // }, []);
+
   console.log("selectedAll",selectedAll);
   console.log(selectedStoresID);
   console.log(selectedStoresID);
@@ -530,11 +597,14 @@ const Products = ({ cartData }) => {
   //     //setSelectedStoresID(updatedData);
   //     setSelectedAll(updatedData);
   //     console.log(updatedData);
+
   // //     const up = responseData.map((item) =>
   // //     item.products.filter((product) => product.storeID !== storeId)
   // // );
   // //     console.log(up);
+
   //     //console.log("Filtered Local Storage Data:", filteredLocalStorageData);
+
   //     const get = JSON.parse(localStorage.getItem("stores"));
   //     if (get) {
   //       console.log(get);
@@ -543,15 +613,19 @@ const Products = ({ cartData }) => {
   //       //selectedStoresID(da)
   //       localStorage.setItem("stores", JSON.stringify(da));
   //     }
+
   //     function removeProductByID(data, productID) {
   //       return data.products.filter(product => product.productID !== productID);
   //   }
+
   //   // Assign the modified products array to a new variable
   //   let newData = {
   //       ...data,
   //       products: removeProductByID(responseData, storeId)
   //   };
+
   //   };
+
   // const removeStore = (storeId) => {
   //   // Filter out the store with the given ID from the data array
   //   const updatedData = selectedAll.filter((store) => store.id !== storeId);
@@ -578,6 +652,7 @@ const Products = ({ cartData }) => {
   //     );
   //     localStorage.setItem("stores", JSON.stringify(updatedLocalStorageData));
   //   }
+
   //   if (stores) {
   //     const updatedLocalStorageData = stores.filter(
   //       (store) => store !== storeId
@@ -585,6 +660,7 @@ const Products = ({ cartData }) => {
   //     localStorage.setItem("stores1", JSON.stringify(updatedLocalStorageData));
   //     setSelectedStoresID(updatedLocalStorageData)
   //   }
+
   //   if (all) {
   //     const updatedLocalStorageData = all.filter(
   //       (store) => store.id !== storeId
@@ -597,17 +673,23 @@ const Products = ({ cartData }) => {
   //     );
   //     localStorage.setItem("storesName", JSON.stringify(updatedLocalStorageData));
   //   }
+
   //   // Remove associated products
   //   const updatedResponseData = responseData.map((item) => ({
   //     ...item,
   //     products: removeProductByID(item.products, storeId),
   //   }));
+
     
+
   //   console.log(updatedstoresResponseData);
+
   //   function removeProductByID(products, storeId) {
   //     return products.filter((product) => product.storeID.toString() !== storeId.toString());
   //   }
+
   //   handleButtonClick();
+
   // };  //тут удаление было
 console.log(selectedSel)
   
@@ -636,6 +718,7 @@ const removeStore = (storeId) => {
     //   localStorage.removeItem("names");
     // }
     localStorage.setItem("stores1", JSON.stringify(da));
+
     localStorage.setItem("stores_1234", JSON.stringify(stores));
     setSelectedStores(selectedAll.map((item) => item.location))
     console.log(selectedStores)
@@ -644,6 +727,7 @@ const removeStore = (storeId) => {
     handleButtonClick();
   };
   
+
   React.useEffect(() => {
     window.addEventListener("storage", () => {
       const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
@@ -654,8 +738,10 @@ const removeStore = (storeId) => {
       console.log("lalalalalal",selectedStore)
       console.log("lalala",selectedAll)
       console.log("stores_1234",stores1)
+
     });
   }, [selectedLocation,selectedStore,selectedAll]);
+
   useEffect(() => {
     // Function to handle changes in localStorage
     const handleStorageChange = () => {
@@ -686,15 +772,19 @@ const removeStore = (storeId) => {
       //   setSelectedStoresID(stores1);
       // }
     };
+
     // Initial setup from localStorage
     handleStorageChange();
+
     // Listen for changes in localStorage
     window.addEventListener("storage", handleStorageChange);
+
     // Cleanup function
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+
   return (
     <div>
       <div style={{ marginLeft: "80px", marginRight: "80px" }}>
@@ -801,6 +891,7 @@ const removeStore = (storeId) => {
                 ))}
             </select>
           </>}
+
           {selectedLocation  && <button
             style={{
               outline: "0",
@@ -916,6 +1007,7 @@ const removeStore = (storeId) => {
                                       className={noir.className}
                     onClick={() => removeStore(store.id)}
                     title="Delete Store">
+
                       X
                     </button>
                   </li>
@@ -1140,4 +1232,5 @@ const removeStore = (storeId) => {
     </div>
   );
 };
+
 export default Products;
