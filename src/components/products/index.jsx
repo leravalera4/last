@@ -244,6 +244,7 @@ const Products = ({ cartData }) => {
       );
       //console.log('Данные успешно отправлены на бэкенд', response.data)
       const responseData = response.data;
+      responseData.sort((a, b) => b.products.length - a.products.length);
       console.log("Tyt data",responseData)
       setResponseData(responseData);
       setAddedToCartImage(Array(responseData.length).fill(false))
