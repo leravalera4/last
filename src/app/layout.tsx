@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import Header from 'src/components/header'
+import Script from 'next/script'
 
 
 
@@ -23,6 +24,8 @@ export default function RootLayout({
       <body className={inter.className}>
             <Header />
             {children}
+            <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
+     crossOrigin="anonymous"></Script>
       </body>
     </html>
   )
