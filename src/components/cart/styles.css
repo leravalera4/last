@@ -1,0 +1,20 @@
+@media (max-width: 768px) {
+    .list {
+      display: none;
+    }
+    .panel{
+      width:100%,
+    }
+
+    .products{
+      width: 45%;
+    }
+  }
+
+  .list{
+    font-size: 18px;
+  }
+
+  .panel{
+    width:70%,
+  }
