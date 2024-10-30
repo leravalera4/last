@@ -66,19 +66,29 @@ const Cart = () => {
 
   const pdfRef = useRef();
 
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('key', 'value');
+  } else if (typeof sessionStorage !== 'undefined') {
+    // Fallback to sessionStorage if localStorage is not supported
+    sessionStorage.setItem('key', 'value');
+  } else {
+    // If neither localStorage nor sessionStorage is supported
+    console.log('Web Storage is not supported in this environment CART.');
+  }
+
 
   useEffect(() => {
-    const handleStorage = () => {
-      const stores = localStorage.getItem("stores");
-      const storesArray = JSON.parse(stores);
-     // setStores(storesArray);
-      console.log(storesArray);
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
-    }
-    return () => window.removeEventListener('storage', handleStorage);
+    window.addEventListener("storage", ()=>{
+      const handleStorage = () => {
+        const stores = localStorage.getItem("stores");
+        const storesArray = JSON.parse(stores);
+        console.log(storesArray);
+      };
+    })
+    // if (typeof window !== 'undefined') {
+    //   window.addEventListener('storage', handleStorage);
+    // }
+    // return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
 
@@ -105,39 +115,43 @@ const Cart = () => {
 
 
   React.useEffect(() => {
-    const handleStorageChange = () => {
-      console.log("Storage event triggered");
-      const theme = JSON.parse(localStorage.getItem("stores_1234"));
-      const sale = JSON.parse(localStorage.getItem("cart"));
-      const name = JSON.parse(localStorage.getItem("storesName"));
-      const special = JSON.parse(localStorage.getItem("special"));
-      const filteredStores = name.filter((store) =>
-        theme.includes(store.id.toString())
-      );
+    window.addEventListener("storage",()=>{
+      const handleStorageChange = () => {
+        console.log("Storage event triggered");
+        const theme = JSON.parse(localStorage.getItem("stores_1234"));
+        const sale = JSON.parse(localStorage.getItem("cart"));
+        const name = JSON.parse(localStorage.getItem("storesName"));
+        const special = JSON.parse(localStorage.getItem("special"));
+        const filteredStores = name.filter((store) =>
+          theme.includes(store.id.toString())
+        );
+  
+        console.log("STORES FOR SALE:", filteredStores);
+        localStorage.setItem("storeSale", JSON.stringify(filteredStores));
+        console.log("Theme:", theme);
+        console.log("Sale:", sale);
+        console.log("StoresName:", name);
+        console.log("Special:", special);
+  
+        if (name === null) {
+          console.log("StoresName is null or not set.");
+        }
+  
+        setTheme(theme);
+        setSale(sale);
+        setSpecial(special);
+        setName(name);
+        //sendDataToBackend(theme, sale);
+        // getNames(sale, theme, name);
+      };
+  
+    })
 
-      console.log("STORES FOR SALE:", filteredStores);
-      localStorage.setItem("storeSale", JSON.stringify(filteredStores));
-      console.log("Theme:", theme);
-      console.log("Sale:", sale);
-      console.log("StoresName:", name);
-      console.log("Special:", special);
+    // window.addEventListener("storage", handleStorageChange);
 
-      if (name === null) {
-        console.log("StoresName is null or not set.");
-      }
-
-      setTheme(theme);
-      setSale(sale);
-      setSpecial(special);
-      setName(name);
-      //sendDataToBackend(theme, sale);
-      // getNames(sale, theme, name);
-    };
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
-    }
-    return () => window.removeEventListener('storage', handleStorage);
+    // return () => {
+    //   window.removeEventListener("storage", handleStorageChange);
+    // };
   }, []);
 
   React.useEffect(() => {
@@ -160,10 +174,11 @@ const Cart = () => {
     } catch (error) {
       console.error();
     }
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
-    }
-    return () => window.removeEventListener('storage', handleStorage);
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   };
 
   //   useEffect(()=>{
@@ -278,10 +293,6 @@ const Cart = () => {
 
   useEffect(() => {
     setQuantity(titleLength);
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
-    }
-    return () => window.removeEventListener('storage', handleStorage);
   }, [titleLength]); // Срабатывает при изменении response
 
   const increaseQuantity = (itemId) => {
@@ -377,18 +388,10 @@ const Cart = () => {
 
     // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
-    }
-    return () => window.removeEventListener('storage', handleStorage);
   };
 
   useEffect(() => {
     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
-    }
-    return () => window.removeEventListener('storage', handleStorage);
 }, []);
 
   const handleAddToCart = async (product) => {
