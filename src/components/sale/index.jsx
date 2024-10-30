@@ -1,62 +1,24 @@
 "use client";
 
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import localFont from "next/font/local";
-// import styles from "./sale.module.css";
-// import "./item.css";
-// import Spiner from "../spiner";
-// import HistoriesLoader from "../loaders";
-// import Skeleton from "react-loading-skeleton";
-// import "react-loading-skeleton/dist/skeleton.css";
-// import "../products/products.css";
-// import About from "../about";
-// import Funfact from "../facts/facts.jsx";
-// import Zoom from "react-medium-image-zoom";
-// import "react-medium-image-zoom/dist/styles.css";
-// import spiner from "../../app/images/sp.gif";
-// import Loading from "../loaders";
-// import added from "../../app/images/added.svg";
-//  import error from "../../app/images/error.gif";
-// import Image from "next/image.js";
-// import { useRef } from "react";
-// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-// import "react-tabs/style/react-tabs.css";
-//  import Tour from "../tour/tour_sale.jsx";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-// import { Albert_Sans } from "next/font/google/index.js";
-
-import React, { useState, useEffect, useRef } from "react";  // Combine React imports for better readability.
-import axios from "axios";  // Correct for data fetching.
-import localFont from "next/font/local";  // Local font import for custom fonts.
-import Image from "next/image";  // Correct path for Next.js Image component, no `.js` needed.
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";  // React Tabs import.
-import { ToastContainer, toast } from "react-toastify";  // Toastify for notifications.
-
-// CSS and Font Styles
-import styles from "./sale.module.css";  // Component-specific CSS module.
-import "./item.css";  // Additional CSS, ideally scoped to the component.
-import "../products/products.css";  // Product-related CSS for the parent directory.
-import "react-loading-skeleton/dist/skeleton.css";  // Skeleton loading animation styles.
-import "react-medium-image-zoom/dist/styles.css";  // Zoom styles for images.
-import "react-tabs/style/react-tabs.css";  // Tabs component styling.
-import "react-toastify/dist/ReactToastify.css";  // Toastify notifications styling.
-
-// Images
-import spiner from "../../app/images/sp.gif";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import localFont from "next/font/local";
+import "./item.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import "../products/products.css";
+import About from "../about";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import Loading from "../loaders";
 import added from "../../app/images/added.svg";
 import error from "../../app/images/error.gif";
-
-// Components
-import Spiner from "../spiner";
-import HistoriesLoader from "../loaders";
-import Skeleton from "react-loading-skeleton";  // For loading skeleton animations.
-import About from "../about";
-import Funfact from "../facts/facts.jsx";
-import Zoom from "react-medium-image-zoom";
-import Loading from "../loaders";
+import Image from "next/image.js";
+import { useRef } from "react";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import Tour from "../tour/tour_sale.jsx";
+import "react-toastify/dist/ReactToastify.css";
 
 //import { useContext } from "react";
 //import { AppContext } from '../../app/context'
@@ -137,7 +99,15 @@ const Index = () => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem("key", "value");
+  } else if (typeof sessionStorage !== "undefined") {
+    // Fallback to sessionStorage if localStorage is not supported
+    sessionStorage.setItem("key", "value");
+  } else {
+    // If neither localStorage nor sessionStorage is supported
+    console.log("Web Storage is not supported in this environment SALE.");
+  }
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
@@ -176,22 +146,37 @@ const Index = () => {
     });
   }, [namesss]);
 
-
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
-    };
+    window.addEventListener("storage", () => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
+      };
 
-    // Вызываем функцию сразу при монтировании
-    handleResize();
+      // Вызываем функцию сразу при монтировании
+      handleResize();
 
-    // Добавляем слушатель события изменения размера
-    window.addEventListener("resize", handleResize);
+      // Добавляем слушатель события изменения размера
+      window.addEventListener("resize", handleResize);
 
-    // Убираем слушатель при размонтировании компонента
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+      // Убираем слушатель при размонтировании компонента
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    });
+    // const handleResize = () => {
+    //   setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
+    // };
+
+    // // Вызываем функцию сразу при монтировании
+    // handleResize();
+
+    // // Добавляем слушатель события изменения размера
+    // window.addEventListener("resize", handleResize);
+
+    // // Убираем слушатель при размонтировании компонента
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
   }, []);
 
   // useEffect(() => {
@@ -246,7 +231,9 @@ const Index = () => {
       (prev) => prev.map((active, i) => (i === index ? !active : false)) // Смена состояния только для текущей кнопки
     );
   };
+
   useEffect(() => {
+    window.addEventListener("storage",()=>{
     // Функция для обработки изменений в localStorage
     const handleStorageChange = () => {
       const sale = JSON.parse(localStorage.getItem("sale"));
@@ -280,14 +267,16 @@ const Index = () => {
 
     // Инициализация из localStorage
     handleStorageChange();
+    })
+
 
     // Слушаем изменения в localStorage
-    window.addEventListener("storage", handleStorageChange);
+    // window.addEventListener("storage", handleStorageChange);
 
-    // Очистка при размонтировании
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    // // Очистка при размонтировании
+    // return () => {
+    //   window.removeEventListener("storage", handleStorageChange);
+    // };
   }, []);
 
   useEffect(() => {
@@ -344,6 +333,7 @@ const Index = () => {
   }, [locValue]); // Add other dependencies if needed
 
   useEffect(() => {
+    window.addEventListener("storage",()=>{
     // Сохраняем данные в localStorage
     localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
     localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
@@ -351,6 +341,7 @@ const Index = () => {
     // Извлекаем данные из localStorage
     const store = localStorage.getItem("selectedStore");
     const location = localStorage.getItem("selectedLocation");
+
     // Обновляем состояние, только если store существует и оно не обновлялось
     if (store !== null) {
       setStore1(JSON.parse(store));
@@ -360,6 +351,8 @@ const Index = () => {
       setLocation1(JSON.parse(location));
       console.log("LOCATION", location);
     }
+    })
+
   }, [selectedStore, selectedLocation]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
 
   console.log("LERA VALERA_12", selectedStore);
@@ -740,7 +733,6 @@ const Index = () => {
   const drinksAisleCount = responseData.filter(
     (item) => item.category === "Drinks"
   ).length;
-  console.log("DRINK", drinksAisleCount);
   const bakeryAisleCount = responseData.filter(
     (item) => item.category === "Bakery"
   ).length;
@@ -773,13 +765,16 @@ const Index = () => {
     console.log(index);
   };
 
-  const length = JSON.parse(localStorage.getItem("length"));
-
-  const selectedAll = JSON.parse(localStorage.getItem("storesName"));
-  console.log("SELECT ALL", selectedAll);
-  const cartStores = JSON.parse(localStorage.getItem("stores_1234"));
-  const includedIds = new Set(cartStores);
-  console.log("INC", includedIds);
+  useEffect(() => {
+    window.addEventListener("storage", () => {
+      const length = JSON.parse(localStorage.getItem("length"));
+      const selectedAll = JSON.parse(localStorage.getItem("storesName"));
+      console.log("SELECT ALL", selectedAll);
+      const cartStores = JSON.parse(localStorage.getItem("stores_1234"));
+      const includedIds = new Set(cartStores);
+      console.log("INC", includedIds);
+    });
+  }, []);
 
   return (
     <div
@@ -2071,221 +2066,234 @@ const Index = () => {
                       Bakery
                     </h2>{" "}
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Bakery" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Bakery" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -2302,221 +2310,234 @@ const Index = () => {
                       Deli
                     </h2>
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Deli" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Deli" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -2533,227 +2554,240 @@ const Index = () => {
                       Natural and Organic
                     </h2>
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Natural and Organic" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Natural and Organic" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
             )}
             {naturalAisleCount ? null : null}
-         
+
             {preparedAisleCount > 0 && (
               <>
                 {loading ? (
@@ -2764,221 +2798,234 @@ const Index = () => {
                       Prepared Meals
                     </h2>
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Prepared Meals" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Prepared Meals" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -2995,221 +3042,234 @@ const Index = () => {
                       Pantry
                     </h2>
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Pantry" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Pantry" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -3226,221 +3286,234 @@ const Index = () => {
                       International Foods
                     </h2>
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "International Foods" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "International Foods" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -3457,221 +3530,234 @@ const Index = () => {
                       Meat
                     </h2>
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Meat" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Meat" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -3689,221 +3775,234 @@ const Index = () => {
                     </h2>
 
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Fish & Seafood" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Fish & Seafood" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
@@ -3921,221 +4020,234 @@ const Index = () => {
                     </h2>
 
                     <p
-                  style={{ color: "rgb(125, 120, 120)" }}
-                  className={noir.className}
-                >
-                  *Out-of-stock items are not shown
-                </p>
-                {len === 3 && checkForStore === false && (
-                  <p
-                    style={{ color: "rgb(225, 37, 27)" }}
-                    className={noir.className}
-                  >
-                    You have reached the maximum number of stores on the List
-                    and cannot add more
-                  </p>
-                )}
-                <ul
-                  className="product-list"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    margin: "0px",
-                    padding: "0px",
-                    justifyContent: "center",
-                    // paddingLeft: "0px"
-                  }}
-                >
-                  {responseData &&
-                    responseData.map(
-                      (item, index) =>
-                        item.category === "Frozen Food" && (
-                          <li
-                            key={index}
-                            tabIndex="-1"
-                            className="product-list-item"
-                          >
-                            <div className="product-container">
-                              <div className="product-info-container">
-                                <div className="product-image-container">
-                                  {loading ? (
-                                    <Skeleton width={110} height={110} />
-                                  ) : (
-                                    <>
-                                      <div
-                                        style={{
-                                          height: "35px",
-                                          display: "flex",
-
-                                          flexWrap: "nowrap",
-                                          alignItems: "center",
-                                          flexDirection: "row-reverse",
-                                        }}
-                                      >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "90px" }}
-                                              width={35}
-                                              height={35}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                      <Zoom>
-                                        <img
-                                          alt="skksks"
-                                          src={item.image}
-                                          //loading="lazy"
-                                          className="product-image"
-                                          //aria-hidden="true"
-                                        />
-                                      </Zoom>
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className="price-container"
-                                  data-testid="price-product-tile"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={70} height={16} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} price-paragraph`}
-                                      data-testid="price"
-                                    >
-                                      {item.non_member_price != null ? (
-                                        `${item.non_member_price} `
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Frozen Food" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
                                       ) : (
                                         <>
                                           <div
                                             style={{
+                                              height: "35px",
                                               display: "flex",
-                                              flexDirection: "row",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
                                             }}
                                           >
-                                            {item.saleprice}
-                                            {item.wasprice != null ? (
-                                              <s
-                                                style={{
-                                                  color: "rgb(125, 120, 120)",
-                                                  fontWeight: "400",
-                                                  marginRight: "10px",
-                                                  paddingLeft: "2px",
-                                                  paddingTop: "2px",
-                                                }}
-                                              >
-                                                {item.wasprice}
-                                              </s>
-                                            ) : null}
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={35}
+                                                  height={35}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
                                           </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
                                         </>
                                       )}
-                                      <span className="highlighted-price">
-                                        {item.non_member_price != null
-                                          ? `${item.saleprice}`
-                                          : `${
-                                              item.sale != null ? item.sale : ""
-                                            }`}
-                                      </span>
-                                    </p>
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.saleprice}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} ${
+                                        len === 3 && checkForStore === false
+                                          ? ""
+                                          : "box"
+                                      }`}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                      style={{
+                                        outline: "0",
+                                        width: "75%",
+                                        height: "38px",
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer", // Изменение курсора
+                                        padding: "5px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        lineHeight: "20px",
+                                        verticalAlign: "middle",
+                                        border: "1px solid",
+                                        borderRadius: " 6px",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : "#24292e", // Change color when disabled
+                                        backgroundColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#f0f0f0"
+                                            : "#fafbfc", // Change background when disabled
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : "#1b1f2326", // Change border when disabled
+                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      }}
+                                    >
+                                      {addedToCart[index]
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
-                                {/* <a href="lalal" className="link-box-overlay"> */}
-                                <div className="overlay-container">
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className={`${noir.className} product-brand-paragraph`}
-                                      data-testid="product-brand"
-                                    >
-                                      {item.brand}
-                                    </p>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <h3
-                                      className={`${noir.className} product-title-heading`}
-                                      data-testid="product-title"
-                                    >
-                                      {item.title}
-                                    </h3>
-                                  )}
-                                  {loading ? (
-                                    <Skeleton width={154} height={12} />
-                                  ) : (
-                                    <p
-                                      className="package-size-paragraph"
-                                      data-testid="product-package-size"
-                                    >
-                                      {item.weight}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                              {loading ? (
-                                <Skeleton />
-                              ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} ${
-                                    len === 3 && checkForStore === false
-                                      ? ""
-                                      : "box"
-                                  }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
-                                >
-                                  {addedToCart[index]
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
-                              )}
-                            </div>
-                          </li>
-                        )
-                    )}
-                </ul>
+                              </li>
+                            )
+                        )}
+                    </ul>
                   </TabPanel>
                 )}
               </>
