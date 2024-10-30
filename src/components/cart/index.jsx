@@ -232,25 +232,7 @@ const Cart = () => {
   const mergedData = data.map((item) => {
     const match = storesName.find((store) => store.id == item.id);
     if (match) {
-      return { ...item, store: match.store, location: match.location };
-    }
-    return item;
-  });
-
-  console.log("Merged Data", mergedData);
-
-  let length = 0;
-  if (
-    mergedData &&
-    mergedData.length > 0 &&
-    mergedData[0] &&
-    mergedData[0].value
-  ) {
-    length = mergedData[0].value.length;
-  }
-  let titleLength = 0; // Declare titleLength variable outside of the conditional block and initialize it
-
-  if (title && title.length > 0) {
+@@ -273,454 +245,1219 @@
     titleLength = title.length; // Update titleLength if conditions are met
   }
 
