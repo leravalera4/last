@@ -115,7 +115,7 @@ const Cart = () => {
 
 
   React.useEffect(() => {
-    window.addEventListener("storage",()=>{
+   
       const handleStorageChange = () => {
         console.log("Storage event triggered");
         const theme = JSON.parse(localStorage.getItem("stores_1234"));
@@ -145,13 +145,13 @@ const Cart = () => {
         getNames(sale, theme, name);
       };
   
-    })
 
-    // window.addEventListener("storage", handleStorageChange);
 
-    // return () => {
-    //   window.removeEventListener("storage", handleStorageChange);
-    // };
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   React.useEffect(() => {
