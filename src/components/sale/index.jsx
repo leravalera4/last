@@ -275,7 +275,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("http://server-blue-ten.vercel.app:8080/api/stores")
+      .get("http://server-blue-ten.vercel.app/api/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -288,7 +288,7 @@ const Index = () => {
     setSelectedStore(selectedStore);
     try {
       const response = await axios.get(
-        `http://server-blue-ten.vercel.app:8080/api/stores/${selectedStore}`
+        `http://server-blue-ten.vercel.app/api/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -518,14 +518,14 @@ const Index = () => {
     try {
       let response;
       if (storeSale && storeSale != null && com == true) {
-        response = await axios.post("http://server-blue-ten.vercel.app:8080/api/sale", {
+        response = await axios.post("http://server-blue-ten.vercel.app/api/sale", {
           selectedStoresID: [storeSale],
         });
         console.log("Отправляемые данные:", {
           selectedStoresID: [storeSale],
         });
       } else {
-        response = await axios.post("http://server-blue-ten.vercel.app:8080/api/sale", {
+        response = await axios.post("http://server-blue-ten.vercel.app/api/sale", {
           selectedStoresID: [newSelectedLocationValue],
         });
         console.log("Отправляемые данные:", {
