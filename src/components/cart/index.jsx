@@ -165,7 +165,7 @@ const Cart = () => {
     console.log("Sending to backend:", { sale, theme, name });
     try {
       const response = await axios.post(
-        "http://server-blue-ten.vercel.app/api/sale/name",
+        "https://server-blue-ten.vercel.app/api/sale/name",
         { sale: sale, theme: theme, name: name } // Wrap the sale data in an object with the key "sale"
       );
       const responses = response.data;
