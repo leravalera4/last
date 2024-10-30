@@ -233,7 +233,6 @@ const Index = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("storage",()=>{
     // Функция для обработки изменений в localStorage
     const handleStorageChange = () => {
       const sale = JSON.parse(localStorage.getItem("sale"));
@@ -267,16 +266,13 @@ const Index = () => {
 
     // Инициализация из localStorage
     handleStorageChange();
-    })
+    //Слушаем изменения в localStorage
+    window.addEventListener("storage", handleStorageChange);
 
-
-    // Слушаем изменения в localStorage
-    // window.addEventListener("storage", handleStorageChange);
-
-    // // Очистка при размонтировании
-    // return () => {
-    //   window.removeEventListener("storage", handleStorageChange);
-    // };
+    // Очистка при размонтировании
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   useEffect(() => {
