@@ -64,7 +64,8 @@ const Index = () => {
   const [image, setImage] = useState(false);
   const [firstTime, setFirstTime] = useState(true);
   const [special, setSpecial] = useState();
-  const [selectedStoresLalala, setSelectedStoresLalala] = useState([]);
+
+  
 
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
@@ -83,7 +84,7 @@ const Index = () => {
       const special = JSON.parse(localStorage.getItem("special"));
       const names = JSON.parse(localStorage.getItem("names"));
       setNamesss(names);
-
+      
       console.log(special);
       console.log(sale);
       console.log(responseData);
@@ -91,7 +92,7 @@ const Index = () => {
       console.log(names);
       setSpecial(special);
       console.log(special);
-      console.log(namesss);
+      console.log(namesss)
       setSelectedStore(sale.store);
       setSelectedLocation(sale.location);
       setResponseData(responseData);
@@ -101,13 +102,13 @@ const Index = () => {
       // }
       console.log(addedToCartImage);
     });
-  }, [selectedLocation, namesss]);
+  }, [selectedLocation,namesss]);
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
       if (namesss === null && special) {
         console.log("noooooo");
-        setAddedToCartImage(Array(responseData.length).fill(false));
+        setAddedToCartImage(Array(responseData.length).fill(false))
       }
     });
   }, [namesss]);
@@ -143,7 +144,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("http://192.168.4.52:8080/api/stores")
+      .get("https://server-2cb5.onrender.com/api/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -156,7 +157,7 @@ const Index = () => {
     setSelectedStore(selectedStore);
     try {
       const response = await axios.get(
-        `http://192.168.4.52:8080/api/stores/${selectedStore}`
+        `https://server-2cb5.onrender.com/api/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -176,22 +177,6 @@ const Index = () => {
     }
   };
 
-  console.log("Дата тут", responseData);
-
-
-  function transformString(transformedString) {
-    // // Split the input string by '$' and filter out empty strings
-    // const parts = inputString.split('$').filter(Boolean);
-  
-    // // Ensure unique parts using a Set (removes duplicates)
-    // const uniqueParts = Array.from(new Set(parts));
-  
-    // // Join unique parts back with '$' separator
-    // const transformedString = uniqueParts.join('$');
-  
-    return transformedString;
-  }
-
   const handleAddStore = async () => {
     setLoading(true);
     if (!selectedLocation) {
@@ -201,7 +186,7 @@ const Index = () => {
 
     const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
 
-    console.log("newSelectedLocationValue", newSelectedLocationValue);
+    console.log(newSelectedLocationValue);
     const newStoreLocationObject = {
       store: selectedStore,
       location: selectedLocation,
@@ -214,26 +199,26 @@ const Index = () => {
       localStorage.setItem("storesName", JSON.stringify(storesNames));
     }
 
-    console.log("newStoreLocationObject", newStoreLocationObject);
+    console.log(newStoreLocationObject);
 
     const saveCartData = (newStoreLocationObject) => {
       localStorage.setItem("sale", JSON.stringify(newStoreLocationObject));
     };
     saveCartData(newStoreLocationObject);
     const storedData = JSON.parse(localStorage.getItem("sale"));
-    console.log("storedData", storedData);
+    console.log(storedData);
     setSelectedStore(storedData.store);
     setSelectedLocation(storedData.location);
-    console.log("selectedStore", selectedStore);
+    console.log(selectedStore);
     try {
-      const response = await axios.post("http://192.168.4.52:8080/api/sale", {
+      const response = await axios.post("https://server-2cb5.onrender.com/api/sale", {
         selectedStoresID: [newSelectedLocationValue],
       });
       // Assuming the response contains the data you need
       const storesData = response.data;
       setResponseData(storesData);
       //setResponseData(storesData);
-      console.log("responseData", responseData);
+      console.log(responseData);
       const dataToLocalStorage = localStorage.setItem(
         "responseData",
         JSON.stringify(storesData)
@@ -243,13 +228,11 @@ const Index = () => {
       const handleAddToCart = (index) => {
         const arrayOfItems = [];
         const selectedItem = storesData[index];
-
-        const ItemCode = selectedItem.productID;
+        const ItemCode = selectedItem.code;
         localStorage.setItem("storedField", ItemCode);
       };
       //console.log(storesData);
-      setLoading(false);
-      q;
+      setLoading(false);q
       setFirstTime(false);
       saveCartData(newStoreLocationObject);
     } catch (error) {
@@ -284,149 +267,94 @@ const Index = () => {
   const handleAddToCart = (item, index) => {
     // Retrieve existing items from localStorage or initialize an empty array
     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
-    //const existingStores = JSON.parse(localStorage.getItem("stores")) || [];
-    //console.log(existingStores)
-    //const stores_la = JSON.parse(localStorage.getItem("stores_lalala")) || [];
+    const existingStores = JSON.parse(localStorage.getItem("stores")) || [];
     const title = JSON.parse(localStorage.getItem("names")) || [];
-    const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
-
     // Get the selected item from the responseData based on the index
     const selectedItem = responseData[index];
-    const itemCode = selectedItem.productID;
-    const name = selectedItem.title;
-    let storeID = selectedItem.storeid;
-    let storeID_new = selectedItem.storeID;
 
-    // Check if storeID and storeID_new are defined and push them to arrayOfStores
-    // if (storeID !== undefined) {
-    //   arrayOfStores.push(storeID);
-    // }
-    // if (storeID_new !== undefined) {
-    //   arrayOfStores.push(storeID_new);
-    // }
-
-    console.log("New store", storeID_new);
-    console.log("New store from DB", storeID);
-
-    if (
-      arrayOfStores.includes(storeID_new) ||
-      arrayOfStores.includes(storeID)
-    ) {
-      console.log("Store already exists in the cart.");
-    } else {
-      if (storeID !== undefined) {
-        arrayOfStores.push(storeID);
-      }
-      if (storeID_new !== undefined) {
-        arrayOfStores.push(storeID_new);
-      }
-      localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
-      window.dispatchEvent(new Event("storage"));
-    }
-
-    console.log("Array of stores", arrayOfStores);
-
-    // Push name to the title array
+    // Extract the desired data from the selectedItem (assuming it has a code property)
+    const itemCode = selectedItem.code;
+    const name = selectedItem.name;
     title.push(name);
     localStorage.setItem("names", JSON.stringify(title));
-    localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
-
-    //Check if storeID already exists in stores_la array
-    // if (!stores_la.includes(storeID)) {
-    //   // If it doesn't exist, push storeID to stores_la array
-    //   stores_la.push(storeID);
-    //   localStorage.setItem("stores_lalala", JSON.stringify(stores_la));
-    //   window.dispatchEvent(new Event("storage"));
-    // } else {
-    //   console.log("Store already exists in the cart.");
-    // }
-
-    // if (!existingStores.includes(selectedItem.storeID)) {
-    //   existingStores.push(selectedItem.storeID);
-    //   localStorage.setItem("stores_lalala", JSON.stringify(existingStores));
-    //   window.dispatchEvent(new Event("storage"));
-    // } else {
-    //   console.log("Item already exists in the cart.");
-    // }
-
-    // Update UI state for added items
+    //const storeCode = parseInt(selectedItem.storeID, 10);
     const updatedAddedToCart = [...addedToCart];
     updatedAddedToCart[index] = true;
     setAddedToCart(updatedAddedToCart);
-
     const updatedAddedToCartImage = [...addedToCartImage];
     updatedAddedToCartImage[index] = true;
     setAddedToCartImage(updatedAddedToCartImage);
     localStorage.setItem("special", JSON.stringify(updatedAddedToCartImage));
 
-    // Reset addedToCart state after 1 second
     setTimeout(() => {
       const resetAddedToCart = [...updatedAddedToCart];
       resetAddedToCart[index] = false;
       setAddedToCart(resetAddedToCart);
     }, 1000);
+    // // Add the item code to the existing array of items
+    // existingItems.push(itemCode);
 
-    // Add the item code to the existing array of items in cart
+    // // Save the updated array back to localStorage
+    // localStorage.setItem('cart', JSON.stringify(existingItems));
+
+    if (!existingStores.includes(selectedItem.storeID)) {
+      // Add the item code to the existing array of items
+      existingStores.push(selectedItem.storeID);
+      // Save the updated array back to localStorage
+      localStorage.setItem("stores", JSON.stringify(existingStores));
+      window.dispatchEvent(new Event("storage"));
+    } else {
+      console.log("Item already exists in the cart.");
+    }
+
+    // if (!existingItems.includes(itemCode)) {
+    //   // Add the item code to the existing array of items
     existingItems.push(itemCode);
+    // Save the updated array back to localStorage
     localStorage.setItem("cart", JSON.stringify(existingItems));
     window.dispatchEvent(new Event("storage"));
-
-    // //Add the storeID to existing array of stores
-    // if (!existingStores.includes(selectedItem.storeID)) {
-    //   existingStores.push(selectedItem.storeID);
-    //   localStorage.setItem("stores", JSON.stringify(existingStores));
-    //   window.dispatchEvent(new Event("storage"));
     // } else {
     //   console.log("Item already exists in the cart.");
     // }
+    localStorage.setItem("cart", JSON.stringify(existingItems));
+    localStorage.setItem("stores", JSON.stringify(existingStores));
   };
 
-  console.log("Response Data", responseData);
+  console.log(responseData);
 
   const undefinedAisleCount = responseData.filter(
-    (item) => item.category === undefined
+    (item) => item.aisle === undefined
   ).length;
-  console.log("Длина", undefinedAisleCount);
   const fishAisleCount = responseData.filter(
-    (item) => item.category === "Fish & Seafood"
+    (item) => item.aisle === "Fish & Seafood"
   ).length;
-  const preparedAisleCount = responseData.filter(
-    (item) => item.category === "Prepared Meals"
-  ).length;
-  const pantryAisleCount = responseData.filter(
-    (item) => item.category === "Pantry"
-  ).length;
-  const naturalAisleCount = responseData.filter(
-    (item) => item.category === "Natural and Organic"
-  ).length;
-  console.log("Длина рыбы", fishAisleCount);
   const fruitsAisleCount = responseData.filter(
-    (item) => item.category === "Fruits & Vegetables"
+    (item) => item.aisle === "Fruits & Vegetables"
   ).length;
   const snacksAisleCount = responseData.filter(
-    (item) => item.category === "Snacks, Chips & Candy"
+    (item) => item.aisle === "Snacks, Chips & Candy"
   ).length;
   const dairyAisleCount = responseData.filter(
-    (item) => item.category === "Dairy & Eggs"
+    (item) => item.aisle === "Dairy & Eggs"
   ).length;
   const drinksAisleCount = responseData.filter(
-    (item) => item.category === "Drinks" || "Juice"
+    (item) => item.aisle === "Drinks"
   ).length;
   const bakeryAisleCount = responseData.filter(
-    (item) => item.category === "Bakery"
+    (item) => item.aisle === "Bakery"
   ).length;
   const deliAisleCount = responseData.filter(
-    (item) => item.category === "Deli" || '"Deli Cheese"'
+    (item) => item.aisle === "Deli"
   ).length;
   const meatAisleCount = responseData.filter(
-    (item) => item.category === "Meat"
+    (item) => item.aisle === "Meat"
   ).length;
   const frozenAisleCount = responseData.filter(
-    (item) => item.category === "Frozen Food"
+    (item) => item.aisle === "Frozen"
   ).length;
 
   const houseAisleCount = responseData.filter(
-    (item) => item.category === "Household Supplies"
+    (item) => item.aisle === "Household Supplies"
   ).length;
 
   return (
@@ -633,7 +561,7 @@ const Index = () => {
                   Fish & Seafood
                 </a>
                 <a className={`${noir.className} links`} href="#part9">
-                  Frozen Food
+                  Frozen
                 </a>
                 <a className={`${noir.className} links`} href="#part10">
                   Other products
@@ -651,7 +579,7 @@ const Index = () => {
             {responseData &&
               responseData.map(
                 (item, index) =>
-                  item.category === "Fruits & Vegetables" && (
+                  item.aisle === "Fruits & Vegetables" && (
                     <li key={index} tabIndex="-1" className="product-list-item">
                       <div className="product-container">
                         <div className="product-info-container">
@@ -661,21 +589,19 @@ const Index = () => {
                             ) : (
                               <>
                                 <div style={{ height: "35px" }}>
-                                  {namesss &&
-                                  namesss.length > 0 &&
-                                  addedToCartImage[index] ? (
+                                  {namesss && namesss.length > 0 && addedToCartImage[index] ? (
                                     <Image
                                       style={{ paddingLeft: "90px" }}
                                       width={35}
                                       height={35}
                                       src={added}
                                     />
-                                  ) : null}
+                                  ) : (
+                                    null
+                                  )}
                                 </div>
                                 <Zoom zoomZindex={1}>
-                                  <Image
-                                  width={35}
-                                  height={35}
+                                  <img
                                     alt="skksks"
                                     src={item.image}
                                     //loading="lazy"
@@ -697,15 +623,15 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
+                                ${item.prices.price}
+                                {item.prices.wasPrice && (
                                   <s
                                     style={{
                                       marginRight: "10px",
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    ({transformString(item.wasprice)})
+                                    ({item.prices.wasPrice})
                                   </s>
                                 )}
                               </p>
@@ -730,7 +656,7 @@ const Index = () => {
                                 className={`${noir.className} product-title-heading`}
                                 data-testid="product-title"
                               >
-                                {item.title}
+                                {item.name}
                               </h3>
                             )}
                             {loading ? (
@@ -740,15 +666,15 @@ const Index = () => {
                                 className="package-size-paragraph"
                                 data-testid="product-package-size"
                               >
-                                {item.size == ""
+                                {item.prices.size == ""
                                   ? "$" +
-                                    (item.weight).toFixed(
+                                    (item.prices.unitPriceValue * 10).toFixed(
                                       2
                                     ) +
                                     " / 1" +
                                     " " +
                                     "kg"
-                                  : item.weight}
+                                  : item.prices.size}
                               </p>
                             )}
                           </div>
@@ -777,8 +703,8 @@ const Index = () => {
                             }}
                           >
                             {addedToCart[index]
-                              ? "Add More"
-                              : "Add to List"}
+                              ? "Added to cart"
+                              : "Add to Cart"}
                           </button>
                         )}
                       </div>
@@ -800,7 +726,7 @@ const Index = () => {
             {responseData &&
               responseData.map(
                 (item, index) =>
-                  item.category === "Snacks, Chips & Candy" && (
+                  item.aisle === "Snacks, Chips & Candy" && (
                     <li key={index} tabIndex="-1" className="product-list-item">
                       <div className="product-container">
                         <div className="product-info-container">
@@ -844,15 +770,15 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
+                                ${item.prices.price}
+                                {item.prices.wasPrice && (
                                   <s
                                     style={{
                                       marginRight: "10px",
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    ({transformString(item.wasprice)})
+                                    ({item.prices.wasPrice})
                                   </s>
                                 )}
                               </p>
@@ -877,7 +803,7 @@ const Index = () => {
                                 className={`${noir.className} product-title-heading`}
                                 data-testid="product-title"
                               >
-                                {item.title}
+                                {item.name}
                               </h3>
                             )}
                             {loading ? (
@@ -887,7 +813,15 @@ const Index = () => {
                                 className="package-size-paragraph"
                                 data-testid="product-package-size"
                               >
-                                {item.weight}
+                                {item.prices.size == ""
+                                  ? "$" +
+                                    (item.prices.unitPriceValue * 10).toFixed(
+                                      2
+                                    ) +
+                                    " / 1" +
+                                    " " +
+                                    "kg"
+                                  : item.prices.size}
                               </p>
                             )}
                           </div>
@@ -900,7 +834,6 @@ const Index = () => {
                             className={`${noir.className} box`}
                             style={{
                               outline: "0",
-                              height: "38px",
                               cursor: "pointer",
                               padding: "5px 16px",
                               fontSize: "14px",
@@ -916,8 +849,8 @@ const Index = () => {
                             }}
                           >
                             {addedToCart[index]
-                              ? "Added to List"
-                              : "Add to List"}
+                              ? "Added to cart"
+                              : "Add to Cart"}
                           </button>
                         )}
                       </div>
@@ -939,7 +872,7 @@ const Index = () => {
             {responseData &&
               responseData.map(
                 (item, index) =>
-                  item.category === "Dairy & Eggs" && (
+                  item.aisle === "Dairy & Eggs" && (
                     <li key={index} tabIndex="-1" className="product-list-item">
                       <div className="product-container">
                         <div className="product-info-container">
@@ -983,15 +916,15 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
+                                ${item.prices.price}
+                                {item.prices.wasPrice && (
                                   <s
                                     style={{
                                       marginRight: "10px",
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    ({transformString(item.wasprice)})
+                                    ({item.prices.wasPrice})
                                   </s>
                                 )}
                               </p>
@@ -1016,7 +949,7 @@ const Index = () => {
                                 className={`${noir.className} product-title-heading`}
                                 data-testid="product-title"
                               >
-                                {item.title}
+                                {item.name}
                               </h3>
                             )}
                             {loading ? (
@@ -1026,7 +959,15 @@ const Index = () => {
                                 className="package-size-paragraph"
                                 data-testid="product-package-size"
                               >
-                               {item.weight}
+                                {item.prices.size == ""
+                                  ? "$" +
+                                    (item.prices.unitPriceValue * 10).toFixed(
+                                      2
+                                    ) +
+                                    " / 1" +
+                                    " " +
+                                    "kg"
+                                  : item.prices.size}
                               </p>
                             )}
                           </div>
@@ -1039,7 +980,6 @@ const Index = () => {
                             className={`${noir.className} box`}
                             style={{
                               outline: "0",
-                              height: "38px",
                               cursor: "pointer",
                               padding: "5px 16px",
                               fontSize: "14px",
@@ -1055,8 +995,8 @@ const Index = () => {
                             }}
                           >
                             {addedToCart[index]
-                              ? "Added to List"
-                              : "Add to List"}
+                              ? "Added to cart"
+                              : "Add to Cart"}
                           </button>
                         )}
                       </div>
@@ -1078,7 +1018,7 @@ const Index = () => {
             {responseData &&
               responseData.map(
                 (item, index) =>
-                  item.category === "Drinks" || item.category === "Juice"  && (
+                  item.aisle === "Drinks" && (
                     <li key={index} tabIndex="-1" className="product-list-item">
                       <div className="product-container">
                         <div className="product-info-container">
@@ -1122,15 +1062,15 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                {transformString(item.saleprice)}
-                                {transformString(item.saleprice) && (
+                                ${item.prices.price}
+                                {item.prices.wasPrice && (
                                   <s
                                     style={{
                                       marginRight: "10px",
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    ({transformString(item.wasprice)})
+                                    ({item.prices.wasPrice})
                                   </s>
                                 )}
                               </p>
@@ -1155,7 +1095,7 @@ const Index = () => {
                                 className={`${noir.className} product-title-heading`}
                                 data-testid="product-title"
                               >
-                                {item.title}
+                                {item.name}
                               </h3>
                             )}
                             {loading ? (
@@ -1165,7 +1105,15 @@ const Index = () => {
                                 className="package-size-paragraph"
                                 data-testid="product-package-size"
                               >
-                                {item.weight}
+                                {item.prices.size == ""
+                                  ? "$" +
+                                    (item.prices.unitPriceValue * 10).toFixed(
+                                      2
+                                    ) +
+                                    " / 1" +
+                                    " " +
+                                    "kg"
+                                  : item.prices.size}
                               </p>
                             )}
                           </div>
@@ -1178,7 +1126,6 @@ const Index = () => {
                             className={`${noir.className} box`}
                             style={{
                               outline: "0",
-                              height: "38px",
                               cursor: "pointer",
                               padding: "5px 16px",
                               fontSize: "14px",
@@ -1194,8 +1141,8 @@ const Index = () => {
                             }}
                           >
                             {addedToCart[index]
-                              ? "Added to List"
-                              : "Add to List"}
+                              ? "Added to cart"
+                              : "Add to Cart"}
                           </button>
                         )}
                       </div>
@@ -1223,7 +1170,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Bakery" && (
+                      item.aisle === "Bakery" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -1271,8 +1218,8 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}{" "}
-                                    <s>({transformString(item.wasprice)})</s>
+                                    ${item.prices.price}{" "}
+                                    <s>({item.prices.wasPrice})</s>
                                   </p>
                                 )}
                               </div>
@@ -1295,7 +1242,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -1305,7 +1252,15 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight}
+                                    {item.prices.size == ""
+                                      ? "$" +
+                                        (
+                                          item.prices.unitPriceValue * 10
+                                        ).toFixed(2) +
+                                        " / 1" +
+                                        " " +
+                                        "kg"
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -1319,7 +1274,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -1335,8 +1289,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -1368,7 +1322,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Deli" || item.category === "Deli Cheese" && (
+                      item.aisle === "Deli" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -1416,15 +1370,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -1449,7 +1403,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -1459,7 +1413,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -1467,7 +1421,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -1480,7 +1434,6 @@ const Index = () => {
                                 className={`${noir.className} box`}
                                 style={{
                                   outline: "0",
-                                  height: "38px",
                                   cursor: "pointer",
                                   padding: "5px 16px",
                                   fontSize: "14px",
@@ -1497,8 +1450,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -1509,491 +1462,6 @@ const Index = () => {
             </>
           )}
           {deliAisleCount ? null : null}
-
-          {naturalAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part6" className={noir.className}>
-                  Natural and Organic
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Natural and Organic" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <Image
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {naturalAisleCount ? null : null}
-          {preparedAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part6" className={noir.className}>
-                  Prepared Meals
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Prepared Meals" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <Image
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {preparedAisleCount ? null : null}
-
-          {pantryAisleCount > 0 && (
-            <>
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <h2 id="part6" className={noir.className}>
-                  Pantry
-                </h2>
-              )}
-              <ul
-                className="product-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                }}
-              >
-                {responseData &&
-                  responseData.map(
-                    (item, index) =>
-                      item.category === "Pantry" && (
-                        <li
-                          key={index}
-                          tabIndex="-1"
-                          className="product-list-item"
-                        >
-                          <div className="product-container">
-                            <div className="product-info-container">
-                              <div className="product-image-container">
-                                {loading ? (
-                                  <Skeleton width={110} height={110} />
-                                ) : (
-                                  <>
-                                    <div style={{ height: "35px" }}>
-                                      {addedToCartImage[index] ? (
-                                        <Image
-                                          style={{ paddingLeft: "90px" }}
-                                          width={35}
-                                          height={35}
-                                          src={added}
-                                        />
-                                      ) : (
-                                        " "
-                                      )}
-                                    </div>
-                                    <Zoom zoomZindex={1}>
-                                      <img
-                                        alt="skksks"
-                                        src={item.image}
-                                        //loading="lazy"
-                                        className="product-image"
-                                        //aria-hidden="true"
-                                      />
-                                    </Zoom>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="price-container"
-                                data-testid="price-product-tile"
-                              >
-                                {loading ? (
-                                  <Skeleton width={70} height={16} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} price-paragraph`}
-                                    data-testid="price"
-                                  >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
-                                      <s
-                                        style={{
-                                          marginRight: "10px",
-                                          marginBottom: "5px",
-                                        }}
-                                      >
-                                        ({transformString(item.wasprice)})
-                                      </s>
-                                    )}
-                                  </p>
-                                )}
-                              </div>
-                              {/* <a href="lalal" className="link-box-overlay"> */}
-                              <div className="overlay-container">
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className={`${noir.className} product-brand-paragraph`}
-                                    data-testid="product-brand"
-                                  >
-                                    {item.brand}
-                                  </p>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <h3
-                                    className={`${noir.className} product-title-heading`}
-                                    data-testid="product-title"
-                                  >
-                                    {item.title}
-                                  </h3>
-                                )}
-                                {loading ? (
-                                  <Skeleton width={154} height={12} />
-                                ) : (
-                                  <p
-                                    className="package-size-paragraph"
-                                    data-testid="product-package-size"
-                                  >
-                                    {item.weight == ""
-                                      ? "$" +
-                                        (
-                                          item.prices.unitPriceValue * 10
-                                        ).toFixed(2) +
-                                        " / 1" +
-                                        " " +
-                                        "kg"
-                                      : item.weight}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                            {loading ? (
-                              <Skeleton />
-                            ) : (
-                              <button
-                                onClick={() => handleAddToCart(item, index)}
-                                className={`${noir.className} box`}
-                                style={{
-                                  outline: "0",
-                                  height: "38px",
-                                  cursor: "pointer",
-                                  padding: "5px 16px",
-                                  fontSize: "14px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  border: "1px solid",
-                                  borderRadius: " 6px",
-                                  color: " #24292e",
-                                  backgroundColor: "#fafbfc",
-                                  borderColor: "#1b1f2326",
-                                  transition:
-                                    "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                }}
-                              >
-                                {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
-                              </button>
-                            )}
-                          </div>
-                        </li>
-                      )
-                  )}
-              </ul>
-            </>
-          )}
-          {pantryAisleCount ? null : null}
 
           {meatAisleCount > 0 && (
             <>
@@ -2015,7 +1483,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Meat" && (
+                      item.aisle === "Meat" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -2063,15 +1531,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -2096,7 +1564,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -2106,7 +1574,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -2114,7 +1582,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -2127,7 +1595,6 @@ const Index = () => {
                                 className={`${noir.className} box`}
                                 style={{
                                   outline: "0",
-                                  height: "38px",
                                   cursor: "pointer",
                                   padding: "5px 16px",
                                   fontSize: "14px",
@@ -2144,8 +1611,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -2177,7 +1644,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Fish & Seafood" && (
+                      item.aisle === "Fish & Seafood" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -2225,15 +1692,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -2258,7 +1725,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -2268,7 +1735,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -2276,7 +1743,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -2290,7 +1757,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -2306,8 +1772,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -2325,7 +1791,7 @@ const Index = () => {
                 <Skeleton />
               ) : (
                 <h2 id="part9" className={noir.className}>
-                  Frozen Food
+                  Frozen
                 </h2>
               )}
               <ul
@@ -2339,7 +1805,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Frozen Food" && (
+                      item.aisle === "Frozen" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -2387,15 +1853,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -2420,7 +1886,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -2430,7 +1896,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -2438,7 +1904,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -2452,7 +1918,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -2468,8 +1933,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -2499,7 +1964,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Household Supplies" && (
+                      item.aisle === "Household Supplies" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -2547,15 +2012,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -2580,7 +2045,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -2590,7 +2055,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -2598,7 +2063,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -2612,7 +2077,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -2628,8 +2092,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -2660,7 +2124,7 @@ const Index = () => {
               {responseData &&
                 responseData.map(
                   (item, index) =>
-                    item.category === null && (
+                    item.aisle === undefined && (
                       <li
                         key={index}
                         tabIndex="-1"
@@ -2708,15 +2172,15 @@ const Index = () => {
                                   className={`${noir.className} price-paragraph`}
                                   data-testid="price"
                                 >
-                                  ${transformString(item.saleprice)}
-                                  {transformString(item.wasprice) && (
+                                  ${item.prices.price}
+                                  {item.prices.wasPrice && (
                                     <s
                                       style={{
                                         marginRight: "10px",
                                         marginBottom: "5px",
                                       }}
                                     >
-                                      ({transformString(item.wasprice)})
+                                      ({item.prices.wasPrice})
                                     </s>
                                   )}
                                 </p>
@@ -2741,7 +2205,7 @@ const Index = () => {
                                   className={`${noir.className} product-title-heading`}
                                   data-testid="product-title"
                                 >
-                                  {item.title}
+                                  {item.name}
                                 </h3>
                               )}
                               {loading ? (
@@ -2751,7 +2215,7 @@ const Index = () => {
                                   className="package-size-paragraph"
                                   data-testid="product-package-size"
                                 >
-                                  {item.weight == ""
+                                  {item.prices.size == ""
                                     ? "$" +
                                       (item.prices.unitPriceValue * 10).toFixed(
                                         2
@@ -2759,7 +2223,7 @@ const Index = () => {
                                       " / 1" +
                                       " " +
                                       "kg"
-                                    : item.weight}
+                                    : item.prices.size}
                                 </p>
                               )}
                             </div>
@@ -2773,7 +2237,6 @@ const Index = () => {
                               style={{
                                 outline: "0",
                                 cursor: "pointer",
-                                height: "38px",
                                 padding: "5px 16px",
                                 fontSize: "14px",
                                 fontWeight: "500",
@@ -2788,8 +2251,8 @@ const Index = () => {
                               }}
                             >
                               {addedToCart[index]
-                                ? "Added to List"
-                                : "Add to List"}
+                                ? "Added to cart"
+                                : "Add to Cart"}
                             </button>
                           )}
                         </div>
@@ -2825,7 +2288,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Fruits & Vegetables" && (
+                      item.aisle === "Fruits & Vegetables" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -2873,15 +2336,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -2906,7 +2369,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -2916,7 +2379,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -2924,7 +2387,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -2938,7 +2401,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -2954,8 +2416,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -2984,7 +2446,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Snacks, Chips & Candy" && (
+                      item.aisle === "Snacks, Chips & Candy" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3032,15 +2494,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -3065,7 +2527,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -3075,7 +2537,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -3083,7 +2545,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -3097,7 +2559,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -3113,8 +2574,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -3143,7 +2604,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Dairy & Eggs" && (
+                      item.aisle === "Dairy & Eggs" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3191,15 +2652,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -3224,7 +2685,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -3234,7 +2695,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -3242,7 +2703,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -3256,7 +2717,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -3272,8 +2732,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -3302,7 +2762,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Drinks" && (
+                      item.aisle === "Drinks" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3350,15 +2810,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -3383,7 +2843,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -3393,7 +2853,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -3401,7 +2861,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -3415,7 +2875,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -3431,8 +2890,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -3461,7 +2920,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Bakery" && (
+                      item.aisle === "Bakery" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3509,8 +2968,8 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}{" "}
-                                    <s>({transformString(item.wasprice)})</s>
+                                    ${item.prices.price}{" "}
+                                    <s>({item.prices.wasPrice})</s>
                                   </p>
                                 )}
                               </div>
@@ -3533,7 +2992,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -3543,7 +3002,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -3551,7 +3010,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -3565,7 +3024,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -3581,8 +3039,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -3612,7 +3070,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Deli" && (
+                      item.aisle === "Deli" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3660,15 +3118,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -3693,7 +3151,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -3703,7 +3161,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -3711,7 +3169,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -3725,7 +3183,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -3741,8 +3198,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -3772,7 +3229,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Meat" && (
+                      item.aisle === "Meat" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3820,15 +3277,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -3853,7 +3310,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -3863,7 +3320,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -3871,7 +3328,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -3885,7 +3342,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -3901,8 +3357,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -3933,7 +3389,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Fish & Seafood" && (
+                      item.aisle === "Fish & Seafood" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -3981,15 +3437,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -4014,7 +3470,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -4024,7 +3480,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -4032,7 +3488,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -4046,7 +3502,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -4062,8 +3517,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -4094,7 +3549,7 @@ const Index = () => {
                 {responseData &&
                   responseData.map(
                     (item, index) =>
-                      item.category === "Frozen" && (
+                      item.aisle === "Frozen" && (
                         <li
                           key={index}
                           tabIndex="-1"
@@ -4142,15 +3597,15 @@ const Index = () => {
                                     className={`${noir.className} price-paragraph`}
                                     data-testid="price"
                                   >
-                                    ${transformString(item.saleprice)}
-                                    {transformString(item.wasprice) && (
+                                    ${item.prices.price}
+                                    {item.prices.wasPrice && (
                                       <s
                                         style={{
                                           marginRight: "10px",
                                           marginBottom: "5px",
                                         }}
                                       >
-                                        ({transformString(item.wasprice)})
+                                        ({item.prices.wasPrice})
                                       </s>
                                     )}
                                   </p>
@@ -4175,7 +3630,7 @@ const Index = () => {
                                     className={`${noir.className} product-title-heading`}
                                     data-testid="product-title"
                                   >
-                                    {item.title}
+                                    {item.name}
                                   </h3>
                                 )}
                                 {loading ? (
@@ -4185,7 +3640,7 @@ const Index = () => {
                                     className="package-size-paragraph"
                                     data-testid="product-package-size"
                                   >
-                                    {item.weight == ""
+                                    {item.prices.size == ""
                                       ? "$" +
                                         (
                                           item.prices.unitPriceValue * 10
@@ -4193,7 +3648,7 @@ const Index = () => {
                                         " / 1" +
                                         " " +
                                         "kg"
-                                      : item.weight}
+                                      : item.prices.size}
                                   </p>
                                 )}
                               </div>
@@ -4207,7 +3662,6 @@ const Index = () => {
                                 style={{
                                   outline: "0",
                                   cursor: "pointer",
-                                  height: "38px",
                                   padding: "5px 16px",
                                   fontSize: "14px",
                                   fontWeight: "500",
@@ -4223,8 +3677,8 @@ const Index = () => {
                                 }}
                               >
                                 {addedToCart[index]
-                                  ? "Added to List"
-                                  : "Add to List"}
+                                  ? "Added to cart"
+                                  : "Add to Cart"}
                               </button>
                             )}
                           </div>
@@ -4248,7 +3702,7 @@ const Index = () => {
             {responseData &&
               responseData.map(
                 (item, index) =>
-                  item.category === null && (
+                  item.aisle === undefined && (
                     <li key={index} tabIndex="-1" className="product-list-item">
                       <div className="product-container">
                         <div className="product-info-container">
@@ -4292,15 +3746,15 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
+                                ${item.prices.price}
+                                {item.prices.wasPrice && (
                                   <s
                                     style={{
                                       marginRight: "10px",
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    ({transformString(item.wasprice)})
+                                    ({item.prices.wasPrice})
                                   </s>
                                 )}
                               </p>
@@ -4325,7 +3779,7 @@ const Index = () => {
                                 className={`${noir.className} product-title-heading`}
                                 data-testid="product-title"
                               >
-                                {item.title}
+                                {item.name}
                               </h3>
                             )}
                             {loading ? (
@@ -4335,7 +3789,15 @@ const Index = () => {
                                 className="package-size-paragraph"
                                 data-testid="product-package-size"
                               >
-                                {item.weight}
+                                {item.prices.size == ""
+                                  ? "$" +
+                                    (item.prices.unitPriceValue * 10).toFixed(
+                                      2
+                                    ) +
+                                    " / 1" +
+                                    " " +
+                                    "kg"
+                                  : item.prices.size}
                               </p>
                             )}
                           </div>
@@ -4349,7 +3811,6 @@ const Index = () => {
                             style={{
                               outline: "0",
                               cursor: "pointer",
-                              height: "38px",
                               padding: "5px 16px",
                               fontSize: "14px",
                               fontWeight: "500",
@@ -4364,8 +3825,8 @@ const Index = () => {
                             }}
                           >
                             {addedToCart[index]
-                              ? "Added to List"
-                              : "Add to List"}
+                              ? "Added to cart"
+                              : "Add to Cart"}
                           </button>
                         )}
                       </div>
@@ -4386,7 +3847,7 @@ const Index = () => {
             {responseData &&
               responseData.map(
                 (item, index) =>
-                  item.category === "Fruits & Vegetables" && (
+                  item.aisle === "Fruits & Vegetables" && (
                     <li key={index} tabIndex="-1" className="product-list-item">
                       <div className="product-container">
                         <div className="product-info-container">
@@ -4430,15 +3891,15 @@ const Index = () => {
                                 className={`${noir.className} price-paragraph`}
                                 data-testid="price"
                               >
-                                ${transformString(item.saleprice)}
-                                {transformString(item.wasprice) && (
+                                ${item.prices.price}
+                                {item.prices.wasPrice && (
                                   <s
                                     style={{
                                       marginRight: "10px",
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    ({transformString(item.wasprice)})
+                                    ({item.prices.wasPrice})
                                   </s>
                                 )}
                               </p>
@@ -4463,7 +3924,7 @@ const Index = () => {
                                 className={`${noir.className} product-title-heading`}
                                 data-testid="product-title"
                               >
-                                {item.title}
+                                {item.name}
                               </h3>
                             )}
                             {loading ? (
@@ -4473,7 +3934,15 @@ const Index = () => {
                                 className="package-size-paragraph"
                                 data-testid="product-package-size"
                               >
-                                {item.weight}
+                                {item.prices.size == ""
+                                  ? "$" +
+                                    (item.prices.unitPriceValue * 10).toFixed(
+                                      2
+                                    ) +
+                                    " / 1" +
+                                    " " +
+                                    "kg"
+                                  : item.prices.size}
                               </p>
                             )}
                           </div>
@@ -4487,7 +3956,6 @@ const Index = () => {
                             style={{
                               outline: "0",
                               cursor: "pointer",
-                              height: "38px",
                               padding: "5px 16px",
                               fontSize: "14px",
                               fontWeight: "500",
@@ -4502,8 +3970,8 @@ const Index = () => {
                             }}
                           >
                             {addedToCart[index]
-                              ? "Added to List"
-                              : "Add to List"}
+                              ? "Added to cart"
+                              : "Add to Cart"}
                           </button>
                         )}
                       </div>
