@@ -1,31 +1,62 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import localFont from "next/font/local";
-import styles from "./sale.module.css";
-import "./item.css";
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import localFont from "next/font/local";
+// import styles from "./sale.module.css";
+// import "./item.css";
+// import Spiner from "../spiner";
+// import HistoriesLoader from "../loaders";
+// import Skeleton from "react-loading-skeleton";
+// import "react-loading-skeleton/dist/skeleton.css";
+// import "../products/products.css";
+// import About from "../about";
+// import Funfact from "../facts/facts.jsx";
+// import Zoom from "react-medium-image-zoom";
+// import "react-medium-image-zoom/dist/styles.css";
+// import spiner from "../../app/images/sp.gif";
+// import Loading from "../loaders";
+// import added from "../../app/images/added.svg";
+//  import error from "../../app/images/error.gif";
+// import Image from "next/image.js";
+// import { useRef } from "react";
+// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+// import "react-tabs/style/react-tabs.css";
+//  import Tour from "../tour/tour_sale.jsx";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import { Albert_Sans } from "next/font/google/index.js";
+
+import React, { useState, useEffect, useRef } from "react";  // Combine React imports for better readability.
+import axios from "axios";  // Correct for data fetching.
+import localFont from "next/font/local";  // Local font import for custom fonts.
+import Image from "next/image";  // Correct path for Next.js Image component, no `.js` needed.
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";  // React Tabs import.
+import { ToastContainer, toast } from "react-toastify";  // Toastify for notifications.
+
+// CSS and Font Styles
+import styles from "./sale.module.css";  // Component-specific CSS module.
+import "./item.css";  // Additional CSS, ideally scoped to the component.
+import "../products/products.css";  // Product-related CSS for the parent directory.
+import "react-loading-skeleton/dist/skeleton.css";  // Skeleton loading animation styles.
+import "react-medium-image-zoom/dist/styles.css";  // Zoom styles for images.
+import "react-tabs/style/react-tabs.css";  // Tabs component styling.
+import "react-toastify/dist/ReactToastify.css";  // Toastify notifications styling.
+
+// Images
+import spiner from "../../app/images/sp.gif";
+import added from "../../app/images/added.svg";
+import error from "../../app/images/error.gif";
+
+// Components
 import Spiner from "../spiner";
 import HistoriesLoader from "../loaders";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import "../products/products.css";
+import Skeleton from "react-loading-skeleton";  // For loading skeleton animations.
 import About from "../about";
 import Funfact from "../facts/facts.jsx";
 import Zoom from "react-medium-image-zoom";
-import "react-medium-image-zoom/dist/styles.css";
-import spiner from "../../app/images/sp.gif";
 import Loading from "../loaders";
-import added from "../../app/images/added.svg";
-// import error from "../../app/images/error.gif";
-import Image from "next/image.js";
-import { useRef } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-// import Tour from "../tour/tour_sale.jsx";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Albert_Sans } from "next/font/google/index.js";
+import Tour from "../tour/tour_sale.jsx";
 
 //import { useContext } from "react";
 //import { AppContext } from '../../app/context'
