@@ -134,11 +134,10 @@ const Cart = () => {
       // getNames(sale, theme, name);
     };
 
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorage);
+    }
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   React.useEffect(() => {
@@ -161,11 +160,10 @@ const Cart = () => {
     } catch (error) {
       console.error();
     }
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorage);
+    }
+    return () => window.removeEventListener('storage', handleStorage);
   };
 
   //   useEffect(()=>{
@@ -280,6 +278,10 @@ const Cart = () => {
 
   useEffect(() => {
     setQuantity(titleLength);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorage);
+    }
+    return () => window.removeEventListener('storage', handleStorage);
   }, [titleLength]); // Срабатывает при изменении response
 
   const increaseQuantity = (itemId) => {
@@ -375,10 +377,18 @@ const Cart = () => {
 
     // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorage);
+    }
+    return () => window.removeEventListener('storage', handleStorage);
   };
 
   useEffect(() => {
     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorage);
+    }
+    return () => window.removeEventListener('storage', handleStorage);
 }, []);
 
   const handleAddToCart = async (product) => {
