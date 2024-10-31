@@ -17,6 +17,7 @@ import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
+import Robot from "../robot/index";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
@@ -120,15 +121,6 @@ const Products = ({ cartData }) => {
   const [isMobile, setIsMobile] = useState(false);
 
 
-  if (typeof localStorage !== 'undefined') {
-    localStorage.setItem('key', 'value');
-  } else if (typeof sessionStorage !== 'undefined') {
-    // Fallback to sessionStorage if localStorage is not supported
-    sessionStorage.setItem('key', 'value');
-  } else {
-    // If neither localStorage nor sessionStorage is supported
-    console.log('Web Storage is not supported in this environment PRODUCTS.');
-  }
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -215,8 +207,8 @@ const Products = ({ cartData }) => {
       // setNumber(store1.length)
       //setResponseData(responseData);
     });
-    console.log("STORE1", selectedStoresID);
-    console.log("NUMBER", number);
+    // console.log("STORE1", selectedStoresID);
+    // console.log("NUMBER", number);
   }, [selectedLocation, selectedStore, selectedAll]);
 
   React.useEffect(() => {
@@ -407,8 +399,12 @@ const Products = ({ cartData }) => {
   //   };
 
   const handleButtonClick = async () => {
-    setLoading(true);
-    const selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
+    let selectedStoresID
+    window.addEventListener("storage",()=>{
+      setLoading(true);
+      selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
+    })
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/updateLocation",
