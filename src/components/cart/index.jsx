@@ -94,7 +94,7 @@ const Cart = () => {
         setSale(sale);
         setSpecial(special);
         setName(name);
-        getNames(sale, theme, name);
+        //getNames(sale, theme, name);
       };
     window.addEventListener("storage", handleStorageChange);
     return () => {
