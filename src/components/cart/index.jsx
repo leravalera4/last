@@ -178,9 +178,9 @@ const Cart = () => {
     );
   }
 
-  useEffect(() => {
-    setQuantity(titleLength);
-  }, [titleLength]); // Срабатывает при изменении response
+  // useEffect(() => {
+  //   setQuantity(titleLength);
+  // }, [titleLength]); // Срабатывает при изменении response
 
   const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
@@ -218,10 +218,10 @@ const Cart = () => {
     cart.push(itemId);
 
     // // Сохраняем обновленную корзину в localStorage
-    // localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(cart));
 
     // // Обновление состояния в других вкладках
-    // window.dispatchEvent(new Event("storage"));
+     window.dispatchEvent(new Event("storage"));
   };
 
   const decreaseQuantity = (itemId) => {
@@ -260,11 +260,11 @@ const Cart = () => {
       cart.splice(itemIndex, 1);
     }
 
-    // // Сохраняем обновленную корзину в localStorage
-    // localStorage.setItem("cart", JSON.stringify(cart));
+    // Сохраняем обновленную корзину в localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-    // // Обновление состояния в других вкладках
-    // window.dispatchEvent(new Event("storage"));
+    // Обновление состояния в других вкладках
+    window.dispatchEvent(new Event("storage"));
   };
 
   useEffect(() => {
