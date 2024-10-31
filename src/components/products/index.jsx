@@ -728,7 +728,7 @@ const Products = ({ cartData }) => {
   // };  //ласт
 
   const handleAddToCart = async (product, index) => {
-    window.addEventListener("storage",()=>{
+
       const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
       console.log("Array of stores", arrayOfStores);
   
@@ -812,8 +812,15 @@ const Products = ({ cartData }) => {
       } catch (error) {
         console.error("Error adding to cart:", error);
       }
-    })
-  };
+
+      window.addEventListener("storage", handleAddToCart);
+
+      // Cleanup function
+      return () => {
+        window.removeEventListener("storage", handleAddToCart);
+      };
+  
+    };
 
   console.log("selectedAll", selectedAll);
   console.log(selectedStoresID);
