@@ -619,7 +619,7 @@ const Products = ({ cartData }) => {
   // };
   
   const inc = (index) => {
-    responseData[index].quantity += 1;
+    responseData[index].count += 1;
     responseData[index].cart = true;
   };
 
