@@ -69,14 +69,16 @@ const Cart = () => {
   
   useEffect(() => {
     window.addEventListener("storage", ()=>{
+      const handleStorage = () => {
         const stores = localStorage.getItem("stores");
         const storesArray = JSON.parse(stores);
         console.log(storesArray);
+      };
     })
-    // if (typeof window !== 'undefined') {
-    //   window.addEventListener('storage', handleStorage);
-    // }
-    // return () => window.removeEventListener('storage', handleStorage);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorage);
+    }
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   React.useEffect(() => {
