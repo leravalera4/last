@@ -88,36 +88,36 @@
 
 // export default Header;
 
-"use client"
-import React from "react";
-import localFont from "next/font/local";
-import header from "../../app/images/header.svg";
-import Image from "next/image";
-import Cart from "../cart";
-import Navigation from "../navigation";
-import Link from "next/link";
-import './styles.css'
-import Headroom from 'react-headroom';
-import { FaBars } from 'react-icons/fa'; // Установка иконки через react-icons
-const noir = localFont({
-  src: [
-    {
-      path: "../../app/fonts/NoirPro-Light.ttf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../app/fonts/NoirPro-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../app/fonts/NoirPro-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-});
+// "use client"
+// import React from "react";
+// import localFont from "next/font/local";
+// import header from "../../app/images/header.svg";
+// import Image from "next/image";
+// import Cart from "../cart";
+// import Navigation from "../navigation";
+// import Link from "next/link";
+// import './styles.css'
+// import Headroom from 'react-headroom';
+// import { FaBars } from 'react-icons/fa'; // Установка иконки через react-icons
+// const noir = localFont({
+//   src: [
+//     {
+//       path: "../../app/fonts/NoirPro-Light.ttf",
+//       weight: "200",
+//       style: "normal",
+//     },
+//     {
+//       path: "../../app/fonts/NoirPro-Regular.ttf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//     {
+//       path: "../../app/fonts/NoirPro-Bold.ttf",
+//       weight: "700",
+//       style: "normal",
+//     },
+//   ],
+// });
 
 "use client"
 import React from "react";
@@ -129,7 +129,6 @@ import Navigation from "../navigation";
 import Link from "next/link";
 import './styles.css'
 import Headroom from 'react-headroom';
-import { FaBars } from 'react-icons/fa'; // Установка иконки через react-icons
 const noir = localFont({
   src: [
     {
