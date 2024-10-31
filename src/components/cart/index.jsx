@@ -74,10 +74,6 @@ const Cart = () => {
         const storesArray = JSON.parse(stores);
       };
     })
-    // if (typeof window !== 'undefined') {
-    //   window.addEventListener('storage', handleStorage);
-    // }
-    // return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   React.useEffect(() => {
@@ -94,7 +90,6 @@ const Cart = () => {
         setSale(sale);
         setSpecial(special);
         setName(name);
-        //getNames(sale, theme, name);
       };
     window.addEventListener("storage", handleStorageChange);
     return () => {
