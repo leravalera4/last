@@ -182,74 +182,101 @@ const Cart = () => {
     setQuantity(titleLength);
   }, [titleLength]); // Срабатывает при изменении response
 
-const increaseQuantity = (itemId) => {
-  const updatedResponse = response.map((store) => {
-    const updatedItems = store.items.map((item) => {
-      if (item.productID === itemId) {
-        const newQuantity = item.quantity + 1;
-        const newPrice = parseFloat(
-          (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
-        );
-        return { ...item, quantity: newQuantity, prices: newPrice };
-      }
-      return item;
+  const increaseQuantity = (itemId) => {
+    const updatedResponse = response.map((store) => {
+      const updatedItems = store.items.map((item) => {
+        if (item.productID === itemId) {
+          const name = item.title;
+          console.log("NAME", name);
+          let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
+          title.push(name);
+          console.log("LERA NAME", name);
+          console.log("LERA TITLE", title);
+          localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
+          const newQuantity = item.quantity + 1;
+          const newPrice = parseFloat(
+            (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
+          );
+          return { ...item, quantity: newQuantity, prices: newPrice };
+        }
+        return item;
+      });
+
+      // Пересчитываем totalPrices после обновления items
+      const totalPrices = updatedItems.reduce(
+        (sum, item) => sum + item.prices,
+        0
+      );
+
+      return {
+        ...store,
+        items: updatedItems,
+        totalPrices,
+      };
     });
 
-    const totalPrices = updatedItems.reduce(
-      (sum, item) => sum + item.prices,
-      0
-    );
+    setResponseData(updatedResponse);
+    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
+    console.log("UPD", updatedResponse);
 
-    return {
-      ...store,
-      items: updatedItems,
-      totalPrices,
-    };
-  });
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  setResponseData(updatedResponse);
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push(itemId);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  
-  // Не отправляем событие, если это не требуется
-};
+    // Добавляем ID продукта в корзину
+    cart.push(itemId);
 
-const decreaseQuantity = (itemId) => {
-  const updatedResponse = response.map((store) => {
-    const updatedItems = store.items.map((item) => {
-      if (item.productID === itemId) {
-        const newQuantity = Math.max(item.quantity - 1, 1);
-        const newPrice = parseFloat(
-          (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
-        );
-        return { ...item, quantity: newQuantity, prices: newPrice };
-      }
-      return item;
+    // Сохраняем обновленную корзину в localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Обновление состояния в других вкладках
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const decreaseQuantity = (itemId) => {
+    const updatedResponse = response.map((store) => {
+      const updatedItems = store.items.map((item) => {
+        if (item.productID === itemId) {
+          // Уменьшаем количество, но проверяем, чтобы оно не стало меньше 1
+          const newQuantity = Math.max(item.quantity - 1, 1);
+          const newPrice = parseFloat(
+            (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
+          );
+          return { ...item, quantity: newQuantity, prices: newPrice };
+        }
+        return item;
+      });
+
+      // Пересчитываем totalPrices после обновления items
+      const totalPrices = updatedItems.reduce(
+        (sum, item) => sum + item.prices,
+        0
+      );
+
+      return {
+        ...store,
+        items: updatedItems,
+        totalPrices,
+      };
     });
 
-    const totalPrices = updatedItems.reduce(
-      (sum, item) => sum + item.prices,
-      0
-    );
+    setResponseData(updatedResponse);
+    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
+    console.log("UPD", updatedResponse);
 
-    return {
-      ...store,
-      items: updatedItems,
-      totalPrices,
-    };
-  });
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  setResponseData(updatedResponse);
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const itemIndex = cart.indexOf(itemId);
-  if (itemIndex !== -1) {
-    cart.splice(itemIndex, 1);
-  }
-  localStorage.setItem("cart", JSON.stringify(cart));
-  
-  // Не отправляем событие, если это не требуется
-};
+    // Находим индекс элемента в корзине и удаляем, если его количество стало 0
+    const itemIndex = cart.indexOf(itemId);
+    if (itemIndex !== -1) {
+      cart.splice(itemIndex, 1);
+    }
+
+    // Сохраняем обновленную корзину в localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Обновление состояния в других вкладках
+    window.dispatchEvent(new Event("storage"));
+  };
+
 
 
   useEffect(() => {
