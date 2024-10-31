@@ -4,13 +4,7 @@ import React from "react";
 import localFont from "next/font/local";
 import chart from "../../app/images/chart.svg";
 import Image from "next/image";
-import savings from "../../app/images/savings.svg";
-import grocery from "../../app/images/grocery.svg";
-import coins from "../../app/images/coins.svg";
 import sale from "../../app/images/sale.svg";
-import compare from "../../app/images/compare.svg";
-import store from "../../app/images/store.svg";
-import online from "../../app/images/online.svg";
 import cart from "../../app/images/cart.svg";
 
 const noir = localFont({
