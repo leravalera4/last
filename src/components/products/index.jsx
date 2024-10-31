@@ -120,17 +120,6 @@ const Products = ({ cartData }) => {
   const [isMobile, setIsMobile] = useState(false);
 
 
-  if (typeof localStorage !== 'undefined') {
-    localStorage.setItem('key', 'value');
-  } else if (typeof sessionStorage !== 'undefined') {
-    // Fallback to sessionStorage if localStorage is not supported
-    sessionStorage.setItem('key', 'value');
-  } else {
-    // If neither localStorage nor sessionStorage is supported
-    console.log('Web Storage is not supported in this environment STORE.');
-  }
-
-
   useEffect(() => {
     const handleBeforeUnload = () => {
       localStorage.clear();
@@ -198,7 +187,6 @@ const Products = ({ cartData }) => {
   // }, []);
 
   React.useEffect(() => {
-    window.addEventListener("storage", () => {
       const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
       const selectedLocation = JSON.parse(
         localStorage.getItem("selectedLocation")
@@ -213,13 +201,12 @@ const Products = ({ cartData }) => {
       setSelectedStoresID(store1);
       // setNumber(store1.length)
       //setResponseData(responseData);
-    });
+
     // console.log("STORE1", selectedStoresID);
     // console.log("NUMBER", number);
   }, [selectedLocation, selectedStore, selectedAll]);
 
   React.useEffect(() => {
-    window.addEventListener("storage", () => {
       const mu = localStorage.getItem("storeSale");
       if (mu) {
         setSelectedAll(JSON.parse(mu));
@@ -227,7 +214,6 @@ const Products = ({ cartData }) => {
         console.log("stores_1234 is not found in localStorage.");
         setMur(null); // или другое значение по умолчанию
       }
-    })
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
   // React.useEffect(() => {
@@ -262,14 +248,11 @@ const Products = ({ cartData }) => {
   }, []); // получаем список магазинов
 
   const handleStoreChange = async (selectedStore) => {
-     window.addEventListener("storage",()=>{
       setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
       localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
       console.log(selectedStore);
       const store = JSON.parse(localStorage.getItem("selectedStore"));
       console.log(store);
-     })
-
       try {
         const response = await axios.get(
           `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
@@ -373,12 +356,8 @@ const Products = ({ cartData }) => {
 // };
 
   const handleButtonClick = async () => {
-    let selectedStoresID
-    window.addEventListener("storage",()=>{
       setLoading(true);
-      selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
-    })
-
+      const selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
         "https://server-blue-ten.vercel.app/api/updateLocation",
@@ -517,7 +496,6 @@ const Products = ({ cartData }) => {
 
 
   const handleAddStore = () => {
-    window.addEventListener("storage",()=>{
       setLoading(true);
       const existingStores = JSON.parse(localStorage.getItem("stores1"));
       if (!selectedStores.includes(selectedLocation)) {
@@ -577,7 +555,6 @@ const Products = ({ cartData }) => {
         //   localStorage.setItem("stores1", JSON.stringify(existingStores));
         // }
       }
-    })
   };
   //(moi)
 
@@ -641,7 +618,6 @@ const Products = ({ cartData }) => {
   //   }
   // };
   
-
   const inc = (index) => {
     responseData[index].count += 1;
     responseData[index].cart = true;
@@ -1143,7 +1119,6 @@ const Products = ({ cartData }) => {
   console.log("SELECTEDSEL", selectedSel);
 
   const removeStore = (storeId) => {
-    window.addEventListener("storage",()=>{
       const data = JSON.parse(localStorage.getItem("stores1"));
       console.log(data);
       // const updatedData = JSON.parse(localStorage.getItem("sel"));
@@ -1189,7 +1164,7 @@ const Products = ({ cartData }) => {
       setSelectedStoresID(da);
       setSelectedStores(selectedAll);
       handleButtonClick();
-    })
+
   };
   //(moi)
 
