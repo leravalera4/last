@@ -272,7 +272,7 @@ const Products = ({ cartData }) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/stores/${selectedStore}`
+          `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
         );
   
         if (response.status === 200) {
@@ -381,7 +381,7 @@ const Products = ({ cartData }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/updateLocation",
+        "https://server-blue-ten.vercel.app/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
@@ -1237,7 +1237,7 @@ const Products = ({ cartData }) => {
     });
   }, [selectedLocation, selectedStore, selectedAll]);
   //(moi)
-  
+
   // React.useEffect(() => {
   //   if (typeof window !== 'undefined') {
   //     const handleStorageEvent = () => {
