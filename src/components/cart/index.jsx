@@ -72,7 +72,6 @@ const Cart = () => {
       const handleStorage = () => {
         const stores = localStorage.getItem("stores");
         const storesArray = JSON.parse(stores);
-        console.log(storesArray);
       };
     })
     // if (typeof window !== 'undefined') {
@@ -82,9 +81,7 @@ const Cart = () => {
   }, []);
 
   React.useEffect(() => {
-   
       const handleStorageChange = () => {
-        console.log("Storage event triggered");
         const theme = JSON.parse(localStorage.getItem("stores_1234"));
         const sale = JSON.parse(localStorage.getItem("cart"));
         const name = JSON.parse(localStorage.getItem("storesName"));
@@ -92,29 +89,14 @@ const Cart = () => {
         const filteredStores = name.filter((store) =>
           theme.includes(store.id.toString())
         );
-  
-        console.log("STORES FOR SALE:", filteredStores);
-        localStorage.setItem("storeSale", JSON.stringify(filteredStores));
-        console.log("Theme:", theme);
-        console.log("Sale:", sale);
-        console.log("StoresName:", name);
-        console.log("Special:", special);
-  
-        if (name === null) {
-          console.log("StoresName is null or not set.");
-        }
-  
+        localStorage.setItem("storeSale", JSON.stringify(filteredStores));  
         setTheme(theme);
         setSale(sale);
         setSpecial(special);
         setName(name);
         getNames(sale, theme, name);
       };
-  
-
-
     window.addEventListener("storage", handleStorageChange);
-
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
@@ -128,7 +110,6 @@ const Cart = () => {
   }, [data, len]);
 
   const getNames = async (sale, theme, name) => {
-    console.log("Sending to backend:", { sale, theme, name });
     try {
       const response = await axios.post(
         "https://server-blue-ten.vercel.app/api/sale/name",
@@ -136,7 +117,6 @@ const Cart = () => {
       );
       const responses = response.data;
       setResponseData(responses);
-      console.log("NAMES", responses);
     } catch (error) {
       console.error();
     }
@@ -144,14 +124,11 @@ const Cart = () => {
 
   const removeStore = (storeId) => {
     const updatedData = response.filter((store) => store.id != storeId);
-    // Update the data array with the filtered data
     setResponseData(updatedData);
     const get = JSON.parse(localStorage.getItem("stores_1234"));
     const st = JSON.parse(localStorage.getItem("storesLength"));
     const change = st - 1;
-    console.log(get);
     const da = get.filter((store) => store != storeId);
-    console.log("DAS", da);
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("storesLength", JSON.stringify(change));
     window.dispatchEvent(new Event("storage"));
@@ -164,8 +141,6 @@ const Cart = () => {
     storesName = JSON.parse(localStorage.getItem("storesName"));
   }
 
-  console.log("TITLE", title);
-
   const mergedData = data.map((item) => {
     const match = storesName.find((store) => store.id == item.id);
     if (match) {
@@ -173,9 +148,6 @@ const Cart = () => {
     }
     return item;
   });
-
-  console.log("Merged Data", mergedData);
-
   let length = 0;
   if (
     mergedData &&
@@ -215,11 +187,8 @@ const Cart = () => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
           const name = item.title;
-          console.log("NAME", name);
           let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
           title.push(name);
-          console.log("LERA NAME", name);
-          console.log("LERA TITLE", title);
           localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
           const newQuantity = item.quantity + 1;
           const newPrice = parseFloat(
@@ -304,7 +273,6 @@ const Cart = () => {
 
   const handleAddToCart = async (product) => {
     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log("EXISTING", existingItems);
     existingItems.push(product);
     localStorage.setItem("cart", JSON.stringify(existingItems));
     getNames(sale, theme, name);
@@ -313,28 +281,21 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    // Функция для проверки ширины экрана
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
-    // Проверка при первой загрузке
     handleResize();
-
-    // Добавляем обработчик события для изменения размера окна
     window.addEventListener("resize", handleResize);
-
-    // Очищаем обработчик при размонтировании компонента
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "row",
-        // marginLeft: "133px",
         paddingRight: "10%",
       }}
     >
