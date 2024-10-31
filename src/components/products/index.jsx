@@ -17,6 +17,7 @@ import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
+import Robot from "../robot/index";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
@@ -119,6 +120,16 @@ const Products = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
+
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem("key", "value");
+  } else if (typeof sessionStorage !== "undefined") {
+    // Fallback to sessionStorage if localStorage is not supported
+    sessionStorage.setItem("key", "value");
+  } else {
+    // If neither localStorage nor sessionStorage is supported
+    console.log("Web Storage is not supported in this environment PRODUCTS.");
+  }
 
 
   useEffect(() => {
