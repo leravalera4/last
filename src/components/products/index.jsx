@@ -251,13 +251,6 @@ const handleAddStore = () => {
     }
   };
 
-useEffect(() => {
-  if (selectedAll) {
-    const selectedAllLength = selectedAll.length;
-    localStorage.setItem("storesLength", selectedAllLength);
-    console.log("LENGTH LERA", selectedAllLength);
-  }
-}, [selectedAll]); // Dependency array includes selectedAll
 
   const inc = (index) => {
     responseData[index].count += 1;
@@ -337,6 +330,12 @@ useEffect(() => {
       handleButtonClick();
     }
   };
+
+  const selectedAllLength = selectedAll.length;
+  if (typeof window !== 'undefined') {
+  localStorage.setItem("storesLength", selectedAllLength);
+  console.log("LENGTH LERA", selectedAllLength);
+  }
 
   return (
     <div>
