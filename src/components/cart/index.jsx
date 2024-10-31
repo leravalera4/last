@@ -141,7 +141,7 @@ const Cart = () => {
         setSale(sale);
         setSpecial(special);
         setName(name);
-        sendDataToBackend(theme, sale);
+        //sendDataToBackend(theme, sale);
         getNames(sale, theme, name);
       };
   
