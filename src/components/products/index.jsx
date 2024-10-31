@@ -17,7 +17,6 @@ import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
-import Robot from "../robot/index";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
