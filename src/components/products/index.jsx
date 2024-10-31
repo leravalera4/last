@@ -17,6 +17,7 @@ import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
+import Robot from "../robot/index";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
@@ -231,12 +232,12 @@ const Products = ({ cartData }) => {
     })
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
-  React.useEffect(() => {
-    console.log("MUR updated:", mur);
-  }, [mur]); // Логирование при изменении `mur`
+  // React.useEffect(() => {
+  //   console.log("MUR updated:", mur);
+  // }, [mur]); // Логирование при изменении `mur`
 
-  console.log("mimimi", selectedAll);
-  console.log("MUR", mur);
+  // console.log("mimimi", selectedAll);
+  // console.log("MUR", mur);
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -263,11 +264,14 @@ const Products = ({ cartData }) => {
   }, []); // получаем список магазинов
 
   const handleStoreChange = async (selectedStore) => {
+     window.addEventListener("storage",()=>{
       setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
       localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
       console.log(selectedStore);
       const store = JSON.parse(localStorage.getItem("selectedStore"));
       console.log(store);
+     })
+
       try {
         const response = await axios.get(
           `http://localhost:8080/api/stores/${selectedStore}`
