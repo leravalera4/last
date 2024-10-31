@@ -17,7 +17,6 @@ import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
-// import Robot from "../robot/index";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
@@ -424,10 +423,10 @@ const Products = ({ cartData }) => {
       // Обновление localStorage
       localStorage.setItem("stores", JSON.stringify(selectedStoresID));
 
-      // Обработка stores
-      //const storage1234 = localStorage.getItem("stores_1234");
-      const storage1 = localStorage.getItem("stores1");
-
+      let storage1;
+      window.addEventListener("storage",()=>{
+        storage1 = localStorage.getItem("stores1");
+      })
       // let storesSet = new Set();
       let storesSet1 = new Set();
 
