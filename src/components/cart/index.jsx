@@ -212,7 +212,7 @@ const Cart = () => {
       };
     });
 
- //   setResponseData(updatedResponse);
+    setResponseData(updatedResponse);
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.push(itemId);
@@ -251,7 +251,7 @@ const Cart = () => {
       };
     });
 
- //   setResponseData(updatedResponse);
+    setResponseData(updatedResponse);
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     // Находим индекс элемента в корзине и удаляем, если его количество стало 0
