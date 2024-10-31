@@ -85,34 +85,7 @@ const Cart = () => {
         console.log(storesArray);
       };
     })
-    // if (typeof window !== 'undefined') {
-    //   window.addEventListener('storage', handleStorage);
-    // }
-    // return () => window.removeEventListener('storage', handleStorage);
   }, []);
-
-
-
-  // React.useEffect(() => {
-  //   window.addEventListener("storage", () => {
-  //     const theme = JSON.parse(localStorage.getItem("stores_1234"));
-  //     const sale = JSON.parse(localStorage.getItem("cart"));
-  //     const name = JSON.parse(localStorage.getItem("storesName"));
-
-  //     const special = JSON.parse(localStorage.getItem("special"));
-  //     console.log(theme);
-  //     console.log(sale);
-  //     console.log("STORESNAME",name);
-  //     console.log(special);
-  //     setTheme(theme);
-  //     setSale(sale);
-  //     setSpecial(special);
-  //     setName(name);
-  //     sendDataToBackend(theme, sale, name);
-  //   });
-  // }, []);
-
-
 
   React.useEffect(() => {
    
@@ -141,7 +114,6 @@ const Cart = () => {
         setSale(sale);
         setSpecial(special);
         setName(name);
-        //sendDataToBackend(theme, sale);
         getNames(sale, theme, name);
       };
   
@@ -181,18 +153,7 @@ const Cart = () => {
     };
   };
 
-  //   useEffect(()=>{
-  //     setQuantity(quantity)
-  //   },
-  //   [quantity])
-
-  console.log("DA", data);
-  console.log("response", response);
-
   const removeStore = (storeId) => {
-    // Filter out the store with the given ID from the data array
-    //const updatedData = data.filter((store) => store.id != storeId);
-
     const updatedData = response.filter((store) => store.id != storeId);
     // Update the data array with the filtered data
     setResponseData(updatedData);
@@ -205,34 +166,7 @@ const Cart = () => {
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("storesLength", JSON.stringify(change));
     window.dispatchEvent(new Event("storage"));
-    // window.addEventListener("storage", handleStorageChange);
-    // const updatedData3 = JSON.parse(localStorage.getItem("storesName"));
-    // const updatedData4 = updatedData3.filter((store) => store.id != storeId);
-    // localStorage.setItem("storesName", JSON.stringify(updatedData4));
-
-    // if (updatedData.length < 1) {
-    //   localStorage.removeItem("cart");
-    //   localStorage.removeItem("names");
-    // }
-
-    // getNames(sale, theme, name);
   };
-
-  // const removeStore = (storeId) => {
-  //     console.log("Trying to remove store with ID:", storeId);
-  //     const updatedResponse = response.filter((store) => store.id !== storeId);
-  //     console.log("Updated response:", updatedResponse);
-
-  //     setResponseData(updatedResponse);
-
-  //     const updatedStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
-  //     console.log("Stores before update:", updatedStores);
-  //     const newStores = updatedStores.filter((store) => store !== storeId);
-  //     console.log("Stores after update:", newStores);
-
-  //     localStorage.setItem("stores_1234", JSON.stringify(newStores));
-  //     window.dispatchEvent(new Event('storage'));
-  //   };
 
   let title, storesName, cart;
   if (typeof window !== "undefined") {
@@ -274,12 +208,6 @@ const Cart = () => {
     cartLength = cart.length; // Update titleLength if conditions are met
   }
 
-  console.log(title); //тут имна продуктов
-
-  console.log(titleLength);
-
-  console.log(length);
-
   const targetRef = useRef();
   let totalQuantity;
   if (response && response.length != 0) {
@@ -288,8 +216,6 @@ const Cart = () => {
       0
     );
   }
-  console.log("totalQuantity", totalQuantity);
-  console.log("Тут дата дата", data);
 
   useEffect(() => {
     setQuantity(titleLength);
@@ -329,12 +255,8 @@ const Cart = () => {
     });
 
     setResponseData(updatedResponse);
-    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
-    console.log("UPD", updatedResponse);
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Добавляем ID продукта в корзину
     cart.push(itemId);
 
     // Сохраняем обновленную корзину в localStorage
@@ -372,9 +294,6 @@ const Cart = () => {
     });
 
     setResponseData(updatedResponse);
-    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
-    console.log("UPD", updatedResponse);
-
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     // Находим индекс элемента в корзине и удаляем, если его количество стало 0
@@ -561,61 +480,8 @@ const Cart = () => {
                     compare prices
                   </p>
                 ) : (
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    {/* <div style={{ display: "flex", flexDirection: "column" }}>
-                      {response &&
-                        response != null &&
-                        response.map((item) => (
-                          <div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                              }}
-                            >
-                              <div style={{width:'100%'}}>
-                              <p
-                                style={{
-                                  paddingRight: "10%",
-                                  fontWeight: "700",
-                                }}
-                              >
-                                {item.storetype}
-                              </p>
-                              <p style={{ paddingRight: "8%" }}>
-                                {item.storeName}
-                              </p>
-                              </div>
-
-                              <p style={{ fontWeight: "700",lineHeight:'214%' }}>
-                                Total: ${item.totalPrices.toFixed(2)}
-                              </p>
-                              <button
-                                style={{
-                                  outline: "0px",
-                                  // marginLeft: "20px"
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                                className={noir.className}
-                                onClick={() => removeStore(item.id)}
-                                title="Delete Store"
-                              >
-                                <Image src={del} width={30} height={30} />
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                    </div> */}
-                    
-                    <div style={{paddingTop:'10%'}}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>                 
+                   <div style={{paddingTop:'10%'}}>
                       <p
                         style={{
                           alignContent: "center",
