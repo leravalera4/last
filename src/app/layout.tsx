@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import Header from 'src/components/header'
 import Script from 'next/script'
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             <Header />
             {children}
            <SpeedInsights />
+         <Analytics />
             <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
      crossOrigin="anonymous"></Script>
       </body>
