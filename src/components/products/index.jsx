@@ -229,27 +229,35 @@ const Products = ({ cartData }) => {
     }
   };
 
-  const handleAddStore = () => {
-    if (typeof window === 'undefined') return;
+const handleAddStore = () => {
+  if (typeof window === 'undefined') return;
 
-    const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
+  const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
 
-    if (!selectedStores.includes(selectedLocation)) {
-      setSelectedStores([...selectedStores, selectedLocation]);
+  if (!selectedStores.includes(selectedLocation)) {
+    setSelectedStores([...selectedStores, selectedLocation]);
 
-      const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
-      const newStoreLocationObject = { store: selectedStore, location: selectedLocation, id: newSelectedLocationValue };
+    const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
+    const newStoreLocationObject = { store: selectedStore, location: selectedLocation, id: newSelectedLocationValue };
 
-      const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
-      if (!storesNames.some((store) => store.id === newStoreLocationObject.id)) {
-        storesNames.push(newStoreLocationObject);
-        localStorage.setItem("storesName", JSON.stringify(storesNames));
-        setStoresName(storesNames);
-      }
-
-      setSelectedAll((prevSelectedAll) => [...prevSelectedAll, newStoreLocationObject]);
+    const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
+    if (!storesNames.some((store) => store.id === newStoreLocationObject.id)) {
+      storesNames.push(newStoreLocationObject);
+      localStorage.setItem("storesName", JSON.stringify(storesNames));
+      setStoresName(storesNames);
     }
-  };
+
+    setSelectedAll((prevSelectedAll) => {
+      const updatedSelectedAll = [...prevSelectedAll, newStoreLocationObject];
+      // Update the length of selectedAll in local storage
+      const selectedAllLength = updatedSelectedAll.length;
+      localStorage.setItem("storesLength", selectedAllLength);
+      console.log("LENGTH LERA", selectedAllLength);
+      return updatedSelectedAll;
+    });
+  }
+};
+
 
   const inc = (index) => {
     responseData[index].count += 1;
@@ -304,9 +312,9 @@ const Products = ({ cartData }) => {
     }
   };
 
-  const selectedAllLength = selectedAll.length;
-  localStorage.setItem("storesLength", selectedAllLength);
-  console.log("LENGTH LERA", selectedAllLength);
+  // const selectedAllLength = selectedAll.length;
+  // localStorage.setItem("storesLength", selectedAllLength);
+  // console.log("LENGTH LERA", selectedAllLength);
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
