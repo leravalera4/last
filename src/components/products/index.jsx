@@ -17,6 +17,7 @@ import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
+import Robot from "../robot/index";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
@@ -120,14 +121,14 @@ const Products = ({ cartData }) => {
   const [isMobile, setIsMobile] = useState(false);
 
 
-  if (typeof localStorage !== "undefined") {
-    localStorage.setItem("key", "value");
-  } else if (typeof sessionStorage !== "undefined") {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('key', 'value');
+  } else if (typeof sessionStorage !== 'undefined') {
     // Fallback to sessionStorage if localStorage is not supported
-    sessionStorage.setItem("key", "value");
+    sessionStorage.setItem('key', 'value');
   } else {
     // If neither localStorage nor sessionStorage is supported
-    console.log("Web Storage is not supported in this environment PRODUCTS.");
+    console.log('Web Storage is not supported in this environment STORE.');
   }
 
 
@@ -263,40 +264,89 @@ const Products = ({ cartData }) => {
       });
   }, []); // получаем список магазинов
 
+  // const handleStoreChange = async (selectedStore) => {
+  //    window.addEventListener("storage",()=>{
+  //     setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+  //     localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+  //     console.log(selectedStore);
+  //     const store = JSON.parse(localStorage.getItem("selectedStore"));
+  //     console.log(store);
+  //    })
+
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:8080/api/stores/${selectedStore}`
+  //       );
+  
+  //       if (response.status === 200) {
+  //         const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
+  //         const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
+  //         setLocations(locationsArray); // сюда кладутся все локации выбранного магазина
+  //         setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
+  //         // console.log(selectedLocationsObject);
+  //       } else {
+  //         setError(
+  //           `Error fetching locations. Server returned: ${response.status}`
+  //         );
+  //         console.error(
+  //           "Error fetching locations. Server returned:",
+  //           response.status
+  //         );
+  //       }
+  //     } catch (error) {
+  //       setError(`Error fetching locations: ${error.message}`);
+  //       console.error("Error fetching locations:", error.message);
+  //     }
+  // };
+
+
   const handleStoreChange = async (selectedStore) => {
-     window.addEventListener("storage",()=>{
-      setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+    setSelectedStore(selectedStore);
+  
+    // Ensure localStorage is only accessed in the browser
+    if (typeof window !== 'undefined') {
       localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
       console.log(selectedStore);
       const store = JSON.parse(localStorage.getItem("selectedStore"));
       console.log(store);
-     })
-
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/stores/${selectedStore}`
-        );
+    }
   
-        if (response.status === 200) {
-          const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
-          const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
-          setLocations(locationsArray); // сюда кладутся все локации выбранного магазина
-          setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
-          // console.log(selectedLocationsObject);
-        } else {
-          setError(
-            `Error fetching locations. Server returned: ${response.status}`
-          );
-          console.error(
-            "Error fetching locations. Server returned:",
-            response.status
-          );
-        }
-      } catch (error) {
-        setError(`Error fetching locations: ${error.message}`);
-        console.error("Error fetching locations:", error.message);
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/stores/${selectedStore}`
+      );
+  
+      if (response.status === 200) {
+        const locationsObject = response.data.locations;
+        const locationsArray = Object.keys(locationsObject);
+        setLocations(locationsArray);
+        setSelectedLocationsObject(locationsObject);
+      } else {
+        setError(
+          `Error fetching locations. Server returned: ${response.status}`
+        );
+        console.error(
+          "Error fetching locations. Server returned:",
+          response.status
+        );
       }
+    } catch (error) {
+      setError(`Error fetching locations: ${error.message}`);
+      console.error("Error fetching locations:", error.message);
+    }
+  
+    // Ensure the event listener is only added in the browser
+    if (typeof window !== 'undefined') {
+      window.addEventListener("storage", handleStoreChange);
+    }
+  
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener("storage", handleStoreChange);
+      }
+    };
   };
+  
 
   let getStores;
 
