@@ -140,11 +140,6 @@ const Cart = () => {
     } catch (error) {
       console.error();
     }
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
   };
 
   const removeStore = (storeId) => {
