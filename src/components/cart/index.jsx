@@ -178,9 +178,9 @@ const Cart = () => {
     );
   }
 
-  // useEffect(() => {
-  //   setQuantity(titleLength);
-  // }, [titleLength]); // Срабатывает при изменении response
+  useEffect(() => {
+    setQuantity(titleLength);
+  }, [titleLength]); // Срабатывает при изменении response
 
   const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
