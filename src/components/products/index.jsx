@@ -172,7 +172,7 @@ const Products = ({ cartData }) => {
   // Fetch stores data
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/stores")
+      .get("https://server-blue-ten.vercel.app/api/stores")
       .then((response) => setAvailableStores(response.data))
       .catch((error) => {
         setError("Error fetching available stores");
@@ -189,7 +189,7 @@ const Products = ({ cartData }) => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/stores/${selectedStore}`);
+      const response = await axios.get(`https://server-blue-ten.vercel.app/api/stores/${selectedStore}`);
       if (response.status === 200) {
         const locationsObject = response.data.locations;
         setLocations(Object.keys(locationsObject));
@@ -210,7 +210,7 @@ const Products = ({ cartData }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/updateLocation", {
+      const response = await axios.post("https://server-blue-ten.vercel.app/api/updateLocation", {
         selectedStoresID,
         searchText,
       });
