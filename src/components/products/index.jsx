@@ -261,88 +261,88 @@ const Products = ({ cartData }) => {
       });
   }, []); // получаем список магазинов
 
-  // const handleStoreChange = async (selectedStore) => {
-  //    window.addEventListener("storage",()=>{
-  //     setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
-  //     localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-  //     console.log(selectedStore);
-  //     const store = JSON.parse(localStorage.getItem("selectedStore"));
-  //     console.log(store);
-  //    })
-
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8080/api/stores/${selectedStore}`
-  //       );
-  
-  //       if (response.status === 200) {
-  //         const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
-  //         const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
-  //         setLocations(locationsArray); // сюда кладутся все локации выбранного магазина
-  //         setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
-  //         // console.log(selectedLocationsObject);
-  //       } else {
-  //         setError(
-  //           `Error fetching locations. Server returned: ${response.status}`
-  //         );
-  //         console.error(
-  //           "Error fetching locations. Server returned:",
-  //           response.status
-  //         );
-  //       }
-  //     } catch (error) {
-  //       setError(`Error fetching locations: ${error.message}`);
-  //       console.error("Error fetching locations:", error.message);
-  //     }
-  // };
-//(moi)
-
   const handleStoreChange = async (selectedStore) => {
-    setSelectedStore(selectedStore);
-  
-    // Ensure localStorage is only accessed in the browser
-    if (typeof window !== 'undefined') {
+     window.addEventListener("storage",()=>{
+      setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
       localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
       console.log(selectedStore);
       const store = JSON.parse(localStorage.getItem("selectedStore"));
       console.log(store);
-    }
-  
-    try {
-      const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
-      );
-  
-      if (response.status === 200) {
-        const locationsObject = response.data.locations;
-        const locationsArray = Object.keys(locationsObject);
-        setLocations(locationsArray);
-        setSelectedLocationsObject(locationsObject);
-      } else {
-        setError(
-          `Error fetching locations. Server returned: ${response.status}`
+     })
+
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/stores/${selectedStore}`
         );
-        console.error(
-          "Error fetching locations. Server returned:",
-          response.status
-        );
-      }
-    } catch (error) {
-      setError(`Error fetching locations: ${error.message}`);
-      console.error("Error fetching locations:", error.message);
-    }
   
-    // Ensure the event listener is only added in the browser
-    if (typeof window !== 'undefined') {
-      window.addEventListener("storage", handleStoreChange);
-    }
-  
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener("storage", handleStoreChange);
+        if (response.status === 200) {
+          const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
+          const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
+          setLocations(locationsArray); // сюда кладутся все локации выбранного магазина
+          setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
+          // console.log(selectedLocationsObject);
+        } else {
+          setError(
+            `Error fetching locations. Server returned: ${response.status}`
+          );
+          console.error(
+            "Error fetching locations. Server returned:",
+            response.status
+          );
+        }
+      } catch (error) {
+        setError(`Error fetching locations: ${error.message}`);
+        console.error("Error fetching locations:", error.message);
       }
-    };
   };
+//(moi)
+
+  // const handleStoreChange = async (selectedStore) => {
+  //   setSelectedStore(selectedStore);
+  
+  //   // Ensure localStorage is only accessed in the browser
+  //   if (typeof window !== 'undefined') {
+  //     localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+  //     console.log(selectedStore);
+  //     const store = JSON.parse(localStorage.getItem("selectedStore"));
+  //     console.log(store);
+  //   }
+  
+  //   try {
+  //     const response = await axios.get(
+  //       `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
+  //     );
+  
+  //     if (response.status === 200) {
+  //       const locationsObject = response.data.locations;
+  //       const locationsArray = Object.keys(locationsObject);
+  //       setLocations(locationsArray);
+  //       setSelectedLocationsObject(locationsObject);
+  //     } else {
+  //       setError(
+  //         `Error fetching locations. Server returned: ${response.status}`
+  //       );
+  //       console.error(
+  //         "Error fetching locations. Server returned:",
+  //         response.status
+  //       );
+  //     }
+  //   } catch (error) {
+  //     setError(`Error fetching locations: ${error.message}`);
+  //     console.error("Error fetching locations:", error.message);
+  //   }
+  
+  //   // Ensure the event listener is only added in the browser
+  //   if (typeof window !== 'undefined') {
+  //     window.addEventListener("storage", handleStoreChange);
+  //   }
+  
+  //   return () => {
+  //     if (typeof window !== 'undefined') {
+  //       window.removeEventListener("storage", handleStoreChange);
+  //     }
+  //   };
+  // };
   
 
   let getStores;
@@ -351,294 +351,295 @@ const Products = ({ cartData }) => {
     setSearchText(event.target.value);
   };
 
-  // const handleLocationChange = async (selectedLocation) => {
-  //   // выбираем локацию из списка
-  //   const newSelectedLocationValue = selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
-  //   setSelectedLocationValue(newSelectedLocationValue); // тут теперь хранится value(цифра) выбранной локации
-  //   setSelectedLocation(selectedLocation); // тут только имя локации
-  //   localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
-  // };
-//(moi)
-const handleLocationChange = async (selectedLocation) => {
-  const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
-  setSelectedLocationValue(newSelectedLocationValue);
-  setSelectedLocation(selectedLocation);
-
-  // Ensure localStorage is only accessed in the browser
-  if (typeof window !== 'undefined') {
+  const handleLocationChange = async (selectedLocation) => {
+    // выбираем локацию из списка
+    const newSelectedLocationValue = selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
+    setSelectedLocationValue(newSelectedLocationValue); // тут теперь хранится value(цифра) выбранной локации
+    setSelectedLocation(selectedLocation); // тут только имя локации
     localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
-  }
-};
-
-  // const handleButtonClick = async () => {
-  //   let selectedStoresID
-  //   window.addEventListener("storage",()=>{
-  //     setLoading(true);
-  //     selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
-  //   })
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:8080/api/updateLocation",
-  //       {
-  //         selectedStoresID: selectedStoresID,
-  //         searchText: searchText,
-  //       }
-  //     );
-
-  //     const responseData = response.data;
-  //     console.log("RESPONSE LERA", responseData);
-  //     responseData.sort((a, b) => b.products.length - a.products.length);
-  //     console.log("Tyt data", responseData);
-  //     setResponseData(responseData);
-  //     setAddedToCartImage(Array(responseData.length).fill(false));
-
-  //     // Обновление localStorage
-  //     localStorage.setItem("stores", JSON.stringify(selectedStoresID));
-
-  //     let storage1;
-  //     window.addEventListener("storage",()=>{
-  //       storage1 = localStorage.getItem("stores1");
-  //     })
-  //     // let storesSet = new Set();
-  //     let storesSet1 = new Set();
-
-  //     // Безопасное парсинг
-  //     try {
-  //       // if (storage1234) {
-  //       //   storesSet = new Set(JSON.parse(storage1234));
-  //       // }
-  //       if (storage1) {
-  //         storesSet1 = new Set(JSON.parse(storage1));
-  //       }
-  //     } catch (error) {
-  //       console.error("Ошибка при парсинге данных из localStorage", error);
-  //     }
-
-  //     console.log("SELECTED STORES ID", selectedStoresID);
-
-  //     // Добавление уникальных значений
-  //     selectedStoresID.forEach((id) => {
-  //       //storesSet.add(id);
-  //       storesSet1.add(id);
-  //     });
-
-  //     // Обновление localStorage
-  //     const updateLocalStorage = (key, array) => {
-  //       localStorage.setItem(key, JSON.stringify(array));
-  //     };
-
-  //     // updateLocalStorage("stores_1234", Array.from(storesSet));
-  //     updateLocalStorage("stores1", Array.from(storesSet1));
-
-  //     console.log("Here is the data", responseData);
-  //   } catch (error) {
-  //     console.error("Ошибка при отправке данных на бэкенд", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  };
 //(moi)
 
-const handleButtonClick = async () => {
-  let selectedStoresID;
 
-  // Ensure `window` and `localStorage` access only in the browser
-  if (typeof window !== 'undefined') {
-    window.addEventListener("storage", () => {
+// const handleLocationChange = async (selectedLocation) => {
+//   const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
+//   setSelectedLocationValue(newSelectedLocationValue);
+//   setSelectedLocation(selectedLocation);
+
+//   // Ensure localStorage is only accessed in the browser
+//   if (typeof window !== 'undefined') {
+//     localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+//   }
+// };
+
+  const handleButtonClick = async () => {
+    let selectedStoresID
+    window.addEventListener("storage",()=>{
       setLoading(true);
       selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
-    });
-  }
+    })
 
-  try {
-    const response = await axios.post(
-      "https://server-blue-ten.vercel.app/api/updateLocation",
-      {
-        selectedStoresID: selectedStoresID,
-        searchText: searchText,
-      }
-    );
-
-    const responseData = response.data;
-    console.log("RESPONSE LERA", responseData);
-    responseData.sort((a, b) => b.products.length - a.products.length);
-    console.log("Tyt data", responseData);
-    setResponseData(responseData);
-    setAddedToCartImage(Array(responseData.length).fill(false));
-
-    // Update localStorage in the browser only
-    if (typeof window !== 'undefined') {
-      localStorage.setItem("stores", JSON.stringify(selectedStoresID));
-    }
-
-    let storage1;
-    if (typeof window !== 'undefined') {
-      window.addEventListener("storage", () => {
-        storage1 = localStorage.getItem("stores1");
-      });
-    }
-
-    let storesSet1 = new Set();
-
-    // Safely parse `storage1`
     try {
-      if (storage1) {
-        storesSet1 = new Set(JSON.parse(storage1));
+      const response = await axios.post(
+        "http://localhost:8080/api/updateLocation",
+        {
+          selectedStoresID: selectedStoresID,
+          searchText: searchText,
+        }
+      );
+
+      const responseData = response.data;
+      console.log("RESPONSE LERA", responseData);
+      responseData.sort((a, b) => b.products.length - a.products.length);
+      console.log("Tyt data", responseData);
+      setResponseData(responseData);
+      setAddedToCartImage(Array(responseData.length).fill(false));
+
+      // Обновление localStorage
+      localStorage.setItem("stores", JSON.stringify(selectedStoresID));
+
+      let storage1;
+      window.addEventListener("storage",()=>{
+        storage1 = localStorage.getItem("stores1");
+      })
+      // let storesSet = new Set();
+      let storesSet1 = new Set();
+
+      // Безопасное парсинг
+      try {
+        // if (storage1234) {
+        //   storesSet = new Set(JSON.parse(storage1234));
+        // }
+        if (storage1) {
+          storesSet1 = new Set(JSON.parse(storage1));
+        }
+      } catch (error) {
+        console.error("Ошибка при парсинге данных из localStorage", error);
       }
-    } catch (error) {
-      console.error("Ошибка при парсинге данных из localStorage", error);
-    }
 
-    console.log("SELECTED STORES ID", selectedStoresID);
+      console.log("SELECTED STORES ID", selectedStoresID);
 
-    // Add unique values
-    selectedStoresID.forEach((id) => {
-      storesSet1.add(id);
-    });
+      // Добавление уникальных значений
+      selectedStoresID.forEach((id) => {
+        //storesSet.add(id);
+        storesSet1.add(id);
+      });
 
-    // Update localStorage in the browser only
-    if (typeof window !== 'undefined') {
+      // Обновление localStorage
       const updateLocalStorage = (key, array) => {
         localStorage.setItem(key, JSON.stringify(array));
       };
+
+      // updateLocalStorage("stores_1234", Array.from(storesSet));
       updateLocalStorage("stores1", Array.from(storesSet1));
-    }
 
-    console.log("Here is the data", responseData);
-  } catch (error) {
-    console.error("Ошибка при отправке данных на бэкенд", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  // const handleAddStore = () => {
-  //   window.addEventListener("storage",()=>{
-  //     setLoading(true);
-  //     const existingStores = JSON.parse(localStorage.getItem("stores1"));
-  //     if (!selectedStores.includes(selectedLocation)) {
-  //       setSelectedStores([...selectedStores, selectedLocation]); // кладем выбранные локации в массив
-  //       const newSelectedLocationValue =
-  //         selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
-  //       const newStoreLocationObject = {
-  //         store: selectedStore,
-  //         location: selectedLocation,
-  //         id: newSelectedLocationValue,
-  //       };
-  
-  //       const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
-  //       if (
-  //         !storesNames.some((store) => store.id === newStoreLocationObject.id)
-  //       ) {
-  //         storesNames.push(newStoreLocationObject);
-  //         localStorage.setItem("storesName", JSON.stringify(storesNames));
-  //         setStoresName(storesNames);
-  //       }
-  
-  //       setSelectedAll((prevSelectedAll) => [
-  //         ...prevSelectedAll,
-  //         newStoreLocationObject,
-  //       ]);
-  
-  //       const selectedAll = JSON.parse(localStorage.getItem("selectedAll")) || [];
-  //       if (!selectedAll.includes(newStoreLocationObject)) {
-  //         storesNames.push(newStoreLocationObject);
-  //         localStorage.setItem("selectedAll", JSON.stringify(selectedAll));
-  //       }
-  //       const storesNames1 = JSON.parse(localStorage.getItem("sel")) || [];
-  
-  //       if (!storesNames1.includes(newStoreLocationObject)) {
-  //         storesNames1.push(newStoreLocationObject);
-  //         localStorage.setItem("sel", JSON.stringify(storesNames1));
-  //       }
-  //       const names1 = JSON.parse(localStorage.getItem("stores1")) || [];
-  
-  //       if (!names1.includes(newStoreLocationObject.id)) {
-  //         names1.push(newStoreLocationObject.id);
-  //         localStorage.setItem("stores1", JSON.stringify(names1));
-  //       }
-  //       setSelectedSel(storesNames1);
-  //       setSelectedStoresID(existingStores);
-  //       console.log(selectedSel);
-  //       setSelectedLocationValue(newSelectedLocationValue); // сюда кладем номер каждого магазина
-  //       //setSelectedStoresID([...selectedStoresID, newSelectedLocationValue]); // получаем массив из номеров магазинов
-  //       //  setFirstTime(false);
-  //       setLoading(false);
-  //       if (searchText && searchText.length > 0) {
-  //         handleButtonClick();
-  //       }
-  //       //localStorage.setItem("stores1",JSON.stringify(selectedStoresID))
-  //       // const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
-  //       // if (!storesNames1.includes(newStoreLocationObject.id)) {
-  //       //   localStorage.setItem("stores1", JSON.stringify(existingStores));
-  //       // }
-  //     }
-  //   })
-  // };
-
-  //(moi)
-
-  const handleAddStore = () => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener("storage", () => {
-        setLoading(true);
-        const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
-  
-        if (!selectedStores.includes(selectedLocation)) {
-          setSelectedStores([...selectedStores, selectedLocation]);
-  
-          const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
-          const newStoreLocationObject = {
-            store: selectedStore,
-            location: selectedLocation,
-            id: newSelectedLocationValue,
-          };
-  
-          const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
-          if (!storesNames.some((store) => store.id === newStoreLocationObject.id)) {
-            storesNames.push(newStoreLocationObject);
-            localStorage.setItem("storesName", JSON.stringify(storesNames));
-            setStoresName(storesNames);
-          }
-  
-          setSelectedAll((prevSelectedAll) => [
-            ...prevSelectedAll,
-            newStoreLocationObject,
-          ]);
-  
-          const selectedAll = JSON.parse(localStorage.getItem("selectedAll")) || [];
-          if (!selectedAll.includes(newStoreLocationObject)) {
-            selectedAll.push(newStoreLocationObject);
-            localStorage.setItem("selectedAll", JSON.stringify(selectedAll));
-          }
-  
-          const storesNames1 = JSON.parse(localStorage.getItem("sel")) || [];
-          if (!storesNames1.includes(newStoreLocationObject)) {
-            storesNames1.push(newStoreLocationObject);
-            localStorage.setItem("sel", JSON.stringify(storesNames1));
-          }
-  
-          const names1 = JSON.parse(localStorage.getItem("stores1")) || [];
-          if (!names1.includes(newStoreLocationObject.id)) {
-            names1.push(newStoreLocationObject.id);
-            localStorage.setItem("stores1", JSON.stringify(names1));
-          }
-  
-          setSelectedSel(storesNames1);
-          setSelectedStoresID(existingStores);
-          console.log(selectedSel);
-          setSelectedLocationValue(newSelectedLocationValue);
-          setLoading(false);
-  
-          if (searchText && searchText.length > 0) {
-            handleButtonClick();
-          }
-        }
-      });
+      console.log("Here is the data", responseData);
+    } catch (error) {
+      console.error("Ошибка при отправке данных на бэкенд", error);
+    } finally {
+      setLoading(false);
     }
   };
+//(moi)
+
+// const handleButtonClick = async () => {
+//   let selectedStoresID;
+
+//   // Ensure `window` and `localStorage` access only in the browser
+//   if (typeof window !== 'undefined') {
+//     window.addEventListener("storage", () => {
+//       setLoading(true);
+//       selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
+//     });
+//   }
+
+//   try {
+//     const response = await axios.post(
+//       "https://server-blue-ten.vercel.app/api/updateLocation",
+//       {
+//         selectedStoresID: selectedStoresID,
+//         searchText: searchText,
+//       }
+//     );
+
+//     const responseData = response.data;
+//     console.log("RESPONSE LERA", responseData);
+//     responseData.sort((a, b) => b.products.length - a.products.length);
+//     console.log("Tyt data", responseData);
+//     setResponseData(responseData);
+//     setAddedToCartImage(Array(responseData.length).fill(false));
+
+//     // Update localStorage in the browser only
+//     if (typeof window !== 'undefined') {
+//       localStorage.setItem("stores", JSON.stringify(selectedStoresID));
+//     }
+
+//     let storage1;
+//     if (typeof window !== 'undefined') {
+//       window.addEventListener("storage", () => {
+//         storage1 = localStorage.getItem("stores1");
+//       });
+//     }
+
+//     let storesSet1 = new Set();
+
+//     // Safely parse `storage1`
+//     try {
+//       if (storage1) {
+//         storesSet1 = new Set(JSON.parse(storage1));
+//       }
+//     } catch (error) {
+//       console.error("Ошибка при парсинге данных из localStorage", error);
+//     }
+
+//     console.log("SELECTED STORES ID", selectedStoresID);
+
+//     // Add unique values
+//     selectedStoresID.forEach((id) => {
+//       storesSet1.add(id);
+//     });
+
+//     // Update localStorage in the browser only
+//     if (typeof window !== 'undefined') {
+//       const updateLocalStorage = (key, array) => {
+//         localStorage.setItem(key, JSON.stringify(array));
+//       };
+//       updateLocalStorage("stores1", Array.from(storesSet1));
+//     }
+
+//     console.log("Here is the data", responseData);
+//   } catch (error) {
+//     console.error("Ошибка при отправке данных на бэкенд", error);
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+
+  const handleAddStore = () => {
+    window.addEventListener("storage",()=>{
+      setLoading(true);
+      const existingStores = JSON.parse(localStorage.getItem("stores1"));
+      if (!selectedStores.includes(selectedLocation)) {
+        setSelectedStores([...selectedStores, selectedLocation]); // кладем выбранные локации в массив
+        const newSelectedLocationValue =
+          selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
+        const newStoreLocationObject = {
+          store: selectedStore,
+          location: selectedLocation,
+          id: newSelectedLocationValue,
+        };
+  
+        const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
+        if (
+          !storesNames.some((store) => store.id === newStoreLocationObject.id)
+        ) {
+          storesNames.push(newStoreLocationObject);
+          localStorage.setItem("storesName", JSON.stringify(storesNames));
+          setStoresName(storesNames);
+        }
+  
+        setSelectedAll((prevSelectedAll) => [
+          ...prevSelectedAll,
+          newStoreLocationObject,
+        ]);
+  
+        const selectedAll = JSON.parse(localStorage.getItem("selectedAll")) || [];
+        if (!selectedAll.includes(newStoreLocationObject)) {
+          storesNames.push(newStoreLocationObject);
+          localStorage.setItem("selectedAll", JSON.stringify(selectedAll));
+        }
+        const storesNames1 = JSON.parse(localStorage.getItem("sel")) || [];
+  
+        if (!storesNames1.includes(newStoreLocationObject)) {
+          storesNames1.push(newStoreLocationObject);
+          localStorage.setItem("sel", JSON.stringify(storesNames1));
+        }
+        const names1 = JSON.parse(localStorage.getItem("stores1")) || [];
+  
+        if (!names1.includes(newStoreLocationObject.id)) {
+          names1.push(newStoreLocationObject.id);
+          localStorage.setItem("stores1", JSON.stringify(names1));
+        }
+        setSelectedSel(storesNames1);
+        setSelectedStoresID(existingStores);
+        console.log(selectedSel);
+        setSelectedLocationValue(newSelectedLocationValue); // сюда кладем номер каждого магазина
+        //setSelectedStoresID([...selectedStoresID, newSelectedLocationValue]); // получаем массив из номеров магазинов
+        //  setFirstTime(false);
+        setLoading(false);
+        if (searchText && searchText.length > 0) {
+          handleButtonClick();
+        }
+        //localStorage.setItem("stores1",JSON.stringify(selectedStoresID))
+        // const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
+        // if (!storesNames1.includes(newStoreLocationObject.id)) {
+        //   localStorage.setItem("stores1", JSON.stringify(existingStores));
+        // }
+      }
+    })
+  };
+  //(moi)
+
+  // const handleAddStore = () => {
+  //   if (typeof window !== 'undefined') {
+  //     window.addEventListener("storage", () => {
+  //       setLoading(true);
+  //       const existingStores = JSON.parse(localStorage.getItem("stores1")) || [];
+  
+  //       if (!selectedStores.includes(selectedLocation)) {
+  //         setSelectedStores([...selectedStores, selectedLocation]);
+  
+  //         const newSelectedLocationValue = selectedLocationsObject[selectedLocation];
+  //         const newStoreLocationObject = {
+  //           store: selectedStore,
+  //           location: selectedLocation,
+  //           id: newSelectedLocationValue,
+  //         };
+  
+  //         const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
+  //         if (!storesNames.some((store) => store.id === newStoreLocationObject.id)) {
+  //           storesNames.push(newStoreLocationObject);
+  //           localStorage.setItem("storesName", JSON.stringify(storesNames));
+  //           setStoresName(storesNames);
+  //         }
+  
+  //         setSelectedAll((prevSelectedAll) => [
+  //           ...prevSelectedAll,
+  //           newStoreLocationObject,
+  //         ]);
+  
+  //         const selectedAll = JSON.parse(localStorage.getItem("selectedAll")) || [];
+  //         if (!selectedAll.includes(newStoreLocationObject)) {
+  //           selectedAll.push(newStoreLocationObject);
+  //           localStorage.setItem("selectedAll", JSON.stringify(selectedAll));
+  //         }
+  
+  //         const storesNames1 = JSON.parse(localStorage.getItem("sel")) || [];
+  //         if (!storesNames1.includes(newStoreLocationObject)) {
+  //           storesNames1.push(newStoreLocationObject);
+  //           localStorage.setItem("sel", JSON.stringify(storesNames1));
+  //         }
+  
+  //         const names1 = JSON.parse(localStorage.getItem("stores1")) || [];
+  //         if (!names1.includes(newStoreLocationObject.id)) {
+  //           names1.push(newStoreLocationObject.id);
+  //           localStorage.setItem("stores1", JSON.stringify(names1));
+  //         }
+  
+  //         setSelectedSel(storesNames1);
+  //         setSelectedStoresID(existingStores);
+  //         console.log(selectedSel);
+  //         setSelectedLocationValue(newSelectedLocationValue);
+  //         setLoading(false);
+  
+  //         if (searchText && searchText.length > 0) {
+  //           handleButtonClick();
+  //         }
+  //       }
+  //     });
+  //   }
+  // };
   
 
   const inc = (index) => {
@@ -838,105 +839,8 @@ const handleButtonClick = async () => {
   //   }
   // };  //ласт
 
-  // const handleAddToCart = async (product, index) => {
-
-  //     const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
-  //     console.log("Array of stores", arrayOfStores);
-  
-  //     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
-  //     const title = JSON.parse(localStorage.getItem("names")) || [];
-  //     console.log("EXISTING", existingItems);
-  
-  //     try {
-  //       inc(index);
-  //       const updatedCart = [...cart]; // Создаем копию корзины
-  //       let newId = null; // Переменная для хранения нового id
-  
-  //       // Обновляем корзину
-  //       for (const item of product.products) {
-  //         const storeIndex = updatedCart.findIndex(
-  //           (store) => store.storeID === item.storeID
-  //         );
-  
-  //         if (storeIndex === -1) {
-  //           updatedCart.push({
-  //             storeID: item.storeID,
-  //             storeName: item.store,
-  //             items: [{ name: product.title, id: item.productID }],
-  //           });
-  
-  //           // Сохраняем storeID в отдельный localStorage
-  //           const existingStoreIDs =
-  //             JSON.parse(localStorage.getItem("stores_1234")) || [];
-  //           if (!existingStoreIDs.includes(item.storeID)) {
-  //             existingStoreIDs.push(item.storeID);
-  //             localStorage.setItem(
-  //               "stores_1234",
-  //               JSON.stringify(existingStoreIDs)
-  //             );
-  //             setSt(existingStoreIDs);
-  //           }
-  //         } else {
-  //           // Добавляем товар в существующий магазин
-  //           updatedCart[storeIndex].items.push({
-  //             name: product.title,
-  //             id: item.productID,
-  //           });
-  //         }
-  
-  //         // Устанавливаем newId
-  //         newId = item.productID; // Обновляем newId на каждом шаге
-  //       }
-  
-  //       // Добавляем id в существующие элементы
-  //       if (newId) {
-  //         existingItems.push(newId);
-  //         localStorage.setItem("cart", JSON.stringify(existingItems));
-  //       }
-  
-  //       // Добавляем название, если его нет в existingNames
-  //       const newName = product.title;
-  //       if (!title.includes(newName)) {
-  //         title.push(newName);
-  //         localStorage.setItem("names", JSON.stringify(title));
-  //       }
-  
-  //       console.log("names", title);
-  //       console.log("existing", existingItems);
-  
-  //       setAddedToCart((prev) => {
-  //         const updatedAddedToCart = [...prev];
-  //         updatedAddedToCart[index] = true;
-  //         return updatedAddedToCart;
-  //       });
-  
-  //       setAddedToCartImage((prev) => {
-  //         const updatedAddedToCartImage = [...prev];
-  //         updatedAddedToCartImage[index] = true;
-  //         return updatedAddedToCartImage;
-  //       });
-  
-  //       setCart(updatedCart);
-  //       localStorage.setItem("temp", JSON.stringify(updatedCart));
-  
-  //       window.dispatchEvent(new Event("storage")); // Обновление других вкладок
-  //     } catch (error) {
-  //       console.error("Error adding to cart:", error);
-  //     }
-
-  //     window.addEventListener("storage", handleAddToCart);
-
-  //     // Cleanup function
-  //     return () => {
-  //       window.removeEventListener("storage", handleAddToCart);
-  //     };
-  
-  //   };
-
-  //(moi)
-
   const handleAddToCart = async (product, index) => {
-    if (typeof window !== 'undefined') {
+
       const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
       console.log("Array of stores", arrayOfStores);
   
@@ -946,9 +850,10 @@ const handleButtonClick = async () => {
   
       try {
         inc(index);
-        const updatedCart = [...cart];
-        let newId = null;
+        const updatedCart = [...cart]; // Создаем копию корзины
+        let newId = null; // Переменная для хранения нового id
   
+        // Обновляем корзину
         for (const item of product.products) {
           const storeIndex = updatedCart.findIndex(
             (store) => store.storeID === item.storeID
@@ -961,28 +866,36 @@ const handleButtonClick = async () => {
               items: [{ name: product.title, id: item.productID }],
             });
   
+            // Сохраняем storeID в отдельный localStorage
             const existingStoreIDs =
               JSON.parse(localStorage.getItem("stores_1234")) || [];
             if (!existingStoreIDs.includes(item.storeID)) {
               existingStoreIDs.push(item.storeID);
-              localStorage.setItem("stores_1234", JSON.stringify(existingStoreIDs));
+              localStorage.setItem(
+                "stores_1234",
+                JSON.stringify(existingStoreIDs)
+              );
               setSt(existingStoreIDs);
             }
           } else {
+            // Добавляем товар в существующий магазин
             updatedCart[storeIndex].items.push({
               name: product.title,
               id: item.productID,
             });
           }
   
-          newId = item.productID;
+          // Устанавливаем newId
+          newId = item.productID; // Обновляем newId на каждом шаге
         }
   
+        // Добавляем id в существующие элементы
         if (newId) {
           existingItems.push(newId);
           localStorage.setItem("cart", JSON.stringify(existingItems));
         }
   
+        // Добавляем название, если его нет в existingNames
         const newName = product.title;
         if (!title.includes(newName)) {
           title.push(newName);
@@ -1007,22 +920,110 @@ const handleButtonClick = async () => {
         setCart(updatedCart);
         localStorage.setItem("temp", JSON.stringify(updatedCart));
   
-        window.dispatchEvent(new Event("storage"));
+        window.dispatchEvent(new Event("storage")); // Обновление других вкладок
       } catch (error) {
         console.error("Error adding to cart:", error);
       }
-  
-      // Ensure the event listener is only added in the browser
+
       window.addEventListener("storage", handleAddToCart);
-  
+
       // Cleanup function
       return () => {
-        if (typeof window !== 'undefined') {
-          window.removeEventListener("storage", handleAddToCart);
-        }
+        window.removeEventListener("storage", handleAddToCart);
       };
-    }
-  };
+  
+    };
+
+  //(moi)
+
+  // const handleAddToCart = async (product, index) => {
+  //   if (typeof window !== 'undefined') {
+  //     const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
+  //     console.log("Array of stores", arrayOfStores);
+  
+  //     const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
+  //     const title = JSON.parse(localStorage.getItem("names")) || [];
+  //     console.log("EXISTING", existingItems);
+  
+  //     try {
+  //       inc(index);
+  //       const updatedCart = [...cart];
+  //       let newId = null;
+  
+  //       for (const item of product.products) {
+  //         const storeIndex = updatedCart.findIndex(
+  //           (store) => store.storeID === item.storeID
+  //         );
+  
+  //         if (storeIndex === -1) {
+  //           updatedCart.push({
+  //             storeID: item.storeID,
+  //             storeName: item.store,
+  //             items: [{ name: product.title, id: item.productID }],
+  //           });
+  
+  //           const existingStoreIDs =
+  //             JSON.parse(localStorage.getItem("stores_1234")) || [];
+  //           if (!existingStoreIDs.includes(item.storeID)) {
+  //             existingStoreIDs.push(item.storeID);
+  //             localStorage.setItem("stores_1234", JSON.stringify(existingStoreIDs));
+  //             setSt(existingStoreIDs);
+  //           }
+  //         } else {
+  //           updatedCart[storeIndex].items.push({
+  //             name: product.title,
+  //             id: item.productID,
+  //           });
+  //         }
+  
+  //         newId = item.productID;
+  //       }
+  
+  //       if (newId) {
+  //         existingItems.push(newId);
+  //         localStorage.setItem("cart", JSON.stringify(existingItems));
+  //       }
+  
+  //       const newName = product.title;
+  //       if (!title.includes(newName)) {
+  //         title.push(newName);
+  //         localStorage.setItem("names", JSON.stringify(title));
+  //       }
+  
+  //       console.log("names", title);
+  //       console.log("existing", existingItems);
+  
+  //       setAddedToCart((prev) => {
+  //         const updatedAddedToCart = [...prev];
+  //         updatedAddedToCart[index] = true;
+  //         return updatedAddedToCart;
+  //       });
+  
+  //       setAddedToCartImage((prev) => {
+  //         const updatedAddedToCartImage = [...prev];
+  //         updatedAddedToCartImage[index] = true;
+  //         return updatedAddedToCartImage;
+  //       });
+  
+  //       setCart(updatedCart);
+  //       localStorage.setItem("temp", JSON.stringify(updatedCart));
+  
+  //       window.dispatchEvent(new Event("storage"));
+  //     } catch (error) {
+  //       console.error("Error adding to cart:", error);
+  //     }
+  
+  //     // Ensure the event listener is only added in the browser
+  //     window.addEventListener("storage", handleAddToCart);
+  
+  //     // Cleanup function
+  //     return () => {
+  //       if (typeof window !== 'undefined') {
+  //         window.removeEventListener("storage", handleAddToCart);
+  //       }
+  //     };
+  //   }
+  // };
   
 
   console.log("selectedAll", selectedAll);
@@ -1141,121 +1142,123 @@ const handleButtonClick = async () => {
   // };  //тут удаление было
   console.log("SELECTEDSEL", selectedSel);
 
-  // const removeStore = (storeId) => {
-  //   window.addEventListener("storage",()=>{
-  //     const data = JSON.parse(localStorage.getItem("stores1"));
-  //     console.log(data);
-  //     // const updatedData = JSON.parse(localStorage.getItem("sel"));
-  //     // // const updatedData3 = JSON.parse(localStorage.getItem("storesName"));
-  //     // // Filter out the store with the given ID from the data array
-  
-  //     // const updatedData1 = updatedData.filter((store) => store.id != storeId);
-  
-  //     let updatedData = JSON.parse(localStorage.getItem("sel"));
-  
-  //     if (!updatedData) {
-  //       updatedData = JSON.parse(localStorage.getItem("storesName"));
-  //     }
-  
-  //     // Filter out the store with the given ID from the data array
-  //     const updatedData1 = updatedData.filter((store) => store.id != storeId);
-  
-  //     // const updatedData4 = updatedData3.filter((store) => store.id != storeId);
-  //     localStorage.setItem("sel", JSON.stringify(updatedData1));
-  //     // localStorage.setItem("storesName", JSON.stringify(updatedData4));
-  //     setSelectedAll(updatedData1);
-  //     // setStoresName(updatedData4);
-  //     const da = data.filter((store) => store != storeId);
-  //     console.log("da", da);
-  
-  //     //const updatedData2 = JSON.parse(localStorage.getItem("stores_1234"));
-  //     // let stores;
-  //     // if (updatedData2) {
-  //     //   stores = updatedData2.filter((store) => store != storeId);
-  //     // }
-  //     // setSt(stores);
-  //     // console.log("da", da);
-  
-  //     // if (updatedData.length < 1) {
-  //     //   localStorage.removeItem("cart");
-  //     //   localStorage.removeItem("names");
-  //     // }
-  //     localStorage.setItem("stores1", JSON.stringify(da));
-  
-  //     //localStorage.setItem("stores_1234", JSON.stringify(stores));
-  //     setSelectedStores(selectedAll.map((item) => item.location));
-  //     console.log(selectedStores);
-  //     setSelectedStoresID(da);
-  //     setSelectedStores(selectedAll);
-  //     handleButtonClick();
-  //   })
-  // };
-  //(moi)
   const removeStore = (storeId) => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener("storage", () => {
-        const data = JSON.parse(localStorage.getItem("stores1")) || [];
-        console.log("data", data);
+    window.addEventListener("storage",()=>{
+      const data = JSON.parse(localStorage.getItem("stores1"));
+      console.log(data);
+      // const updatedData = JSON.parse(localStorage.getItem("sel"));
+      // // const updatedData3 = JSON.parse(localStorage.getItem("storesName"));
+      // // Filter out the store with the given ID from the data array
   
-        let updatedData = JSON.parse(localStorage.getItem("sel"));
-        if (!updatedData) {
-          updatedData = JSON.parse(localStorage.getItem("storesName")) || [];
-        }
+      // const updatedData1 = updatedData.filter((store) => store.id != storeId);
   
-        const updatedData1 = updatedData.filter((store) => store.id !== storeId);
-        localStorage.setItem("sel", JSON.stringify(updatedData1));
-        setSelectedAll(updatedData1);
+      let updatedData = JSON.parse(localStorage.getItem("sel"));
   
-        const filteredData = data.filter((store) => store !== storeId);
-        console.log("filteredData", filteredData);
-        localStorage.setItem("stores1", JSON.stringify(filteredData));
+      if (!updatedData) {
+        updatedData = JSON.parse(localStorage.getItem("storesName"));
+      }
   
-        setSelectedStores(selectedAll.map((item) => item.location));
-        setSelectedStoresID(filteredData);
-        setSelectedStores(selectedAll);
+      // Filter out the store with the given ID from the data array
+      const updatedData1 = updatedData.filter((store) => store.id != storeId);
   
-        handleButtonClick();
-      });
-    }
+      // const updatedData4 = updatedData3.filter((store) => store.id != storeId);
+      localStorage.setItem("sel", JSON.stringify(updatedData1));
+      // localStorage.setItem("storesName", JSON.stringify(updatedData4));
+      setSelectedAll(updatedData1);
+      // setStoresName(updatedData4);
+      const da = data.filter((store) => store != storeId);
+      console.log("da", da);
+  
+      //const updatedData2 = JSON.parse(localStorage.getItem("stores_1234"));
+      // let stores;
+      // if (updatedData2) {
+      //   stores = updatedData2.filter((store) => store != storeId);
+      // }
+      // setSt(stores);
+      // console.log("da", da);
+  
+      // if (updatedData.length < 1) {
+      //   localStorage.removeItem("cart");
+      //   localStorage.removeItem("names");
+      // }
+      localStorage.setItem("stores1", JSON.stringify(da));
+  
+      //localStorage.setItem("stores_1234", JSON.stringify(stores));
+      setSelectedStores(selectedAll.map((item) => item.location));
+      console.log(selectedStores);
+      setSelectedStoresID(da);
+      setSelectedStores(selectedAll);
+      handleButtonClick();
+    })
   };
-
-
-  // React.useEffect(() => {
-  //   window.addEventListener("storage", () => {
-  //     const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
-  //     const selectedLocation = JSON.parse(
-  //       localStorage.getItem("selectedLocation")
-  //     );
-  //     const selectedAll = JSON.parse(localStorage.getItem("sel"));
-  //     const stores1 = JSON.parse(localStorage.getItem("stores1"));
-  //     console.log("lalala", selectedLocation);
-  //     console.log("lalalalalal", selectedStore);
-  //     console.log("lalala", selectedAll);
-  //     console.log("stores_1234", stores1);
-  //   });
-  // }, [selectedLocation, selectedStore, selectedAll]);
   //(moi)
+
+  // const removeStore = (storeId) => {
+  //   if (typeof window !== 'undefined') {
+  //     window.addEventListener("storage", () => {
+  //       const data = JSON.parse(localStorage.getItem("stores1")) || [];
+  //       console.log("data", data);
+  
+  //       let updatedData = JSON.parse(localStorage.getItem("sel"));
+  //       if (!updatedData) {
+  //         updatedData = JSON.parse(localStorage.getItem("storesName")) || [];
+  //       }
+  
+  //       const updatedData1 = updatedData.filter((store) => store.id !== storeId);
+  //       localStorage.setItem("sel", JSON.stringify(updatedData1));
+  //       setSelectedAll(updatedData1);
+  
+  //       const filteredData = data.filter((store) => store !== storeId);
+  //       console.log("filteredData", filteredData);
+  //       localStorage.setItem("stores1", JSON.stringify(filteredData));
+  
+  //       setSelectedStores(selectedAll.map((item) => item.location));
+  //       setSelectedStoresID(filteredData);
+  //       setSelectedStores(selectedAll);
+  
+  //       handleButtonClick();
+  //     });
+  //   }
+  // };
+
+
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const handleStorageEvent = () => {
-        const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
-        const selectedLocation = JSON.parse(localStorage.getItem("selectedLocation"));
-        const selectedAll = JSON.parse(localStorage.getItem("sel")) || [];
-        const stores1 = JSON.parse(localStorage.getItem("stores1")) || [];
-        
-        console.log("selectedLocation:", selectedLocation);
-        console.log("selectedStore:", selectedStore);
-        console.log("selectedAll:", selectedAll);
-        console.log("stores1:", stores1);
-      };
-  
-      window.addEventListener("storage", handleStorageEvent);
-  
-      return () => {
-        window.removeEventListener("storage", handleStorageEvent);
-      };
-    }
+    window.addEventListener("storage", () => {
+      const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
+      const selectedLocation = JSON.parse(
+        localStorage.getItem("selectedLocation")
+      );
+      const selectedAll = JSON.parse(localStorage.getItem("sel"));
+      const stores1 = JSON.parse(localStorage.getItem("stores1"));
+      console.log("lalala", selectedLocation);
+      console.log("lalalalalal", selectedStore);
+      console.log("lalala", selectedAll);
+      console.log("stores_1234", stores1);
+    });
   }, [selectedLocation, selectedStore, selectedAll]);
+  //(moi)
+  
+  // React.useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const handleStorageEvent = () => {
+  //       const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
+  //       const selectedLocation = JSON.parse(localStorage.getItem("selectedLocation"));
+  //       const selectedAll = JSON.parse(localStorage.getItem("sel")) || [];
+  //       const stores1 = JSON.parse(localStorage.getItem("stores1")) || [];
+        
+  //       console.log("selectedLocation:", selectedLocation);
+  //       console.log("selectedStore:", selectedStore);
+  //       console.log("selectedAll:", selectedAll);
+  //       console.log("stores1:", stores1);
+  //     };
+  
+  //     window.addEventListener("storage", handleStorageEvent);
+  
+  //     return () => {
+  //       window.removeEventListener("storage", handleStorageEvent);
+  //     };
+  //   }
+  // }, [selectedLocation, selectedStore, selectedAll]);
 
 
   useEffect(() => {
