@@ -1,13 +1,81 @@
-.link{
+/* Базовые стили для ссылок */
+.link {
     font-size: 18px;
     text-decoration: none;
-    color:black;
-    
+    color: black;
+    padding: 16px;
+    width: 100%;
+    text-align: center;
 }
 
-.active{
+/* Стили для активной ссылки */
+.active {
     font-size: 18px;
     text-decoration: none;
-    color:black;
+    color: black;
     font-weight: 600;
 }
+
+/* Стили для гамбургера */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    margin-right: 10px; /* Отступ для гамбургера */
+}
+  
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+    margin: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Скрываем меню по умолчанию */
+.menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    position: absolute;
+    top: 60px;
+    left: 0; /* Фиксируем меню слева */
+    width: 100%; /* Меню занимает всю ширину экрана */
+    z-index: 10;
+}
+
+/* Показываем меню при открытии */
+.menu.open {
+    display: flex;
+    padding-top: 10%;
+}
+
+/* Изменение цвета полосок гамбургера при открытом меню */
+.bar.open {
+    background-color: red;
+}
+
+
+
+/* Медиа-запросы для больших экранов */
+@media (min-width: 768px) {
+    .hamburger {
+        display: none; /* Скрываем гамбургер на больших экранах */
+    }
+    
+    .menu {
+        display: flex;
+        flex-direction: row;
+        position: static;
+    }
+
+    .link {
+        width: auto;
+        padding: 10px 20px;
+    }
+}
+/* .slide-pane__overlay.overlay-after-open {
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: background-color 0.5s;
+} */
