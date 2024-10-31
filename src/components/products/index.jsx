@@ -304,6 +304,10 @@ const Products = ({ cartData }) => {
     }
   };
 
+  const selectedAllLength = selectedAll.length;
+  localStorage.setItem("storesLength", selectedAllLength);
+  console.log("LENGTH LERA", selectedAllLength);
+
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
   };
