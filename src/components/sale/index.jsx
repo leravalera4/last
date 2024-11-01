@@ -499,7 +499,7 @@ const Index = () => {
         JSON.stringify(storesData)
       );
       
-      // window.dispatchEvent(new Event("storage"));
+      window.dispatchEvent(new Event("storage"));
 
       const handleAddToCart = (index) => {
         const arrayOfItems = [];
@@ -622,7 +622,7 @@ const Index = () => {
       }
       localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
       localStorage.setItem("stores1", JSON.stringify(arrayOfStores));
-      // window.dispatchEvent(new Event("storage"));
+      window.dispatchEvent(new Event("storage"));
     }
     // const LALALA = JSON.parse(localStorage.getItem("LALALA")) || [];
 
@@ -657,7 +657,7 @@ const Index = () => {
 
     existingItems.push(itemCode);
     localStorage.setItem("cart", JSON.stringify(existingItems));
-    // window.dispatchEvent(new Event("storage"));
+     window.dispatchEvent(new Event("storage"));
   };
 
   useEffect(() => {
@@ -666,7 +666,7 @@ const Index = () => {
       const length = JSON.parse(localStorage.getItem("storesLength"));
       setLen(length);
     // });
-    // window.dispatchEvent(new Event("storage"));
+     window.dispatchEvent(new Event("storage"));
   }, []);
 
   console.log("Response Data", responseData);
