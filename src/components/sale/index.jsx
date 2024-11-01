@@ -1010,6 +1010,7 @@ const Index = () => {
               //minWidth: "100%",
               marginTop: "32px",
               paddingLeft: "10%",
+paddingRight:"10%"
             }}
           >
             {loading ? (
