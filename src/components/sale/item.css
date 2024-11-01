@@ -330,6 +330,11 @@ button {
 }
 
 @media (max-width: 768px) {
+
+.links {
+  padding-right: 24px;
+}
+  
   .react-tabs__tab-list {
     display: flex;
     flex-wrap: nowrap;
