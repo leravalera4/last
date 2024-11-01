@@ -144,22 +144,6 @@ const Products = ({ cartData }) => {
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
-  //   };
-
-  //   // Вызываем функцию сразу при монтировании
-  //   handleResize();
-
-  //   // Добавляем слушатель события изменения размера
-  //   window.addEventListener("resize", handleResize);
-
-  //   // Убираем слушатель при размонтировании компонента
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
@@ -171,20 +155,6 @@ const Products = ({ cartData }) => {
       event.target.blur(); // Убирает фокус с поля
     }
   };
-  // useEffect(() => {
-  //   window.addEventListener("storage", () => {
-  //     const storedStores = localStorage.getItem("temp");
-
-  //     // Parse the stored state if it exists
-  //     if (storedStores) {
-  //       const parsedStores = JSON.parse(storedStores);
-
-  //       // Update component state with parsed stored state
-  //       setCart(parsedStores);
-  //       // Similarly, update other state variables as needed
-  //     }
-  //   });
-  // }, []);
 
   React.useEffect(() => {
       const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
