@@ -126,7 +126,7 @@ const Cart = () => {
     const da = get.filter((store) => store != storeId);
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("storesLength", JSON.stringify(change));
-    window.dispatchEvent(new Event("storage"));
+    // window.dispatchEvent(new Event("storage"));
   };
 
   let title, storesName, cart;
@@ -182,11 +182,8 @@ const Cart = () => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
           const name = item.title;
-          console.log("NAME", name);
           let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
           title.push(name);
-          console.log("LERA NAME", name);
-          console.log("LERA TITLE", title);
           localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
           const newQuantity = item.quantity + 1;
           const newPrice = parseFloat(
@@ -211,8 +208,6 @@ const Cart = () => {
     });
 
     setResponseData(updatedResponse);
-    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
-    console.log("UPD", updatedResponse);
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -223,7 +218,7 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(cart));
 
     // Обновление состояния в других вкладках
-    window.dispatchEvent(new Event("storage"));
+    // window.dispatchEvent(new Event("storage"));
   };
 
   const decreaseQuantity = (itemId) => {
@@ -254,8 +249,6 @@ const Cart = () => {
     });
 
     setResponseData(updatedResponse);
-    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
-    console.log("UPD", updatedResponse);
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -268,8 +261,8 @@ const Cart = () => {
     // Сохраняем обновленную корзину в localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // Обновление состояния в других вкладках
-    window.dispatchEvent(new Event("storage"));
+    // // Обновление состояния в других вкладках
+    // window.dispatchEvent(new Event("storage"));
   };
 
 
@@ -284,7 +277,7 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(existingItems));
     getNames(sale, theme, name);
     // Опционально: можно использовать событие для обновления состояния в других вкладках
-    window.dispatchEvent(new Event("storage")); // Обновление других вкладок
+    // window.dispatchEvent(new Event("storage")); // Обновление других вкладок
   };
 
   useEffect(() => {
