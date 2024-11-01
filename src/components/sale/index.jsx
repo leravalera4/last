@@ -1025,7 +1025,7 @@ const Index = () => {
                     // paddingRight: "10%"
                   }}
                 >
-                  <TabList
+                                   <TabList
                     onTabSelected={onTabSelected}
                     style={{
                       display: "flex",
@@ -1036,19 +1036,19 @@ const Index = () => {
                   >
                     {fruitsAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
-                        {isMobile ? "Vegies" : "Fruits & Vegetables"}
+                        {isMobile ? "Vegies" : "Vegies"}
                       </Tab>
                     )}
 
                     {snacksAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
-                        {isMobile ? "Snacks" : " Snacks, Chips & Candy"}
+                        {isMobile ? "Snacks" : "Snacks"}
                       </Tab>
                     )}
 
                     {dairyAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
-                        {isMobile ? "Dairy" : "  Dairy & Eggs"}
+                        {isMobile ? "Dairy" : "Dairy"}
                       </Tab>
                     )}
 
