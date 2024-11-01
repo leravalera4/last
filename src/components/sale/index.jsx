@@ -240,12 +240,12 @@ const Index = () => {
     };
 
     handleStorageChange();
-    // //Слушаем изменения в localStorage
-    // window.addEventListener("storage", handleStorageChange);
+    //Слушаем изменения в localStorage
+    window.addEventListener("storage", handleStorageChange);
 
-    // return () => {
-    //   window.removeEventListener("storage", handleStorageChange);
-    // };
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   useEffect(() => {
