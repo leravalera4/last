@@ -110,7 +110,10 @@ const Index = () => {
   }
 
   React.useEffect(() => {
+    window.addEventListener("storage", () => {
+      //const theme = JSON.parse(localStorage.getItem('stores'))
       const sale = JSON.parse(localStorage.getItem("sale"));
+      //  const responseData = JSON.parse(localStorage.getItem("responseData"));
       const special = JSON.parse(localStorage.getItem("special"));
       const names = JSON.parse(localStorage.getItem("names"));
       setNamesss(names);
@@ -128,16 +131,23 @@ const Index = () => {
       setSpecial(special);
       console.log(special);
       console.log(namesss);
+      // setSelectedStore(sale.store);
+      // setSelectedLocation(sale.location);
+      //  setResponseData(responseData);
+    });
   }, [selectedLocation, namesss]);
 
   React.useEffect(() => {
+    window.addEventListener("storage", () => {
       if (namesss === null && special) {
         console.log("noooooo");
         setAddedToCartImage(Array(responseData.length).fill(false));
       }
+    });
   }, [namesss]);
 
   useEffect(() => {
+    window.addEventListener("storage", () => {
       const handleResize = () => {
         setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
       };
@@ -152,6 +162,21 @@ const Index = () => {
       return () => {
         window.removeEventListener("resize", handleResize);
       };
+    });
+    // const handleResize = () => {
+    //   setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
+    // };
+
+    // // Вызываем функцию сразу при монтировании
+    // handleResize();
+
+    // // Добавляем слушатель события изменения размера
+    // window.addEventListener("resize", handleResize);
+
+    // // Убираем слушатель при размонтировании компонента
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
   }, []);
 
   // useEffect(() => {
@@ -302,7 +327,7 @@ const Index = () => {
   }, [locValue]); // Add other dependencies if needed
 
   useEffect(() => {
-    // window.addEventListener("storage",()=>{
+    window.addEventListener("storage",()=>{
     // Сохраняем данные в localStorage
     localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
     localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
@@ -320,26 +345,46 @@ const Index = () => {
       setLocation1(JSON.parse(location));
       console.log("LOCATION", location);
     }
-    // })
+    })
 
   }, [selectedStore, selectedLocation]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
- 
- const handleAddStore = async () => {
+
+  console.log("LERA VALERA_12", selectedStore);
+  console.log("LERA VALERA_123", selectedLocation);
+
+  // let com = true;
+  // if (storeSale &&
+  //   storeSale.location != selectedLocation &&
+  //   storeSale.store != selectedStore
+  // ) {
+  //   com = false;
+  // }
+  // else{
+  //   com = true;
+  // }
+
+  console.log("COMA", com);
+
+  const handleAddStore = async () => {
     setLoading(true);
 
     let idExists;
 
     if (array != null) {
       idExists = array.includes(storedDat.id.toString());
+      console.log("LERAVALERA", idExists);
     }
 
     if (!selectedLocation) {
+      console.warn("Please select a location before adding.");
       return;
     }
     let newSelectedLocationValue;
     if (selectedLocationsObject != null && selectedLocation != null) {
       newSelectedLocationValue = selectedLocationsObject[selectedLocation];
     }
+
+    console.log("newSelectedLocationValue", newSelectedLocationValue); //сюда кладем iD выбранного магазина
 
     const storeStore = JSON.parse(localStorage.getItem("activeSTORE"));
     const storeLocation = JSON.parse(localStorage.getItem("activeLOCATION"));
@@ -498,7 +543,6 @@ const Index = () => {
         "responseData",
         JSON.stringify(storesData)
       );
-      
       window.dispatchEvent(new Event("storage"));
 
       const handleAddToCart = (index) => {
@@ -657,16 +701,16 @@ const Index = () => {
 
     existingItems.push(itemCode);
     localStorage.setItem("cart", JSON.stringify(existingItems));
-     window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(new Event("storage"));
   };
 
   useEffect(() => {
-    // window.addEventListener("storage", () => {
+    window.addEventListener("storage", () => {
       //const theme = JSON.parse(localStorage.getItem('stores'))
       const length = JSON.parse(localStorage.getItem("storesLength"));
       setLen(length);
-    // });
-     window.dispatchEvent(new Event("storage"));
+    });
+    window.dispatchEvent(new Event("storage"));
   }, []);
 
   console.log("Response Data", responseData);
@@ -716,14 +760,14 @@ const Index = () => {
   };
 
   useEffect(() => {
-    // window.addEventListener("storage", () => {
+    window.addEventListener("storage", () => {
       const length = JSON.parse(localStorage.getItem("length"));
       const selectedAll = JSON.parse(localStorage.getItem("storesName"));
       console.log("SELECT ALL", selectedAll);
       const cartStores = JSON.parse(localStorage.getItem("stores_1234"));
       const includedIds = new Set(cartStores);
       console.log("INC", includedIds);
-    // });
+    });
   }, []);
 
   return (
@@ -1010,7 +1054,6 @@ const Index = () => {
               //minWidth: "100%",
               marginTop: "32px",
               paddingLeft: "10%",
-paddingRight:"10%"
             }}
           >
             {loading ? (
@@ -1026,7 +1069,7 @@ paddingRight:"10%"
                     // paddingRight: "10%"
                   }}
                 >
-                                   <TabList
+                  <TabList
                     onTabSelected={onTabSelected}
                     style={{
                       display: "flex",
