@@ -386,9 +386,9 @@ button {
   transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
 }
 
-.react-tabs__tab-panel {
+/* .react-tabs__tab-panel {
   margin-right: 10%;
-}
+} */
 
 @media (max-width: 768px) {
   .container {
