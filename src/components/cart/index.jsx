@@ -292,12 +292,13 @@ const Cart = () => {
   }, []);
   
   return (
-    <div
-      style={{
+    <div className="cart"
+{/*       style={{
         display: "flex",
         flexDirection: "row",
         paddingRight: "10%",
-      }}
+        marginLeft: "130px"
+      }} */}
     >
       <div style={{ display: "flex", cursor: "pointer" }}>
         <Image
