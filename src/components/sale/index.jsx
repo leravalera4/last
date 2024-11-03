@@ -1081,7 +1081,7 @@ const Index = () => {
                   >
                     {fruitsAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
-                        {isMobile ? "Vegies" : "Vegies"}
+                        {isMobile ? "Veggies" : "Veggies"}
                       </Tab>
                     )}
 
