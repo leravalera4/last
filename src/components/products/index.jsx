@@ -602,23 +602,7 @@ const Products = ({ cartData }) => {
                     ))}
                   </select>
                 </div>
-
-                {selectedAllLength === 3 && (
-                  <p
-                    className={noir.className}
-                    style={{
-                      color: "rgb(225, 37, 27)",
-                      fontSize: "16px",
-                      fontWeight: "400",
-                    }}
-                  >
-                    You can add max 3 stores
-                  </p>
-                )}
-              </div>
-            )}
-
-            {selectedLocation && (
+                {selectedLocation && (
               <button
                 style={{
                   cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
@@ -638,6 +622,20 @@ const Products = ({ cartData }) => {
               >
                 Add Store
               </button>
+            )}
+                {selectedAllLength === 3 && (
+                  <p
+                    className={noir.className}
+                    style={{
+                      color: "rgb(225, 37, 27)",
+                      fontSize: "16px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    You can add max 3 stores
+                  </p>
+                )}
+              </div>
             )}
           </div>
 
