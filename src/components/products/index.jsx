@@ -567,14 +567,8 @@ const Products = ({ cartData }) => {
 
           <div className="select-location">
             {selectedStore && (
-              <div className="sel"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <div className="selected-store">
+              <div className="sel">
+              <div className="selected-store">
                   <label
                     style={{
                       paddingRight: "8px",
