@@ -173,7 +173,6 @@ const Products = ({ cartData }) => {
       if (mu) {
         setSelectedAll(JSON.parse(mu));
       } else {
-        console.log("stores_1234 is not found in localStorage.");
         setMur(null); // или другое значение по умолчанию
       }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
@@ -445,7 +444,6 @@ const Products = ({ cartData }) => {
   const selectedAllLength = selectedAll.length;
   if (typeof window !== 'undefined') {
   localStorage.setItem("storesLength", selectedAllLength);
-  console.log("LENGTH LERA", selectedAllLength);
   }
 
 
@@ -477,10 +475,6 @@ const Products = ({ cartData }) => {
       );
       const selectedAll = JSON.parse(localStorage.getItem("sel"));
       const stores1 = JSON.parse(localStorage.getItem("stores1"));
-      console.log("lalala", selectedLocation);
-      console.log("lalalalalal", selectedStore);
-      console.log("lalala", selectedAll);
-      console.log("stores_1234", stores1);
     });
   }, [selectedLocation, selectedStore, selectedAll]);
 
