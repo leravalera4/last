@@ -4,7 +4,16 @@
         padding-right: 10%;
         margin-left: 130px;
 }
-
+@media (max-width: 820px) {
+.select-store {
+    max-width: 185px;
+}
+        .selected-store {
+    display: flex;
+    flex-direction: column;
+}
+        
+}
 
 @media (max-width: 768px) {
     .list {
