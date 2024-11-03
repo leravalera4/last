@@ -3,7 +3,7 @@
       display: none;
     }
     .panel{
-      width:100%,
+      width:100%;
     }
 
     .products{
@@ -16,5 +16,5 @@
   }
 
   .panel{
-    width:70%,
+    width:70%;
   }
