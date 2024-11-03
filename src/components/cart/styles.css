@@ -1,3 +1,11 @@
+.cart{
+        display: flex;
+        flex-direction: row;
+        padding-right: 10%;
+        margin-left: 130px;
+}
+
+
 @media (max-width: 768px) {
     .list {
       display: none;
@@ -9,6 +17,13 @@
     .products{
       width: 45%;
     }
+
+.cart{
+        display: flex;
+        flex-direction: row;
+        padding-right: 10%;
+}
+
   }
 
   .list{
