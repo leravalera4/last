@@ -746,13 +746,7 @@ const Products = ({ cartData }) => {
             {loading && firstTime ? (
               <Loading />
             ) : (
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "center", // или space-between, если нужны пробелы между карточками
-                  gap: "20px", // промежуток между карточками
-                }}
+              <div className="product-cart-products"
               >
                 {responseData.map((item, index) => (
                   <div className="card"
