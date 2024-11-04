@@ -591,7 +591,7 @@ const Cart = () => {
                               it.non_member_price == null &&
                               it.regprice == null ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices}
+                                  `($${it.prices.toFixed(2)})`
                                   {it.saleprice != null ? (
                                     <span
                                       style={{
@@ -613,7 +613,7 @@ const Cart = () => {
                                 it.regprice != null &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
-                                  ${it.prices}
+                                 `($${it.prices.toFixed(2)})`
                                   {it.saleprice != null ? (
                                     <span
                                       style={{
@@ -636,7 +636,7 @@ const Cart = () => {
                                 it.regprice == null &&
                                 it.quantity > 1 ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices}
+                                   `($${it.prices.toFixed(2)})`
                                   {it.saleprice != null && (
                                     <span
                                       style={{
@@ -892,7 +892,7 @@ const Cart = () => {
                               it.non_member_price == null &&
                               it.regprice == null ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices}
+                                  `($${it.prices.toFixed(2)})`
                                   {it.saleprice != null ? (
                                     <span
                                       style={{
@@ -914,7 +914,7 @@ const Cart = () => {
                                 it.regprice != null &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
-                                  ${it.prices}
+                                  `($${it.prices.toFixed(2)})`
                                   {it.saleprice != null ? (
                                     <span
                                       style={{
