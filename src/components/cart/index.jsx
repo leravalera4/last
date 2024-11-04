@@ -217,8 +217,8 @@ const Cart = () => {
     // Сохраняем обновленную корзину в localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    //Обновление состояния в других вкладках
-    // window.dispatchEvent(new Event("storage"));
+    Обновление состояния в других вкладках
+    window.dispatchEvent(new Event("storage"));
   };
 
   const decreaseQuantity = (itemId) => {
@@ -261,8 +261,8 @@ const Cart = () => {
     // Сохраняем обновленную корзину в localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // // Обновление состояния в других вкладках
-    // window.dispatchEvent(new Event("storage"));
+    // Обновление состояния в других вкладках
+    window.dispatchEvent(new Event("storage"));
   };
 
 
