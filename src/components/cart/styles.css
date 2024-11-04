@@ -5,6 +5,14 @@
         margin-left: 130px;
 }
 
+  .list{
+    font-size: 18px;
+  }
+
+  .panel{
+    width:70%;
+  }
+
 @media (max-width: 768px) {
     .list {
       display: none;
@@ -26,10 +34,4 @@
 
   }
 
-  .list{
-    font-size: 18px;
-  }
 
-  .panel{
-    width:70%;
-  }
