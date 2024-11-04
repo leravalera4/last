@@ -355,10 +355,11 @@
 // export default StoreSelector;
 
 import React from 'react'
+import Sale from '../components/sale';
 
 const page = () => {
   return (
-    <div>page</div>
+    <div><Sale/></div>
   )
 }
 
