@@ -152,7 +152,7 @@ display: flex;
 }
 @media (max-width: 768px) {
 
-  .card{
+/*   .card{
   width: 380px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     display: flex;
@@ -160,7 +160,7 @@ display: flex;
     align-items: center;
     margin-bottom: 20px;
     flex-shrink: 0;
-}
+} */
 
 .product-cart-products{
     display: flex;
@@ -169,7 +169,7 @@ display: flex;
 }
   
   .card{
-    width: 480px;
+    width: 380px;
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       display: flex;
       flex-direction: column;
