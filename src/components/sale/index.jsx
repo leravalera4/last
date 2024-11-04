@@ -120,17 +120,7 @@ const Index = () => {
 
       const storeSale = JSON.parse(localStorage.getItem("storeSale"));
       setStoreSale(storeSale);
-
-      console.log("SSS", storeSale);
-
-      console.log(special);
-      console.log(sale);
-      console.log(responseData);
-      console.log(sale);
-      console.log(names);
       setSpecial(special);
-      console.log(special);
-      console.log(namesss);
       // setSelectedStore(sale.store);
       // setSelectedLocation(sale.location);
       //  setResponseData(responseData);
@@ -140,7 +130,6 @@ const Index = () => {
   React.useEffect(() => {
     window.addEventListener("storage", () => {
       if (namesss === null && special) {
-        console.log("noooooo");
         setAddedToCartImage(Array(responseData.length).fill(false));
       }
     });
@@ -241,13 +230,11 @@ const Index = () => {
 
       if (sale) {
         mana = sale.id.toString();
-        console.log("MANA", mana);
       }
 
       let checkForStoreValue;
       if (stim && mana) {
         checkForStoreValue = stim.includes(mana);
-        console.log("CHECK FOR STORE", checkForStoreValue);
       }
 
       // Обновляем состояние для checkForStore
@@ -296,8 +283,6 @@ const Index = () => {
         const locationsArray = Object.keys(locationsObject);
         setLocations(locationsArray);
         setSelectedLocationsObject(locationsObject);
-
-        console.log(locationsObject);
       } else {
         console.error(
           `Error fetching locations. Server returned: ${response.status}`
@@ -307,8 +292,6 @@ const Index = () => {
       console.error("Error fetching locations:", error.message);
     }
   };
-
-  console.log("Дата тут", responseData);
 
   function transformString(transformedString) {
     return transformedString;
@@ -339,19 +322,13 @@ const Index = () => {
     // Обновляем состояние, только если store существует и оно не обновлялось
     if (store !== null) {
       setStore1(JSON.parse(store));
-      console.log("STORE", store);
     }
     if (location !== null) {
       setLocation1(JSON.parse(location));
-      console.log("LOCATION", location);
     }
     })
 
   }, [selectedStore, selectedLocation]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
-
-  console.log("LERA VALERA_12", selectedStore);
-  console.log("LERA VALERA_123", selectedLocation);
-
   // let com = true;
   // if (storeSale &&
   //   storeSale.location != selectedLocation &&
@@ -363,8 +340,6 @@ const Index = () => {
   //   com = true;
   // }
 
-  console.log("COMA", com);
-
   const handleAddStore = async () => {
     setLoading(true);
 
@@ -372,7 +347,6 @@ const Index = () => {
 
     if (array != null) {
       idExists = array.includes(storedDat.id.toString());
-      console.log("LERAVALERA", idExists);
     }
 
     if (!selectedLocation) {
@@ -383,9 +357,6 @@ const Index = () => {
     if (selectedLocationsObject != null && selectedLocation != null) {
       newSelectedLocationValue = selectedLocationsObject[selectedLocation];
     }
-
-    console.log("newSelectedLocationValue", newSelectedLocationValue); //сюда кладем iD выбранного магазина
-
     const storeStore = JSON.parse(localStorage.getItem("activeSTORE"));
     const storeLocation = JSON.parse(localStorage.getItem("activeLOCATION"));
     const sale = JSON.parse(localStorage.getItem("storeSale"));
@@ -395,8 +366,6 @@ const Index = () => {
     const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || []; //тут ID из корзины
 
     setLen(leng);
-    console.log("LENS", leng);
-    console.log("LENS1", len);
 
     const targetStore = {
       store: store1,
@@ -413,7 +382,6 @@ const Index = () => {
       );
     }
 
-    console.log("storeExists", storeExists);
 
     let newStoreLocationObject;
 
@@ -422,19 +390,11 @@ const Index = () => {
       setSelectedStore(storeStore);
       setSelectedLocation(storeLocation);
 
-      console.log("ACTIVE1", locValue);
-      console.log("ACTIVE11", selectedStore);
-      console.log("ACTIVE111", selectedLocation);
-
       newStoreLocationObject = {
         store: storeStore,
         location: storeLocation,
         id: storeSale,
       };
-
-      console.log("STORE");
-
-      console.log("HERE IS IF", newStoreLocationObject);
     }
     // else if (newSelectedLocationValue == null) {
     //   newStoreLocationObject = {
@@ -461,16 +421,11 @@ const Index = () => {
       setLocValue(newSelectedLocationValue); //сюда кладем id
       setSelectedStore(selectedStore);
       setSelectedLocation(selectedLocation);
-
-      console.log("HERE IS ELSE", newSelectedLocationValue);
-      console.log("HERE IS ELSE 2", newStoreLocationObject);
-      console.log("LOC VALUE", locValue);
     }
 
     if (len === 2) {
       setLen(3);
     }
-    console.log("LEN", len);
 
     //console.log("HERE IS AN ID",newStoreLocationObject)
 
@@ -489,12 +444,10 @@ const Index = () => {
     if (!isDuplicate) {
       storesNames.push(newStoreLocationObject);
       localStorage.setItem("storesName", JSON.stringify(storesNames));
-    } else {
-      console.log("Этот магазин уже существует!");
-    }
-
-    console.log("newStoreLocationObject", newStoreLocationObject);
-
+    } 
+// else {
+//       console.log("Этот магазин уже существует!");
+//     }
     //let idExists;
 
     const saveCartData = (newStoreLocationObject) => {
@@ -503,17 +456,10 @@ const Index = () => {
 
     saveCartData(newStoreLocationObject);
     const storedData = JSON.parse(localStorage.getItem("sale"));
-    console.log("storedData", storedData);
     setStoredDat(storedData); // тут лежит один объект который в данный момет выбран
 
     setSelectedStore(storedData.store);
     setSelectedLocation(storedData.location);
-    console.log("selectedStore", selectedStore);
-    console.log("selectedLocation", selectedLocation);
-
-    console.log("STORE SALE LERA", storeSale);
-    console.log("STORE SALE LERA 1", newSelectedLocationValue);
-    console.log("STORE SALE LERA COMA", com);
 
     try {
       let response;
@@ -521,24 +467,21 @@ const Index = () => {
         response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
           selectedStoresID: [storeSale],
         });
-        console.log("Отправляемые данные:", {
-          selectedStoresID: [storeSale],
-        });
+        // console.log("Отправляемые данные:", {
+        //   selectedStoresID: [storeSale],
+        // });
       } else {
         response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
           selectedStoresID: [newSelectedLocationValue],
         });
-        console.log("Отправляемые данные:", {
-          selectedStoresID: [newSelectedLocationValue],
-        });
+        // console.log("Отправляемые данные:", {
+        //   selectedStoresID: [newSelectedLocationValue],
+        // });
       }
       // Assuming the response contains the data you need
       const storesData = response.data;
       setResponseData(storesData);
       //setResponseData(storesData);
-
-      console.log("responseData", responseData);
-
       const dataToLocalStorage = localStorage.setItem(
         "responseData",
         JSON.stringify(storesData)
@@ -578,15 +521,15 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    console.log("selectedStore changed: ", selectedStore);
-    console.log("selectedLocation changed: ", selectedLocation);
+    // console.log("selectedStore changed: ", selectedStore);
+    // console.log("selectedLocation changed: ", selectedLocation);
 
-    if (storedDat) {
-      console.log("STORE_SALE", storedDat);
-      console.log("STORE_SALE_LOC", storedDat.location);
-      console.log("STORE_SALE_STORE", storedDat.store);
-      console.log("STORE_SALE_STORE", storedDat.id);
-    }
+    // if (storedDat) {
+    //   console.log("STORE_SALE", storedDat);
+    //   console.log("STORE_SALE_LOC", storedDat.location);
+    //   console.log("STORE_SALE_STORE", storedDat.store);
+    //   console.log("STORE_SALE_STORE", storedDat.id);
+    // }
 
     if (
       storedDat &&
@@ -597,9 +540,7 @@ const Index = () => {
     } else {
       setCom(true);
     }
-    console.log("COMA", com);
   }, [storeSale, selectedLocation, selectedStore]);
-  console.log("COMA COMA", com);
   // useEffect(() => {
   //   // Пересчитываем значение com при изменении состояния
   //   if (
@@ -614,8 +555,6 @@ const Index = () => {
   // }, [storeSale, selectedLocation, selectedStore]);
 
   // Для вывода значения com
-
-  console.log("res", responseData);
 
   const increaseCount = (product) => {
     setProductCounts((prevCounts) => ({
@@ -638,14 +577,11 @@ const Index = () => {
 
     // Get the selected item from the responseData based on the index
     const selectedItem = responseData[index];
-    console.log("SELECTED-ITEM", selectedItem);
     const itemCode = selectedItem.productID;
     const name = selectedItem.title;
     let storeID = selectedItem.storeid;
     let storeID_new = selectedItem.storeID;
 
-    console.log("New store", storeID_new);
-    console.log("New store from DB", storeID);
 
     setProductCounts((prevCounts) => ({
       ...prevCounts,
@@ -656,7 +592,6 @@ const Index = () => {
       arrayOfStores.includes(storeID_new) ||
       arrayOfStores.includes(storeID)
     ) {
-      console.log("Store already exists in the cart.");
     } else {
       if (storeID !== undefined) {
         arrayOfStores.push(storeID);
@@ -670,13 +605,11 @@ const Index = () => {
     }
     // const LALALA = JSON.parse(localStorage.getItem("LALALA")) || [];
 
-    console.log("Array of stores", arrayOfStores);
     setStoresName(arrayOfStores.length);
     const len = localStorage.setItem(
       "storesLength",
       JSON.stringify(arrayOfStores.length)
     );
-    console.log("STORES NAME LENGTH", arrayOfStores.length + 1);
     // Push name to the title array
     title.push(name);
     localStorage.setItem("names", JSON.stringify(title));
@@ -712,8 +645,6 @@ const Index = () => {
     });
     window.dispatchEvent(new Event("storage"));
   }, []);
-
-  console.log("Response Data", responseData);
 
   const fruitsAisleCount = responseData.filter(
     (item) => item.category === "Fruits & Vegetables"
@@ -755,18 +686,16 @@ const Index = () => {
     (item) => item.category === "Frozen Food"
   ).length;
 
-  const onTabSelected = (index) => {
-    console.log(index);
-  };
+  // const onTabSelected = (index) => {
+  //   console.log(index);
+  // };
 
   useEffect(() => {
     window.addEventListener("storage", () => {
       const length = JSON.parse(localStorage.getItem("length"));
       const selectedAll = JSON.parse(localStorage.getItem("storesName"));
-      console.log("SELECT ALL", selectedAll);
       const cartStores = JSON.parse(localStorage.getItem("stores_1234"));
       const includedIds = new Set(cartStores);
-      console.log("INC", includedIds);
     });
   }, []);
 
@@ -992,10 +921,10 @@ const Index = () => {
                   setLocValue(store.id); // Это обновит состояние, но может не отразиться немедленно
                   setSelectedStore(store.store);
                   setSelectedLocation(store.location);
-                  console.log("Setting locValue to ID:", store.id);
-                  console.log("Setting locValue to STORE:", store.store);
-                  console.log("Setting locValue to LOCATION:", store.location);
-                  console.log("Setting locValue to LOC VALUE:", locValue);
+                  // console.log("Setting locValue to ID:", store.id);
+                  // console.log("Setting locValue to STORE:", store.store);
+                  // console.log("Setting locValue to LOCATION:", store.location);
+                  // console.log("Setting locValue to LOC VALUE:", locValue);
                   // setSelectedStore(store.store);
                   // setSelectedLocation(store.location);
                   toggleButton(index);
