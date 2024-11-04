@@ -1000,7 +1000,6 @@ const Index = () => {
                   }}
                 >
                   <TabList
-                    onTabSelected={onTabSelected}
                     style={{
                       display: "flex",
                       border: "none",
