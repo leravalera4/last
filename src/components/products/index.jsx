@@ -538,7 +538,7 @@ const Products = ({ cartData }) => {
           Select the stores you'd like to compare prices for various products
         </p>
 
-                  <div className="select-container">
+        <div className="select-container">
           <div className="select-store">
             <label
               style={{
@@ -551,19 +551,6 @@ const Products = ({ cartData }) => {
             </label>
             <select
               className={noir.className}
-              // style={{
-              //   height: "38px",
-              //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-              //   fontSize: "1rem",
-              //   fontWeight: "400",
-              //   lineHeight: "1.5",
-              //   color: "#212529",
-              //   backgroundColor: "#fff",
-              //   border: "1px solid #ced4da",
-              //   borderRadius: "0.25rem",
-              //   transition:
-              //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-              // }}
               onChange={(e) => handleStoreChange(e.target.value)}
               value={selectedStore}
             >
@@ -580,15 +567,8 @@ const Products = ({ cartData }) => {
 
           <div className="select-location">
             {selectedStore && (
-              <div
-                className="sel"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <div className="selected-store">
+              <div className="sel">
+              <div className="selected-store">
                   <label
                     style={{
                       paddingRight: "8px",
@@ -601,21 +581,6 @@ const Products = ({ cartData }) => {
                   </label>
                   <select
                     className={noir.className}
-                    // style={{
-                    //   height: "38px",
-                    //   marginRight: "16px",
-                    //   maxWidth: "320px",
-                    //   padding: "0.375rem 0.25rem 0.375rem 0.75rem",
-                    //   fontSize: "1rem",
-                    //   fontWeight: "400",
-                    //   lineHeight: "1.5",
-                    //   color: "#212529",
-                    //   backgroundColor: "#fff",
-                    //   border: "1px solid #ced4da",
-                    //   borderRadius: "0.25rem",
-                    //   transition:
-                    //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-                    // }}
                     onChange={(e) => handleLocationChange(e.target.value)}
                     value={selectedLocation}
                   >
@@ -631,21 +596,39 @@ const Products = ({ cartData }) => {
                     ))}
                   </select>
                 </div>
-              </div>
+                {selectedLocation && (
+              <button
+                style={{
+                  cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
+                  color: selectedAllLength === 3 ? "#ccc" : "#24292e", // Change color when disabled
+                  backgroundColor:
+                    selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
+                  borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
+                }}
+                disabled={
+                  selectedAll.some(
+                    (store) => store.location === selectedLocation
+                  ) || selectedAllLength === 3
+                }
+                // disabled={selectedAll.includes(selectedLocation)}
+                className={`${noir.className} button`}
+                onClick={handleAddStore}
+              >
+                Add Store
+              </button>
             )}
-
-            {selectedAllLength === 3 && (
-              <div>
-                <p
-                  className={noir.className}
-                  style={{
-                    color: "rgb(225, 37, 27)",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                  }}
-                >
-                  You can add max 3 stores
-                </p>
+                {selectedAllLength === 3 && (
+                  <p
+                    className={noir.className}
+                    style={{
+                      color: "rgb(225, 37, 27)",
+                      fontSize: "16px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    You can add max 3 stores
+                  </p>
+                )}
               </div>
             )}
           </div>
