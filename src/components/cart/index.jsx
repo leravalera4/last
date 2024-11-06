@@ -228,8 +228,6 @@ const Cart = () => {
 
 
         const name = item.title;
-        console.log("NAME", name);
-
         let title = JSON.parse(localStorage.getItem("names")) || [];
 
         // Находим индекс первого вхождения `name` и удаляем его
