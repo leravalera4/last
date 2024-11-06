@@ -225,6 +225,22 @@ const Cart = () => {
     const updatedResponse = response.map((store) => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
+
+
+        const name = item.title;
+        console.log("NAME", name);
+
+        let title = JSON.parse(localStorage.getItem("names")) || [];
+
+        // Находим индекс первого вхождения `name` и удаляем его
+        const nameIndex = title.indexOf(name);
+        if (nameIndex !== -1) {
+          title.splice(nameIndex, 1); // Удаляем только одно вхождение
+        }
+
+        // Сохраняем обновленный массив обратно в localStorage
+        localStorage.setItem("names", JSON.stringify(title));
+          
           // Уменьшаем количество, но проверяем, чтобы оно не стало меньше 1
           const newQuantity = Math.max(item.quantity - 1, 1);
           const newPrice = parseFloat(
