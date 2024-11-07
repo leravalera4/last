@@ -2,43 +2,30 @@ import Joyride from "react-joyride";
 import React, { useState, useEffect } from 'react';
 
   
+  
 const steps = [
   {
-    target: "body > div:nth-child(14) > div > div:nth-child(4)",
+    target: "ul > li:nth-child(1) > div > button",
     content: "Use the tabs to explore different categories.",
     disableBeacon: true, // Убедитесь, что beacon включен
    spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
-  // {
-  //   target: "#button",
-  //   content: "All your items are stored here",
-  //   placement: 'bottom',
-  //   spotlight:true,
-  //   styles: {
-  //     options: {
-  //       width: 200,
-  //       height: 100
-  //     },
-  //     spotlight: {
-  //       backgroundColor: "#ffffff70",
-  //     },
-  //   },
-  // },
+
   {
-    target: "body > div:nth-child(14) > div > div.react-tabs > div > div:nth-child(1) > ul",
+    target: "body > div.headroom-wrapper > div > header > div.cart > div",
     content: "Add iteem to the list for price comparing",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
-    target: "ul > li:nth-child(1) > div > button",
+    target: "body > div:nth-child(2) > div > div.react-tabs > div > div:nth-child(1)",
     content: "Add iteem to the list for price comparing",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
-    target: "body > div.headroom-wrapper > div > header > div:nth-child(3) > div",
+    target: "body > div:nth-child(2) > div > div.container",
     content: "All your added items are stored here",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
@@ -52,6 +39,7 @@ const steps = [
   //   content: "Subscribe to our newsletter here",
   // },
 ];
+
 
 function Tour() {
   const [run, setRun] = useState(false);
