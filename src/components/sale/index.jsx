@@ -4179,7 +4179,7 @@ const Index = () => {
           </div>
         </Tabs>
       ) : firstTime && loading ? (
-        <Loading />
+        <Loading style={{paddingLeft:"10%",paddintRight:"10px"}} />
       ) : firstTime ? (
         <About />
       ) : (
