@@ -332,6 +332,23 @@ button {
 
 @media (max-width: 768px) {
 
+  .button-active, .button-inactive {
+    outline: 0;
+    display: flex;
+    cursor: pointer;
+    padding: 0px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    vertical-align: middle;
+    border: 1px solid rgba(27, 31, 35, .15);
+    border-radius: 6px;
+    color: #24292e;
+    background-color: #fafbfc;
+    transition: .2s cubic-bezier(.3,0,.5,1);
+    margin-right: 12px;
+}
+
 .links {
   padding-right: 24px;
 }
