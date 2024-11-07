@@ -30,7 +30,7 @@ const noir = localFont({
 
 const index = () => {
   return (
-    <div style={{ display: "flex", flexDirection: "column",alignItems:'center',paddingTop:'48px' }}>
+    <div style={{ display: "flex", flexDirection: "column",alignItems:'center',paddingTop:'48px',paddingBottom:"700px", paddingLeft:"10%",paddingRight:"10%" }}>
       <Spiner style={{width:'40px',height:'40px'}}/>
     <p style={{marginBottom:"0px"}} className={noir.className}>We're loading the best deals for you, but here's an interesting fact
     you didnt know...</p>
