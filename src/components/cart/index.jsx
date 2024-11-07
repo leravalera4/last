@@ -85,7 +85,9 @@ const Cart = () => {
         const filteredStores = name.filter((store) =>
           theme.includes(store.id.toString())
         );
-        localStorage.setItem("storeSale", JSON.stringify(filteredStores));  
+        if(filteredStores != null){
+                  localStorage.setItem("storeSale", JSON.stringify(filteredStores));  
+}
         setTheme(theme);
         setSale(sale);
         setSpecial(special);
