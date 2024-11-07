@@ -892,7 +892,7 @@ const Index = () => {
       </div>
 
       {storeSale && storeSale.length > 0 ? (
-        <div style={{ paddingLeft: "10%" }}>
+        <div style={{ paddingLeft: "10%", paddingRight: "10%"}}>
           <h2 className={noir.className}>Stores on your List</h2>
           <div style={{ display: "flex" }}>
             {storeSale.map((store, index) => (
