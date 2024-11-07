@@ -10,6 +10,7 @@ const steps = [
     disableBeacon: true, // Убедитесь, что beacon включен
    spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
+    disableScrolling: false,
   },
 
   {
@@ -17,18 +18,21 @@ const steps = [
     content: "Add iteem to the list for price comparing",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
+    disableScrolling: false,
   },
   {
     target: "body > div:nth-child(2) > div > div.react-tabs > div > div:nth-child(1)",
     content: "Add iteem to the list for price comparing",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
+    disableScrolling: false,
   },
   {
     target: "body > div:nth-child(2) > div > div.container",
     content: "All your added items are stored here",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
+    disableScrolling: false,
   },
   // {
   //   target: ".explore",
