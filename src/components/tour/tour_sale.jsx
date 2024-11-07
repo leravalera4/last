@@ -65,8 +65,8 @@ function Tour() {
       localStorage.setItem('hasVisitedSale', 'true'); // Устанавливаем ключ при завершении
     }
   }}
-  disableScrolling={true}
-  scrollToStep={false}
+  disableScrolling={false}
+  scrollToStep={true}
   continuous={true}
   styles={{
     options: {
