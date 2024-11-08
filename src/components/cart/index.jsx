@@ -182,13 +182,16 @@ const Cart = () => {
     setQuantity(titleLength);
   }, [titleLength]); // Срабатывает при изменении response
 
-  const increaseQuantity = (itemId) => {
+    const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
           const name = item.title;
+          console.log("NAME", name);
           let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
           title.push(name);
+          console.log("LERA NAME", name);
+          console.log("LERA TITLE", title);
           localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
           const newQuantity = item.quantity + 1;
           const newPrice = parseFloat(
@@ -213,6 +216,8 @@ const Cart = () => {
     });
 
     setResponseData(updatedResponse);
+    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
+    console.log("UPD", updatedResponse);
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -222,9 +227,53 @@ const Cart = () => {
     // Сохраняем обновленную корзину в localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
 
-  // Обновление состояния в других вкладках
+    // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
   };
+  
+  // const increaseQuantity = (itemId) => {
+  //   const updatedResponse = response.map((store) => {
+  //     const updatedItems = store.items.map((item) => {
+  //       if (item.productID === itemId) {
+  //         const name = item.title;
+  //         let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
+  //         title.push(name);
+  //         localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
+  //         const newQuantity = item.quantity + 1;
+  //         const newPrice = parseFloat(
+  //           (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
+  //         );
+  //         return { ...item, quantity: newQuantity, prices: newPrice };
+  //       }
+  //       return item;
+  //     });
+
+  //     // Пересчитываем totalPrices после обновления items
+  //     const totalPrices = updatedItems.reduce(
+  //       (sum, item) => sum + item.prices,
+  //       0
+  //     );
+
+  //     return {
+  //       ...store,
+  //       items: updatedItems,
+  //       totalPrices,
+  //     };
+  //   });
+
+  //   setResponseData(updatedResponse);
+
+  //   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  //   // Добавляем ID продукта в корзину
+  //   cart.push(itemId);
+
+  //   // Сохраняем обновленную корзину в localStorage
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+
+  // // Обновление состояния в других вкладках
+  //   window.dispatchEvent(new Event("storage"));
+  // };
 
   const decreaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
