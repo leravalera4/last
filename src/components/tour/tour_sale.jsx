@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
   
 const steps = [
   {
-    target: "body > div:nth-child(15) > div > div.container",
+    target: "body > div:nth-child(2) > div > div.container",
     content: "Use the tabs to explore different categories.",
     disableBeacon: true, // Убедитесь, что beacon включен
    spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
