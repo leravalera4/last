@@ -82,16 +82,10 @@ const Cart = () => {
         const sale = JSON.parse(localStorage.getItem("cart"));
         const name = JSON.parse(localStorage.getItem("storesName"));
         const special = JSON.parse(localStorage.getItem("special"));
-
-      let filteredStores;
-      if (name != null && theme != null) {
-        filteredStores = name.filter((store) =>
+        const filteredStores = name.filter((store) =>
           theme.includes(store.id.toString())
         );
-      }
-      if (filteredStores != null) {
-        localStorage.setItem("storeSale", JSON.stringify(filteredStores));
-      }
+        localStorage.setItem("storeSale", JSON.stringify(filteredStores));  
         setTheme(theme);
         setSale(sale);
         setSpecial(special);
@@ -127,16 +121,12 @@ const Cart = () => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(localStorage.getItem("stores_1234"));
-    const get1 = JSON.parse(localStorage.getItem("stores_1"));
     const st = JSON.parse(localStorage.getItem("storesLength"));
     const change = st - 1;
     const da = get.filter((store) => store != storeId);
-    const da1 = get1.filter((store) => store != storeId);
-    console.log("DAS", da);
     localStorage.setItem("stores_1234", JSON.stringify(da));
-    localStorage.setItem("stores_1", JSON.stringify(da1));
     localStorage.setItem("storesLength", JSON.stringify(change));
-    window.dispatchEvent(new Event("storage"));
+    // window.dispatchEvent(new Event("storage"));
   };
 
   let title, storesName, cart;
@@ -187,16 +177,13 @@ const Cart = () => {
     setQuantity(titleLength);
   }, [titleLength]); // Срабатывает при изменении response
 
-    const increaseQuantity = (itemId) => {
+  const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
           const name = item.title;
-          console.log("NAME", name);
           let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
           title.push(name);
-          console.log("LERA NAME", name);
-          console.log("LERA TITLE", title);
           localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
           const newQuantity = item.quantity + 1;
           const newPrice = parseFloat(
@@ -221,8 +208,6 @@ const Cart = () => {
     });
 
     setResponseData(updatedResponse);
-    // updateCartOnServer(updatedResponse); // Отправка обновленных данных на сервер
-    console.log("UPD", updatedResponse);
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -232,53 +217,9 @@ const Cart = () => {
     // Сохраняем обновленную корзину в localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // Обновление состояния в других вкладках
+  // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
   };
-  
-  // const increaseQuantity = (itemId) => {
-  //   const updatedResponse = response.map((store) => {
-  //     const updatedItems = store.items.map((item) => {
-  //       if (item.productID === itemId) {
-  //         const name = item.title;
-  //         let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
-  //         title.push(name);
-  //         localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
-  //         const newQuantity = item.quantity + 1;
-  //         const newPrice = parseFloat(
-  //           (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
-  //         );
-  //         return { ...item, quantity: newQuantity, prices: newPrice };
-  //       }
-  //       return item;
-  //     });
-
-  //     // Пересчитываем totalPrices после обновления items
-  //     const totalPrices = updatedItems.reduce(
-  //       (sum, item) => sum + item.prices,
-  //       0
-  //     );
-
-  //     return {
-  //       ...store,
-  //       items: updatedItems,
-  //       totalPrices,
-  //     };
-  //   });
-
-  //   setResponseData(updatedResponse);
-
-  //   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  //   // Добавляем ID продукта в корзину
-  //   cart.push(itemId);
-
-  //   // Сохраняем обновленную корзину в localStorage
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-
-  // // Обновление состояния в других вкладках
-  //   window.dispatchEvent(new Event("storage"));
-  // };
 
   const decreaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
@@ -387,10 +328,10 @@ const Cart = () => {
         >
           List
         </p>
-{quantity === null ? (
+        {quantity === null ? (
           <p style={{ fontSize: "18px" }}>(0)</p>
         ) : (
-          <p style={{ fontSize: "18px" }}>({cartLength})</p>
+          <p style={{ fontSize: "18px" }}>({quantity})</p>
         )}
       </div>
 
