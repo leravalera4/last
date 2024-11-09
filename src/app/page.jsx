@@ -354,13 +354,21 @@
 
 // export default StoreSelector;
 
-import React from 'react'
-import Sale from '../components/sale';
+import React from "react";
+import Sale from "../components/sale";
+import Script from "next/script";
 
 const page = () => {
   return (
-    <div><Sale/></div>
-  )
-}
+    <div>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
+        crossOrigin="anonymous"
+      />
+      <Sale />
+    </div>
+  );
+};
 
-export default page
+export default page;
