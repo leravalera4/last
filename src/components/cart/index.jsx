@@ -92,10 +92,6 @@ const Cart = () => {
       if (filteredStores != null) {
         localStorage.setItem("storeSale", JSON.stringify(filteredStores));
       }
-
-                      if(theme.length === 0){
-        localStorage.removeItem('сart');
-      }
         setTheme(theme);
         setSale(sale);
         setSpecial(special);
@@ -387,7 +383,7 @@ const Cart = () => {
         >
           List
         </p>
-{quantity === null || theme.length === 0? (
+{quantity === null ? (
           <p style={{ fontSize: "18px" }}>(0)</p>
         ) : (
           <p style={{ fontSize: "18px" }}>({cartLength})</p>
