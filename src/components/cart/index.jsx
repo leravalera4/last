@@ -385,7 +385,7 @@ const Cart = () => {
         {quantity === null ? (
           <p style={{ fontSize: "18px" }}>(0)</p>
         ) : (
-          <p style={{ fontSize: "18px" }}>({quantity})</p>
+          <p style={{ fontSize: "18px" }}>({cartLength})</p>
         )}
       </div>
 
