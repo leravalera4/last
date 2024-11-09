@@ -136,7 +136,7 @@ const Cart = () => {
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("stores_1", JSON.stringify(da1));
     localStorage.setItem("storesLength", JSON.stringify(change));
-   // window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(new Event("storage"));
   };
 
   let title, storesName, cart;
