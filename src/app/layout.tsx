@@ -40,14 +40,6 @@ export default function RootLayout({
             {children}
            <SpeedInsights />
             <Analytics />
-<amp-ad width="100vw" height="320"
-     type="adsense"
-     data-ad-client="ca-pub-1262441687811052"
-     data-ad-slot="9219451916"
-     data-auto-format="rspv"
-     data-full-width="">
-  <div overflow=""></div>
-</amp-ad>
       </body>
     </html>
   )
