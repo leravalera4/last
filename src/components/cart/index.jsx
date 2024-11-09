@@ -127,12 +127,16 @@ const Cart = () => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(localStorage.getItem("stores_1234"));
+    const get1 = JSON.parse(localStorage.getItem("stores_1"));
     const st = JSON.parse(localStorage.getItem("storesLength"));
     const change = st - 1;
     const da = get.filter((store) => store != storeId);
+    const da1 = get1.filter((store) => store != storeId);
+    console.log("DAS", da);
     localStorage.setItem("stores_1234", JSON.stringify(da));
+    localStorage.setItem("stores_1", JSON.stringify(da1));
     localStorage.setItem("storesLength", JSON.stringify(change));
-    // window.dispatchEvent(new Event("storage"));
+   // window.dispatchEvent(new Event("storage"));
   };
 
   let title, storesName, cart;
