@@ -6,26 +6,26 @@ import React, { useState, useEffect } from 'react';
 const steps = [
   {
     target: "body > div:nth-child(2) > div > div.container",
-    content: "Select store to find whats on sale",
+    content: "Select store to find what's on sale",
     disableBeacon: true, // Убедитесь, что beacon включен
    spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
     target: "body > div:nth-child(2) > div > div.react-tabs > div > div:nth-child(1)",
-    content: "Add iteem to the list for price comparing",
+    content:  "Use the tabs to explore different categories",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
     {
     target: "ul > li:nth-child(1) > div > button",
-    content: "All your added items are stored here",
+    content:"Add iteem to the list for price comparing" ,
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
     target: "body > div.headroom-wrapper > div > header > div.cart > div",
-    content: "Add iteem to the list for price comparing",
+    content:"All your added items are stored here" ,
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
