@@ -33,7 +33,8 @@ export default function RootLayout({
         <meta property="og:image" content="URL изображения для соцсетей" />
         <meta property="og:url" content="https://shoppyscan.ca" />
         <meta name="robots" content="index, follow, save, compare" />
-  <Script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"/>
+  <Script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
+     crossorigin="anonymous"/>
 </head>
       <body className={inter.className}>
             <Header />
