@@ -33,8 +33,9 @@ export default function RootLayout({
         <meta property="og:image" content="URL изображения для соцсетей" />
         <meta property="og:url" content="https://shoppyscan.ca" />
         <meta name="robots" content="index, follow, save, compare" />
-  <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
-     crossorigin="anonymous"/>
+  <Script async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
+          crossOrigin="anonymous"/>
 </head>
       <body className={inter.className}>
             <Header />
