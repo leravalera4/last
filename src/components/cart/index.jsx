@@ -117,6 +117,8 @@ const Cart = () => {
     }
   };
 
+  
+
   const removeStore = (storeId) => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
@@ -128,7 +130,7 @@ const Cart = () => {
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("stores1", JSON.stringify(da));
     localStorage.setItem("storesLength", JSON.stringify(change));
-    // window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(new Event("storage"));
   };
 
   let title, storesName, cart;
