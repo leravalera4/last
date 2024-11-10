@@ -83,6 +83,7 @@ const Cart = () => {
         const sale = JSON.parse(localStorage.getItem("cart"));
         const name = JSON.parse(localStorage.getItem("storesName"));
         const special = JSON.parse(localStorage.getItem("special"));
+        let filteredStores;
       if (name != null && theme != null) {
         filteredStores = name.filter((store) =>
           theme.includes(store.id.toString())
