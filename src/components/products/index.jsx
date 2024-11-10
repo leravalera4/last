@@ -122,7 +122,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.clear();
+      sessionStorage.clear();
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -134,7 +134,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     const handleStorage = () => {
-      const stores = localStorage.getItem("stores");
+      const stores = sessionStorage.getItem("stores");
       const storesArray = JSON.parse(stores);
     };
 
@@ -157,19 +157,19 @@ const Products = ({ cartData }) => {
   };
 
   React.useEffect(() => {
-      const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
+      const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
       const selectedLocation = JSON.parse(
-        localStorage.getItem("selectedLocation")
+        sessionStorage.getItem("selectedLocation")
       );
-      const store1 = JSON.parse(localStorage.getItem("store1"));
-      const selectedAll = JSON.parse(localStorage.getItem("selectedAll"));
+      const store1 = JSON.parse(sessionStorage.getItem("store1"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("selectedAll"));
       setSelectedLocation(selectedLocation);
       setSelectedStore(selectedStore);
       setSelectedStoresID(store1);
   }, [selectedLocation, selectedStore, selectedAll]);
 
   React.useEffect(() => {
-      const mu = localStorage.getItem("storeSale");
+      const mu = sessionStorage.getItem("storeSale");
       if (mu) {
         setSelectedAll(JSON.parse(mu));
       } else {
@@ -179,7 +179,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.clear();
+      sessionStorage.clear();
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -203,8 +203,8 @@ const Products = ({ cartData }) => {
 
   const handleStoreChange = async (selectedStore) => {
       setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
-      localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-      const store = JSON.parse(localStorage.getItem("selectedStore"));
+      sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+      const store = JSON.parse(sessionStorage.getItem("selectedStore"));
       try {
         const response = await axios.get(
           `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
@@ -241,12 +241,12 @@ const Products = ({ cartData }) => {
     const newSelectedLocationValue = selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
     setSelectedLocationValue(newSelectedLocationValue); // тут теперь хранится value(цифра) выбранной локации
     setSelectedLocation(selectedLocation); // тут только имя локации
-    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+    sessionStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
   };
 
   const handleButtonClick = async () => {
       setLoading(true);
-      const selectedStoresID = JSON.parse(localStorage.getItem("stores1")) || [];
+      const selectedStoresID = JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
         "https://server-blue-ten.vercel.app/api/updateLocation",
@@ -260,11 +260,11 @@ const Products = ({ cartData }) => {
       responseData.sort((a, b) => b.products.length - a.products.length);
       setResponseData(responseData);
       setAddedToCartImage(Array(responseData.length).fill(false));
-      localStorage.setItem("stores", JSON.stringify(selectedStoresID));
+      sessionStorage.setItem("stores", JSON.stringify(selectedStoresID));
 
       let storage1;
       window.addEventListener("storage",()=>{
-        storage1 = localStorage.getItem("stores1");
+        storage1 = sessionStorage.getItem("stores1");
       })
       let storesSet1 = new Set();
 
@@ -273,15 +273,15 @@ const Products = ({ cartData }) => {
           storesSet1 = new Set(JSON.parse(storage1));
         }
       } catch (error) {
-        console.error("Ошибка при парсинге данных из localStorage", error);
+        console.error("Ошибка при парсинге данных из sessionStorage", error);
       }
       selectedStoresID.forEach((id) => {
         storesSet1.add(id);
       });
-      const updateLocalStorage = (key, array) => {
-        localStorage.setItem(key, JSON.stringify(array));
+      const updatesessionStorage = (key, array) => {
+        sessionStorage.setItem(key, JSON.stringify(array));
       };
-      updateLocalStorage("stores1", Array.from(storesSet1));
+      updatesessionStorage("stores1", Array.from(storesSet1));
     } catch (error) {
       console.error("Ошибка при отправке данных на бэкенд", error);
     } finally {
@@ -291,7 +291,7 @@ const Products = ({ cartData }) => {
 
   const handleAddStore = () => {
       setLoading(true);
-      const existingStores = JSON.parse(localStorage.getItem("stores1"));
+      const existingStores = JSON.parse(sessionStorage.getItem("stores1"));
       if (!selectedStores.includes(selectedLocation)) {
         setSelectedStores([...selectedStores, selectedLocation]); // кладем выбранные локации в массив
         const newSelectedLocationValue =
@@ -302,12 +302,12 @@ const Products = ({ cartData }) => {
           id: newSelectedLocationValue,
         };
   
-        const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
+        const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
         if (
           !storesNames.some((store) => store.id === newStoreLocationObject.id)
         ) {
           storesNames.push(newStoreLocationObject);
-          localStorage.setItem("storesName", JSON.stringify(storesNames));
+          sessionStorage.setItem("storesName", JSON.stringify(storesNames));
           setStoresName(storesNames);
         }
   
@@ -316,22 +316,22 @@ const Products = ({ cartData }) => {
           newStoreLocationObject,
         ]);
   
-        const selectedAll = JSON.parse(localStorage.getItem("selectedAll")) || [];
+        const selectedAll = JSON.parse(sessionStorage.getItem("selectedAll")) || [];
         if (!selectedAll.includes(newStoreLocationObject)) {
           storesNames.push(newStoreLocationObject);
-          localStorage.setItem("selectedAll", JSON.stringify(selectedAll));
+          sessionStorage.setItem("selectedAll", JSON.stringify(selectedAll));
         }
-        const storesNames1 = JSON.parse(localStorage.getItem("sel")) || [];
+        const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
   
         if (!storesNames1.includes(newStoreLocationObject)) {
           storesNames1.push(newStoreLocationObject);
-          localStorage.setItem("sel", JSON.stringify(storesNames1));
+          sessionStorage.setItem("sel", JSON.stringify(storesNames1));
         }
-        const names1 = JSON.parse(localStorage.getItem("stores1")) || [];
+        const names1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
   
         if (!names1.includes(newStoreLocationObject.id)) {
           names1.push(newStoreLocationObject.id);
-          localStorage.setItem("stores1", JSON.stringify(names1));
+          sessionStorage.setItem("stores1", JSON.stringify(names1));
         }
         setSelectedSel(storesNames1);
         setSelectedStoresID(existingStores);
@@ -352,10 +352,10 @@ const Products = ({ cartData }) => {
 
   const handleAddToCart = async (product, index) => {
 
-      const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || [];
+      const arrayOfStores = JSON.parse(sessionStorage.getItem("stores_1234")) || [];
   
-      const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
-      const title = JSON.parse(localStorage.getItem("names")) || [];
+      const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
+      const title = JSON.parse(sessionStorage.getItem("names")) || [];
   
       try {
         inc(index);
@@ -375,12 +375,12 @@ const Products = ({ cartData }) => {
               items: [{ name: product.title, id: item.productID }],
             });
   
-            // Сохраняем storeID в отдельный localStorage
+            // Сохраняем storeID в отдельный sessionStorage
             const existingStoreIDs =
-              JSON.parse(localStorage.getItem("stores_1234")) || [];
+              JSON.parse(sessionStorage.getItem("stores_1234")) || [];
             if (!existingStoreIDs.includes(item.storeID)) {
               existingStoreIDs.push(item.storeID);
-              localStorage.setItem(
+              sessionStorage.setItem(
                 "stores_1234",
                 JSON.stringify(existingStoreIDs)
               );
@@ -401,14 +401,14 @@ const Products = ({ cartData }) => {
         // Добавляем id в существующие элементы
         if (newId) {
           existingItems.push(newId);
-          localStorage.setItem("cart", JSON.stringify(existingItems));
+          sessionStorage.setItem("cart", JSON.stringify(existingItems));
         }
   
         // Добавляем название, если его нет в existingNames
         const newName = product.title;
         if (!title.includes(newName)) {
           title.push(newName);
-          localStorage.setItem("names", JSON.stringify(title));
+          sessionStorage.setItem("names", JSON.stringify(title));
         }
 
         setAddedToCart((prev) => {
@@ -424,7 +424,7 @@ const Products = ({ cartData }) => {
         });
   
         setCart(updatedCart);
-        localStorage.setItem("temp", JSON.stringify(updatedCart));
+        sessionStorage.setItem("temp", JSON.stringify(updatedCart));
   
         window.dispatchEvent(new Event("storage")); // Обновление других вкладок
       } catch (error) {
@@ -443,22 +443,22 @@ const Products = ({ cartData }) => {
 
   const selectedAllLength = selectedAll.length;
   if (typeof window !== 'undefined') {
-  localStorage.setItem("storesLength", selectedAllLength);
+  sessionStorage.setItem("storesLength", selectedAllLength);
   }
 
 
   const removeStore = (storeId) => {
-      const data = JSON.parse(localStorage.getItem("stores1"));
-      let updatedData = JSON.parse(localStorage.getItem("sel"));
+      const data = JSON.parse(sessionStorage.getItem("stores1"));
+      let updatedData = JSON.parse(sessionStorage.getItem("sel"));
   
       if (!updatedData) {
-        updatedData = JSON.parse(localStorage.getItem("storesName"));
+        updatedData = JSON.parse(sessionStorage.getItem("storesName"));
       }
       const updatedData1 = updatedData.filter((store) => store.id != storeId);
-      localStorage.setItem("sel", JSON.stringify(updatedData1));
+      sessionStorage.setItem("sel", JSON.stringify(updatedData1));
       setSelectedAll(updatedData1);
       const da = data.filter((store) => store != storeId);
-      localStorage.setItem("stores1", JSON.stringify(da));
+      sessionStorage.setItem("stores1", JSON.stringify(da));
       setSelectedStores(selectedAll.map((item) => item.location));
       setSelectedStoresID(da);
       setSelectedStores(selectedAll);
@@ -469,25 +469,25 @@ const Products = ({ cartData }) => {
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
-      const selectedStore = JSON.parse(localStorage.getItem("selectedStore"));
+      const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
       const selectedLocation = JSON.parse(
-        localStorage.getItem("selectedLocation")
+        sessionStorage.getItem("selectedLocation")
       );
-      const selectedAll = JSON.parse(localStorage.getItem("sel"));
-      const stores1 = JSON.parse(localStorage.getItem("stores1"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
+      const stores1 = JSON.parse(sessionStorage.getItem("stores1"));
     });
   }, [selectedLocation, selectedStore, selectedAll]);
 
   useEffect(() => {
-    // Function to handle changes in localStorage
+    // Function to handle changes in sessionStorage
     const handleStorageChange = () => {
-      const sale = JSON.parse(localStorage.getItem("selectedStore"));
-      const selectedAll = JSON.parse(localStorage.getItem("sel"));
+      const sale = JSON.parse(sessionStorage.getItem("selectedStore"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
       const storedResponseData = JSON.parse(
-        localStorage.getItem("selectedLocation")
+        sessionStorage.getItem("selectedLocation")
       );
-      const stores1 = JSON.parse(localStorage.getItem("stores1"));
-      const cartNames = JSON.parse(localStorage.getItem("selectedAll"));
+      const stores1 = JSON.parse(sessionStorage.getItem("stores1"));
+      const cartNames = JSON.parse(sessionStorage.getItem("selectedAll"));
       if (cartNames) {
         setSelectedAll(cartNames);
       }
@@ -504,7 +504,7 @@ const Products = ({ cartData }) => {
     };
     handleStorageChange();
 
-    // Listen for changes in localStorage
+    // Listen for changes in sessionStorage
     // window.addEventListener("storage", handleStorageChange);
 
     // // Cleanup function
