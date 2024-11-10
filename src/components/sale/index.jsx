@@ -727,7 +727,7 @@ const Index = () => {
         }}
         className={noir.className}
       >
-        Select the stores you'd like to compare prices for various products
+        Select stores you'd like to compare prices for grocery prices at
       </p>
 
       <div
