@@ -83,10 +83,19 @@ const Cart = () => {
       const sale = JSON.parse(localStorage.getItem("cart"));
       const name = JSON.parse(localStorage.getItem("storesName"));
       const special = JSON.parse(localStorage.getItem("special"));
-      const filteredStores = name.filter((store) =>
-        theme.includes(store.id.toString())
-      );
-      localStorage.setItem("storeSale", JSON.stringify(filteredStores));
+      // const filteredStores = name.filter((store) =>
+      //   theme.includes(store.id.toString())
+      // );
+      let filteredStores;
+      if (name != null && theme != null) {
+        filteredStores = name.filter((store) =>
+          theme.includes(store.id.toString())
+        );
+      }
+      if (filteredStores != null) {
+        localStorage.setItem("storeSale", JSON.stringify(filteredStores));
+      }
+      // localStorage.setItem("storeSale", JSON.stringify(filteredStores));
       setTheme(theme);
       setSale(sale);
       setSpecial(special);
