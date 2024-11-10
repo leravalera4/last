@@ -334,7 +334,7 @@ const Cart = () => {
         >
           List
         </p>
-        {(quantity === null || change && change === 0)? (
+        {quantity === null || (change !== null && change === 0) ? (
           <p style={{ fontSize: "18px" }}>(0)</p>
         ) : (
           <p style={{ fontSize: "18px" }}>({cartLength})</p>
@@ -364,8 +364,7 @@ const Cart = () => {
                       justifyContent: "center",
                     }}
                   >
-                    Nothing here yet, but you can add 3 stores in total to
-                    compare prices
+                   No stores seleted
                   </p>
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column" }}>
