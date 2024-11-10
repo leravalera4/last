@@ -951,7 +951,7 @@ const Index = () => {
                 //  }}
                 key={store.id}
               >
-                <p className={noir.className} style={{ fontWeight: "700" }}>
+                <p className={noir.className} style={{ fontWeight: "700", paddingRight: "4px"}}>
                   {store.store}:{" "}
                 </p>
                 <p className={noir.className}> {store.location}</p>
