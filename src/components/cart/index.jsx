@@ -78,23 +78,20 @@ const Cart = () => {
   }, []);
 
   React.useEffect(() => {
-      const handleStorageChange = () => {
-        const theme = JSON.parse(localStorage.getItem("stores_1234"));
-        const sale = JSON.parse(localStorage.getItem("cart"));
-        const name = JSON.parse(localStorage.getItem("storesName"));
-        const special = JSON.parse(localStorage.getItem("special"));
-        let filteredStores;
-      if (name != null && theme != null) {
-        filteredStores = name.filter((store) =>
-          theme.includes(store.id.toString())
-        );
-      }
-        localStorage.setItem("storeSale", JSON.stringify(filteredStores));  
-        setTheme(theme);
-        setSale(sale);
-        setSpecial(special);
-        setName(name);
-      };
+    const handleStorageChange = () => {
+      const theme = JSON.parse(localStorage.getItem("stores_1234"));
+      const sale = JSON.parse(localStorage.getItem("cart"));
+      const name = JSON.parse(localStorage.getItem("storesName"));
+      const special = JSON.parse(localStorage.getItem("special"));
+      const filteredStores = name.filter((store) =>
+        theme.includes(store.id.toString())
+      );
+      localStorage.setItem("storeSale", JSON.stringify(filteredStores));
+      setTheme(theme);
+      setSale(sale);
+      setSpecial(special);
+      setName(name);
+    };
     window.addEventListener("storage", handleStorageChange);
     return () => {
       window.removeEventListener("storage", handleStorageChange);
