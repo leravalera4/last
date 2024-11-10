@@ -535,7 +535,7 @@ const Products = ({ cartData }) => {
           }}
           className={noir.className}
         >
-          Select the stores you'd like to compare prices for various products
+          Select stores you'd like to compare prices for various products
         </p>
 
         <div className="select-container">
