@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://shoppyscan.ca
+
+# Sitemaps
+Sitemap: https://shoppyscan.ca/sitemap.xml
