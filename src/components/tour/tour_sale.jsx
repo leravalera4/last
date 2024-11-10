@@ -4,28 +4,28 @@ import React, { useState, useEffect } from 'react';
   
   
 const steps = [
-  {
-    target: "body > div:nth-child(2) > div > div.container",
-    content: "Select store to find what's on sale",
-    disableBeacon: true, // Убедитесь, что beacon включен
-   spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
-    spotlight: true,
-  },
+  // {
+  //   target: "body > div:nth-child(2) > div > div.container",
+  //   content: "Select store to find what's on sale",
+  //   disableBeacon: true, // Убедитесь, что beacon включен
+  //  spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
+  //   spotlight: true,
+  // },
   {
     target: "body > div:nth-child(2) > div > div.react-tabs > div > div:nth-child(1)",
-    content:  "Use the tabs to explore different categories",
+    content:  "Use tabs to explore different grocery categories",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
     {
     target: "ul > li:nth-child(1) > div > button",
-    content:"Add iteem to the list for price comparing" ,
+    content:"Add item to the list for price comparison" ,
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
     target: "body > div.headroom-wrapper > div > header > div.cart > div",
-    content:"All your added items are stored here" ,
+    content:"All your groceries are stored here" ,
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
