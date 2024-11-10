@@ -57,6 +57,7 @@ const Cart = () => {
   const [quantity, setQuantity] = useState(null);
   const [carttt, setCart] = useState([]);
   const [tit, setTitle] = useState();
+  const [change, setChange] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [state, setState] = useState({
     isPaneOpen: false,
@@ -126,6 +127,7 @@ const Cart = () => {
    // const get1 = JSON.parse(localStorage.getItem("stores_1"));
     const st = JSON.parse(localStorage.getItem("storesLength"));
     const change = st - 1;
+    setChange(change)
     const da = get.filter((store) => store != storeId);
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("stores1", JSON.stringify(da));
@@ -332,10 +334,10 @@ const Cart = () => {
         >
           List
         </p>
-        {quantity === null ? (
+        {(quantity === null || change && change === 0)? (
           <p style={{ fontSize: "18px" }}>(0)</p>
         ) : (
-          <p style={{ fontSize: "18px" }}>({quantity})</p>
+          <p style={{ fontSize: "18px" }}>({cartLength})</p>
         )}
       </div>
 
