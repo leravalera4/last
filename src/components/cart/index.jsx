@@ -71,7 +71,7 @@ const Cart = () => {
   useEffect(() => {
     window.addEventListener("storage", ()=>{
       const handleStorage = () => {
-        const stores = localStorage.getItem("stores");
+        const stores = sessionStorage.getItem("stores");
         const storesArray = JSON.parse(stores);
       };
     })
@@ -79,10 +79,10 @@ const Cart = () => {
 
   React.useEffect(() => {
     const handleStorageChange = () => {
-      const theme = JSON.parse(localStorage.getItem("stores_1234"));
-      const sale = JSON.parse(localStorage.getItem("cart"));
-      const name = JSON.parse(localStorage.getItem("storesName"));
-      const special = JSON.parse(localStorage.getItem("special"));
+      const theme = JSON.parse(sessionStorage.getItem("stores_1234"));
+      const sale = JSON.parse(sessionStorage.getItem("cart"));
+      const name = JSON.parse(sessionStorage.getItem("storesName"));
+      const special = JSON.parse(sessionStorage.getItem("special"));
       // const filteredStores = name.filter((store) =>
       //   theme.includes(store.id.toString())
       // );
@@ -93,9 +93,9 @@ const Cart = () => {
         );
       }
       if (filteredStores != null) {
-        localStorage.setItem("storeSale", JSON.stringify(filteredStores));
+        sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
       }
-      // localStorage.setItem("storeSale", JSON.stringify(filteredStores));
+      // sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
       setTheme(theme);
       setSale(sale);
       setSpecial(special);
@@ -132,26 +132,26 @@ const Cart = () => {
   const removeStore = (storeId) => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
-    const get = JSON.parse(localStorage.getItem("stores_1234"));
-    const st = JSON.parse(localStorage.getItem("storesLength"));
+    const get = JSON.parse(sessionStorage.getItem("stores_1234"));
+    const st = JSON.parse(sessionStorage.getItem("storesLength"));
     const change = st - 1;
     setChange(change);
     if(change === 0){
-      localStorage.removeItem("cart")
-      localStorage.removeItem("names")
+      sessionStorage.removeItem("cart")
+      sessionStorage.removeItem("names")
     }
     const da = get.filter((store) => store != storeId);
-    localStorage.setItem("stores_1234", JSON.stringify(da));
-    localStorage.setItem("stores1", JSON.stringify(da));
-    localStorage.setItem("storesLength", JSON.stringify(change));
+    sessionStorage.setItem("stores_1234", JSON.stringify(da));
+    sessionStorage.setItem("stores1", JSON.stringify(da));
+    sessionStorage.setItem("storesLength", JSON.stringify(change));
     window.dispatchEvent(new Event("storage"));
   };
 
   let title, storesName, cart;
   if (typeof window !== "undefined") {
-    title = JSON.parse(localStorage.getItem("names"));
-    cart = JSON.parse(localStorage.getItem("cart"));
-    storesName = JSON.parse(localStorage.getItem("storesName"));
+    title = JSON.parse(sessionStorage.getItem("names"));
+    cart = JSON.parse(sessionStorage.getItem("cart"));
+    storesName = JSON.parse(sessionStorage.getItem("storesName"));
   }
 
   const mergedData = data.map((item) => {
@@ -200,9 +200,9 @@ const Cart = () => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
           const name = item.title;
-          let title = JSON.parse(localStorage.getItem("names")) || []; // Получаем массив или создаем пустой
+          let title = JSON.parse(sessionStorage.getItem("names")) || []; // Получаем массив или создаем пустой
           title.push(name);
-          localStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
+          sessionStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
           const newQuantity = item.quantity + 1;
           const newPrice = parseFloat(
             (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
@@ -227,13 +227,13 @@ const Cart = () => {
 
     setResponseData(updatedResponse);
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
     // Добавляем ID продукта в корзину
     cart.push(itemId);
 
-    // Сохраняем обновленную корзину в localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
+    // Сохраняем обновленную корзину в sessionStorage
+    sessionStorage.setItem("cart", JSON.stringify(cart));
 
   // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
@@ -246,7 +246,7 @@ const Cart = () => {
 
 
         const name = item.title;
-        let title = JSON.parse(localStorage.getItem("names")) || [];
+        let title = JSON.parse(sessionStorage.getItem("names")) || [];
 
         // Находим индекс первого вхождения `name` и удаляем его
         const nameIndex = title.indexOf(name);
@@ -254,8 +254,8 @@ const Cart = () => {
           title.splice(nameIndex, 1); // Удаляем только одно вхождение
         }
 
-        // Сохраняем обновленный массив обратно в localStorage
-        localStorage.setItem("names", JSON.stringify(title));
+        // Сохраняем обновленный массив обратно в sessionStorage
+        sessionStorage.setItem("names", JSON.stringify(title));
           
           // Уменьшаем количество, но проверяем, чтобы оно не стало меньше 1
           const newQuantity = Math.max(item.quantity - 1, 1);
@@ -282,7 +282,7 @@ const Cart = () => {
 
     setResponseData(updatedResponse);
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
     // Находим индекс элемента в корзине и удаляем, если его количество стало 0
     const itemIndex = cart.indexOf(itemId);
@@ -290,8 +290,8 @@ const Cart = () => {
       cart.splice(itemIndex, 1);
     }
 
-    // Сохраняем обновленную корзину в localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
+    // Сохраняем обновленную корзину в sessionStorage
+    sessionStorage.setItem("cart", JSON.stringify(cart));
 
     // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
@@ -300,13 +300,13 @@ const Cart = () => {
 
 
   useEffect(() => {
-    const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
 }, []);
 
   const handleAddToCart = async (product) => {
-    const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     existingItems.push(product);
-    localStorage.setItem("cart", JSON.stringify(existingItems));
+    sessionStorage.setItem("cart", JSON.stringify(existingItems));
     getNames(sale, theme, name);
     // Опционально: можно использовать событие для обновления состояния в других вкладках
     // window.dispatchEvent(new Event("storage")); // Обновление других вкладок
