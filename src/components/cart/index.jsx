@@ -83,19 +83,19 @@ const Cart = () => {
       const sale = JSON.parse(sessionStorage.getItem("cart"));
       const name = JSON.parse(sessionStorage.getItem("storesName"));
       const special = JSON.parse(sessionStorage.getItem("special"));
-      // const filteredStores = name.filter((store) =>
-      //   theme.includes(store.id.toString())
-      // );
-      let filteredStores;
-      if (name != null && theme != null) {
-        filteredStores = name.filter((store) =>
-          theme.includes(store.id.toString())
-        );
-      }
-      if (filteredStores != null) {
-        sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
-      }
-      // sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
+      const filteredStores = name.filter((store) =>
+        theme.includes(store.id.toString())
+      );
+      // let filteredStores;
+      // if (name != null && theme != null) {
+      //   filteredStores = name.filter((store) =>
+      //     theme.includes(store.id.toString())
+      //   );
+      // }
+      // if (filteredStores != null) {
+      //   sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
+      // }
+      sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
       setTheme(theme);
       setSale(sale);
       setSpecial(special);
