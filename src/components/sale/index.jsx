@@ -112,13 +112,13 @@ const Index = () => {
   React.useEffect(() => {
     window.addEventListener("storage", () => {
       //const theme = JSON.parse(localStorage.getItem('stores'))
-      const sale = JSON.parse(localStorage.getItem("sale"));
+      const sale = JSON.parse(sessionStorage.getItem("sale"));
       //  const responseData = JSON.parse(localStorage.getItem("responseData"));
-      const special = JSON.parse(localStorage.getItem("special"));
-      const names = JSON.parse(localStorage.getItem("names"));
+      const special = JSON.parse(sessionStorage.getItem("special"));
+      const names = JSON.parse(sessionStorage.getItem("names"));
       setNamesss(names);
 
-      const storeSale = JSON.parse(localStorage.getItem("storeSale"));
+      const storeSale = JSON.parse(sessionStorage.getItem("storeSale"));
       setStoreSale(storeSale);
       setSpecial(special);
       // setSelectedStore(sale.store);
@@ -224,8 +224,8 @@ const Index = () => {
   useEffect(() => {
     // Функция для обработки изменений в localStorage
     const handleStorageChange = () => {
-      const sale = JSON.parse(localStorage.getItem("sale"));
-      const stim = JSON.parse(localStorage.getItem("stores_1234"));
+      const sale = JSON.parse(sessionStorage.getItem("sale"));
+      const stim = JSON.parse(sessionStorage.getItem("stores_1234"));
       let mana;
 
       if (sale) {
@@ -240,7 +240,7 @@ const Index = () => {
       // Обновляем состояние для checkForStore
       setCheckForStore(checkForStoreValue);
 
-      const st = JSON.parse(localStorage.getItem("storeSale"));
+      const st = JSON.parse(sessionStorage.getItem("storeSale"));
       if (sale) {
         setSelectedStore(sale.store);
         handleStoreChange(sale.store);
@@ -312,12 +312,12 @@ const Index = () => {
   useEffect(() => {
     window.addEventListener("storage",()=>{
     // Сохраняем данные в localStorage
-    localStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-    localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+    sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+    sessionStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
 
     // Извлекаем данные из localStorage
-    const store = localStorage.getItem("selectedStore");
-    const location = localStorage.getItem("selectedLocation");
+    const store = sessionStorage.getItem("selectedStore");
+    const location = sessionStorage.getItem("selectedLocation");
 
     // Обновляем состояние, только если store существует и оно не обновлялось
     if (store !== null) {
@@ -357,13 +357,13 @@ const Index = () => {
     if (selectedLocationsObject != null && selectedLocation != null) {
       newSelectedLocationValue = selectedLocationsObject[selectedLocation];
     }
-    const storeStore = JSON.parse(localStorage.getItem("activeSTORE"));
-    const storeLocation = JSON.parse(localStorage.getItem("activeLOCATION"));
-    const sale = JSON.parse(localStorage.getItem("storeSale"));
-    const leng = JSON.parse(localStorage.getItem("storesLength")); // 371
+    const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
+    const storeLocation = JSON.parse(sessionStorage.getItem("activeLOCATION"));
+    const sale = JSON.parse(sessionStorage.getItem("storeSale"));
+    const leng = JSON.parse(sessionStorage.getItem("storesLength")); // 371
 
-    const storeSale = JSON.parse(localStorage.getItem("activeID"));
-    const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || []; //тут ID из корзины
+    const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
+    const arrayOfStores = JSON.parse(sessionStorage.getItem("stores_1234")) || []; //тут ID из корзины
 
     setLen(leng);
 
@@ -429,7 +429,7 @@ const Index = () => {
 
     //console.log("HERE IS AN ID",newStoreLocationObject)
 
-    const storesNames = JSON.parse(localStorage.getItem("storesName")) || [];
+    const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
 
     // const LALALA = JSON.parse(localStorage.getItem("LALALA")) || [];
     // LALALA.push(newSelectedLocationValue);
@@ -443,7 +443,7 @@ const Index = () => {
 
     if (!isDuplicate) {
       storesNames.push(newStoreLocationObject);
-      localStorage.setItem("storesName", JSON.stringify(storesNames));
+      sessionStorage.setItem("storesName", JSON.stringify(storesNames));
     } 
 // else {
 //       console.log("Этот магазин уже существует!");
@@ -451,11 +451,11 @@ const Index = () => {
     //let idExists;
 
     const saveCartData = (newStoreLocationObject) => {
-      localStorage.setItem("sale", JSON.stringify(newStoreLocationObject));
+      sessionStorage.setItem("sale", JSON.stringify(newStoreLocationObject));
     };
 
     saveCartData(newStoreLocationObject);
-    const storedData = JSON.parse(localStorage.getItem("sale"));
+    const storedData = JSON.parse(sessionStorage.getItem("sale"));
     setStoredDat(storedData); // тут лежит один объект который в данный момет выбран
 
     setSelectedStore(storedData.store);
@@ -482,7 +482,7 @@ const Index = () => {
       const storesData = response.data;
       setResponseData(storesData);
       //setResponseData(storesData);
-      const dataToLocalStorage = localStorage.setItem(
+      const dataToLocalStorage = sessionStorage.setItem(
         "responseData",
         JSON.stringify(storesData)
       );
@@ -493,7 +493,7 @@ const Index = () => {
         const selectedItem = storesData[index];
 
         const ItemCode = selectedItem.productID;
-        localStorage.setItem("storedField", ItemCode);
+        sessionStorage.setItem("storedField", ItemCode);
       };
       //console.log(storesData);
       setLoading(false);
@@ -510,7 +510,7 @@ const Index = () => {
 
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.clear();
+      sessionStorage.clear();
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -565,13 +565,13 @@ const Index = () => {
 
   const handleAddToCart = async (product, index) => {
     // Retrieve existing items from localStorage or initialize an empty array
-    const existingItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     //const existingStores = JSON.parse(localStorage.getItem("stores")) || [];
     //console.log(existingStores)
     //const stores_la = JSON.parse(localStorage.getItem("stores_lalala")) || [];
-    const title = JSON.parse(localStorage.getItem("names")) || [];
-    const arrayOfStores = JSON.parse(localStorage.getItem("stores_1234")) || []; //тут ID из корзины
-    const arrayOfStores1 = JSON.parse(localStorage.getItem("stores1")) || [];
+    const title = JSON.parse(sessionStorage.getItem("names")) || [];
+    const arrayOfStores = JSON.parse(sessionStorage.getItem("stores_1234")) || []; //тут ID из корзины
+    const arrayOfStores1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
 
     setArrayOfStores(arrayOfStores); //id из корзины
 
@@ -599,23 +599,23 @@ const Index = () => {
       if (storeID_new !== undefined) {
         arrayOfStores.push(storeID_new);
       }
-      localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
-      localStorage.setItem("stores1", JSON.stringify(arrayOfStores));
+      sessionStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
+      sessionStorage.setItem("stores1", JSON.stringify(arrayOfStores));
       window.dispatchEvent(new Event("storage"));
     }
     // const LALALA = JSON.parse(localStorage.getItem("LALALA")) || [];
 
     setStoresName(arrayOfStores.length);
-    const len = localStorage.setItem(
+    const len = sessionStorage.setItem(
       "storesLength",
       JSON.stringify(arrayOfStores.length)
     );
     // Push name to the title array
     title.push(name);
-    localStorage.setItem("names", JSON.stringify(title));
+    sessionStorage.setItem("names", JSON.stringify(title));
 
-    localStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
-    localStorage.setItem("stores1", JSON.stringify(arrayOfStores));
+    sessionStorage.setItem("stores_1234", JSON.stringify(arrayOfStores));
+    sessionStorage.setItem("stores1", JSON.stringify(arrayOfStores));
 
     // setClickCounts((prevCounts) => {
     //   const newCounts = { ...prevCounts };
@@ -630,17 +630,17 @@ const Index = () => {
     const updatedAddedToCartImage = [...addedToCartImage];
     updatedAddedToCartImage[index] = true;
     setAddedToCartImage(updatedAddedToCartImage);
-    localStorage.setItem("special", JSON.stringify(updatedAddedToCartImage));
+    sessionStorage.setItem("special", JSON.stringify(updatedAddedToCartImage));
 
     existingItems.push(itemCode);
-    localStorage.setItem("cart", JSON.stringify(existingItems));
+    sessionStorage.setItem("cart", JSON.stringify(existingItems));
     window.dispatchEvent(new Event("storage"));
   };
 
   useEffect(() => {
     window.addEventListener("storage", () => {
       //const theme = JSON.parse(localStorage.getItem('stores'))
-      const length = JSON.parse(localStorage.getItem("storesLength"));
+      const length = JSON.parse(sessionStorage.getItem("storesLength"));
       setLen(length);
     });
     window.dispatchEvent(new Event("storage"));
@@ -692,9 +692,9 @@ const Index = () => {
 
   useEffect(() => {
     window.addEventListener("storage", () => {
-      const length = JSON.parse(localStorage.getItem("length"));
-      const selectedAll = JSON.parse(localStorage.getItem("storesName"));
-      const cartStores = JSON.parse(localStorage.getItem("stores_1234"));
+      const length = JSON.parse(sessionStorage.getItem("length"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("storesName"));
+      const cartStores = JSON.parse(sessionStorage.getItem("stores_1234"));
       const includedIds = new Set(cartStores);
     });
   }, []);
