@@ -124,10 +124,13 @@ const Cart = () => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(localStorage.getItem("stores_1234"));
-   // const get1 = JSON.parse(localStorage.getItem("stores_1"));
     const st = JSON.parse(localStorage.getItem("storesLength"));
     const change = st - 1;
-    setChange(change)
+    setChange(change);
+    if(change === 0){
+      localStorage.removeItem("cart")
+      localStorage.removeItem("names")
+    }
     const da = get.filter((store) => store != storeId);
     localStorage.setItem("stores_1234", JSON.stringify(da));
     localStorage.setItem("stores1", JSON.stringify(da));
@@ -334,11 +337,7 @@ const Cart = () => {
         >
           List
         </p>
-        {quantity === null || (change !== null && change === 0) ? (
-          <p style={{ fontSize: "18px" }}>(0)</p>
-        ) : (
-          <p style={{ fontSize: "18px" }}>({cartLength})</p>
-        )}
+         <p style={{ fontSize: "18px" }}>({cartLength})</p>
       </div>
 
       <SlidingPane
