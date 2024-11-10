@@ -967,7 +967,7 @@ const Index = () => {
               className={noir.className}
               style={{ color: "rgb(125, 120, 120)" }}
             >
-              *Your store List is currently empty
+              *No stores selected
             </p>
           </div>
         )
