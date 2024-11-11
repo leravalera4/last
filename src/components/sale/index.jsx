@@ -221,11 +221,12 @@ const Index = () => {
   //   );
   // };
 
-  const toggleButton = (index) => {
+const toggleButton = (index) => {
   setActiveButtons((prev) =>
-    prev.map((active, i) => (i === index ? true : active)) // Устанавливаем состояние в true только для текущей кнопки
+    prev.map((active, i) => (i === index ? !active : false)) // Если кнопка нажата, то её состояние меняется на противоположное, остальные сбрасываются
   );
 };
+
 
   useEffect(() => {
     // Функция для обработки изменений в localStorage
