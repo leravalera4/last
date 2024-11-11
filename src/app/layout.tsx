@@ -9,15 +9,19 @@ import { Analytics } from '@vercel/analytics/react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+
+  metadataBase : new URL("https://shoppysca.ca"),
+
   title: 'Shoppy Scan',
   description: 'Spend Wisely',
-  keywords: 'spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder',
-  openGraph: {
-    title: 'Shoppy Scan',
-    description: 'Spend wisely',
-    url: 'https://shoppyscan.ca',
-  },
-  robots: 'index, follow',
+  openGraph:{
+    title:'Shoppy Scan',
+    description: 'Spend Wisely',
+    type:'website',
+    locale:'en_US',
+    url:'https://shoppyscan.ca',
+    siteName:"Shoppy Scan"
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
