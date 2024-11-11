@@ -36,6 +36,7 @@ export default function RootLayout({
         <meta property="og:description" content="Spend wisely" />
         <meta property="og:image" content="/ms-icon-150x150.png" />
         <meta property="og:url" content="https://shoppyscan.ca" />
+        <link rel="icon" href="/favicon.ico">
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
