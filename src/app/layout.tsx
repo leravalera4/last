@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Shoppy Scan',
     description: 'Spend wisely',
-    image: '/ms-icon-70x70.png', // Замените на путь к вашему изображению
     url: 'https://shoppyscan.ca',
   },
   robots: 'index, follow',
