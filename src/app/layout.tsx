@@ -30,9 +30,9 @@ export default function RootLayout({
         <meta name="keywords" content="spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
         <meta property="og:title" content="Shoppy Scan" />
         <meta property="og:description" content="Spend wisely" />
-        <meta property="og:image" content="URL изображения для соцсетей" />
         <meta property="og:url" content="https://shoppyscan.ca" />
         <meta name="robots" content="index, follow, save, compare" />
+<link rel="icon" href="/favicon.ico">
   <Script async 
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
           crossOrigin="anonymous"/>
