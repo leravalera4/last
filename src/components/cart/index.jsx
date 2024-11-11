@@ -806,13 +806,13 @@ const Cart = () => {
                 prices
               </p>
             ) 
-            //   : 
-            //   cartLength !== totalQuantity ? (
-            //   <>
-            //     <Spiner />
-            //     <p>Checking latest prices for you...</p>
-            //   </>
-            // ) 
+              : 
+              cartLength !== totalQuantity ? (
+              <>
+                <Spiner />
+                <p>Checking latest prices for you...</p>
+              </>
+            ) 
               : (
               <div style={{ display: "flex" }}>
                 <div>
