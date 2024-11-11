@@ -67,34 +67,24 @@ const Cart = () => {
 
   const pdfRef = useRef();
 
-  
   useEffect(() => {
-    window.addEventListener("storage", ()=>{
+    window.addEventListener("storage", () => {
       const handleStorage = () => {
         const stores = sessionStorage.getItem("stores");
         const storesArray = JSON.parse(stores);
       };
-    })
+    });
   }, []);
 
   React.useEffect(() => {
     const handleStorageChange = () => {
       const theme = JSON.parse(sessionStorage.getItem("stores_1234"));
       const sale = JSON.parse(sessionStorage.getItem("cart"));
-      const name = JSON.parse(sessionStorage.getItem("storesName"));
+      const name = JSON.parse(sessionStorage.getItem("storesName")); 
       const special = JSON.parse(sessionStorage.getItem("special"));
       const filteredStores = name.filter((store) =>
         theme.includes(store.id.toString())
       );
-      // let filteredStores;
-      // if (name != null && theme != null) {
-      //   filteredStores = name.filter((store) =>
-      //     theme.includes(store.id.toString())
-      //   );
-      // }
-      // if (filteredStores != null) {
-      //   sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
-      // }
       sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
       setTheme(theme);
       setSale(sale);
@@ -114,25 +104,44 @@ const Cart = () => {
     }
   }, [data, len]);
 
+  // const getNames = async (sale, theme, name) => {
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8080/api/sale/name",
+  //       { sale: sale, theme: theme, name: name } // Wrap the sale data in an object with the key "sale"
+  //     );
+  //     const responses = response.data;
+  //     setResponseData(responses);
+  //   } catch (error) {
+  //     console.error();
+  //   }
+  // };
+
   const getNames = async (sale, theme, name) => {
+    // Проверяем, что все параметры не равны нулю или пустой строке
+    if (!sale && !theme && !name) {
+      console.log("Запрос не отправлен, так как все параметры равны нулю.");
+      return; // Выход из функции, если все параметры нулевые или пустые
+    }
+  
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/sale/name",
-        { sale: sale, theme: theme, name: name } // Wrap the sale data in an object with the key "sale"
+        "http://localhost:8080/api/sale/name",
+        { sale, theme, name }
       );
       const responses = response.data;
       setResponseData(responses);
     } catch (error) {
-      console.error();
+      console.error("Ошибка при выполнении запроса:", error);
     }
   };
-
   
 
   const removeStore = (storeId) => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(sessionStorage.getItem("stores_1234"));
+    // const get1 = JSON.parse(sessionStorage.getItem("stores_1"));
     const st = JSON.parse(sessionStorage.getItem("storesLength"));
     const change = st - 1;
     setChange(change);
@@ -140,6 +149,7 @@ const Cart = () => {
       sessionStorage.removeItem("cart")
       sessionStorage.removeItem("names")
     }
+    console.log("CHANGE", change);
     const da = get.filter((store) => store != storeId);
     sessionStorage.setItem("stores_1234", JSON.stringify(da));
     sessionStorage.setItem("stores1", JSON.stringify(da));
@@ -194,6 +204,9 @@ const Cart = () => {
   useEffect(() => {
     setQuantity(titleLength);
   }, [titleLength]); // Срабатывает при изменении response
+  
+
+  console.log("QUANTITY",quantity)
 
   const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
@@ -235,7 +248,7 @@ const Cart = () => {
     // Сохраняем обновленную корзину в sessionStorage
     sessionStorage.setItem("cart", JSON.stringify(cart));
 
-  // Обновление состояния в других вкладках
+    // Обновление состояния в других вкладках
     window.dispatchEvent(new Event("storage"));
   };
 
@@ -243,20 +256,18 @@ const Cart = () => {
     const updatedResponse = response.map((store) => {
       const updatedItems = store.items.map((item) => {
         if (item.productID === itemId) {
+          const name = item.title;
+          let title = JSON.parse(sessionStorage.getItem("names")) || [];
 
+          // Находим индекс первого вхождения `name` и удаляем его
+          const nameIndex = title.indexOf(name);
+          if (nameIndex !== -1) {
+            title.splice(nameIndex, 1); // Удаляем только одно вхождение
+          }
 
-        const name = item.title;
-        let title = JSON.parse(sessionStorage.getItem("names")) || [];
+          // Сохраняем обновленный массив обратно в sessionStorage
+          sessionStorage.setItem("names", JSON.stringify(title));
 
-        // Находим индекс первого вхождения `name` и удаляем его
-        const nameIndex = title.indexOf(name);
-        if (nameIndex !== -1) {
-          title.splice(nameIndex, 1); // Удаляем только одно вхождение
-        }
-
-        // Сохраняем обновленный массив обратно в sessionStorage
-        sessionStorage.setItem("names", JSON.stringify(title));
-          
           // Уменьшаем количество, но проверяем, чтобы оно не стало меньше 1
           const newQuantity = Math.max(item.quantity - 1, 1);
           const newPrice = parseFloat(
@@ -297,11 +308,9 @@ const Cart = () => {
     window.dispatchEvent(new Event("storage"));
   };
 
-
-
   useEffect(() => {
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
-}, []);
+  }, []);
 
   const handleAddToCart = async (product) => {
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
@@ -322,10 +331,9 @@ const Cart = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
+
   return (
-    <div className="cart"
-    >
+    <div className="cart">
       <div style={{ display: "flex", cursor: "pointer" }}>
         <Image
           alt="shopping"
@@ -346,6 +354,11 @@ const Cart = () => {
         >
           List
         </p>
+        {/* {(quantity === null || change === 0) ? (
+          <p style={{ fontSize: "18px" }}>(0)</p>
+        ) : (
+          <p style={{ fontSize: "18px" }}>({cartLength})</p>
+        )} */}
          <p style={{ fontSize: "18px" }}>({cartLength})</p>
       </div>
 
@@ -364,72 +377,73 @@ const Cart = () => {
       >
         {isMobile ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
-                           {response && response.length === 0 ? (
-                  <p
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                   No stores seleted
-                  </p>
-                ) : (
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      {response &&
-                        response != null &&
-                        response.map((item) => (
-                          <div>
-                            <div
+            {response && response.length === 0 ? (
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Nothing here yet, but you can add 3 stores in total to compare
+                prices
+              </p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {response &&
+                    response != null &&
+                    response.map((item) => (
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <div style={{ width: "100%" }}>
+                            <p
                               style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
+                                paddingRight: "10%",
+                                fontWeight: "700",
                               }}
                             >
-                              <div style={{width:'100%'}}>
-                              <p
-                                style={{
-                                  paddingRight: "10%",
-                                  fontWeight: "700",
-                                }}
-                              >
-                                {item.storetype}
-                              </p>
-                              <p style={{ paddingRight: "8%" }}>
-                                {item.storeName}
-                              </p>
-                              </div>
-
-                              <p style={{ fontWeight: "700",lineHeight:'214%' }}>
-                                Total: ${item.totalPrices.toFixed(2)}
-                              </p>
-                              <button
-                                style={{
-                                  outline: "0px",
-                                  // marginLeft: "20px"
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                                className={noir.className}
-                                onClick={() => removeStore(item.id)}
-                                title="Delete Store"
-                              >
-                                <Image src={del} width={30} height={30} />
-                              </button>
-                            </div>
+                              {item.storetype}
+                            </p>
+                            <p style={{ paddingRight: "8%" }}>
+                              {item.storeName}
+                            </p>
                           </div>
-                        ))}
-                    </div>
-                  </div>
-                )}
+
+                          <p style={{ fontWeight: "700", lineHeight: "214%" }}>
+                            Total: ${item.totalPrices.toFixed(2)}
+                          </p>
+                          <button
+                            style={{
+                              outline: "0px",
+                              // marginLeft: "20px"
+                              fontSize: "21px",
+                              fontWeight: "500",
+                              lineHeight: "20px",
+                              verticalAlign: "middle",
+                              color: "red",
+                              border: "0px",
+                              cursor: "pointer",
+                              backgroundColor: "transparent",
+                            }}
+                            className={noir.className}
+                            onClick={() => removeStore(item.id)}
+                            title="Delete Store"
+                          >
+                            <Image src={del} width={30} height={30} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
             <Tabs
               selectedIndex={tabIndex}
               onSelect={(index) => setTabIndex(index)}
@@ -452,8 +466,8 @@ const Cart = () => {
                     compare prices
                   </p>
                 ) : (
-                  <div style={{ display: "flex", flexDirection: "column" }}>                 
-                   <div style={{paddingTop:'10%'}}>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{ paddingTop: "10%" }}>
                       <p
                         style={{
                           alignContent: "center",
@@ -548,13 +562,17 @@ const Cart = () => {
               {response != null &&
                 response.map((item, index) => (
                   <TabPanel key={index}>
-                    <div style={{display:'flex',flexDirection:'column',alignItems:"center"}}>
-                    <p style={{marginBottom:'0px'}}>
-                      <b>{item.storetype}</b>
-                    </p>
-                    <p>
-                    {item.storeName}
-                    </p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <p style={{ marginBottom: "0px" }}>
+                        <b>{item.storetype}</b>
+                      </p>
+                      <p>{item.storeName}</p>
                     </div>
 
                     <div>
@@ -663,7 +681,7 @@ const Cart = () => {
                                 it.regprice == null &&
                                 it.quantity > 1 ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
-                                   ${it.prices.toFixed(2)}
+                                  ${it.prices.toFixed(2)}
                                   {it.saleprice != null && (
                                     <span
                                       style={{
@@ -732,19 +750,18 @@ const Cart = () => {
                             </li>
                           ))}
                         </ul>
-
                       </div>
 
                       <p
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            paddingTop: "16px",
-                            fontWeight: "700",
-                          }}
-                        >
-                          Total: ${item.totalPrices.toFixed(2)}
-                        </p>
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          paddingTop: "16px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        Total: ${item.totalPrices.toFixed(2)}
+                      </p>
                     </div>
                   </TabPanel>
                 ))}
@@ -919,7 +936,7 @@ const Cart = () => {
                               it.non_member_price == null &&
                               it.regprice == null ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
-                                   ${it.prices.toFixed(2)}
+                                  ${it.prices.toFixed(2)}
                                   {it.saleprice != null ? (
                                     <span
                                       style={{
@@ -941,7 +958,7 @@ const Cart = () => {
                                 it.regprice != null &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
-                                   ${it.prices.toFixed(2)}
+                                  ${it.prices.toFixed(2)}
                                   {it.saleprice != null ? (
                                     <span
                                       style={{
