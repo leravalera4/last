@@ -346,16 +346,16 @@ const Cart = () => {
     // window.dispatchEvent(new Event("storage")); // Обновление других вкладок
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth <= 768);
+  //   };
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   return (
     <div className="cart">
