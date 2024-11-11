@@ -221,11 +221,12 @@ const Index = () => {
   //   );
   // };
 
-const toggleButton = (index) => {
-  setActiveButtons((prev) =>
-    prev.map((active, i) => (i === index ? !active : false)) // Если кнопка нажата, то её состояние меняется на противоположное, остальные сбрасываются
-  );
-};
+
+    const toggleButton = (index) => {
+    setActiveButtons((prev) =>
+      prev.map((active, i) => (i === index ? true : false)) // Сделать только выбранную кнопку активной
+    );
+  };
 
 
   useEffect(() => {
