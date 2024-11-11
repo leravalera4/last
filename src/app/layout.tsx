@@ -20,7 +20,15 @@ export const metadata: Metadata = {
     type:'website',
     locale:'en_US',
     url:'https://shoppyscan.ca',
-    siteName:"Shoppy Scan"
+    siteName:"Shoppy Scan",
+images: [
+      {
+        url: 'https://shoppyscan.ca/graph.png',
+        width: 1200,
+        height: 630,
+        alt: 'Shoppy Scan Logo'
+      }
+    ]
   }
 }
 
