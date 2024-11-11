@@ -27,7 +27,7 @@ export default function RootLayout({
  <title>Shoppy Scan</title>
  <meta name="google-site-verification" content="j0SKXll7FJFhpuNBjySgfPXEnc-UOLgsQAnoeGTn6l0" />
           <meta name="description" content="Spend wisely" />
-        <meta name="keywords" content="spend,compare,save,money,products,grocery,nofrills,fortinos" />
+        <meta name="keywords" content="spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
         <meta property="og:title" content="Shoppy Scan" />
         <meta property="og:description" content="Spend wisely" />
         <meta property="og:image" content="URL изображения для соцсетей" />
