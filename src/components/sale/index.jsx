@@ -909,16 +909,16 @@ const Index = () => {
                   activeButtons[index] ? "button-active" : "button-inactive"
                 }
                 onClick={() => {
-                  localStorage.setItem("activeID", JSON.stringify(store.id));
-                  localStorage.setItem(
+                  sessionStorage.setItem("activeID", JSON.stringify(store.id));
+                  sessionStorage.setItem(
                     "activeSTORE",
                     JSON.stringify(store.store)
                   );
-                  localStorage.setItem(
+                  sessionStorage.setItem(
                     "activeLOCATION",
                     JSON.stringify(store.location)
                   );
-                  localStorage.setItem(
+                  sessionStorage.setItem(
                     "sale",
                     JSON.stringify({
                       store: store.store, // assuming store name or another identifier
