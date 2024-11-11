@@ -13,9 +13,11 @@ export const metadata: Metadata = {
   metadataBase : new URL("https://shoppyscan.ca"),
 
   title: 'Shoppy Scan',
+  keywor
   description: 'Spend Wisely',
   openGraph:{
     title:'Shoppy Scan - Your Ultimate Price Comparison Tool for Grocery Deals',
+    keywords:["spend","compare","save", "money","products","grocery","nofrills","fortinos","compare prices","best deals","shopping deals","compare prices between stores","great deals","shopping price comparison","site to compare prices of products","sale price finder"],
     description: 'Discover the best grocery deals and compare prices effortlessly with Shoppy Scan. Save time and money on your favorite products across top stores in Canada.',
     type:'website',
     locale:'en_US',
