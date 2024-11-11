@@ -404,7 +404,7 @@ const Cart = () => {
         // style={{
         //   width: window.innerWidth <= 768 ? "100%" : "70%", // Изменение ширины на мобильных устройствах
         // }}
-        width='window.innerWidth <= 768 ? "100%" : "70%"'
+       // width='window.innerWidth <= 768 ? "100%" : "70%"'
         overlayClassName="overlay"
         className={`${noir.className} panel`}
         isOpen={state.isPaneOpen}
