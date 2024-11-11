@@ -76,26 +76,51 @@ const Cart = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    const handleStorageChange = () => {
-      const theme = JSON.parse(sessionStorage.getItem("stores_1234"));
-      const sale = JSON.parse(sessionStorage.getItem("cart"));
-      const name = JSON.parse(sessionStorage.getItem("storesName")); 
-      const special = JSON.parse(sessionStorage.getItem("special"));
-      const filteredStores = name.filter((store) =>
-        theme.includes(store.id.toString())
-      );
-      sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
-      setTheme(theme);
-      setSale(sale);
-      setSpecial(special);
-      setName(name);
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     const theme = JSON.parse(sessionStorage.getItem("stores_1234"));
+  //     const sale = JSON.parse(sessionStorage.getItem("cart"));
+  //     const name = JSON.parse(sessionStorage.getItem("storesName")); 
+  //     const special = JSON.parse(sessionStorage.getItem("special"));
+  //     const filteredStores = name.filter((store) =>
+  //       theme.includes(store.id.toString())
+  //     );
+  //     sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
+  //     setTheme(theme);
+  //     setSale(sale);
+  //     setSpecial(special);
+  //     setName(name);
+  //   };
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
+
+ const getSessionData = (key) => JSON.parse(sessionStorage.getItem(key));
+ const setSessionData = (key, data) => sessionStorage.setItem(key, JSON.stringify(data));
+
+
+  useEffect(() => {
+  const handleStorageChange = () => {
+    const theme = getSessionData("stores_1234");
+    const sale = getSessionData("cart");
+    const name = getSessionData("storesName");
+    const special = getSessionData("special");
+
+    const filteredStores = name.filter((store) => theme.includes(store.id.toString()));
+    setSessionData("storeSale", filteredStores);
+    
+    setTheme(theme);
+    setSale(sale);
+    setSpecial(special);
+    setName(name);
+  };
+  
+  window.addEventListener("storage", handleStorageChange);
+  return () => window.removeEventListener("storage", handleStorageChange);
+}, []);
+
 
   React.useEffect(() => {
     if (data && data.length > 0 && data[0].value) {
