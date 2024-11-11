@@ -215,11 +215,17 @@ const Index = () => {
   //   };
   // }, []);
 
+  // const toggleButton = (index) => {
+  //   setActiveButtons(
+  //     (prev) => prev.map((active, i) => (i === index ? !active : false)) // Смена состояния только для текущей кнопки
+  //   );
+  // };
+
   const toggleButton = (index) => {
-    setActiveButtons(
-      (prev) => prev.map((active, i) => (i === index ? !active : false)) // Смена состояния только для текущей кнопки
-    );
-  };
+  setActiveButtons((prev) =>
+    prev.map((active, i) => (i === index ? true : active)) // Устанавливаем состояние в true только для текущей кнопки
+  );
+};
 
   useEffect(() => {
     // Функция для обработки изменений в localStorage
