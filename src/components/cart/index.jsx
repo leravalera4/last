@@ -84,7 +84,7 @@ const Cart = () => {
       const name = JSON.parse(sessionStorage.getItem("storesName"));
       const special = JSON.parse(sessionStorage.getItem("special"));
       const filteredStores = name.filter((store) =>
-        theme.includes(store.id.toString())
+        theme.includes(store.id)
       );
       // let filteredStores;
       // if (name != null && theme != null) {
