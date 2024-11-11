@@ -346,15 +346,28 @@ const Cart = () => {
     // window.dispatchEvent(new Event("storage")); // Обновление других вкладок
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth <= 768);
+  //   };
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
+
+    useEffect(() => {
+    if (typeof window !== "undefined") { // Проверка на наличие `window`
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
   }, []);
 
   return (
@@ -387,7 +400,7 @@ const Cart = () => {
          <p style={{ fontSize: "18px" }}>({cartLength})</p>
       </div>
 
-      <SlidingPane
+            <SlidingPane
         // style={{
         //   width: window.innerWidth <= 768 ? "100%" : "70%", // Изменение ширины на мобильных устройствах
         // }}
@@ -401,397 +414,398 @@ const Cart = () => {
         }}
       >
         {isMobile ? (
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {response && response.length === 0 ? (
-              <p
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                Nothing here yet, but you can add 3 stores in total to compare
-                prices
-              </p>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {response &&
-                    response != null &&
-                    response.map((item) => (
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div style={{ width: "100%" }}>
-                            <p
-                              style={{
-                                paddingRight: "10%",
-                                fontWeight: "700",
-                              }}
-                            >
-                              {item.storetype}
-                            </p>
-                            <p style={{ paddingRight: "8%" }}>
-                              {item.storeName}
-                            </p>
-                          </div>
+          <p>THIS IS MOBILE</p>
+          // <div style={{ display: "flex", flexDirection: "column" }}>
+          //   {response && response.length === 0 ? (
+          //     <p
+          //       style={{
+          //         display: "flex",
+          //         alignItems: "center",
+          //         justifyContent: "center",
+          //       }}
+          //     >
+          //       Nothing here yet, but you can add 3 stores in total to compare
+          //       prices
+          //     </p>
+          //   ) : (
+          //     <div style={{ display: "flex", flexDirection: "column" }}>
+          //       <div style={{ display: "flex", flexDirection: "column" }}>
+          //         {response &&
+          //           response != null &&
+          //           response.map((item) => (
+          //             <div>
+          //               <div
+          //                 style={{
+          //                   display: "flex",
+          //                   flexDirection: "row",
+          //                   alignItems: "center",
+          //                 }}
+          //               >
+          //                 <div style={{ width: "100%" }}>
+          //                   <p
+          //                     style={{
+          //                       paddingRight: "10%",
+          //                       fontWeight: "700",
+          //                     }}
+          //                   >
+          //                     {item.storetype}
+          //                   </p>
+          //                   <p style={{ paddingRight: "8%" }}>
+          //                     {item.storeName}
+          //                   </p>
+          //                 </div>
 
-                          <p style={{ fontWeight: "700", lineHeight: "214%" }}>
-                            Total: ${item.totalPrices.toFixed(2)}
-                          </p>
-                          <button
-                            style={{
-                              outline: "0px",
-                              // marginLeft: "20px"
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor: "pointer",
-                              backgroundColor: "transparent",
-                            }}
-                            className={noir.className}
-                            onClick={() => removeStore(item.id)}
-                            title="Delete Store"
-                          >
-                            <Image src={del} width={30} height={30} />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
-            <Tabs
-              selectedIndex={tabIndex}
-              onSelect={(index) => setTabIndex(index)}
-            >
-              <TabList>
-                <Tab>Products</Tab>
-                {response != null &&
-                  response.map((item) => <Tab>{item.storetype}</Tab>)}
-              </TabList>
-              <TabPanel>
-                {response && response.length === 0 ? (
-                  <p
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    Nothing here yet, but you can add 3 stores in total to
-                    compare prices
-                  </p>
-                ) : (
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={{ paddingTop: "10%" }}>
-                      <p
-                        style={{
-                          alignContent: "center",
-                        }}
-                      >
-                        <b>Products</b>
-                      </p>
-                      {response &&
-                        response.length != null &&
-                        response[0].items.map((item, index) => {
-                          // Проверка на наличие изображения
-                          const imageSrc =
-                            item.image ||
-                            response[1]?.items?.[index]?.image ||
-                            response[2]?.items?.[index]?.image;
+          //                 <p style={{ fontWeight: "700", lineHeight: "214%" }}>
+          //                   Total: ${item.totalPrices.toFixed(2)}
+          //                 </p>
+          //                 <button
+          //                   style={{
+          //                     outline: "0px",
+          //                     // marginLeft: "20px"
+          //                     fontSize: "21px",
+          //                     fontWeight: "500",
+          //                     lineHeight: "20px",
+          //                     verticalAlign: "middle",
+          //                     color: "red",
+          //                     border: "0px",
+          //                     cursor: "pointer",
+          //                     backgroundColor: "transparent",
+          //                   }}
+          //                   className={noir.className}
+          //                   onClick={() => removeStore(item.id)}
+          //                   title="Delete Store"
+          //                 >
+          //                   <Image src={del} width={30} height={30} />
+          //                 </button>
+          //               </div>
+          //             </div>
+          //           ))}
+          //       </div>
+          //     </div>
+          //   )}
+          //   <Tabs
+          //     selectedIndex={tabIndex}
+          //     onSelect={(index) => setTabIndex(index)}
+          //   >
+          //     <TabList>
+          //       <Tab>Products</Tab>
+          //       {response != null &&
+          //         response.map((item) => <Tab>{item.storetype}</Tab>)}
+          //     </TabList>
+          //     <TabPanel>
+          //       {response && response.length === 0 ? (
+          //         <p
+          //           style={{
+          //             display: "flex",
+          //             alignItems: "center",
+          //             justifyContent: "center",
+          //           }}
+          //         >
+          //           Nothing here yet, but you can add 3 stores in total to
+          //           compare prices
+          //         </p>
+          //       ) : (
+          //         <div style={{ display: "flex", flexDirection: "column" }}>
+          //           <div style={{ paddingTop: "10%" }}>
+          //             <p
+          //               style={{
+          //                 alignContent: "center",
+          //               }}
+          //             >
+          //               <b>Products</b>
+          //             </p>
+          //             {response &&
+          //               response.length != null &&
+          //               response[0].items.map((item, index) => {
+          //                 // Проверка на наличие изображения
+          //                 const imageSrc =
+          //                   item.image ||
+          //                   response[1]?.items?.[index]?.image ||
+          //                   response[2]?.items?.[index]?.image;
 
-                          // Проверка на наличие title
-                          const title =
-                            item.title ||
-                            response[1]?.items?.[index]?.title ||
-                            response[2]?.items?.[index]?.title;
+          //                 // Проверка на наличие title
+          //                 const title =
+          //                   item.title ||
+          //                   response[1]?.items?.[index]?.title ||
+          //                   response[2]?.items?.[index]?.title;
 
-                          return (
-                            <li
-                              key={item.productID}
-                              style={{
-                                display: "flex",
-                                borderBottom: "1px solid #ccc",
-                                margin: "10px 0",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Image
-                                alt={title} // Используем title в alt
-                                width={30}
-                                height={30}
-                                src={imageSrc} // Используем выбранное изображение
-                                style={{ paddingRight: "8px" }}
-                              />
-                              <p
-                                style={{
-                                  textOverflow: "ellipsis",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  width: "100%",
-                                }}
-                              >
-                                {title} {/* Отображаем title */}
-                              </p>
+          //                 return (
+          //                   <li
+          //                     key={item.productID}
+          //                     style={{
+          //                       display: "flex",
+          //                       borderBottom: "1px solid #ccc",
+          //                       margin: "10px 0",
+          //                       alignItems: "center",
+          //                     }}
+          //                   >
+          //                     <Image
+          //                       alt={title} // Используем title в alt
+          //                       width={30}
+          //                       height={30}
+          //                       src={imageSrc} // Используем выбранное изображение
+          //                       style={{ paddingRight: "8px" }}
+          //                     />
+          //                     <p
+          //                       style={{
+          //                         textOverflow: "ellipsis",
+          //                         whiteSpace: "nowrap",
+          //                         overflow: "hidden",
+          //                         width: "100%",
+          //                       }}
+          //                     >
+          //                       {title} {/* Отображаем title */}
+          //                     </p>
 
-                              <button
-                                onClick={() => decreaseQuantity(item.productID)}
-                                style={{
-                                  outline: "0px",
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                              >
-                                <Image width={30} height={30} src={minus} />
-                              </button>
+          //                     <button
+          //                       onClick={() => decreaseQuantity(item.productID)}
+          //                       style={{
+          //                         outline: "0px",
+          //                         fontSize: "21px",
+          //                         fontWeight: "500",
+          //                         lineHeight: "20px",
+          //                         verticalAlign: "middle",
+          //                         color: "red",
+          //                         border: "0px",
+          //                         cursor: "pointer",
+          //                         backgroundColor: "transparent",
+          //                       }}
+          //                     >
+          //                       <Image width={30} height={30} src={minus} />
+          //                     </button>
 
-                              <p>{item.quantity}</p>
-                              <button
-                                onClick={() => increaseQuantity(item.productID)}
-                                style={{
-                                  outline: "0px",
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                              >
-                                <Image width={30} height={30} src={plus} />
-                              </button>
-                            </li>
-                          );
-                        })}
-                    </div>
-                  </div>
-                )}
-              </TabPanel>
-              {response != null &&
-                response.map((item, index) => (
-                  <TabPanel key={index}>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <p style={{ marginBottom: "0px" }}>
-                        <b>{item.storetype}</b>
-                      </p>
-                      <p>{item.storeName}</p>
-                    </div>
+          //                     <p>{item.quantity}</p>
+          //                     <button
+          //                       onClick={() => increaseQuantity(item.productID)}
+          //                       style={{
+          //                         outline: "0px",
+          //                         fontSize: "21px",
+          //                         fontWeight: "500",
+          //                         lineHeight: "20px",
+          //                         verticalAlign: "middle",
+          //                         color: "red",
+          //                         border: "0px",
+          //                         cursor: "pointer",
+          //                         backgroundColor: "transparent",
+          //                       }}
+          //                     >
+          //                       <Image width={30} height={30} src={plus} />
+          //                     </button>
+          //                   </li>
+          //                 );
+          //               })}
+          //           </div>
+          //         </div>
+          //       )}
+          //     </TabPanel>
+          //     {response != null &&
+          //       response.map((item, index) => (
+          //         <TabPanel key={index}>
+          //           <div
+          //             style={{
+          //               display: "flex",
+          //               flexDirection: "column",
+          //               alignItems: "center",
+          //             }}
+          //           >
+          //             <p style={{ marginBottom: "0px" }}>
+          //               <b>{item.storetype}</b>
+          //             </p>
+          //             <p>{item.storeName}</p>
+          //           </div>
 
-                    <div>
-                      <div style={{ display: "flex" }}>
-                        <ul
-                          style={{
-                            margin: "0",
-                            padding: "0",
-                            width: "40%",
-                            paddingRight: "10%",
-                          }}
-                        >
-                          {item.items.map((li, liIndex) => (
-                            <li
-                              style={{
-                                display: "flex",
-                                borderBottom: "1px solid rgb(204, 204, 204)",
-                                margin: "10px 0px",
-                                alignItems: "center",
-                              }}
-                              key={liIndex}
-                            >
-                              <Image
-                                alt={title} // Используем title в alt
-                                width={30}
-                                height={30}
-                                src={li.image} // Используем выбранное изображение
-                                style={{ paddingRight: "8px" }}
-                              />
-                              <p
-                                style={{
-                                  textOverflow: "ellipsis",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  width: "200px",
-                                }}
-                              >
-                                {li.title}
-                              </p>
-                              <p>({li.quantity})</p>
-                            </li>
-                          ))}
-                        </ul>
-                        <ul
-                          style={{
-                            margin: "0",
-                            padding: "0",
-                            paddingTop: "10px",
-                          }}
-                        >
-                          {item.items.map((it) => (
-                            <li
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                borderBottom: "1px solid #ccc",
-                                marginBottom: "10px",
-                              }}
-                            >
-                              {it.quantity > 1 &&
-                              it.non_member_price == null &&
-                              it.regprice == null ? (
-                                <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices.toFixed(2)}
-                                  {it.saleprice != null ? (
-                                    <span
-                                      style={{
-                                        color: "rgb(125, 120, 120)",
-                                        marginLeft: "4px",
-                                      }}
-                                    >
-                                      (${it.saleprice} ea)
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{ color: "rgb(125, 120, 120)" }}
-                                    >
-                                      (${it.regprice} ea)
-                                    </span>
-                                  )}
-                                </p>
-                              ) : it.quantity > 1 &&
-                                it.regprice != null &&
-                                it.stock != "Out of Stock" ? (
-                                <p>
-                                  ${it.prices.toFixed(2)}
-                                  {it.saleprice != null ? (
-                                    <span
-                                      style={{
-                                        color: "rgb(125, 120, 120)",
-                                        marginLeft: "4px",
-                                      }}
-                                    >
-                                      (${it.saleprice} ea)
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{ color: "rgb(125, 120, 120)" }}
-                                    >
-                                      (${it.regprice} ea)
-                                    </span>
-                                  )}
-                                </p>
-                              ) : it.saleprice != null &&
-                                it.non_member_price != null &&
-                                it.regprice == null &&
-                                it.quantity > 1 ? (
-                                <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices.toFixed(2)}
-                                  {it.saleprice != null && (
-                                    <span
-                                      style={{
-                                        color: "rgb(125, 120, 120)",
-                                        marginLeft: "4px",
-                                      }}
-                                    >
-                                      (${it.non_member_price} ea)
-                                    </span>
-                                  )}
-                                </p>
-                              ) : (
-                                <>
-                                  {it.stock === "Out of Stock" &&
-                                    it.quantity >= 1 && (
-                                      <p style={{ color: "rgb(225, 37, 27)" }}>
-                                        Sold Out ($0)
-                                      </p>
-                                    )}
-                                  {it.non_member_price != null &&
-                                    it.non_member_price !== 0 && (
-                                      <p style={{ color: "rgb(225, 37, 27)" }}>
-                                        ${it.non_member_price}
-                                      </p>
-                                    )}
-                                  {it.saleprice !== null &&
-                                    it.saleprice !== 0 &&
-                                    it.non_member_price && (
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                        }}
-                                      >
-                                        {/* <span style={{ color: "rgb(225, 37, 27)",}}>On sale</span> */}
-                                        {it.quantity > 2 && (
-                                          <p
-                                            style={{
-                                              color: "rgb(225, 37, 27)",
-                                              paddingLeft: "4px",
-                                            }}
-                                          >
-                                            SALE PRICE ${it.non_member_price}
-                                          </p>
-                                        )}
+          //           <div>
+          //             <div style={{ display: "flex" }}>
+          //               <ul
+          //                 style={{
+          //                   margin: "0",
+          //                   padding: "0",
+          //                   width: "40%",
+          //                   paddingRight: "10%",
+          //                 }}
+          //               >
+          //                 {item.items.map((li, liIndex) => (
+          //                   <li
+          //                     style={{
+          //                       display: "flex",
+          //                       borderBottom: "1px solid rgb(204, 204, 204)",
+          //                       margin: "10px 0px",
+          //                       alignItems: "center",
+          //                     }}
+          //                     key={liIndex}
+          //                   >
+          //                     <Image
+          //                       alt={title} // Используем title в alt
+          //                       width={30}
+          //                       height={30}
+          //                       src={li.image} // Используем выбранное изображение
+          //                       style={{ paddingRight: "8px" }}
+          //                     />
+          //                     <p
+          //                       style={{
+          //                         textOverflow: "ellipsis",
+          //                         whiteSpace: "nowrap",
+          //                         overflow: "hidden",
+          //                         width: "200px",
+          //                       }}
+          //                     >
+          //                       {li.title}
+          //                     </p>
+          //                     <p>({li.quantity})</p>
+          //                   </li>
+          //                 ))}
+          //               </ul>
+          //               <ul
+          //                 style={{
+          //                   margin: "0",
+          //                   padding: "0",
+          //                   paddingTop: "10px",
+          //                 }}
+          //               >
+          //                 {item.items.map((it) => (
+          //                   <li
+          //                     style={{
+          //                       display: "flex",
+          //                       justifyContent: "center",
+          //                       borderBottom: "1px solid #ccc",
+          //                       marginBottom: "10px",
+          //                     }}
+          //                   >
+          //                     {it.quantity > 1 &&
+          //                     it.non_member_price == null &&
+          //                     it.regprice == null ? (
+          //                       <p style={{ color: "rgb(225, 37, 27)" }}>
+          //                         ${it.prices.toFixed(2)}
+          //                         {it.saleprice != null ? (
+          //                           <span
+          //                             style={{
+          //                               color: "rgb(125, 120, 120)",
+          //                               marginLeft: "4px",
+          //                             }}
+          //                           >
+          //                             (${it.saleprice} ea)
+          //                           </span>
+          //                         ) : (
+          //                           <span
+          //                             style={{ color: "rgb(125, 120, 120)" }}
+          //                           >
+          //                             (${it.regprice} ea)
+          //                           </span>
+          //                         )}
+          //                       </p>
+          //                     ) : it.quantity > 1 &&
+          //                       it.regprice != null &&
+          //                       it.stock != "Out of Stock" ? (
+          //                       <p>
+          //                         ${it.prices.toFixed(2)}
+          //                         {it.saleprice != null ? (
+          //                           <span
+          //                             style={{
+          //                               color: "rgb(125, 120, 120)",
+          //                               marginLeft: "4px",
+          //                             }}
+          //                           >
+          //                             (${it.saleprice} ea)
+          //                           </span>
+          //                         ) : (
+          //                           <span
+          //                             style={{ color: "rgb(125, 120, 120)" }}
+          //                           >
+          //                             (${it.regprice} ea)
+          //                           </span>
+          //                         )}
+          //                       </p>
+          //                     ) : it.saleprice != null &&
+          //                       it.non_member_price != null &&
+          //                       it.regprice == null &&
+          //                       it.quantity > 1 ? (
+          //                       <p style={{ color: "rgb(225, 37, 27)" }}>
+          //                         ${it.prices.toFixed(2)}
+          //                         {it.saleprice != null && (
+          //                           <span
+          //                             style={{
+          //                               color: "rgb(125, 120, 120)",
+          //                               marginLeft: "4px",
+          //                             }}
+          //                           >
+          //                             (${it.non_member_price} ea)
+          //                           </span>
+          //                         )}
+          //                       </p>
+          //                     ) : (
+          //                       <>
+          //                         {it.stock === "Out of Stock" &&
+          //                           it.quantity >= 1 && (
+          //                             <p style={{ color: "rgb(225, 37, 27)" }}>
+          //                               Sold Out ($0)
+          //                             </p>
+          //                           )}
+          //                         {it.non_member_price != null &&
+          //                           it.non_member_price !== 0 && (
+          //                             <p style={{ color: "rgb(225, 37, 27)" }}>
+          //                               ${it.non_member_price}
+          //                             </p>
+          //                           )}
+          //                         {it.saleprice !== null &&
+          //                           it.saleprice !== 0 &&
+          //                           it.non_member_price && (
+          //                             <div
+          //                               style={{
+          //                                 display: "flex",
+          //                                 alignItems: "center",
+          //                               }}
+          //                             >
+          //                               {/* <span style={{ color: "rgb(225, 37, 27)",}}>On sale</span> */}
+          //                               {it.quantity > 2 && (
+          //                                 <p
+          //                                   style={{
+          //                                     color: "rgb(225, 37, 27)",
+          //                                     paddingLeft: "4px",
+          //                                   }}
+          //                                 >
+          //                                   SALE PRICE ${it.non_member_price}
+          //                                 </p>
+          //                               )}
 
-                                        {/* <s
-                                      style={{ color: "rgb(125, 120, 120)" }}
-                                    >
-                                      WAS PRICE (${it.wasprice} ea)
-                                    </s> */}
-                                      </div>
-                                    )}
-                                  {it.regprice != null &&
-                                    it.non_member_price !== 0 && (
-                                      <p>${it.regprice}</p>
-                                    )}
-                                  {it.non_member_price == null &&
-                                    it.regprice == null && (
-                                      <p style={{ color: "rgb(225, 37, 27)" }}>
-                                        ${it.saleprice}
-                                      </p>
-                                    )}
-                                </>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+          //                               {/* <s
+          //                             style={{ color: "rgb(125, 120, 120)" }}
+          //                           >
+          //                             WAS PRICE (${it.wasprice} ea)
+          //                           </s> */}
+          //                             </div>
+          //                           )}
+          //                         {it.regprice != null &&
+          //                           it.non_member_price !== 0 && (
+          //                             <p>${it.regprice}</p>
+          //                           )}
+          //                         {it.non_member_price == null &&
+          //                           it.regprice == null && (
+          //                             <p style={{ color: "rgb(225, 37, 27)" }}>
+          //                               ${it.saleprice}
+          //                             </p>
+          //                           )}
+          //                       </>
+          //                     )}
+          //                   </li>
+          //                 ))}
+          //               </ul>
+          //             </div>
 
-                      <p
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          paddingTop: "16px",
-                          fontWeight: "700",
-                        }}
-                      >
-                        Total: ${item.totalPrices.toFixed(2)}
-                      </p>
-                    </div>
-                  </TabPanel>
-                ))}
-            </Tabs>
-          </div>
+          //             <p
+          //               style={{
+          //                 display: "flex",
+          //                 justifyContent: "center",
+          //                 paddingTop: "16px",
+          //                 fontWeight: "700",
+          //               }}
+          //             >
+          //               Total: ${item.totalPrices.toFixed(2)}
+          //             </p>
+          //           </div>
+          //         </TabPanel>
+          //       ))}
+          //   </Tabs>
+          // </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
             {response && response.length === 0 ? (
@@ -805,15 +819,12 @@ const Cart = () => {
                 Nothing here yet, but you can add 3 stores in total to compare
                 prices
               </p>
-            ) 
-              : 
-              cartLength !== totalQuantity ? (
+            ) : cartLength !== totalQuantity ? (
               <>
                 <Spiner />
                 <p>Checking latest prices for you...</p>
               </>
-            ) 
-              : (
+            ) : (
               <div style={{ display: "flex" }}>
                 <div>
                   <p
@@ -1120,6 +1131,8 @@ const Cart = () => {
           </div>
         )}
       </SlidingPane>
+
+ 
     </div>
   );
 };
