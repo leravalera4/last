@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
 
-  metadataBase : new URL("https://shoppysca.ca"),
+  metadataBase : new URL("https://shoppyscan.ca"),
 
   title: 'Shoppy Scan',
   description: 'Spend Wisely',
