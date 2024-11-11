@@ -34,7 +34,7 @@ export default function RootLayout({
         <meta name="keywords" content="spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
         <meta property="og:title" content="Shoppy Scan" />
         <meta property="og:description" content="Spend wisely" />
-        <meta property="og:image" content="/social-image.png" />
+        <meta property="og:image" content="/ms-icon-150x150.png" />
         <meta property="og:url" content="https://shoppyscan.ca" />
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
