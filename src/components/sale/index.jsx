@@ -1296,7 +1296,7 @@ const Index = () => {
                                     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
                                   }}
                                 >
-                                  {addedToCart[index]
+                          {productCounts[item.productID] > 0
                                     ? "Add more"
                                     : "Add to List"}
                                 </button>
