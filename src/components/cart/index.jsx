@@ -108,7 +108,14 @@ const Cart = () => {
     const name = getSessionData("storesName");
     const special = getSessionData("special");
 
-    const filteredStores = name.filter((store) => theme.includes(store.id.toString()));
+   // const filteredStores = name.filter((store) => theme.includes(store.id.toString()));
+
+      let filteredStores;
+      if (name != null && theme != null) {
+        filteredStores = name.filter((store) =>
+          theme.includes(store.id.toString())
+        );
+      }
     setSessionData("storeSale", filteredStores);
     
     setTheme(theme);
