@@ -906,11 +906,11 @@ const Products = ({ cartData }) => {
                                 store.mem != null ? (
                                   store.mem * 2 > store.saleprice ? (
                                     <p
+                                      itemProp="priceCurrency"
                                       className={noir.className}
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        itemProp="priceCurrency"
                                       }}
                                     >
                                       ${store.mem}
