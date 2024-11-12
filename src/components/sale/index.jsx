@@ -716,7 +716,7 @@ const Index = () => {
       }}
     >
       {responseData.length > 0 ? <Tour style={{ zIndex: "10" }} /> : ""}
-      <h1
+      <h2
         style={{
           textAlign: "center",
           paddingBottom: "0px",
@@ -725,7 +725,7 @@ const Index = () => {
         className={noir.className}
       >
         Special Price
-      </h1>
+      </h2>
       <p
         style={{
           textAlign: "center",
