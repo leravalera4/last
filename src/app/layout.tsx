@@ -39,13 +39,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="google-site-verification" content="j0SKXll7FJFhpuNBjySgfPXEnc-UOLgsQAnoeGTn6l0" />
         <meta name="description" content="Spend wisely" />
-        <meta name="keywords" content="spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
-        <meta property="og:title" content="Shoppy Scan" />
-        <meta property="og:description" content="Spend wisely" />
-        <meta property="og:url" content="https://shoppyscan.ca" />
+        <meta name="keywords" content="groceries,spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
         <meta name="robots" content="index, follow" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="canonical" href="https://shoppyscan.ca" />
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052" crossOrigin="anonymous" />
       </head>
       <body className={inter.className}>
