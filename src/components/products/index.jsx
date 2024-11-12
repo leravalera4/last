@@ -514,7 +514,8 @@ const Products = ({ cartData }) => {
   }, []);
 
   return (
-    <div>
+    <div itemScope
+  itemType="http://schema.org/Store">
       <div style={{ marginLeft: "10%", marginRight: "10%", height: "766px" }}>
         <h1
           style={{
@@ -568,7 +569,7 @@ const Products = ({ cartData }) => {
           <div className="select-location">
             {selectedStore && (
               <div className="sel">
-              <div className="selected-store">
+              <div itemProp="location" itemScope itemType="http://schema.org/Place" className="selected-store">
                   <label
                     style={{
                       paddingRight: "8px",
@@ -583,6 +584,7 @@ const Products = ({ cartData }) => {
                     className={noir.className}
                     onChange={(e) => handleLocationChange(e.target.value)}
                     value={selectedLocation}
+                    itemProp="address"
                   >
                     <option value="">Select...</option>
                     {locations.map((location, index) => (
@@ -751,10 +753,12 @@ const Products = ({ cartData }) => {
                 {responseData.map((item, index) => (
                   <div className="card"
                     key={index}
+                    itemScope itemType="http://schema.org/Product"
                   >
                     <div>
                       <p
                         className={`${noir.className} text`}
+                        itemProp="price"
                       >
                         {loading ? (
                           <Skeleton width={230} height={50} />
@@ -906,6 +910,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
+                                        itemProp="priceCurrency"
                                       }}
                                     >
                                       ${store.mem}
