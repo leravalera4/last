@@ -238,8 +238,6 @@ const Cart = () => {
   }, [titleLength]); // Срабатывает при изменении response
   
 
-  console.log("QUANTITY",quantity)
-
   const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
       const updatedItems = store.items.map((item) => {
