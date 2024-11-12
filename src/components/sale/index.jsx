@@ -707,6 +707,11 @@ const Index = () => {
     });
   }, []);
 
+    const resetButtons = () => {
+    setActiveButtons((prev) => prev.map(() => false));
+  };
+
+
   return (
     <div
       style={{
@@ -868,6 +873,7 @@ const Index = () => {
             onSubmit={(e) => {
               e.preventDefault(); // Предотвращает стандартное поведение формы
               handleAddStore(); // Запускает вашу функцию обработки
+              resetButtons();
             }}
           >
             <button
