@@ -103,9 +103,9 @@ const Cart = () => {
 
   useEffect(() => {
   const handleStorageChange = () => {
-    const theme = getSessionData("stores_1234");
+    const theme = getSessionData("stores_1234") || [];
     const sale = getSessionData("cart");
-    const name = getSessionData("storesName");
+    const name = getSessionData("storesName") || [];
     const special = getSessionData("special");
 
     const filteredStores = name.filter((store) => theme.includes(store.id.toString()));
