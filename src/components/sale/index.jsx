@@ -74,6 +74,10 @@ const Index = () => {
   const [special, setSpecial] = useState();
   const [selectedStoresLalala, setSelectedStoresLalala] = useState([]);
   const [productCounts, setProductCounts] = useState({});
+  const [productCounts, setProductCounts] = useState(() => {
+    const cart = JSON.parse(sessionStorage.getItem("cart"));
+    return cart ? cart : {}; // Если cart существует, используем его; иначе устанавливаем пустой объект
+  });
   const [storedDat, setStoredDat] = useState();
   const [button, setButton] = useState(false);
   const [array, setArrayOfStores] = useState(); //массив stores_1234
@@ -98,14 +102,19 @@ const Index = () => {
   const [clickCounts, setClickCounts] = useState({});
 
   const [isMobile, setIsMobile] = useState(false);
-
-  if (typeof localStorage !== "undefined") {
-    localStorage.setItem("key", "value");
+  useEffect(() => {
+    const cart = JSON.parse(sessionStorage.getItem("cart"));
+    if (!cart) {
+      setProductCounts({});
+    }
+  }, []);
+  if (typeof sessionStorage !== "undefined") {
+    sessionStorage.setItem("key", "value");
   } else if (typeof sessionStorage !== "undefined") {
-    // Fallback to sessionStorage if localStorage is not supported
+    // Fallback to sessionStorage if sessionStorage is not supported
     sessionStorage.setItem("key", "value");
   } else {
-    // If neither localStorage nor sessionStorage is supported
+    // If neither sessionStorage nor sessionStorage is supported
     console.log("Web Storage is not supported in this environment SALE.");
   }
 
