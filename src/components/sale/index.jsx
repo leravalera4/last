@@ -73,11 +73,11 @@ const Index = () => {
   const [firstTime, setFirstTime] = useState(true);
   const [special, setSpecial] = useState();
   const [selectedStoresLalala, setSelectedStoresLalala] = useState([]);
- // const [productCounts, setProductCounts] = useState({});
-  const [productCounts, setProductCounts] = useState(() => {
-    const cart = JSON.parse(sessionStorage.getItem("cart"));
-    return cart ? cart : {}; // Если cart существует, используем его; иначе устанавливаем пустой объект
-  });
+  const [productCounts, setProductCounts] = useState({});
+  // const [productCounts, setProductCounts] = useState(() => {
+  //   const cart = JSON.parse(sessionStorage.getItem("cart"));
+  //   return cart ? cart : {}; // Если cart существует, используем его; иначе устанавливаем пустой объект
+  // });
   const [storedDat, setStoredDat] = useState();
   const [button, setButton] = useState(false);
   const [array, setArrayOfStores] = useState(); //массив stores_1234
