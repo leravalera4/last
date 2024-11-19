@@ -35,7 +35,7 @@ const Index = () => {
       {/* Section 1: Compare Prices */}
       <section>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-          <Image src={chart} width={40} height={40} alt="Chart Icon" />
+{/*           <Image src={chart} width={40} height={40} alt="Chart Icon" /> */}
           <h4
             className={noir.className}
             style={{
@@ -57,7 +57,7 @@ const Index = () => {
       {/* Section 2: Check What's on Sale */}
       <section>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-          <Image src={sale} width={40} height={40} alt="Sale Icon" />
+{/*           <Image src={sale} width={40} height={40} alt="Sale Icon" /> */}
           <h4
             className={noir.className}
             style={{
@@ -79,7 +79,7 @@ const Index = () => {
       {/* Section 3: Add to Cart */}
       <section>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-          <Image src={cart} width={40} height={40} alt="Cart Icon" />
+{/*           <Image src={cart} width={40} height={40} alt="Cart Icon" /> */}
           <h4
             className={noir.className}
             style={{
@@ -101,7 +101,7 @@ const Index = () => {
       {/* Section 4: Smart Shopping Companion */}
       <section>
         <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-          <Image src={cart} width={40} height={40} alt="Smart Shopping Icon" />
+{/*           <Image src={cart} width={40} height={40} alt="Smart Shopping Icon" /> */}
           <h4
             className={noir.className}
             style={{
