@@ -224,7 +224,7 @@ const Cart = () => {
     cartLength = cart.length; // Update titleLength if conditions are met
   }
 
-  const targetRef = useRef();
+  //const targetRef = useRef();
   let totalQuantity;
   if (response && response.length != 0) {
     totalQuantity = response[0].items.reduce(
