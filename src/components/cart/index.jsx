@@ -832,8 +832,8 @@ const Cart = () => {
                 <p>Checking latest prices for you...</p>
               </>
             ) : (
-              <div ref={targetRef} style={{ display: "flex" }}>
-                <div>
+              <div style={{ display: "flex" }}>
+                <div ref={targetRef}>
                   <p
                     style={{
                       width: "144px",
