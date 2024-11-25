@@ -380,7 +380,7 @@ const Cart = () => {
   return (
     <div className="cart">
       <div style={{ display: "flex", cursor: "pointer" }}>
-        <Image
+        <img
           alt="shopping"
           src={basket}
           width={40}
@@ -482,7 +482,7 @@ const Cart = () => {
                             onClick={() => removeStore(item.id)}
                             title="Delete Store"
                           >
-                            <Image src={del} width={30} height={30} />
+                            <img src={del} width={30} height={30} />
                           </button>
                         </div>
                       </div>
@@ -546,7 +546,7 @@ const Cart = () => {
                                 alignItems: "center",
                               }}
                             >
-                              <Image
+                              <img
                                 alt={title} // Используем title в alt
                                 width={30}
                                 height={30}
@@ -578,7 +578,7 @@ const Cart = () => {
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                <Image width={30} height={30} src={minus} />
+                                <img width={30} height={30} src={minus} />
                               </button>
 
                               <p>{item.quantity}</p>
@@ -596,7 +596,7 @@ const Cart = () => {
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                <Image width={30} height={30} src={plus} />
+                                <img width={30} height={30} src={plus} />
                               </button>
                             </li>
                           );
@@ -641,7 +641,7 @@ const Cart = () => {
                               }}
                               key={liIndex}
                             >
-                              <Image
+                              <img
                                 alt={title} // Используем title в alt
                                 width={30}
                                 height={30}
