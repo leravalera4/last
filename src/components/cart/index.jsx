@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import Image from "next/image";
-import Basket from "../../app/images/icon.svg";
+import basket from "../../app/images/icon.svg";
 import localFont from "next/font/local";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -382,7 +382,9 @@ const Cart = () => {
       <div style={{ display: "flex", cursor: "pointer" }}>
         <img
           alt="shopping"
-          src={Basket}
+          src={basket}
+            width="40"
+            height="40"
           onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
