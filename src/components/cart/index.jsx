@@ -403,11 +403,13 @@ const Cart = () => {
         ) : (
           <p style={{ fontSize: "18px" }}>({cartLength})</p>
         )} */}
-         <p style={{ fontSize: "18px" }}>({cartLength})
+         <p 
            onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
           }}
+           style={{ fontSize: "18px" }}>({cartLength})
+           
 </p>
       </div>
 
