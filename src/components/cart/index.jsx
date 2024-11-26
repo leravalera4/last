@@ -865,12 +865,10 @@ const Cart = () => {
                             alignItems: "center",
                           }}
                         >
-                          <Image
+                          <img
                             alt={title} // Используем title в alt
-                            width={30}
-                            height={30}
-                            src={imageSrc} // Используем выбранное изображение
-                            style={{ paddingRight: "8px" }}
+                            src={imageSrc.src | imageSrc } // Используем выбранное изображение
+                            style={{ paddingRight: "8px",height:"30px",width:"30px" }}
                           />
                           <p
                             style={{
@@ -962,7 +960,7 @@ const Cart = () => {
                             onClick={() => removeStore(item.id)}
                             title="Delete Store"
                           >
-                            <Image src={del} width={30} height={30} />
+                            <img src={del.src | del} style={{width:"30px", height:"30px"}} />
                           </button>
                         </div>
 
