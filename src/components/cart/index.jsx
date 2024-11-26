@@ -382,7 +382,7 @@ const Cart = () => {
       <div style={{ display: "flex", cursor: "pointer" }}>
         <img
           alt="shopping"
-          src={basket}
+          src={basket.src || basket}
    style={{ width: "40px", height:"40px",cursor: "pointer" }}
           onClick={() => {
             getNames(sale, theme, name);
