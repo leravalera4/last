@@ -381,9 +381,8 @@ const Cart = () => {
     <div className="cart">
       <div style={{ display: "flex", cursor: "pointer" }}>
         <img
-          style={{width:'40px',height:'40px'}}
           alt="shopping"
-          src="../../app/images/icon.svg"
+          src={Basket}
           onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
@@ -403,7 +402,12 @@ const Cart = () => {
         ) : (
           <p style={{ fontSize: "18px" }}>({cartLength})</p>
         )} */}
-         <p style={{ fontSize: "18px" }}>({cartLength})</p>
+         <p style={{ fontSize: "18px" }}>({cartLength})
+onClick={() => {
+            getNames(sale, theme, name);
+            setState({ isPaneOpen: true });
+          }}
+</p>
       </div>
 
             <SlidingPane
