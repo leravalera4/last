@@ -964,7 +964,7 @@ const Cart = () => {
                             onClick={() => removeStore(item.id)}
                             title="Delete Store"
                           >
-                            <img src={del.src | del} style={{width:"30px", height:"30px"}} />
+                            <img src={del.src || del} style={{width:"30px", height:"30px"}} />
                           </button>
                         </div>
 
