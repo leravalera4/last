@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
-import "../products/products.css";x
+import "../products/products.css";
 import generatePDF, { Margin } from "react-to-pdf";
 import Spiner from "../spiner";
 import del from "../../app/images/de.svg";
@@ -383,8 +383,7 @@ const Cart = () => {
         <img
           alt="shopping"
           src={basket}
-            width="40"
-            height="40"
+   style={{ width: "40px", height:"40px",cursor: "pointer" }}
           onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
