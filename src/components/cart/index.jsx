@@ -384,8 +384,6 @@ const Cart = () => {
           style={{width:'40px',height:'40px'}}
           alt="shopping"
           src={basket}
-{/*           width={40}
-          height={40} */}
           onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
