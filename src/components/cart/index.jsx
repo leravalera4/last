@@ -548,9 +548,8 @@ const Cart = () => {
                             >
                               <img
                                 alt={title} // Используем title в alt
-                                width={30}
-                                height={30}
-                                src={imageSrc} // Используем выбранное изображение
+                                style={{width:"30px", height:"30px"}}
+                                src={imageSrc.src || imageSrc} 
                                 style={{ paddingRight: "8px" }}
                               />
                               <p
@@ -578,7 +577,7 @@ const Cart = () => {
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                <img width={30} height={30} src={minus} />
+                                <img style={{width:"30px", height:"30px"}} src={minus.src || minus} />
                               </button>
 
                               <p>{item.quantity}</p>
@@ -596,7 +595,7 @@ const Cart = () => {
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                <img width={30} height={30} src={plus} />
+                                <img style={{width:"30px", height:"30px"}} src={plus.src || plus} />
                               </button>
                             </li>
                           );
