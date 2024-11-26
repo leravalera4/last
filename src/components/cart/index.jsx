@@ -405,10 +405,6 @@ const Cart = () => {
           <p style={{ fontSize: "18px" }}>({cartLength})</p>
         )} */}
          <p style={{ fontSize: "18px" }}>({cartLength})
-onClick={() => {
-            getNames(sale, theme, name);
-            setState({ isPaneOpen: true });
-          }}
 </p>
       </div>
 
