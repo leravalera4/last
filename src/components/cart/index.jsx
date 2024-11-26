@@ -548,9 +548,8 @@ const Cart = () => {
                             >
                               <img
                                 alt={title} // Используем title в alt
-                                style={{width:"30px", height:"30px"}}
+                                style={{width:"30px", height:"30px",paddingRight: "8px"}}
                                 src={imageSrc.src || imageSrc} 
-                                style={{ paddingRight: "8px" }}
                               />
                               <p
                                 style={{
