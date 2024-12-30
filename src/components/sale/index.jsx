@@ -820,7 +820,30 @@ const Index = () => {
             >
               Select Location:
             </label>
-            <select
+                        <select
+              className={noir.className}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              value={selectedLocation}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Предотвращает стандартное поведение Enter
+                  handleAddStore(); // Запускает вашу функцию обработки
+                  e.target.blur(); // Убирает фокус с поля
+                }
+              }}
+            >
+              <option value="">Select...</option>
+              {locations.map((location, index) => (
+                <option
+                  className={noir.className}
+                  key={index}
+                  value={location}
+                >
+                  {location}
+                </option>
+              ))}
+            </select>
+{/*             <select
               className={`${noir.className} select`}
               // style={{
               //   height: "38px",
@@ -872,7 +895,7 @@ const Index = () => {
                   {location}
                 </option>
               ))}
-            </select>
+            </select> */}
           </>
         )}
 
