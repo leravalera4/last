@@ -29,7 +29,10 @@ const Index = () => {
           textAlign: "center",
         }}
       >
-        Welcome to Shoppy Scan, your ultimate companion for savvy shopping and significant savings!
+{/*         Welcome to Shoppy Scan, your ultimate companion for savvy shopping and significant savings! */}
+        Welcome to Shoppy Scan, your reliable guide for smarter shopping and significant savings. 
+<br/>
+Our goal is to empower you with tools and information that simplify the shopping process while maximizing your budget.
       </p>
 
       {/* Section 1: Compare Prices */}
@@ -44,13 +47,13 @@ const Index = () => {
               fontWeight: 700,
             }}
           >
-            📊 Compare Prices in Different Stores
+            📊 Compare Prices Across Stores
           </h4>
         </div>
         <p className={noir.className}>
-          Easily compare the prices of your favorite products across various stores to ensure you're getting the best
-          deals. Whether you're shopping for groceries, electronics, or household items, Shoppy Scan empowers you to
-          make informed decisions. Say goodbye to overspending and hello to smarter shopping!
+          Shoppy Scan makes it easy to compare prices for your favorite products across multiple stores. 
+Whether you're purchasing groceries, electronics, or household essentials, our platform provides detailed price comparisons to ensure you make informed choices. 
+By checking prices side-by-side, you can shop confidently, knowing you’re getting the best deal available.
         </p>
       </section>
 
@@ -66,13 +69,13 @@ const Index = () => {
               fontWeight: 700,
             }}
           >
-            🎯 Check What's on Sale
+           🎯 Stay Updated on Discounts and Promotions
           </h4>
         </div>
         <p className={noir.className}>
-          Stay in the loop with the latest discounts, promotions, and exclusive deals. Don’t miss out on flash sales,
-          seasonal discounts, or limited-time promotions — maximize your savings and stock up on essentials at
-          unbeatable prices.
+          Never miss an opportunity to save with Shoppy Scan. 
+Our platform helps you stay in the loop with the latest discounts, exclusive offers, and seasonal promotions.
+ From flash sales to limited-time deals, we ensure you’re always aware of the best opportunities to save money on the products you need.
         </p>
       </section>
 
@@ -88,13 +91,14 @@ const Index = () => {
               fontWeight: 700,
             }}
           >
-            🛒 Add to Cart for Easy Tracking and Comparison
+            🛒 Organize and Track Your Shopping
           </h4>
         </div>
         <p className={noir.className}>
-          Simplify your shopping strategy by adding items to your virtual cart. Keep track of products you're interested
-          in and receive real-time updates on their prices. Shoppy Scan ensures you’ll always get the best value for
-          your money.
+         Managing your shopping list is easier than ever with Shoppy Scan. 
+Add items to your virtual cart to keep track of products you're interested in. 
+Receive real-time price updates, compare options, and decide when it’s the right time to buy. 
+This feature is perfect for savvy shoppers looking to optimize their spending without the hassle of manual tracking.
         </p>
       </section>
 
@@ -110,12 +114,13 @@ const Index = () => {
               fontWeight: 700,
             }}
           >
-            📱 Your Smart Shopping Companion
+            📱 Shop Smarter, Anytime, Anywhere
           </h4>
         </div>
         <p className={noir.className}>
-          With Shoppy Scan, shopping becomes not just efficient but enjoyable. Download Shoppy Scan today and discover
-          how much you can save on your next shopping spree!
+Shoppy Scan is accessible across all your devices, making it a convenient companion for your shopping journey. 
+Whether you’re at home or on the go, our user-friendly platform ensures a seamless experience. 
+Start your shopping with confidence and enjoy the benefits of smarter decision-making.
         </p>
       </section>
     </div>
