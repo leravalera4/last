@@ -1014,7 +1014,7 @@ const Products = ({ cartData }) => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-around",
-                          paddingBottom: "25px",
+                        //  paddingBottom: "25px",
                           // paddingTop: "1px",
                         }}
                       >
