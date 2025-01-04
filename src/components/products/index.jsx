@@ -1063,7 +1063,8 @@ const Products = ({ cartData }) => {
                                   color: "rgb(225, 37, 27)",
                                   fontWeight: "400",
                                   marginRight: "10px",
-                                  fontSize: "15px"
+                                  fontSize: "15px",
+                                  paddingLeft : "4px"
                                   // marginLeft: "8px",
                                   //paddingTop: "2px",
                                 }}
@@ -1073,7 +1074,7 @@ const Products = ({ cartData }) => {
                               </p>
                             )
                           ) : (
-                            <p style={{ paddingTop: "24px" }}></p>
+                            <p style={{ paddingTop: "18px" }}></p>
                           )
                         )}
                       </div>
