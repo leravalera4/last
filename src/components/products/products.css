@@ -6,7 +6,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 8px;
     padding-top: 36px;
 }
 
@@ -135,7 +135,7 @@ align-items:center;
 }
 
 .card{
-  width: 480px;
+  width: 445px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     display: flex;
     flex-direction: column;
