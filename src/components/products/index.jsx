@@ -1014,7 +1014,7 @@ const Products = ({ cartData }) => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-around",
-                          paddingBottom: "25px,
+                          paddingBottom: "25px",
                           // paddingTop: "1px",
                         }}
                       >
@@ -1063,7 +1063,7 @@ const Products = ({ cartData }) => {
                                   color: "rgb(225, 37, 27)",
                                   fontWeight: "400",
                                   marginRight: "10px",
-                                  fontSize: "15px";
+                                  fontSize: "15px"
                                   // marginLeft: "8px",
                                   //paddingTop: "2px",
                                 }}
