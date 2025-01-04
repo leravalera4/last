@@ -884,7 +884,7 @@ const Products = ({ cartData }) => {
                               style={{
                                 display: "flex",
                                 flexDirection: "row",
-                                alignItems: "center",
+                                // alignItems: "center",
                                 justifyContent: "space-between",
                               }}
                               key={index}
@@ -894,6 +894,7 @@ const Products = ({ cartData }) => {
                                 style={{
                                   paddingRight: "12px",
                                   maxWidth: "275px",
+                                  fontSize:"15px"
                                 }}
                                 key={index}
                               >
@@ -911,6 +912,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
+                                        fontSize:"15px"
                                       }}
                                     >
                                       ${store.mem}
@@ -918,6 +920,7 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
+                                          fontSize:"15px"
                                         }}
                                       >
                                         (2 FOR ${store.saleprice})
@@ -929,6 +932,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
+                                        fontSize:"15px"
                                       }}
                                     >
                                       ${store.mem}
@@ -936,6 +940,7 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
+                                          fontSize:"15px"
                                         }}
                                       >
                                         (3 FOR ${store.saleprice})
@@ -947,6 +952,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
+                                        fontSize:"15px"
                                       }}
                                     >
                                       ${store.mem}
@@ -965,6 +971,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
+                                        fontSize:"15px"
                                       }}
                                     >
                                       ${store.saleprice}
@@ -976,6 +983,7 @@ const Products = ({ cartData }) => {
                                     style={{
                                       fontWeight: "700",
                                       color: "rgb(225, 37, 27)",
+                                      fontSize:"15px"
                                     }}
                                   >
                                     ${store.saleprice}
@@ -984,7 +992,7 @@ const Products = ({ cartData }) => {
                               ) : store.non_member_price != null ? (
                                 <p
                                   className={noir.className}
-                                  style={{ fontWeight: "700" }}
+                                  style={{ fontWeight: "700",fontSize:"15px" }}
                                 >
                                   {store.non_member_price}
                                   <span>(2 FOR mimi ${store.sale})</span>
@@ -992,7 +1000,7 @@ const Products = ({ cartData }) => {
                               ) : (
                                 <p
                                   className={noir.className}
-                                  style={{ fontWeight: "700" }}
+                                  style={{ fontWeight: "700",fontSize:"15px" }}
                                 >
                                   {store.regprice}
                                 </p>
@@ -1006,6 +1014,7 @@ const Products = ({ cartData }) => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-around",
+                          paddingBottom: "25px,
                           // paddingTop: "1px",
                         }}
                       >
@@ -1022,6 +1031,7 @@ const Products = ({ cartData }) => {
                                   marginRight: "10px",
                                   paddingLeft: "2px",
                                   textDecoration: "line-through",
+                                  fontSize: "15px",
                                   textDecorationColor: "rgb(125, 120, 120)",
                                 }}
                                 key={index}
@@ -1053,7 +1063,8 @@ const Products = ({ cartData }) => {
                                   color: "rgb(225, 37, 27)",
                                   fontWeight: "400",
                                   marginRight: "10px",
-                                  marginLeft: "8px",
+                                  fontSize: "15px";
+                                  // marginLeft: "8px",
                                   //paddingTop: "2px",
                                 }}
                                 key={index}
