@@ -820,8 +820,8 @@ const Index = () => {
             >
               Select Location:
             </label>
-{/*                         <select
-              className={noir.className}
+                        <select
+               className={`${noir.className} select`}
               onChange={(e) => setSelectedLocation(e.target.value)}
               value={selectedLocation}
               onKeyDown={(e) => {
@@ -842,8 +842,8 @@ const Index = () => {
                   {location}
                 </option>
               ))}
-            </select> */}
-            <select
+            </select>
+{/*             <select
               className={`${noir.className} select`}
               // style={{
               //   height: "38px",
@@ -895,7 +895,7 @@ const Index = () => {
                   {location}
                 </option>
               ))}
-            </select>
+            </select> */}
           </>
         )}
 
