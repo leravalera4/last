@@ -917,7 +917,7 @@ const Index = () => {
                 height: "38px",
                 marginLeft: "10%",
                 padding: "5px 16px",
-                fontSize: "14px",
+                fontSize: "13px",
                 fontWeight: "500",
                 lineHeight: "20px",
                 verticalAlign: "middle",
@@ -981,7 +981,7 @@ const Index = () => {
                 //   display: "flex",
                 //   cursor: "pointer",
                 //   padding: "5px 16px",
-                //   fontSize: "14px",
+                //   fontSize: "13px",
                 //   fontWeight: "500",
                 //   lineHeight: "20px",
                 //   verticalAlign: "middle",
@@ -1313,7 +1313,7 @@ const Index = () => {
                                         ? "not-allowed"
                                         : "pointer", // Изменение курсора
                                     padding: "5px 16px",
-                                    fontSize: "14px",
+                                    fontSize: "13px",
                                     fontWeight: "500",
                                     lineHeight: "20px",
                                     verticalAlign: "middle",
@@ -1539,7 +1539,7 @@ const Index = () => {
                                         ? "not-allowed"
                                         : "pointer", // Изменение курсора
                                     padding: "5px 16px",
-                                    fontSize: "14px",
+                                    fontSize: "13px",
                                     fontWeight: "500",
                                     lineHeight: "20px",
                                     verticalAlign: "middle",
@@ -1765,7 +1765,7 @@ const Index = () => {
                                         ? "not-allowed"
                                         : "pointer", // Изменение курсора
                                     padding: "5px 16px",
-                                    fontSize: "14px",
+                                    fontSize: "13px",
                                     fontWeight: "500",
                                     lineHeight: "20px",
                                     verticalAlign: "middle",
@@ -1991,7 +1991,7 @@ const Index = () => {
                                         ? "not-allowed"
                                         : "pointer", // Изменение курсора
                                     padding: "5px 16px",
-                                    fontSize: "14px",
+                                    fontSize: "13px",
                                     fontWeight: "500",
                                     lineHeight: "20px",
                                     verticalAlign: "middle",
@@ -2232,7 +2232,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -2476,7 +2476,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -2720,7 +2720,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -2964,7 +2964,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -3208,7 +3208,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -3452,7 +3452,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -3696,7 +3696,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -3941,7 +3941,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
@@ -4186,7 +4186,7 @@ const Index = () => {
                                             ? "not-allowed"
                                             : "pointer", // Изменение курсора
                                         padding: "5px 16px",
-                                        fontSize: "14px",
+                                        fontSize: "13px",
                                         fontWeight: "500",
                                         lineHeight: "20px",
                                         verticalAlign: "middle",
