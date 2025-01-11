@@ -1184,7 +1184,7 @@ const Index = () => {
                                         {productCounts[item.productID] > 0 ? (
                                           <>
                                             <Image
-                                              style={{ paddingLeft: "90px" }}
+                                              style={{ paddingLeft: "60px" }}
                                               width={35}
                                               height={35}
                                               src={added}
