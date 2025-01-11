@@ -36,7 +36,8 @@
 .product-info-container {
   position: relative;
   padding: 8px;
-  min-height: 287.6px;
+  min-height: 275.6px;
+/*   min-height: 287.6px; */
   border-color: rgb(226, 232, 240);
   overflow-wrap: break-word;
   border-width: 0px;
@@ -389,7 +390,7 @@ button {
   height: 38px;
   margin-left: 20px;
   padding: 5px 16px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 20px;
   vertical-align: middle;
@@ -441,7 +442,7 @@ button {
     flex-direction: column;
   }
   .product-container{
-    width: 9.63rem;
+    width: 8.63rem;
   }
 }
 
