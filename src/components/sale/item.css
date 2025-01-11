@@ -36,8 +36,8 @@
 .product-info-container {
   position: relative;
   padding: 8px;
-  min-height: 275.6px;
-/*   min-height: 287.6px; */
+/* / min-height: 275.6px; */
+  min-height: 288.6px; 
   border-color: rgb(226, 232, 240);
   overflow-wrap: break-word;
   border-width: 0px;
