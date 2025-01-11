@@ -426,6 +426,7 @@ button {
     width: 80%;
     padding-top: 3%;
     margin-left: 0px;
+    font-size: 13px;
   }
   .form {
     width: 100%;
@@ -456,7 +457,7 @@ button {
   display: flex;
   cursor: pointer;
   padding: 5px 16px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 20px;
   vertical-align: middle;
@@ -474,7 +475,7 @@ button {
   display: flex;
   cursor: pointer;
   padding: 5px 16px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 20px;
   vertical-align: middle;
