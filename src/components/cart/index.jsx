@@ -58,6 +58,7 @@ const Cart = () => {
   const [carttt, setCart] = useState([]);
   const [tit, setTitle] = useState();
   const [change, setChange] = useState();
+  const [filtered,setFiltered] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [state, setState] = useState({
     isPaneOpen: false,
@@ -122,6 +123,7 @@ const Cart = () => {
     setSale(sale);
     setSpecial(special);
     setName(name);
+    setFiltered(filteredStores)
   };
   
   window.addEventListener("storage", handleStorageChange);
@@ -819,7 +821,7 @@ const Cart = () => {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {filteredStores.length || (response && response.length === 0) ? (
+            {filtered.length || (response && response.length === 0) ? (
               <p
                 style={{
                   display: "flex",
