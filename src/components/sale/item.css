@@ -415,6 +415,7 @@ button {
   }
   .select {
     width: 80%; /* Для мобильных устройств */
+    margin-bottom: 5%;
   }
   .label {
     padding-right: 8px;
