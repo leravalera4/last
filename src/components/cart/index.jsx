@@ -819,7 +819,7 @@ const Cart = () => {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {response && response.length === 0 ? (
+            {response && response.length === 0 && filteredStores.length == 0 ? (
               <p
                 style={{
                   display: "flex",
