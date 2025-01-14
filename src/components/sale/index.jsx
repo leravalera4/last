@@ -746,6 +746,8 @@ const Index = () => {
           paddingTop: "0px",
           marginTop: "0px",
           paddingBottom: "18px",
+          marginRight: "10%",
+          marginLeft: "10%"
         }}
         className={noir.className}
       >
