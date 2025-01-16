@@ -517,7 +517,7 @@ const Products = ({ cartData }) => {
     <div itemScope
   itemType="http://schema.org/Store">
       <div style={{ marginLeft: "10%", marginRight: "10%", height: "766px" }}>
-        <h1
+        <h2
           style={{
             textAlign: "center",
             paddingBottom: "0px",
@@ -526,7 +526,7 @@ const Products = ({ cartData }) => {
           className={noir.className}
         >
           Compare Prices
-        </h1>
+        </h2>
         <p
           style={{
             textAlign: "center",
