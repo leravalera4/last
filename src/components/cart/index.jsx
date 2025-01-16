@@ -385,7 +385,7 @@ const Cart = () => {
         <img
           alt="shopping"
           src={basket.src || basket}
-   style={{ width: "40px", height:"40px",cursor: "pointer" }}
+   style={{ width: "59px", height:"60px",cursor: "pointer" }}
           onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
@@ -406,6 +406,7 @@ const Cart = () => {
           <p style={{ fontSize: "18px" }}>({cartLength})</p>
         )} */}
          <p 
+           className={`${noir.className} list`}
            onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
