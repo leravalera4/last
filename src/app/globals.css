@@ -1,6 +1,8 @@
 html, body {
   margin: 0;
   padding: 0;
+  outline:none;
+  border:none;
 }
 
 /* [data-rmiz]{
@@ -13,6 +15,11 @@ z-index: 9999;
 
 .slide-pane__overlay.overlay-after-open{
   z-index: 2;
+}
+
+a {
+outline:none;
+border:none;
 }
 
 /* .slide-pane_from_right.content-after-open{
