@@ -387,7 +387,7 @@ const Cart = () => {
           src={basket.src || basket}
    style={{     width: "60px",
     height: "60px",
-    cursor: "pointer"
+    cursor: "pointer",
     marginBottom: "16px"}}
           onClick={() => {
             getNames(sale, theme, name);
