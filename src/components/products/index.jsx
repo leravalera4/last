@@ -514,7 +514,7 @@ const Products = ({ cartData }) => {
   }, []);
 
   return (
-    <div itemScope
+    <div itemScope style={{paddingTop:"10px"}}
   itemType="http://schema.org/Store">
       <div style={{ marginLeft: "10%", marginRight: "10%", height: "766px" }}>
         <h2
