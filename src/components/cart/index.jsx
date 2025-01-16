@@ -381,11 +381,14 @@ const Cart = () => {
 
   return (
     <div className="cart">
-      <div style={{ display: "flex", cursor: "pointer" }}>
+      <div style={{ display: "flex", cursor: "pointer",alignItems: "center" }}>
         <img
           alt="shopping"
           src={basket.src || basket}
-   style={{ width: "59px", height:"60px",cursor: "pointer" }}
+   style={{     width: "60px",
+    height: "60px",
+    cursor: "pointer"
+    marginBottom: "16px"}}
           onClick={() => {
             getNames(sale, theme, name);
             setState({ isPaneOpen: true });
