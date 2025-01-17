@@ -169,7 +169,7 @@ const Products = ({ cartData }) => {
   }, [selectedLocation, selectedStore, selectedAll]);
 
   React.useEffect(() => {
-      const mu = sessionStorage.getItem("storeSale");
+      const mu = sessionStorage.getItem("storesName");
       if (mu) {
         setSelectedAll(JSON.parse(mu));
       } else {
@@ -302,12 +302,12 @@ const Products = ({ cartData }) => {
           id: newSelectedLocationValue,
         };
   
-        const storesNames = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+        const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
         if (
           !storesNames.some((store) => store.id === newStoreLocationObject.id)
         ) {
           storesNames.push(newStoreLocationObject);
-          sessionStorage.setItem("storeSale", JSON.stringify(storesNames));
+          sessionStorage.setItem("storesName", JSON.stringify(storesNames));
           setStoresName(storesNames);
         }
   
@@ -452,7 +452,7 @@ const Products = ({ cartData }) => {
       let updatedData = JSON.parse(sessionStorage.getItem("sel"));
   
       if (!updatedData) {
-        updatedData = JSON.parse(sessionStorage.getItem("storeSale"));
+        updatedData = JSON.parse(sessionStorage.getItem("storesName"));
       }
       const updatedData1 = updatedData.filter((store) => store.id != storeId);
       sessionStorage.setItem("sel", JSON.stringify(updatedData1));
