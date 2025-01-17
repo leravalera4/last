@@ -172,7 +172,7 @@ const Cart = () => {
   
 
   const removeStore = (storeId) => {
-    const storeIdsToKeep = JSON.parse(sessionStorage.getItem("stores")) || []; // Array of store IDs to filter by
+    const storeIdsToKeep = JSON.parse(sessionStorage.getItem("stores1")) || []; // Array of store IDs to filter by
     let storesName = JSON.parse(sessionStorage.getItem("sel")) || []; // Array of store objects
     const updatedData1 = storesName.filter(store => storeIdsToKeep.includes(store.id));
     sessionStorage.setItem("sel", JSON.stringify(updatedData1));
