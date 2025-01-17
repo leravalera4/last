@@ -173,17 +173,15 @@ const Cart = () => {
 
   const removeStore = (storeId) => { 
     const sel = JSON.parse(sessionStorage.getItem("sel")); // имена магазинов
-const storesCart = JSON.parse(sessionStorage.getItem("stores1")); // номера магазинов
-if (!sel || !storesCart) {
-  console.error("Данные не найдены в sessionStorage");
-} else {
-  const filteredStores = sel.filter((store) => store.id !== storeId);
-  sessionStorage.setItem("sel", JSON.stringify(filteredStores));
-  console.log("NEW", filteredStores);
+    const storesCart = JSON.parse(sessionStorage.getItem("stores1")); // номера магазинов
+    if (!sel || !storesCart) {
+    console.error("Данные не найдены в sessionStorage");
+    } else {
+     const filteredStores = sel.filter((store) => store.id !== storeId);
+  // sessionStorage.setItem("sel", JSON.stringify(filteredStores));
+  // console.log("NEW", filteredStores);
 }
 
-    
-    
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(sessionStorage.getItem("stores_1234"));
