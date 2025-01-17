@@ -190,6 +190,7 @@ if (!sel || !storesCart) {
 
   console.log("NEW", filteredStores);
 }
+    sessionStorage.setItem("sel", JSON.stringify(filteredStores));
     
     
     const updatedData = response.filter((store) => store.id != storeId);
