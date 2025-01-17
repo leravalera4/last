@@ -172,6 +172,16 @@ const Cart = () => {
   
 
   const removeStore = (storeId) => {
+   
+    const data = JSON.parse(sessionStorage.getItem("stores1"));
+    let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+    if (!updatedData) {
+    updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+    }
+    const updatedData1 = updatedData.filter((store) => store.id != storeId);
+    sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+
+    
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(sessionStorage.getItem("stores_1234"));
