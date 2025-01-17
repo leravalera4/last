@@ -172,25 +172,16 @@ const Cart = () => {
 
 
   const removeStore = (storeId) => { 
-    // const sel = JSON.parse(sessionStorage.getItem("sel")); //имена магазинов
-    // const storesCart = JSON.parse(sessionStorage.getItem("stores1")); //номера магазинов
-
-    // const new = sel.filter((store) => store.id != storeId);
-
-    // console.log("NEW",new)
     const sel = JSON.parse(sessionStorage.getItem("sel")); // имена магазинов
 const storesCart = JSON.parse(sessionStorage.getItem("stores1")); // номера магазинов
-
-// Проверяем, есть ли данные в sessionStorage
 if (!sel || !storesCart) {
   console.error("Данные не найдены в sessionStorage");
 } else {
-  // Фильтрация данных по id
   const filteredStores = sel.filter((store) => store.id !== storeId);
-
+  sessionStorage.setItem("sel", JSON.stringify(filteredStores));
   console.log("NEW", filteredStores);
 }
-    sessionStorage.setItem("sel", JSON.stringify(filteredStores));
+
     
     
     const updatedData = response.filter((store) => store.id != storeId);
