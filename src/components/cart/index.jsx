@@ -173,7 +173,7 @@ const Cart = () => {
 
   const removeStore = (storeId) => { 
     const sel = JSON.parse(sessionStorage.getItem("sel")); // имена магазинов
-    const storesCart = JSON.parse(sessionStorage.getItem("stores1")); // номера магазинов
+    const storesCart = JSON.parse(sessionStorage.getItem("stores")); // номера магазинов
     if (!sel || !storesCart) {
     console.error("Данные не найдены в sessionStorage");
     } else {
