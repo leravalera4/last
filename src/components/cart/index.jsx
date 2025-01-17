@@ -188,6 +188,7 @@ const Cart = () => {
     sessionStorage.setItem("stores_1234", JSON.stringify(da));
     sessionStorage.setItem("stores1", JSON.stringify(da));
     sessionStorage.setItem("storesLength", JSON.stringify(change));
+    sessionStorage.setItem("stores", JSON.stringify(da));
     window.dispatchEvent(new Event("storage"));
   };
 
