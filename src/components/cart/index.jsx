@@ -176,7 +176,8 @@ const Cart = () => {
     const storesCart = JSON.parse(sessionStorage.getItem("stores")); // номера магазинов
     const filteredStores = sel.filter(store => storesCart.includes(String(store.id)));
 
-console.log("FILTERED",filteredStores)
+    console.log("FILTERED",filteredStores)
+    sessionStorage.setItem("sel", JSON.stringify(filteredStores));
 
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
