@@ -302,12 +302,12 @@ const Products = ({ cartData }) => {
           id: newSelectedLocationValue,
         };
   
-        const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
+        const storesNames = JSON.parse(sessionStorage.getItem("storeSale")) || [];
         if (
           !storesNames.some((store) => store.id === newStoreLocationObject.id)
         ) {
           storesNames.push(newStoreLocationObject);
-          sessionStorage.setItem("storesName", JSON.stringify(storesNames));
+          sessionStorage.setItem("storeSale", JSON.stringify(storesNames));
           setStoresName(storesNames);
         }
   
@@ -452,7 +452,7 @@ const Products = ({ cartData }) => {
       let updatedData = JSON.parse(sessionStorage.getItem("sel"));
   
       if (!updatedData) {
-        updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+        updatedData = JSON.parse(sessionStorage.getItem("storeSale"));
       }
       const updatedData1 = updatedData.filter((store) => store.id != storeId);
       sessionStorage.setItem("sel", JSON.stringify(updatedData1));
