@@ -169,70 +169,33 @@ const Cart = () => {
       console.error("Ошибка при выполнении запроса:", error);
     }
   };
-  
+
+
   const removeStore = (storeId) => {
-  // Получаем необходимые данные из sessionStorage
-  const storeIdsToKeep = JSON.parse(sessionStorage.getItem("stores1")) || [];
-  const storesName = JSON.parse(sessionStorage.getItem("sel")) || [];
-  const responseData = JSON.parse(sessionStorage.getItem("response")) || []; // Предполагаем, что response получаем отсюда
-
-  // Фильтруем магазины по storeId
-  const updatedData1 = storesName.filter(store => storeIdsToKeep.includes(store.id));
-  sessionStorage.setItem("sel", JSON.stringify(updatedData1));
-
-  const updatedData = responseData.filter(store => store.id !== storeId);
-  setResponseData(updatedData);  // Предполагаем, что это обновляет состояние или выполняет что-то с обновленными данными
-
-  // Обрабатываем данные магазинов в sessionStorage
-  const get = JSON.parse(sessionStorage.getItem("stores_1234")) || [];
-  const st = JSON.parse(sessionStorage.getItem("storesLength")) || 0;
-  const change = st - 1;
-
-  setChange(change);  // Предполагаем, что это обновляет состояние изменения
-
-  // Удаляем элементы, если нужно
-  if (change === 0) {
-    sessionStorage.removeItem("cart");
-    sessionStorage.removeItem("names");
-  }
-
-  // Обновляем sessionStorage
-  const da = get.filter((store) => store !== storeId);
-  sessionStorage.setItem("stores_1234", JSON.stringify(da));
-  sessionStorage.setItem("stores1", JSON.stringify(da));
-  sessionStorage.setItem("storesLength", JSON.stringify(change));
-  sessionStorage.setItem("stores", JSON.stringify(da));
-
-  // Отправляем событие о изменении данных в хранилище (если нужно)
-  window.dispatchEvent(new Event("storage"));
-};
-
-
-  // const removeStore = (storeId) => {
-  //   const storeIdsToKeep = JSON.parse(sessionStorage.getItem("stores1")) || []; // Array of store IDs to filter by
-  //   let storesName = JSON.parse(sessionStorage.getItem("sel")) || []; // Array of store objects
-  //   const updatedData1 = storesName.filter(store => storeIdsToKeep.includes(store.id));
-  //   sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+    // const storeIdsToKeep = JSON.parse(sessionStorage.getItem("stores1")) || []; // Array of store IDs to filter by
+    // let storesName = JSON.parse(sessionStorage.getItem("sel")) || []; // Array of store objects
+    // const updatedData1 = storesName.filter(store => storeIdsToKeep.includes(store.id));
+    // sessionStorage.setItem("sel", JSON.stringify(updatedData1));
     
-  //   const updatedData = response.filter((store) => store.id != storeId);
-  //   setResponseData(updatedData);
-  //   const get = JSON.parse(sessionStorage.getItem("stores_1234"));
-  //   // const get1 = JSON.parse(sessionStorage.getItem("stores_1"));
-  //   const st = JSON.parse(sessionStorage.getItem("storesLength"));
-  //   const change = st - 1;
-  //   setChange(change);
-  //   if(change === 0){
-  //     sessionStorage.removeItem("cart")
-  //     sessionStorage.removeItem("names")
-  //   }
-  //   console.log("CHANGE", change);
-  //   const da = get.filter((store) => store != storeId);
-  //   sessionStorage.setItem("stores_1234", JSON.stringify(da));
-  //   sessionStorage.setItem("stores1", JSON.stringify(da));
-  //   sessionStorage.setItem("storesLength", JSON.stringify(change));
-  //   sessionStorage.setItem("stores", JSON.stringify(da));
-  //   window.dispatchEvent(new Event("storage"));
-  // };
+    const updatedData = response.filter((store) => store.id != storeId);
+    setResponseData(updatedData);
+    const get = JSON.parse(sessionStorage.getItem("stores_1234"));
+    // const get1 = JSON.parse(sessionStorage.getItem("stores_1"));
+    const st = JSON.parse(sessionStorage.getItem("storesLength"));
+    const change = st - 1;
+    setChange(change);
+    if(change === 0){
+      sessionStorage.removeItem("cart")
+      sessionStorage.removeItem("names")
+    }
+    console.log("CHANGE", change);
+    const da = get.filter((store) => store != storeId);
+    sessionStorage.setItem("stores_1234", JSON.stringify(da));
+    sessionStorage.setItem("stores1", JSON.stringify(da));
+    sessionStorage.setItem("storesLength", JSON.stringify(change));
+    sessionStorage.setItem("stores", JSON.stringify(da));
+    window.dispatchEvent(new Event("storage"));
+  };
 
   let title, storesName, cart;
   if (typeof window !== "undefined") {
