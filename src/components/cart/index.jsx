@@ -45,7 +45,7 @@ const noir = localFont({
 });
 
 // Retrieve cart dFromata from localStorag
-const Cart = () => {
+const Cart = (handleButtonClick) => {
   const [theme, setTheme] = useState([]);
   const [sale, setSale] = useState([]);
   const [data, setData] = useState([]);
@@ -178,7 +178,7 @@ const Cart = () => {
 
     console.log("FILTERED",filteredStores)
     sessionStorage.setItem("sel", JSON.stringify(filteredStores));
-
+    handleButtonClick();
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(sessionStorage.getItem("stores_1234"));
