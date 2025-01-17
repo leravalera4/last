@@ -179,7 +179,7 @@ const Cart = () => {
     } else {
      const filteredStores = sel.filter((store) => store.id !== storeId);
   // sessionStorage.setItem("sel", JSON.stringify(filteredStores));
-  // console.log("NEW", filteredStores);
+  console.log("NEW", filteredStores);
 }
 
     const updatedData = response.filter((store) => store.id != storeId);
