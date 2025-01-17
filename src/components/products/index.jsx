@@ -923,7 +923,7 @@ const Products = ({ cartData }) => {
                                           fontSize:"15px"
                                         }}
                                       >
-                                        (2 FOR ${store.saleprice} ea)
+                                        (2 FOR ${store.saleprice}ea)
                                       </span>
                                     </p>
                                   ) : store.for3 < store.saleprice ? (
