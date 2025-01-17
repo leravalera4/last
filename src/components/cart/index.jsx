@@ -171,11 +171,14 @@ const Cart = () => {
   };
 
 
-  const removeStore = (storeId) => {
-    // const storeIdsToKeep = JSON.parse(sessionStorage.getItem("stores1")) || []; // Array of store IDs to filter by
-    // let storesName = JSON.parse(sessionStorage.getItem("sel")) || []; // Array of store objects
-    // const updatedData1 = storesName.filter(store => storeIdsToKeep.includes(store.id));
-    // sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+  const removeStore = (storeId) => { 
+    const sel = JSON.parse(sessionStorage.getItem("sel")); //имена магазинов
+    const storesCart = JSON.parse(sessionStorage.getItem("stores1")); //номера магазинов
+
+    const new = sel.filter((store) => store.id != storeId);
+
+    console.log("NEW",new)
+    
     
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
