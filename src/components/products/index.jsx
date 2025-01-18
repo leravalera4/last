@@ -448,26 +448,47 @@ const Products = ({ cartData }) => {
   }
 
 
-  const removeStore = (storeId) => {
-      const data = JSON.parse(sessionStorage.getItem("stores1"));
-      // let updatedData = JSON.parse(sessionStorage.getItem("sel"));
-    let updatedData = JSON.parse(sessionStorage.getItem("storeSale"));
+  // const removeStore = (storeId) => {
+  //     const data = JSON.parse(sessionStorage.getItem("stores1"));
+  //     // let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+  //   let updatedData = JSON.parse(sessionStorage.getItem("storeSale"));
   
-      if (!updatedData) {
-        updatedData = JSON.parse(sessionStorage.getItem("storesName"));
-      }
-      const updatedData1 = updatedData.filter((store) => store.id != storeId);
-     // sessionStorage.setItem("sel", JSON.stringify(updatedData1));
-     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
-      setSelectedAll(updatedData1);
-      const da = data.filter((store) => store != storeId);
-      sessionStorage.setItem("stores1", JSON.stringify(da));
-      setSelectedStores(selectedAll.map((item) => item.location));
-      setSelectedStoresID(da);
-      setSelectedStores(selectedAll);
-      handleButtonClick();
+  //     if (!updatedData) {
+  //       updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+  //     }
+  //     const updatedData1 = updatedData.filter((store) => store.id != storeId);
+  //    // sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+  //    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+  //     setSelectedAll(updatedData1);
+  //     const da = data.filter((store) => store != storeId);
+  //     sessionStorage.setItem("stores1", JSON.stringify(da));
+  //     setSelectedStores(selectedAll.map((item) => item.location));
+  //     setSelectedStoresID(da);
+  //     setSelectedStores(selectedAll);
+  //     handleButtonClick();
 
-  };
+  // };
+
+  const removeStore = (storeId) => {
+    const data = JSON.parse(sessionStorage.getItem("stores1") || "[]");
+    let updatedData = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
+
+    if (!updatedData || updatedData.length === 0) {
+        updatedData = JSON.parse(sessionStorage.getItem("storesName") || "[]");
+    }
+
+    const updatedData1 = updatedData.filter((store) => store.id !== storeId);
+    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+    setSelectedAll(updatedData1);
+
+    const filteredData = data.filter((store) => store.id !== storeId);
+    sessionStorage.setItem("stores1", JSON.stringify(filteredData));
+
+    setSelectedStores(updatedData1.map((item) => item.location)); // Логика упрощена
+    setSelectedStoresID(filteredData);
+
+    handleButtonClick();
+};
 
 
   React.useEffect(() => {
