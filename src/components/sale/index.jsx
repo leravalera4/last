@@ -1251,7 +1251,7 @@ const Index = () => {
                                       )}
                                       <span className="highlighted-price">
                                         {item.non_member_price != null
-                                          ? `${item.saleprice}`
+                                          ? `${item.sale}`
                                           : `${
                                               item.sale != null ? item.sale : ""
                                             }`}
