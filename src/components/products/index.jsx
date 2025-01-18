@@ -321,11 +321,12 @@ const Products = ({ cartData }) => {
           storesNames.push(newStoreLocationObject);
           sessionStorage.setItem("selectedAll", JSON.stringify(selectedAll));
         }
-        const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
-  
+       // const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
+       const storesNames1 = JSON.parse(sessionStorage.getItem("storeSale")) || [];
         if (!storesNames1.includes(newStoreLocationObject)) {
           storesNames1.push(newStoreLocationObject);
-          sessionStorage.setItem("sel", JSON.stringify(storesNames1));
+          // sessionStorage.setItem("sel", JSON.stringify(storesNames1));
+          sessionStorage.setItem("storeSale", JSON.stringify(storesNames1));
         }
         const names1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
   
@@ -449,13 +450,15 @@ const Products = ({ cartData }) => {
 
   const removeStore = (storeId) => {
       const data = JSON.parse(sessionStorage.getItem("stores1"));
-      let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+      // let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+    let updatedData = JSON.parse(sessionStorage.getItem("storeSale"));
   
       if (!updatedData) {
         updatedData = JSON.parse(sessionStorage.getItem("storesName"));
       }
       const updatedData1 = updatedData.filter((store) => store.id != storeId);
-      sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+     // sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
       setSelectedAll(updatedData1);
       const da = data.filter((store) => store != storeId);
       sessionStorage.setItem("stores1", JSON.stringify(da));
@@ -482,7 +485,8 @@ const Products = ({ cartData }) => {
     // Function to handle changes in sessionStorage
     const handleStorageChange = () => {
       const sale = JSON.parse(sessionStorage.getItem("selectedStore"));
-      const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("storeSale"));
+      //const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
       const storedResponseData = JSON.parse(
         sessionStorage.getItem("selectedLocation")
       );
