@@ -321,12 +321,12 @@ const Products = ({ cartData }) => {
           storesNames.push(newStoreLocationObject);
           sessionStorage.setItem("selectedAll", JSON.stringify(selectedAll));
         }
-       // const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
-       const storesNames1 = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+       const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
+
         if (!storesNames1.includes(newStoreLocationObject)) {
           storesNames1.push(newStoreLocationObject);
-          // sessionStorage.setItem("sel", JSON.stringify(storesNames1));
-          sessionStorage.setItem("storeSale", JSON.stringify(storesNames1));
+          sessionStorage.setItem("sel", JSON.stringify(storesNames1));
+         
         }
         const names1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
   
@@ -448,48 +448,24 @@ const Products = ({ cartData }) => {
   }
 
 
-  // const removeStore = (storeId) => {
-  //     const data = JSON.parse(sessionStorage.getItem("stores1"));
-  //     // let updatedData = JSON.parse(sessionStorage.getItem("sel"));
-  //   let updatedData = JSON.parse(sessionStorage.getItem("storeSale"));
-  
-  //     if (!updatedData) {
-  //       updatedData = JSON.parse(sessionStorage.getItem("storesName"));
-  //     }
-  //     const updatedData1 = updatedData.filter((store) => store.id != storeId);
-  //    // sessionStorage.setItem("sel", JSON.stringify(updatedData1));
-  //    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
-  //     setSelectedAll(updatedData1);
-  //     const da = data.filter((store) => store != storeId);
-  //     sessionStorage.setItem("stores1", JSON.stringify(da));
-  //     setSelectedStores(selectedAll.map((item) => item.location));
-  //     setSelectedStoresID(da);
-  //     setSelectedStores(selectedAll);
-  //     handleButtonClick();
-
-  // };
-
   const removeStore = (storeId) => {
-    const data = JSON.parse(sessionStorage.getItem("stores1") || "[]");
-    let updatedData = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
+      const data = JSON.parse(sessionStorage.getItem("stores1"));
+      let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+  
+      if (!updatedData) {
+        updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+      }
+     sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+      setSelectedAll(updatedData1);
+      const da = data.filter((store) => store != storeId);
+      sessionStorage.setItem("stores1", JSON.stringify(da));
+      setSelectedStores(selectedAll.map((item) => item.location));
+      setSelectedStoresID(da);
+      setSelectedStores(selectedAll);
+      handleButtonClick();
 
-    if (!updatedData || updatedData.length === 0) {
-        updatedData = JSON.parse(sessionStorage.getItem("storesName") || "[]");
-    }
-
-    const updatedData1 = updatedData.filter((store) => store.id !== storeId);
-    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
-    setSelectedAll(updatedData1);
-
-    const filteredData = data.filter((store) => store.id !== storeId);
-    sessionStorage.setItem("stores1", JSON.stringify(filteredData));
-
-    setSelectedStores(updatedData1.map((item) => item.location)); // Логика упрощена
-    setSelectedStoresID(filteredData);
-
-    handleButtonClick();
-};
-
+  };
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
@@ -506,8 +482,7 @@ const Products = ({ cartData }) => {
     // Function to handle changes in sessionStorage
     const handleStorageChange = () => {
       const sale = JSON.parse(sessionStorage.getItem("selectedStore"));
-      const selectedAll = JSON.parse(sessionStorage.getItem("storeSale"));
-      //const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
       const storedResponseData = JSON.parse(
         sessionStorage.getItem("selectedLocation")
       );
