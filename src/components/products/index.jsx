@@ -455,6 +455,7 @@ const Products = ({ cartData }) => {
       if (!updatedData) {
         updatedData = JSON.parse(sessionStorage.getItem("storesName"));
       }
+      const updatedData1 = updatedData.filter((store) => store.id != storeId);
      sessionStorage.setItem("sel", JSON.stringify(updatedData1));
      sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
       setSelectedAll(updatedData1);
