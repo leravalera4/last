@@ -102,6 +102,8 @@ const Index = () => {
   const [clickCounts, setClickCounts] = useState({});
 
   const [isMobile, setIsMobile] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     if (!cart) {
@@ -161,82 +163,13 @@ const Index = () => {
         window.removeEventListener("resize", handleResize);
       };
     });
-    // const handleResize = () => {
-    //   setIsMobile(window.innerWidth < 768); // Если ширина меньше 768px, то мобильная версия
-    // };
-
-    // // Вызываем функцию сразу при монтировании
-    // handleResize();
-
-    // // Добавляем слушатель события изменения размера
-    // window.addEventListener("resize", handleResize);
-
-    // // Убираем слушатель при размонтировании компонента
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
   }, []);
 
-  // useEffect(() => {
-  //   // Function to handle changes in localStorage
-  //   const handleStorageChange = () => {
-  //     const sale = JSON.parse(localStorage.getItem("sale"));
-  //     const stim = JSON.parse(localStorage.getItem("stores_1234"));
-  //     let mana;
-  //     if(sale){
-  //       mana = sale.id;
-  //       console.log("MANA",mana)
-  //     }
-
-  //     let checkForStore;
-
-  //     if(stim){
-  //       checkForStore = stim.includes(mana)
-  //       console.log("CHECK FOR STORE",checkForStore)
-  //     }
-
-  //     // const storedResponseData = JSON.parse(
-  //     //   localStorage.getItem("responseData")
-  //     // );
-  //     const st = JSON.parse(localStorage.getItem("storeSale"));
-  //     if (sale) {
-  //       setSelectedStore(sale.store);
-  //       handleStoreChange(sale.store);
-  //       setSelectedLocation(sale.location);
-  //     }
-  //     // if (storedResponseData) {
-  //     //   setResponseData(storedResponseData);
-  //     // }
-  //     if (st) {
-  //       setStoreSale(st);
-  //     }
-  //   };
-
-  //   // Initial setup from localStorage
-  //   handleStorageChange();
-
-  //   // Listen for changes in localStorage
-  //   window.addEventListener("storage", handleStorageChange);
-
-  //   // Cleanup function
-  //   return () => {
-  //     window.removeEventListener("storage", handleStorageChange);
-  //   };
-  // }, []);
-
-  // const toggleButton = (index) => {
-  //   setActiveButtons(
-  //     (prev) => prev.map((active, i) => (i === index ? !active : false)) // Смена состояния только для текущей кнопки
-  //   );
-  // };
-
-
-    const toggleButton = (index) => {
-    setActiveButtons((prev) =>
-      prev.map((active, i) => (i === index ? true : false)) // Сделать только выбранную кнопку активной
+  const toggleButton = (index) => {
+    setActiveButtons(
+      (prev) => prev.map((active, i) => (i === index ? true : false)) // Сделать только выбранную кнопку активной
     );
   };
-
 
   useEffect(() => {
     // Функция для обработки изменений в localStorage
@@ -277,38 +210,153 @@ const Index = () => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   axios
+  //     .get("https://server-blue-ten.vercel.app/api/stores")
+  //     .then((response) => {
+  //       setAvailableStores(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching available stores:", error);
+  //     });
+  // }, []);
+
+  // const handleStoreChange = async (selectedStore) => {
+  //   setSelectedStore(selectedStore);
+  //   try {
+  //     const response = await axios.get(
+  //       `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
+  //     );
+
+  //     if (response.status === 200) {
+  //       const locationsObject = response.data.locations;
+  //       const locationsArray = Object.keys(locationsObject);
+  //       setLocations(locationsArray);
+  //       setSelectedLocationsObject(locationsObject);
+  //     } else {
+  //       console.error(
+  //         `Error fetching locations. Server returned: ${response.status}`
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching locations:", error.message);
+  //   }
+  // };
+
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/stores")
-      .then((response) => {
-        setAvailableStores(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching available stores:", error);
-      });
+      .get("https://server-blue-ten.vercel.app/sale/stores")
+      .then((response) => setAvailableStores(response.data))
+      .catch((error) =>
+        console.error("Error fetching available stores:", error)
+      );
   }, []);
 
-  const handleStoreChange = async (selectedStore) => {
-    setSelectedStore(selectedStore);
+  const handleStoreChange = async (store) => {
+    setSelectedStore(store);
+    // setSelectedCity(null);
+    // setLocations([]); // Сбрасываем список магазинов при смене сети
+
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
+        `https://server-blue-ten.vercel.app/sale/stores/${store}`
       );
-
-      if (response.status === 200) {
-        const locationsObject = response.data.locations;
-        const locationsArray = Object.keys(locationsObject);
-        setLocations(locationsArray);
-        setSelectedLocationsObject(locationsObject);
+      if (response.status === 200 && response.data.locations) {
+        setCities(Object.keys(response.data.locations)); // Получаем список городов
       } else {
-        console.error(
-          `Error fetching locations. Server returned: ${response.status}`
-        );
+        console.error("Invalid response format for cities:", response.data);
       }
     } catch (error) {
-      console.error("Error fetching locations:", error.message);
+      console.error("Error fetching cities:", error);
     }
   };
+
+  // Обновление списка адресов при смене города
+  const handleCityChange = async (city) => {
+    setSelectedCity(city);
+    try {
+      const response = await axios.get(
+        `https://server-blue-ten.vercel.app/sale/stores/${selectedStore}/${city}`
+      );
+
+      if (response.status === 200 && response.data.locations) {
+        const loc = Object.keys(response.data.locations); // Получаем только ключи
+        console.log("RESPONSE (до setState):", loc);
+        setLocations(loc);
+        setSelectedLocationsObject(response.data.locations);
+        console.log("LOCATIONS", locations);
+        console.log("SELECTED_LOCATIONS_OBJ", selectedLocationsObject);
+      } else {
+        console.error("Invalid response format for locations:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching locations:", error);
+    }
+  };
+
+  // Проверяем, что locations обновляется
+  useEffect(() => {
+    console.log("Updated LOCATIONS (после setState):", locations);
+  }, [locations]);
+
+  console.log("LOCATIONS", locations);
+
+  // const handleStoreChange = async (store) => {
+  //   setSelectedStore(store);
+  //   setSelectedCity(null);
+  //   setLocations(null);
+
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8080/api/sale/stores/${store}`
+  //     );
+  //     if (response.status === 200) {
+  //       setCities(Object.keys(response.data.locations));
+  //     } else {
+  //       console.error(
+  //         `Error fetching cities. Server returned: ${response.status}`
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching cities:", error);
+  //   }
+  // };
+
+  // const handleCityChange = async (city) => {
+  //   setSelectedCity(city);
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
+  //     );
+  //     const loc = response.data.locations;
+  //     console.log("RESPONSE", loc);
+
+  //     const addresses = Object.keys(loc); // Получаем только ключи (адреса)
+  //     setLocations(addresses); // Устанавливаем в state массив адресов
+  //     console.log("LOCATIONS", addresses);
+  //   } catch (error) {
+  //     console.error("Error fetching locations:", error);
+  //   }
+  // };
+
+  // const handleCityChange = async (city) => {
+  //   setSelectedCity(city);
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
+  //     );
+  //     const loc = Object.keys(response.data.locations); // Преобразуем в массив ключей
+  //     console.log("RESPONSE", loc);
+  //     setLocations(loc); // Устанавливаем массив
+  //     console.log("LOCATIONS (state before render):", locations);
+  //   } catch (error) {
+  //     console.error("Error fetching locations:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   console.log("Updated LOCATIONS:", addresses);
+  // }, [addresses]);
 
   function transformString(transformedString) {
     return transformedString;
@@ -328,23 +376,22 @@ const Index = () => {
 
   useEffect(() => {
     window.addEventListener("storage",()=>{
-    // Сохраняем данные в localStorage
-    sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-    sessionStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+      // Сохраняем данные в localStorage
+      sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+      sessionStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
 
-    // Извлекаем данные из localStorage
-    const store = sessionStorage.getItem("selectedStore");
-    const location = sessionStorage.getItem("selectedLocation");
+      // Извлекаем данные из localStorage
+      const store = sessionStorage.getItem("selectedStore");
+      const location = sessionStorage.getItem("selectedLocation");
 
-    // Обновляем состояние, только если store существует и оно не обновлялось
-    if (store !== null) {
-      setStore1(JSON.parse(store));
-    }
-    if (location !== null) {
-      setLocation1(JSON.parse(location));
-    }
+      // Обновляем состояние, только если store существует и оно не обновлялось
+      if (store !== null) {
+        setStore1(JSON.parse(store));
+      }
+      if (location !== null) {
+        setLocation1(JSON.parse(location));
+      }
     })
-
   }, [selectedStore, selectedLocation]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
   // let com = true;
   // if (storeSale &&
@@ -399,18 +446,19 @@ const Index = () => {
       );
     }
 
-
     let newStoreLocationObject;
 
     if (storeSale && storeStore && storeLocation && com == true) {
       setLocValue(storeSale); //тут выбранный объект из sale
       setSelectedStore(storeStore);
       setSelectedLocation(storeLocation);
+      setSelectedCity(selectedCity)
 
       newStoreLocationObject = {
         store: storeStore,
         location: storeLocation,
         id: storeSale,
+        city:selectedCity
       };
     }
     // else if (newSelectedLocationValue == null) {
@@ -433,11 +481,13 @@ const Index = () => {
         store: selectedStore,
         location: selectedLocation,
         id: newSelectedLocationValue,
+        city:selectedCity
       };
 
       setLocValue(newSelectedLocationValue); //сюда кладем id
       setSelectedStore(selectedStore);
       setSelectedLocation(selectedLocation);
+      setSelectedCity(selectedCity)
     }
 
     if (len === 2) {
@@ -455,16 +505,16 @@ const Index = () => {
     const isDuplicate = storesNames.some(
       (store) =>
         store.store === newStoreLocationObject.store &&
-        store.location === newStoreLocationObject.location
+        store.location === newStoreLocationObject.location && store.city === newStoreLocationObject.city
     );
 
     if (!isDuplicate) {
       storesNames.push(newStoreLocationObject);
       sessionStorage.setItem("storesName", JSON.stringify(storesNames));
-    } 
-// else {
-//       console.log("Этот магазин уже существует!");
-//     }
+    }
+    // else {
+    //       console.log("Этот магазин уже существует!");
+    //     }
     //let idExists;
 
     const saveCartData = (newStoreLocationObject) => {
@@ -477,20 +527,29 @@ const Index = () => {
 
     setSelectedStore(storedData.store);
     setSelectedLocation(storedData.location);
+    setSelectedCity(storedData.city);
 
     try {
       let response;
       if (storeSale && storeSale != null && com == true) {
-        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
-          selectedStoresID: [storeSale],
-        });
+        response = await axios.post(
+          "https://server-blue-ten.vercel.app/api/sale",
+          //"http://localhost:8080/api/sale",
+          {
+            selectedStoresID: [storeSale],
+          }
+        );
         // console.log("Отправляемые данные:", {
         //   selectedStoresID: [storeSale],
         // });
       } else {
-        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
-          selectedStoresID: [newSelectedLocationValue],
-        });
+        response = await axios.post(
+          //"http://localhost:8080/api/sale",
+          "https://server-blue-ten.vercel.app/api/sale",
+          {
+            selectedStoresID: [newSelectedLocationValue],
+          }
+        );
         // console.log("Отправляемые данные:", {
         //   selectedStoresID: [newSelectedLocationValue],
         // });
@@ -598,7 +657,6 @@ const Index = () => {
     const name = selectedItem.title;
     let storeID = selectedItem.storeid;
     let storeID_new = selectedItem.storeID;
-
 
     setProductCounts((prevCounts) => ({
       ...prevCounts,
@@ -716,10 +774,9 @@ const Index = () => {
     });
   }, []);
 
-    const resetButtons = () => {
+  const resetButtons = () => {
     setActiveButtons((prev) => prev.map(() => false));
   };
-
 
   return (
     <div
@@ -747,7 +804,7 @@ const Index = () => {
           marginTop: "0px",
           paddingBottom: "18px",
           marginRight: "10%",
-          marginLeft: "10%"
+          marginLeft: "10%",
         }}
         className={noir.className}
       >
@@ -809,9 +866,59 @@ const Index = () => {
           ))}
         </select>
 
-        {selectedStore !== null && (
+        {selectedStore!= null && <>
+          <label
+          // style={{
+          //   paddingRight: "8px",
+          //   fontSize: "18px",
+          //   paddingLeft: "24px",
+          // }}
+          className={`${noir.className} label`}
+        >
+          Select City:
+        </label>
+        <select
+          className={`${noir.className} select`}
+          // style={{
+          //   width: "232px",
+          //   height: "38px",
+          //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+          //   fontSize: "1rem",
+          //   fontWeight: "400",
+          //   lineHeight: "1.5",
+          //   color: "#212529",
+          //   backgroundColor: "#fff",
+          //   border: "1px solid #ced4da",
+          //   borderRadius: "0.25rem",
+          //   transition:
+          //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+          // }}
+          // onChange={(e) => handleStoreChange(e.target.value)}
+          onChange={(e) => handleCityChange(e.target.value)}
+          value={selectedCity}
+        >
+          <option
+            style={{ color: "#212529" }}
+            value=""
+            disabled
+            selected
+            hidden
+            className={noir.className}
+          >
+            Please Choose City...
+          </option>
+          {cities.map((city) => (
+            <option className={noir.className} key={city} value={city}>
+              {city}
+            </option>
+          ))}
+        </select>
+        </>
+       }
+
+        {selectedCity !== null  && (
           <>
-            <label
+            <labels
               // style={{
               //   paddingRight: "8px",
               //   fontSize: "18px",
@@ -821,31 +928,27 @@ const Index = () => {
               className={`${noir.className} label`}
             >
               Select Location:
-            </label>
-                        <select
-               className={`${noir.className} select`}
-              onChange={(e) => setSelectedLocation(e.target.value)}
+            </labels>
+            <select
+              className={`${noir.className} select`}
+              onChange={(e) => setSelectedLocation(e.target.value)} // ✅ Используем setSelectedLocation
               value={selectedLocation}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault(); // Предотвращает стандартное поведение Enter
-                  handleAddStore(); // Запускает вашу функцию обработки
-                  e.target.blur(); // Убирает фокус с поля
+                  e.preventDefault();
+                  handleAddStore();
+                  e.target.blur();
                 }
               }}
             >
               <option value="">Select...</option>
               {locations.map((location, index) => (
-                <option
-                  className={noir.className}
-                  key={index}
-                  value={location}
-                >
+                <option className={noir.className} key={index} value={location}>
                   {location}
                 </option>
               ))}
             </select>
-{/*             <select
+            {/*             <select
               className={`${noir.className} select`}
               // style={{
               //   height: "38px",
@@ -940,7 +1043,7 @@ const Index = () => {
       </div>
 
       {storeSale && storeSale.length > 0 ? (
-        <div style={{ paddingLeft: "10%", paddingRight: "10%"}}>
+        <div style={{ paddingLeft: "10%", paddingRight: "10%" }}>
           <h2 className={noir.className}>Stores on your List</h2>
           <div style={{ display: "flex" }}>
             {storeSale.map((store, index) => (
@@ -959,16 +1062,22 @@ const Index = () => {
                     JSON.stringify(store.location)
                   );
                   sessionStorage.setItem(
+                    "activeCITY",
+                    JSON.stringify(store.city)
+                  );
+                  sessionStorage.setItem(
                     "sale",
                     JSON.stringify({
                       store: store.store, // assuming store name or another identifier
                       location: store.location,
                       id: store.id,
+                      city: store.city,
                     })
                   );
                   setLocValue(store.id); // Это обновит состояние, но может не отразиться немедленно
                   setSelectedStore(store.store);
                   setSelectedLocation(store.location);
+                  setSelectedCity(store.city);
                   // console.log("Setting locValue to ID:", store.id);
                   // console.log("Setting locValue to STORE:", store.store);
                   // console.log("Setting locValue to LOCATION:", store.location);
@@ -999,10 +1108,13 @@ const Index = () => {
                 //  }}
                 key={store.id}
               >
-                <p className={noir.className} style={{ fontWeight: "700", paddingRight: "4px"}}>
+                <p
+                  className={noir.className}
+                  style={{ fontWeight: "700", paddingRight: "4px" }}
+                >
                   {store.store}:{" "}
                 </p>
-                <p className={noir.className}> {store.location}</p>
+                <p className={noir.className}> {store.location}, {store.city}</p>
               </button>
             ))}
           </div>
@@ -1031,7 +1143,7 @@ const Index = () => {
               //minWidth: "100%",
               marginTop: "32px",
               paddingLeft: "10%",
-              paddingRight:"10%"
+              paddingRight: "10%",
             }}
           >
             {loading ? (
@@ -1336,7 +1448,7 @@ const Index = () => {
                                     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
                                   }}
                                 >
-                          {productCounts[item.productID] > 0
+                                  {productCounts[item.productID] > 0
                                     ? "Add more"
                                     : "Add to List"}
                                 </button>
@@ -4227,7 +4339,7 @@ const Index = () => {
           </div>
         </Tabs>
       ) : firstTime && loading ? (
-        <Loading style={{paddingLeft:"10%",paddintRight:"10px"}} />
+        <Loading style={{ paddingLeft: "10%", paddintRight: "10px" }} />
       ) : firstTime ? (
         <About />
       ) : (
