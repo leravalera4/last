@@ -105,9 +105,9 @@ const Index = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  // const [storesLength, setStoresLength] = useState(() =>
-  //   sessionStorage.getItem("storesLength")
-  // );
+  const [storesLength, setStoresLength] = useState(() =>
+    sessionStorage.getItem("storesLength")
+  );
 
   // useEffect(() => {
   //   const storedValue = sessionStorage.getItem("storesLength");
