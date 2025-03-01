@@ -134,21 +134,38 @@ const Index = () => {
   //   setChange(existingItems);
   // }, [change]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setStoresLength(sessionStorage.getItem("storesLength"));
+  //   };
+
+  //   window.addEventListener("storage", handleStorageChange);
+  //   window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //     window.removeEventListener("sessionStorageUpdate", handleStorageChange);
+  //   };
+  // }, []);
+
+  // console.log("storesLength", storesLength);
+
+    useEffect(() => {
     const handleStorageChange = () => {
       setStoresLength(sessionStorage.getItem("storesLength"));
     };
 
     window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+    // window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+
+    handleStorageChange();
+    //Слушаем изменения в localStorage
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("sessionStorageUpdate", handleStorageChange);
     };
   }, []);
-
-  console.log("storesLength", storesLength);
 
   if (typeof sessionStorage !== "undefined") {
     sessionStorage.setItem("key", "value");
