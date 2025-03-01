@@ -108,9 +108,9 @@ const Products = ({ cartData }) => {
   const [storesName, setStoresName] = useState();
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  // const [storesLength, setStoresLength] = useState(() =>
-  //   sessionStorage.getItem("storesLength")
-  // );
+  const [storesLength, setStoresLength] = useState(() =>
+    sessionStorage.getItem("storesLength")
+  );
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
   );
