@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-       <meta name="google-adsense-account" content="ca-pub-4646397629011500">
+       <meta name="google-adsense-account" content="ca-pub-4646397629011500"/>
         <meta name="description" content="Spend wisely" />
         <meta name="keywords" content="groceries,spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
         <meta name="robots" content="index, follow" />
