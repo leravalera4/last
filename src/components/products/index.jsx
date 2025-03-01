@@ -106,6 +106,11 @@ const Products = ({ cartData }) => {
   const [mur, setMur] = useState();
   const [number, setNumber] = useState();
   const [storesName, setStoresName] = useState();
+  const [cities, setCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [storesLength, setStoresLength] = useState(() =>
+    sessionStorage.getItem("storesLength")
+  );
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
   );
@@ -118,7 +123,6 @@ const Products = ({ cartData }) => {
   });
 
   const [isMobile, setIsMobile] = useState(false);
-
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -138,12 +142,13 @@ const Products = ({ cartData }) => {
       const storesArray = JSON.parse(stores);
     };
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', handleStorage);
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage", handleStorage);
     }
-    return () => window.removeEventListener('storage', handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
+  console.log("STO_LEN",storesLength)
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
@@ -157,24 +162,24 @@ const Products = ({ cartData }) => {
   };
 
   React.useEffect(() => {
-      const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
-      const selectedLocation = JSON.parse(
-        sessionStorage.getItem("selectedLocation")
-      );
-      const store1 = JSON.parse(sessionStorage.getItem("store1"));
-      const selectedAll = JSON.parse(sessionStorage.getItem("selectedAll"));
-      setSelectedLocation(selectedLocation);
-      setSelectedStore(selectedStore);
-      setSelectedStoresID(store1);
+    const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
+    const selectedLocation = JSON.parse(
+      sessionStorage.getItem("selectedLocation")
+    );
+    const store1 = JSON.parse(sessionStorage.getItem("store1"));
+    const selectedAll = JSON.parse(sessionStorage.getItem("selectedAll"));
+    setSelectedLocation(selectedLocation);
+    setSelectedStore(selectedStore);
+    setSelectedStoresID(store1);
   }, [selectedLocation, selectedStore, selectedAll]);
 
   React.useEffect(() => {
-      const mu = sessionStorage.getItem("storesName");
-      if (mu) {
-        setSelectedAll(JSON.parse(mu));
-      } else {
-        setMur(null); // или другое значение по умолчанию
-      }
+    const mu = sessionStorage.getItem("storesName");
+    if (mu) {
+      setSelectedAll(JSON.parse(mu));
+    } else {
+      setMur(null); // или другое значение по умолчанию
+    }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
   useEffect(() => {
@@ -191,7 +196,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/stores")
+      .get("http://localhost:8080/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -201,55 +206,102 @@ const Products = ({ cartData }) => {
       });
   }, []); // получаем список магазинов
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setStoresLength(sessionStorage.getItem("storesLength"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("sessionStorageUpdate", handleStorageChange);
+    };
+  }, []);
+
   const handleStoreChange = async (selectedStore) => {
-      setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
-      sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-      const store = JSON.parse(sessionStorage.getItem("selectedStore"));
-      try {
-        const response = await axios.get(
-          `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
+    setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+    sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+    const store = JSON.parse(sessionStorage.getItem("selectedStore"));
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/sale/stores/${selectedStore}`
+      );
+
+      if (response.status === 200) {
+        const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
+        const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
+        setCities(locationsArray); // сюда кладутся все локации выбранного магазина
+        setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
+      } else {
+        setError(
+          `Error fetching locations. Server returned: ${response.status}`
         );
-  
-        if (response.status === 200) {
-          const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
-          const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
-          setLocations(locationsArray); // сюда кладутся все локации выбранного магазина
-          setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
-        } else {
-          setError(
-            `Error fetching locations. Server returned: ${response.status}`
-          );
-          console.error(
-            "Error fetching locations. Server returned:",
-            response.status
-          );
-        }
-      } catch (error) {
-        setError(`Error fetching locations: ${error.message}`);
-        console.error("Error fetching locations:", error.message);
+        console.error(
+          "Error fetching locations. Server returned:",
+          response.status
+        );
       }
+    } catch (error) {
+      setError(`Error fetching locations: ${error.message}`);
+      console.error("Error fetching locations:", error.message);
+    }
   };
-  
+
   let getStores;
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
   };
 
+  const handleCityChange = async (city) => {
+    setSelectedCity(city);
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
+      );
+
+      if (response.status === 200 && response.data.locations) {
+        const loc = Object.keys(response.data.locations); // Получаем только ключи
+        console.log("RESPONSE (до setState):", loc);
+        setLocations(loc);
+        setSelectedLocationsObject(response.data.locations);
+        sessionStorage.setItem("selectedCity", JSON.stringify(city));
+        console.log("LOCATIONS", locations);
+        console.log("SELECTED_LOCATIONS_OBJ", selectedLocationsObject);
+      } else {
+        console.error("Invalid response format for locations:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching locations:", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log("Updated LOCATIONS (после setState):", locations);
+  // }, [locations]);
+
   const handleLocationChange = async (selectedLocation) => {
     // выбираем локацию из списка
     const newSelectedLocationValue = selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
     setSelectedLocationValue(newSelectedLocationValue); // тут теперь хранится value(цифра) выбранной локации
     setSelectedLocation(selectedLocation); // тут только имя локации
-    sessionStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+    sessionStorage.setItem(
+      "selectedLocation",
+      JSON.stringify(selectedLocation)
+    );
   };
 
+  console.log("LOCATIONS", locations);
+
   const handleButtonClick = async () => {
-      setLoading(true);
-      const selectedStoresID = JSON.parse(sessionStorage.getItem("stores1")) || [];
+    setLoading(true);
+    const selectedStoresID =
+      JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/updateLocation",
+        "http://localhost:8080/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
@@ -257,15 +309,16 @@ const Products = ({ cartData }) => {
       );
 
       const responseData = response.data;
+      console.log("RESPONSE DATA:", responseData);
       responseData.sort((a, b) => b.products.length - a.products.length);
       setResponseData(responseData);
       setAddedToCartImage(Array(responseData.length).fill(false));
       sessionStorage.setItem("stores", JSON.stringify(selectedStoresID));
 
       let storage1;
-      window.addEventListener("storage",()=>{
+      window.addEventListener("storage", () => {
         storage1 = sessionStorage.getItem("stores1");
-      })
+      });
       let storesSet1 = new Set();
 
       try {
@@ -290,187 +343,184 @@ const Products = ({ cartData }) => {
   };
 
   const handleAddStore = () => {
-      setLoading(true);
-      const existingStores = JSON.parse(sessionStorage.getItem("stores1"));
-      if (!selectedStores.includes(selectedLocation)) {
-        setSelectedStores([...selectedStores, selectedLocation]); // кладем выбранные локации в массив
-        const newSelectedLocationValue =
-          selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
-        const newStoreLocationObject = {
-          store: selectedStore,
-          location: selectedLocation,
-          id: newSelectedLocationValue,
-        };
-  
-        const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
-        if (
-          !storesNames.some((store) => store.id === newStoreLocationObject.id)
-        ) {
-          storesNames.push(newStoreLocationObject);
-          sessionStorage.setItem("storesName", JSON.stringify(storesNames));
-          setStoresName(storesNames);
-        }
-  
-        setSelectedAll((prevSelectedAll) => [
-          ...prevSelectedAll,
-          newStoreLocationObject,
-        ]);
-  
-        const selectedAll = JSON.parse(sessionStorage.getItem("selectedAll")) || [];
-        if (!selectedAll.includes(newStoreLocationObject)) {
-          storesNames.push(newStoreLocationObject);
-          sessionStorage.setItem("selectedAll", JSON.stringify(selectedAll));
-        }
-       const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
-
-        if (!storesNames1.includes(newStoreLocationObject)) {
-          storesNames1.push(newStoreLocationObject);
-          sessionStorage.setItem("sel", JSON.stringify(storesNames1));
-         
-        }
-        const names1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
-  
-        if (!names1.includes(newStoreLocationObject.id)) {
-          names1.push(newStoreLocationObject.id);
-          sessionStorage.setItem("stores1", JSON.stringify(names1));
-        }
-        setSelectedSel(storesNames1);
-        setSelectedStoresID(existingStores);
-        setSelectedLocationValue(newSelectedLocationValue); // сюда кладем номер каждого магазина
-        setLoading(false);
-        if (searchText && searchText.length > 0) {
-          handleButtonClick();
-        }
+    setLoading(true);
+    const existingStores = JSON.parse(sessionStorage.getItem("stores1"));
+    if (!selectedStores.includes(selectedLocation)) {
+      setSelectedStores([...selectedStores, selectedCity, selectedLocation]); // кладем выбранные локации в массив
+      const newSelectedLocationValue =
+        selectedLocationsObject[selectedLocation]; // извлекаем их объекта значение, связанное с ключом selectedLocation
+      const newStoreLocationObject = {
+        store: selectedStore,
+        location: selectedLocation,
+        city: selectedCity,
+        id: newSelectedLocationValue,
+      };
+      console.log("NEW STORE LOCATION OBJECT:", newStoreLocationObject);
+      const storesNames =
+        JSON.parse(sessionStorage.getItem("storesName")) || [];
+      if (!storesNames.some((store) => store.id == newStoreLocationObject.id)) {
+        storesNames.push(newStoreLocationObject);
+        sessionStorage.setItem("storesName", JSON.stringify(storesNames));
+        setStoresName(storesNames);
       }
+
+      setSelectedAll((prevSelectedAll) => [
+        ...prevSelectedAll,
+        newStoreLocationObject,
+      ]);
+
+      const selectedAll =
+        JSON.parse(sessionStorage.getItem("selectedAll")) || [];
+      if (!selectedAll.includes(newStoreLocationObject)) {
+        storesNames.push(newStoreLocationObject);
+        sessionStorage.setItem("selectedAll", JSON.stringify(selectedAll));
+      }
+      const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
+
+      if (!storesNames1.includes(newStoreLocationObject)) {
+        storesNames1.push(newStoreLocationObject);
+        sessionStorage.setItem("sel", JSON.stringify(storesNames1));
+      }
+      const names1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
+
+      if (!names1.includes(newStoreLocationObject.id)) {
+        names1.push(newStoreLocationObject.id);
+        sessionStorage.setItem("stores1", JSON.stringify(names1));
+      }
+      setSelectedSel(storesNames1);
+      setSelectedStoresID(existingStores);
+      setSelectedLocationValue(newSelectedLocationValue); // сюда кладем номер каждого магазина
+      setLoading(false);
+      if (searchText && searchText.length > 0) {
+        handleButtonClick();
+      }
+    }
   };
 
-  
   const inc = (index) => {
     responseData[index].count += 1;
     responseData[index].cart = true;
   };
 
-
   const handleAddToCart = async (product, index) => {
+    const arrayOfStores =
+      JSON.parse(sessionStorage.getItem("stores_1234")) || [];
 
-      const arrayOfStores = JSON.parse(sessionStorage.getItem("stores_1234")) || [];
-  
-      const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
-      const title = JSON.parse(sessionStorage.getItem("names")) || [];
-  
-      try {
-        inc(index);
-        const updatedCart = [...cart]; // Создаем копию корзины
-        let newId = null; // Переменная для хранения нового id
-  
-        // Обновляем корзину
-        for (const item of product.products) {
-          const storeIndex = updatedCart.findIndex(
-            (store) => store.storeID === item.storeID
-          );
-  
-          if (storeIndex === -1) {
-            updatedCart.push({
-              storeID: item.storeID,
-              storeName: item.store,
-              items: [{ name: product.title, id: item.productID }],
-            });
-  
-            // Сохраняем storeID в отдельный sessionStorage
-            const existingStoreIDs =
-              JSON.parse(sessionStorage.getItem("stores_1234")) || [];
-            if (!existingStoreIDs.includes(item.storeID)) {
-              existingStoreIDs.push(item.storeID);
-              sessionStorage.setItem(
-                "stores_1234",
-                JSON.stringify(existingStoreIDs)
-              );
-              setSt(existingStoreIDs);
-            }
-          } else {
-            // Добавляем товар в существующий магазин
-            updatedCart[storeIndex].items.push({
-              name: product.title,
-              id: item.productID,
-            });
+    const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
+    const title = JSON.parse(sessionStorage.getItem("names")) || [];
+
+    try {
+      inc(index);
+      const updatedCart = [...cart]; // Создаем копию корзины
+      let newId = null; // Переменная для хранения нового id
+
+      // Обновляем корзину
+      for (const item of product.products) {
+        const storeIndex = updatedCart.findIndex(
+          (store) => store.storeID === item.storeID
+        );
+
+        if (storeIndex === -1) {
+          updatedCart.push({
+            storeID: item.storeID,
+            storeName: item.store,
+            items: [{ name: product.title, id: item.productID }],
+          });
+
+          // Сохраняем storeID в отдельный sessionStorage
+          const existingStoreIDs =
+            JSON.parse(sessionStorage.getItem("stores_1234")) || [];
+          if (!existingStoreIDs.includes(item.storeID)) {
+            existingStoreIDs.push(item.storeID);
+            sessionStorage.setItem(
+              "stores_1234",
+              JSON.stringify(existingStoreIDs)
+            );
+            setSt(existingStoreIDs);
           }
-  
-          // Устанавливаем newId
-          newId = item.productID; // Обновляем newId на каждом шаге
-        }
-  
-        // Добавляем id в существующие элементы
-        if (newId) {
-          existingItems.push(newId);
-          sessionStorage.setItem("cart", JSON.stringify(existingItems));
-        }
-  
-        // Добавляем название, если его нет в existingNames
-        const newName = product.title;
-        if (!title.includes(newName)) {
-          title.push(newName);
-          sessionStorage.setItem("names", JSON.stringify(title));
+        } else {
+          // Добавляем товар в существующий магазин
+          updatedCart[storeIndex].items.push({
+            name: product.title,
+            id: item.productID,
+          });
         }
 
-        setAddedToCart((prev) => {
-          const updatedAddedToCart = [...prev];
-          updatedAddedToCart[index] = true;
-          return updatedAddedToCart;
-        });
-  
-        setAddedToCartImage((prev) => {
-          const updatedAddedToCartImage = [...prev];
-          updatedAddedToCartImage[index] = true;
-          return updatedAddedToCartImage;
-        });
-  
-        setCart(updatedCart);
-        sessionStorage.setItem("temp", JSON.stringify(updatedCart));
-  
-        window.dispatchEvent(new Event("storage")); // Обновление других вкладок
-      } catch (error) {
-        console.error("Error adding to cart:", error);
+        // Устанавливаем newId
+        newId = item.productID; // Обновляем newId на каждом шаге
       }
 
-      // window.addEventListener("storage", handleAddToCart);
+      // Добавляем id в существующие элементы
+      if (newId) {
+        existingItems.push(newId);
+        sessionStorage.setItem("cart", JSON.stringify(existingItems));
+      }
 
-      // // Cleanup function
-      // return () => {
-      //   window.removeEventListener("storage", handleAddToCart);
-      // };
-  
-    };
+      // Добавляем название, если его нет в existingNames
+      const newName = product.title;
+      if (!title.includes(newName)) {
+        title.push(newName);
+        sessionStorage.setItem("names", JSON.stringify(title));
+      }
 
+      setAddedToCart((prev) => {
+        const updatedAddedToCart = [...prev];
+        updatedAddedToCart[index] = true;
+        return updatedAddedToCart;
+      });
+
+      setAddedToCartImage((prev) => {
+        const updatedAddedToCartImage = [...prev];
+        updatedAddedToCartImage[index] = true;
+        return updatedAddedToCartImage;
+      });
+
+      setCart(updatedCart);
+      sessionStorage.setItem("temp", JSON.stringify(updatedCart));
+
+      window.dispatchEvent(new Event("storage")); // Обновление других вкладок
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+
+    // window.addEventListener("storage", handleAddToCart);
+
+    // // Cleanup function
+    // return () => {
+    //   window.removeEventListener("storage", handleAddToCart);
+    // };
+  };
 
   const selectedAllLength = selectedAll.length;
-  if (typeof window !== 'undefined') {
-  sessionStorage.setItem("storesLength", selectedAllLength);
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem("storesLength", selectedAllLength);
   }
 
+  console.log("SELECTED ALL:", selectedAll);
 
   const removeStore = (storeId) => {
-      const data = JSON.parse(sessionStorage.getItem("stores1"));
-      let updatedData = JSON.parse(sessionStorage.getItem("sel"));
-  
-      if (!updatedData) {
-        updatedData = JSON.parse(sessionStorage.getItem("storesName"));
-      }
-      const updatedData1 = updatedData.filter((store) => store.id != storeId);
-     sessionStorage.setItem("sel", JSON.stringify(updatedData1));
-     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
-      setSelectedAll(updatedData1);
-      const da = data.filter((store) => store != storeId);
-      sessionStorage.setItem("stores1", JSON.stringify(da));
-      setSelectedStores(selectedAll.map((item) => item.location));
-      setSelectedStoresID(da);
-      setSelectedStores(selectedAll);
-      handleButtonClick();
+    const data = JSON.parse(sessionStorage.getItem("stores1"));
+    let updatedData = JSON.parse(sessionStorage.getItem("sel"));
 
+    if (!updatedData) {
+      updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+    }
+    const updatedData1 = updatedData.filter((store) => store.id != storeId);
+    sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+    setSelectedAll(updatedData1);
+    const da = data.filter((store) => store != storeId);
+    sessionStorage.setItem("stores1", JSON.stringify(da));
+    setSelectedStores(selectedAll.map((item) => item.location));
+    setSelectedStoresID(da);
+    setSelectedStores(selectedAll);
+    handleButtonClick();
   };
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
       const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
+      const selectedCity = JSON.parse(sessionStorage.getItem("selectedCity"));
       const selectedLocation = JSON.parse(
         sessionStorage.getItem("selectedLocation")
       );
@@ -515,8 +565,11 @@ const Products = ({ cartData }) => {
   }, []);
 
   return (
-    <div itemScope style={{paddingTop:"10px"}}
-  itemType="http://schema.org/Store">
+    <div
+      itemScope
+      style={{ paddingTop: "10px" }}
+      itemType="http://schema.org/Store"
+    >
       <div style={{ marginLeft: "10%", marginRight: "10%", height: "766px" }}>
         <h2
           style={{
@@ -541,11 +594,19 @@ const Products = ({ cartData }) => {
         </p>
 
         <div className="select-container">
-          <div className="select-store">
+          <div
+            className="select-store"
+            style={{
+              display: "flex",
+              width: "320px",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
             <label
               style={{
                 paddingRight: "8px",
-                fontSize: "18px",
+                fontSize: "16px",
               }}
               className={noir.className}
             >
@@ -567,79 +628,184 @@ const Products = ({ cartData }) => {
             </select>
           </div>
 
-          <div className="select-location">
-            {selectedStore && (
-              <div className="sel">
-              <div itemProp="location" itemScope itemType="http://schema.org/Place" className="selected-store">
-                  <label
-                    style={{
-                      paddingRight: "8px",
-                      fontSize: "18px",
-                      // paddingLeft: "24px",
-                    }}
-                    className={noir.className}
-                  >
-                    Select Location:
-                  </label>
-                  <select
-                    className={noir.className}
-                    onChange={(e) => handleLocationChange(e.target.value)}
-                    value={selectedLocation}
-                    itemProp="address"
-                  >
-                    <option value="">Select...</option>
-                    {locations.map((location, index) => (
-                      <option
-                        className={noir.className}
-                        key={index}
-                        value={location}
-                      >
-                        {location}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {selectedLocation && (
-              <button
+          {selectedStore !== null && (
+            <div
+              className="select-store"
+              style={{ display: "flex", width: "335px", alignItems: "center" }}
+            >
+              <label
                 style={{
-                  cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
-                  color: selectedAllLength === 3 ? "#ccc" : "#24292e", // Change color when disabled
-                  backgroundColor:
-                    selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
-                  borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
+                  paddingRight: "8px",
+                  fontSize: "16px",
                 }}
-                disabled={
-                  selectedAll.some(
-                    (store) => store.location === selectedLocation
-                  ) || selectedAllLength === 3
-                }
-                // disabled={selectedAll.includes(selectedLocation)}
-                className={`${noir.className} button`}
-                onClick={handleAddStore}
+                className={noir.className}
               >
-                Add Store
-              </button>
-            )}
-                {selectedAllLength === 3 && (
-                  <p
+                Select City:
+              </label>
+              <select
+                style={{ width: "151px" }}
+                className={`${noir.className} select`}
+                // style={{
+                //   width: "232px",
+                //   height: "38px",
+                //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                //   fontSize: "1rem",
+                //   fontWeight: "400",
+                //   lineHeight: "1.5",
+                //   color: "#212529",
+                //   backgroundColor: "#fff",
+                //   border: "1px solid #ced4da",
+                //   borderRadius: "0.25rem",
+                //   transition:
+                //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                // }}
+                // onChange={(e) => handleStoreChange(e.target.value)}
+                onChange={(e) => handleCityChange(e.target.value)}
+                value={selectedCity}
+              >
+                <option
+                  style={{ color: "#212529" }}
+                  value=""
+                  disabled
+                  selected
+                  hidden
+                  className={noir.className}
+                >
+                  Please Choose City...
+                </option>
+                {cities.map((city) => (
+                  <option className={noir.className} key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {selectedCity !== null && (
+            <div
+              className="select-store"
+              style={{ display: "flex", width: "560px", alignItems: "center" }}
+            >
+              <labels
+                // style={{
+                //   paddingRight: "8px",
+                //   fontSize: "18px",
+                //   paddingLeft: "24px",
+                // }}
+                // style={{paddingLeft:'7%'}}
+                className={`${noir.className} label`}
+                style={{ fontSize: "16px", paddingRight: "8px" }} 
+              >
+                Select Location:
+              </labels>
+              <select
+                style={{ width: "200px",marginRight: "16px" }}
+                className={`${noir.className} select`}
+                onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
+                value={selectedLocation}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAddStore();
+                    e.target.blur();
+                  }
+                }}
+              >
+                <option value="">Select...</option>
+                {locations.map((location, index) => (
+                  <option
                     className={noir.className}
-                    style={{
-                      color: "rgb(225, 37, 27)",
-                      fontSize: "16px",
-                      fontWeight: "400",
-                    }}
+                    key={index}
+                    value={location}
                   >
-                    You can add max 3 stores
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
+                    {location}
+                  </option>
+                ))}
+              </select>
+              {selectedLocation && (
+                <button
+                  style={{
+                    cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
+                    color: selectedAllLength === 3 ? "#ccc" : "#24292e", // Change color when disabled
+                    backgroundColor:
+                      selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
+                    borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
+                    margin: "0px"
+                  }}
+                  disabled={
+                    selectedAll.some(
+                      (store) => store.location === selectedLocation
+                    ) || selectedAllLength === 3
+                  }
+                  // disabled={selectedAll.includes(selectedLocation)}
+                  className={`${noir.className} button`}
+                  onClick={handleAddStore}
+                >
+                  Add Store
+                </button>
+              )}
+
+              {/*             <select
+              className={`${noir.className} select`}
+              // style={{
+              //   height: "38px",
+              //   padding: "0.375rem 0.25rem 0.375rem 0.75rem",
+              //   fontSize: "1rem",
+              //   fontWeight: "400",
+              //   lineHeight: "1.5",
+              //   color: "#212529",
+              //   backgroundColor: "#fff",
+              //   border: "1px solid #ced4da",
+              //   borderRadius: "0.25rem",
+              //   transition:
+              //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+              // }}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              value={selectedLocation}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Предотвращает стандартное поведение Enter
+
+                  handleAddStore(); // Запускает вашу функцию обработки
+                  e.target.blur(); // Убирает фокус с поля
+                }
+              }}
+            >
+              <option
+                value=""
+                disabled
+                selected
+                hidden
+                className={noir.className}
+              >
+                Please Choose Location
+              </option>
+              <option
+                value={selectedLocation}
+                selected
+                hidden
+                className={noir.className}
+              >
+                {selectedLocation}
+              </option>
+              {locations.map((location, index) => (
+                <option
+                  className={noir.className}
+                  key={location}
+                  value={location}
+                >
+                  {location}
+                </option>
+              ))}
+            </select> */}
+            </div>
+          )}
 
           {selectedAll.length > 0 && (
             <div className="search" onKeyDown={handleKeyDown} tabIndex="0">
               <label
-                style={{ paddingRight: "8px", fontSize: "18px" }}
+                style={{ paddingRight: "8px", fontSize: "16px" }}
                 className={`${noir.className} label`}
               >
                 Search:
@@ -708,13 +874,13 @@ const Products = ({ cartData }) => {
                   ></div>
                 )}
               {selectedAll.length > 0 && (
-                <div style={{paddingTop:'24px'}}>
+                <div style={{ paddingTop: "24px" }}>
                   {" "}
                   <h3 className={`${noir.className} h3`}>Selected Stores:</h3>
                   <ul className="ul" value={selectedAll}>
                     {selectedAll.map((store, index) => (
                       <li className={`${noir.className} li`} key={index}>
-                        {store.store} : {store.location}
+                        {store.store} : {store.location}, {store.city}
                         <button
                           style={{
                             outline: "0px",
@@ -749,18 +915,16 @@ const Products = ({ cartData }) => {
             {loading && firstTime ? (
               <Loading />
             ) : (
-              <div className="product-cart-products"
-              >
+              <div className="product-cart-products">
                 {responseData.map((item, index) => (
-                  <div className="card"
+                  <div
+                    className="card"
                     key={index}
-                    itemScope itemType="http://schema.org/Product"
+                    itemScope
+                    itemType="http://schema.org/Product"
                   >
                     <div>
-                      <p
-                        className={`${noir.className} text`}
-                        itemProp="price"
-                      >
+                      <p className={`${noir.className} text`} itemProp="price">
                         {loading ? (
                           <Skeleton width={230} height={50} />
                         ) : (
@@ -769,7 +933,8 @@ const Products = ({ cartData }) => {
                       </p>
                     </div>
                     <>
-                      <div className="add-cart"
+                      <div
+                        className="add-cart"
                         style={{
                           height: "35px",
                           display: "flex",
@@ -777,7 +942,7 @@ const Products = ({ cartData }) => {
                           alignItems: "center",
                         }}
                       >
-                        {item.cart == true ? (
+                        {item.cart == true && storesLength != 0 ? (
                           <>
                             <Image
                               style={{ paddingLeft: "90px" }}
@@ -795,7 +960,8 @@ const Products = ({ cartData }) => {
                         <Skeleton width={120} height={120} />
                       ) : (
                         <Zoom>
-                          <img className="image"
+                          <img
+                            className="image"
                             style={{
                               width: "120px",
                               justifyContent: "center",
@@ -895,11 +1061,15 @@ const Products = ({ cartData }) => {
                                 style={{
                                   paddingRight: "12px",
                                   maxWidth: "275px",
-                                  fontSize:"15px"
+                                  fontSize: "15px",
                                 }}
                                 key={index}
                               >
-                                {loading ? <Skeleton /> : store.store}
+                                {loading ? (
+                                  <Skeleton />
+                                ) : (
+                                  `${store.store}, ${store.city}`
+                                )}
                               </p>
 
                               {loading ? (
@@ -913,7 +1083,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize:"15px"
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -921,10 +1091,10 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
-                                          fontSize:"15px"
+                                          fontSize: "15px",
                                         }}
                                       >
-                                        (2 FOR ${store.saleprice}ea)
+                                        (2 FOR ${store.saleprice} ea)
                                       </span>
                                     </p>
                                   ) : store.for3 < store.saleprice ? (
@@ -933,7 +1103,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize:"15px"
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -941,10 +1111,10 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
-                                          fontSize:"15px"
+                                          fontSize: "15px",
                                         }}
                                       >
-                                        (3 FOR ${store.saleprice})
+                                        (3 FOR ${store.saleprice} ea)
                                       </span>
                                     </p>
                                   ) : store.mem > store.saleprice ? (
@@ -953,7 +1123,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize:"15px"
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -972,7 +1142,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize:"15px"
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.saleprice}
@@ -984,7 +1154,7 @@ const Products = ({ cartData }) => {
                                     style={{
                                       fontWeight: "700",
                                       color: "rgb(225, 37, 27)",
-                                      fontSize:"15px"
+                                      fontSize: "15px",
                                     }}
                                   >
                                     ${store.saleprice}
@@ -993,7 +1163,10 @@ const Products = ({ cartData }) => {
                               ) : store.non_member_price != null ? (
                                 <p
                                   className={noir.className}
-                                  style={{ fontWeight: "700",fontSize:"15px" }}
+                                  style={{
+                                    fontWeight: "700",
+                                    fontSize: "15px",
+                                  }}
                                 >
                                   {store.non_member_price}
                                   <span>(2 FOR mimi ${store.sale})</span>
@@ -1001,7 +1174,10 @@ const Products = ({ cartData }) => {
                               ) : (
                                 <p
                                   className={noir.className}
-                                  style={{ fontWeight: "700",fontSize:"15px" }}
+                                  style={{
+                                    fontWeight: "700",
+                                    fontSize: "15px",
+                                  }}
                                 >
                                   {store.regprice}
                                 </p>
@@ -1015,7 +1191,7 @@ const Products = ({ cartData }) => {
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-around",
-                        //  paddingBottom: "25px",
+                          //  paddingBottom: "25px",
                           // paddingTop: "1px",
                         }}
                       >
@@ -1041,7 +1217,7 @@ const Products = ({ cartData }) => {
                               </p>
                             )
                           ) : (
-                            <p style={{ paddingTop: "24px" }}></p>
+                            <p style={{ paddingTop: "20px" }}></p>
                           )
                         )}
                       </div>
@@ -1065,17 +1241,21 @@ const Products = ({ cartData }) => {
                                   fontWeight: "400",
                                   marginRight: "10px",
                                   fontSize: "15px",
-                                  paddingLeft : "4px"
+                                  paddingLeft: "4px",
                                   // marginLeft: "8px",
                                   //paddingTop: "2px",
                                 }}
                                 key={index}
                               >
-                                ({store.stock === "Out of Stock" ? 'Sold Out' : store.stock})
+                                (
+                                {store.stock === "Out of Stock"
+                                  ? "Sold Out"
+                                  : store.stock}
+                                )
                               </p>
                             )
                           ) : (
-                            <p style={{ paddingTop: "18px" }}></p>
+                            <p style={{ paddingTop: "20px" }}></p>
                           )
                         )}
                       </div>
