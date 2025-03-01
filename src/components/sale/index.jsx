@@ -84,6 +84,7 @@ const Index = () => {
   const [locValue, setLocValue] = useState();
   const [storeSale, setStoreSale] = useState();
   const [store1, setStore1] = useState(null);
+  const [city1, setCity1] = useState(null);
   const [location1, setLocation1] = useState(null);
   const [activeStoreId, setActiveStoreId] = useState(null);
   const [len, setLen] = useState(1);
@@ -104,12 +105,51 @@ const Index = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
+  const [storesLength, setStoresLength] = useState(() =>
+    sessionStorage.getItem("storesLength")
+  );
+
+  // useEffect(() => {
+  //   const storedValue = sessionStorage.getItem("storesLength");
+  //   if (storedValue) {
+  //     setChange(JSON.parse(storedValue));
+  //   }
+  // }, []);
+
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     if (!cart) {
       setProductCounts({});
     }
+    if (cart && cart.length === 0) {
+      setProductCounts({});
+    }
   }, []);
+
+  console.log("cart", productCounts);
+
+  // useEffect(() => {
+  //   const existingItems = JSON.parse(sessionStorage.getItem("storesLength")) || [];
+  //   console.log("existingItems", existingItems);
+  //   setChange(existingItems);
+  // }, [change]);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setStoresLength(sessionStorage.getItem("storesLength"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("sessionStorageUpdate", handleStorageChange);
+    };
+  }, []);
+
+  console.log("storesLength", storesLength);
+
   if (typeof sessionStorage !== "undefined") {
     sessionStorage.setItem("key", "value");
   } else if (typeof sessionStorage !== "undefined") {
@@ -136,7 +176,7 @@ const Index = () => {
       // setSelectedLocation(sale.location);
       //  setResponseData(responseData);
     });
-  }, [selectedLocation, namesss]);
+  }, [selectedLocation, namesss, selectedCity]);
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
@@ -195,6 +235,7 @@ const Index = () => {
         setSelectedStore(sale.store);
         handleStoreChange(sale.store);
         setSelectedLocation(sale.location);
+        setSelectedCity(sale.city);
       }
       if (st) {
         setStoreSale(st);
@@ -245,7 +286,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/sale/stores")
+      .get("https://server-blue-ten.vercel.app/api/sale/stores")
       .then((response) => setAvailableStores(response.data))
       .catch((error) =>
         console.error("Error fetching available stores:", error)
@@ -259,7 +300,7 @@ const Index = () => {
 
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/sale/stores/${store}`
+        `http://localhost:8080/api/sale/stores/${store}`
       );
       if (response.status === 200 && response.data.locations) {
         setCities(Object.keys(response.data.locations)); // Получаем список городов
@@ -276,7 +317,7 @@ const Index = () => {
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/sale/stores/${selectedStore}/${city}`
+        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -375,15 +416,19 @@ const Index = () => {
   }, [locValue]); // Add other dependencies if needed
 
   useEffect(() => {
-    window.addEventListener("storage",()=>{
+    window.addEventListener("storage", () => {
       // Сохраняем данные в localStorage
       sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-      sessionStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
+      sessionStorage.setItem(
+        "selectedLocation",
+        JSON.stringify(selectedLocation)
+      );
+      sessionStorage.setItem("selectedCity", JSON.stringify(selectedCity));
 
       // Извлекаем данные из localStorage
       const store = sessionStorage.getItem("selectedStore");
       const location = sessionStorage.getItem("selectedLocation");
-
+      const city = sessionStorage.getItem("selectedCity");
       // Обновляем состояние, только если store существует и оно не обновлялось
       if (store !== null) {
         setStore1(JSON.parse(store));
@@ -391,8 +436,11 @@ const Index = () => {
       if (location !== null) {
         setLocation1(JSON.parse(location));
       }
-    })
-  }, [selectedStore, selectedLocation]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
+      if (city !== null) {
+        setCity1(JSON.parse(city));
+      }
+    });
+  }, [selectedStore, selectedLocation, selectedCity]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
   // let com = true;
   // if (storeSale &&
   //   storeSale.location != selectedLocation &&
@@ -403,6 +451,12 @@ const Index = () => {
   // else{
   //   com = true;
   // }
+
+  useEffect(() => {
+    if (selectedCity) {
+      console.log("Город обновился:", selectedCity);
+    }
+  }, [selectedCity]);
 
   const handleAddStore = async () => {
     setLoading(true);
@@ -423,17 +477,21 @@ const Index = () => {
     }
     const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
     const storeLocation = JSON.parse(sessionStorage.getItem("activeLOCATION"));
+    const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
+    setSelectedCity(storeCity);
     const sale = JSON.parse(sessionStorage.getItem("storeSale"));
     const leng = JSON.parse(sessionStorage.getItem("storesLength")); // 371
 
     const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
-    const arrayOfStores = JSON.parse(sessionStorage.getItem("stores_1234")) || []; //тут ID из корзины
+    const arrayOfStores =
+      JSON.parse(sessionStorage.getItem("stores_1234")) || []; //тут ID из корзины
 
     setLen(leng);
 
     const targetStore = {
       store: store1,
       location: location1,
+      city: city1,
     };
 
     let storeExists;
@@ -442,24 +500,39 @@ const Index = () => {
       storeExists = sale.some(
         (store) =>
           store.store === targetStore.store &&
-          store.location === targetStore.location
+          store.location === targetStore.location &&
+          store.city === targetStore.city
       );
     }
 
     let newStoreLocationObject;
 
-    if (storeSale && storeStore && storeLocation && com == true) {
-      setLocValue(storeSale); //тут выбранный объект из sale
-      setSelectedStore(storeStore);
-      setSelectedLocation(storeLocation);
-      setSelectedCity(selectedCity)
+    if (storeSale && storeStore && storeLocation && storeCity && com == true) {
+      // setLocValue(storeSale); //тут выбранный объект из sale
+      // setSelectedStore(storeStore);
+      // setSelectedLocation(storeLocation);
+      // setSelectedCity((prev) => {
+      //   console.log("Предыдущий город:", prev);
+      //   return selectedCity;
+      // });
+
+      const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
+      const storeLocation = JSON.parse(
+        sessionStorage.getItem("activeLOCATION")
+      );
+      const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
+      const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
 
       newStoreLocationObject = {
         store: storeStore,
         location: storeLocation,
         id: storeSale,
-        city:selectedCity
+        city: storeCity,
       };
+
+      console.log("HERE IS IF", newStoreLocationObject);
+      setSelectedLocation(storeLocation);
+      console.log("STORE LOCATION", storeLocation);
     }
     // else if (newSelectedLocationValue == null) {
     //   newStoreLocationObject = {
@@ -481,13 +554,15 @@ const Index = () => {
         store: selectedStore,
         location: selectedLocation,
         id: newSelectedLocationValue,
-        city:selectedCity
+        city: selectedCity,
       };
+
+      console.log("HERE IS IF 2", newStoreLocationObject);
 
       setLocValue(newSelectedLocationValue); //сюда кладем id
       setSelectedStore(selectedStore);
       setSelectedLocation(selectedLocation);
-      setSelectedCity(selectedCity)
+      setSelectedCity(selectedCity);
     }
 
     if (len === 2) {
@@ -505,7 +580,8 @@ const Index = () => {
     const isDuplicate = storesNames.some(
       (store) =>
         store.store === newStoreLocationObject.store &&
-        store.location === newStoreLocationObject.location && store.city === newStoreLocationObject.city
+        store.location === newStoreLocationObject.location &&
+        store.id == newStoreLocationObject.id
     );
 
     if (!isDuplicate) {
@@ -533,7 +609,7 @@ const Index = () => {
       let response;
       if (storeSale && storeSale != null && com == true) {
         response = await axios.post(
-          "https://server-blue-ten.vercel.app/api/sale",
+          "http://localhost:8080/api/sale",
           //"http://localhost:8080/api/sale",
           {
             selectedStoresID: [storeSale],
@@ -545,7 +621,7 @@ const Index = () => {
       } else {
         response = await axios.post(
           //"http://localhost:8080/api/sale",
-          "https://server-blue-ten.vercel.app/api/sale",
+          "http://localhost:8080/api/sale",
           {
             selectedStoresID: [newSelectedLocationValue],
           }
@@ -646,7 +722,8 @@ const Index = () => {
     //console.log(existingStores)
     //const stores_la = JSON.parse(localStorage.getItem("stores_lalala")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
-    const arrayOfStores = JSON.parse(sessionStorage.getItem("stores_1234")) || []; //тут ID из корзины
+    const arrayOfStores =
+      JSON.parse(sessionStorage.getItem("stores_1234")) || []; //тут ID из корзины
     const arrayOfStores1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
 
     setArrayOfStores(arrayOfStores); //id из корзины
@@ -821,11 +898,9 @@ const Index = () => {
         // }}
       >
         <label
-          // style={{
-          //   paddingRight: "8px",
-          //   fontSize: "18px",
-          //   paddingLeft: "24px",
-          // }}
+          style={{
+            fontSize: "16px",
+          }}
           className={`${noir.className} label`}
         >
           Select Store:
@@ -866,59 +941,66 @@ const Index = () => {
           ))}
         </select>
 
-        {selectedStore!= null && <>
-          <label
-          // style={{
-          //   paddingRight: "8px",
-          //   fontSize: "18px",
-          //   paddingLeft: "24px",
-          // }}
-          className={`${noir.className} label`}
-        >
-          Select City:
-        </label>
-        <select
-          className={`${noir.className} select`}
-          // style={{
-          //   width: "232px",
-          //   height: "38px",
-          //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-          //   fontSize: "1rem",
-          //   fontWeight: "400",
-          //   lineHeight: "1.5",
-          //   color: "#212529",
-          //   backgroundColor: "#fff",
-          //   border: "1px solid #ced4da",
-          //   borderRadius: "0.25rem",
-          //   transition:
-          //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-          // }}
-          // onChange={(e) => handleStoreChange(e.target.value)}
-          onChange={(e) => handleCityChange(e.target.value)}
-          value={selectedCity}
-        >
-          <option
-            style={{ color: "#212529" }}
-            value=""
-            disabled
-            selected
-            hidden
-            className={noir.className}
-          >
-            Please Choose City...
-          </option>
-          {cities.map((city) => (
-            <option className={noir.className} key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-        </>
-       }
+        {selectedStore != null && (
+          <>
+            <label
+              style={{
+                fontSize: "16px",
+              }}
+              // style={{
+              //   paddingRight: "8px",
+              //   fontSize: "18px",
+              //   paddingLeft: "24px",
+              // }}
+              className={`${noir.className} label`}
+            >
+              Select City:
+            </label>
+            <select
+              className={`${noir.className} select`}
+              // style={{
+              //   width: "232px",
+              //   height: "38px",
+              //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+              //   fontSize: "1rem",
+              //   fontWeight: "400",
+              //   lineHeight: "1.5",
+              //   color: "#212529",
+              //   backgroundColor: "#fff",
+              //   border: "1px solid #ced4da",
+              //   borderRadius: "0.25rem",
+              //   transition:
+              //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+              // }}
+              // onChange={(e) => handleStoreChange(e.target.value)}
+              onChange={(e) => handleCityChange(e.target.value)}
+              value={selectedCity}
+            >
+              <option
+                style={{ color: "#212529" }}
+                value=""
+                disabled
+                selected
+                hidden
+                className={noir.className}
+              >
+                Please Choose City...
+              </option>
+              {cities.map((city) => (
+                <option className={noir.className} key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
 
-        {selectedCity !== null  && (
+        {selectedCity !== null && (
           <>
             <labels
+              style={{
+                fontSize: "16px",
+              }}
               // style={{
               //   paddingRight: "8px",
               //   fontSize: "18px",
@@ -1078,10 +1160,11 @@ const Index = () => {
                   setSelectedStore(store.store);
                   setSelectedLocation(store.location);
                   setSelectedCity(store.city);
-                  // console.log("Setting locValue to ID:", store.id);
-                  // console.log("Setting locValue to STORE:", store.store);
-                  // console.log("Setting locValue to LOCATION:", store.location);
-                  // console.log("Setting locValue to LOC VALUE:", locValue);
+                  console.log("Setting locValue to ID:", store.id);
+                  console.log("Setting locValue to STORE:", store.store);
+                  console.log("Setting locValue to LOCATION:", store.location);
+                  console.log("Setting locValue to LOC VALUE:", locValue);
+                  console.log("Setting locValue to CITY:", store.city);
                   // setSelectedStore(store.store);
                   // setSelectedLocation(store.location);
                   toggleButton(index);
@@ -1114,7 +1197,10 @@ const Index = () => {
                 >
                   {store.store}:{" "}
                 </p>
-                <p className={noir.className}> {store.location}, {store.city}</p>
+                <p className={noir.className}>
+                  {" "}
+                  {store.location}, {store.city}
+                </p>
               </button>
             ))}
           </div>
@@ -1295,7 +1381,7 @@ const Index = () => {
                                           flexDirection: "row-reverse",
                                         }}
                                       >
-                                        {productCounts[item.productID] > 0 ? (
+                                        {productCounts[item.productID] > 0 && storesLength != 0 ? (
                                           <>
                                             <Image
                                               style={{ paddingLeft: "60px" }}
