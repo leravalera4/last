@@ -942,7 +942,7 @@ const Products = ({ cartData }) => {
                           alignItems: "center",
                         }}
                       >
-                        {item.cart == true && storesLength != 0 ? (
+                        {item.cart == true ? (
                           <>
                             <Image
                               style={{ paddingLeft: "90px" }}
