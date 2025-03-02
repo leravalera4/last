@@ -105,9 +105,9 @@ const Index = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [storesLength, setStoresLength] = useState(() =>
-    sessionStorage.getItem("storesLength")
-  );
+  // const [storesLength, setStoresLength] = useState(() =>
+  //   sessionStorage.getItem("storesLength")
+  // );
 
   // useEffect(() => {
   //   const storedValue = sessionStorage.getItem("storesLength");
@@ -121,9 +121,9 @@ const Index = () => {
     if (!cart) {
       setProductCounts({});
     }
-    if (cart && cart.length === 0) {
-      setProductCounts({});
-    }
+    // if (cart && cart.length === 0) {
+    //   setProductCounts({});
+    // }
   }, []);
 
   console.log("cart", productCounts);
@@ -140,23 +140,47 @@ const Index = () => {
   //   };
 
   //   window.addEventListener("storage", handleStorageChange);
-  //   window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+  //   // window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+
+  //   handleStorageChange();
+  //   //Слушаем изменения в localStorage
+  //   window.addEventListener("storage", handleStorageChange);
 
   //   return () => {
   //     window.removeEventListener("storage", handleStorageChange);
-  //     window.removeEventListener("sessionStorageUpdate", handleStorageChange);
   //   };
   // }, []);
 
-  // console.log("storesLength", storesLength);
-
-  //   useEffect(() => {
+  // useEffect(() => {
+  //   // Функция для обработки изменений в localStorage
   //   const handleStorageChange = () => {
-  //     setStoresLength(sessionStorage.getItem("storesLength"));
-  //   };
+  //     const sale = JSON.parse(sessionStorage.getItem("sale"));
+  //     const stim = JSON.parse(sessionStorage.getItem("stores_1234"));
+  //     let mana;
 
-  //   window.addEventListener("storage", handleStorageChange);
-  //   // window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+  //     if (sale) {
+  //       mana = sale.id.toString();
+  //     }
+
+  //     let checkForStoreValue;
+  //     if (stim && mana) {
+  //       checkForStoreValue = stim.includes(mana);
+  //     }
+
+  //     // Обновляем состояние для checkForStore
+  //     setCheckForStore(checkForStoreValue);
+
+  //     const st = JSON.parse(sessionStorage.getItem("storeSale"));
+  //     if (sale) {
+  //       setSelectedStore(sale.store);
+  //       handleStoreChange(sale.store);
+  //       setSelectedLocation(sale.location);
+  //       setSelectedCity(sale.city);
+  //     }
+  //     if (st) {
+  //       setStoreSale(st);
+  //     }
+  //   };
 
   //   handleStorageChange();
   //   //Слушаем изменения в localStorage
@@ -469,11 +493,11 @@ const Index = () => {
   //   com = true;
   // }
 
-  useEffect(() => {
-    if (selectedCity) {
-      console.log("Город обновился:", selectedCity);
-    }
-  }, [selectedCity]);
+  // useEffect(() => {
+  //   if (selectedCity) {
+  //     console.log("Город обновился:", selectedCity);
+  //   }
+  // }, [selectedCity]);
 
   const handleAddStore = async () => {
     setLoading(true);
@@ -1177,11 +1201,11 @@ const Index = () => {
                   setSelectedStore(store.store);
                   setSelectedLocation(store.location);
                   setSelectedCity(store.city);
-                  console.log("Setting locValue to ID:", store.id);
-                  console.log("Setting locValue to STORE:", store.store);
-                  console.log("Setting locValue to LOCATION:", store.location);
-                  console.log("Setting locValue to LOC VALUE:", locValue);
-                  console.log("Setting locValue to CITY:", store.city);
+                  // console.log("Setting locValue to ID:", store.id);
+                  // console.log("Setting locValue to STORE:", store.store);
+                  // console.log("Setting locValue to LOCATION:", store.location);
+                  // console.log("Setting locValue to LOC VALUE:", locValue);
+                  // console.log("Setting locValue to CITY:", store.city);
                   // setSelectedStore(store.store);
                   // setSelectedLocation(store.location);
                   toggleButton(index);
@@ -1398,7 +1422,10 @@ const Index = () => {
                                           flexDirection: "row-reverse",
                                         }}
                                       >
-                                        {productCounts[item.productID] > 0 && storesLength != 0 ? (
+                                        {productCounts[item.productID] > 0 
+                                        // &&
+                                        // storesLength != 0 
+                                        ? (
                                           <>
                                             <Image
                                               style={{ paddingLeft: "60px" }}
