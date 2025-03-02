@@ -136,19 +136,19 @@ const Products = ({ cartData }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleStorage = () => {
-      const stores = sessionStorage.getItem("stores");
-      const storesArray = JSON.parse(stores);
-    };
+  // useEffect(() => {
+  //   const handleStorage = () => {
+  //     const stores = sessionStorage.getItem("stores");
+  //     const storesArray = JSON.parse(stores);
+  //   };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("storage", handleStorage);
-    }
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
+  //   if (typeof window !== "undefined") {
+  //     window.addEventListener("storage", handleStorage);
+  //   }
+  //   return () => window.removeEventListener("storage", handleStorage);
+  // }, []);
 
-  console.log("STO_LEN",storesLength)
+  // console.log("STO_LEN",storesLength)
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
