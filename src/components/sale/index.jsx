@@ -341,7 +341,7 @@ const Index = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/sale/stores/${store}`
+        `https://server-blue-ten.vercel.app/sale/stores/${store}`
       );
       if (response.status === 200 && response.data.locations) {
         setCities(Object.keys(response.data.locations)); // Получаем список городов
@@ -358,7 +358,7 @@ const Index = () => {
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
+        `https://server-blue-ten.vercel.app/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
