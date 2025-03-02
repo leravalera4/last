@@ -206,19 +206,19 @@ const Products = ({ cartData }) => {
       });
   }, []); // получаем список магазинов
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setStoresLength(sessionStorage.getItem("storesLength"));
-    };
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setStoresLength(sessionStorage.getItem("storesLength"));
+  //   };
 
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+  //   window.addEventListener("storage", handleStorageChange);
+  //   window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("sessionStorageUpdate", handleStorageChange);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //     window.removeEventListener("sessionStorageUpdate", handleStorageChange);
+  //   };
+  // }, []);
 
   const handleStoreChange = async (selectedStore) => {
     setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
