@@ -150,22 +150,22 @@ const Index = () => {
 
   // console.log("storesLength", storesLength);
 
-    useEffect(() => {
-    const handleStorageChange = () => {
-      setStoresLength(sessionStorage.getItem("storesLength"));
-    };
+  //   useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setStoresLength(sessionStorage.getItem("storesLength"));
+  //   };
 
-    window.addEventListener("storage", handleStorageChange);
-    // window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
+  //   window.addEventListener("storage", handleStorageChange);
+  //   // window.addEventListener("sessionStorageUpdate", handleStorageChange); // Поддержка обновления в одной вкладке
 
-    handleStorageChange();
-    //Слушаем изменения в localStorage
-    window.addEventListener("storage", handleStorageChange);
+  //   handleStorageChange();
+  //   //Слушаем изменения в localStorage
+  //   window.addEventListener("storage", handleStorageChange);
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
 
   if (typeof sessionStorage !== "undefined") {
     sessionStorage.setItem("key", "value");
