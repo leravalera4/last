@@ -301,7 +301,7 @@ const Products = ({ cartData }) => {
       JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/sale/stores/updateLocation",
+        "https://server-blue-ten.vercel.app/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
