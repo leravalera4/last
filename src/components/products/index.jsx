@@ -196,7 +196,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores/")
+      .get("https://server-blue-ten.vercel.app/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
