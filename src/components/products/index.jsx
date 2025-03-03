@@ -108,9 +108,9 @@ const Products = ({ cartData }) => {
   const [storesName, setStoresName] = useState();
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [storesLength, setStoresLength] = useState(() =>
-    sessionStorage.getItem("storesLength")
-  );
+  // const [storesLength, setStoresLength] = useState(() =>
+  //   sessionStorage.getItem("storesLength")
+  // );
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
   );
@@ -136,19 +136,19 @@ const Products = ({ cartData }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const handleStorage = () => {
-      const stores = sessionStorage.getItem("stores");
-      const storesArray = JSON.parse(stores);
-    };
+  // useEffect(() => {
+  //   const handleStorage = () => {
+  //     const stores = sessionStorage.getItem("stores");
+  //     const storesArray = JSON.parse(stores);
+  //   };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("storage", handleStorage);
-    }
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
+  //   if (typeof window !== "undefined") {
+  //     window.addEventListener("storage", handleStorage);
+  //   }
+  //   return () => window.removeEventListener("storage", handleStorage);
+  // }, []);
 
-  console.log("STO_LEN",storesLength)
+  // console.log("STO_LEN",storesLength)
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
@@ -196,7 +196,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores")
+      .get("https://server-blue-ten.vercel.app/api/sale/stores/")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -293,7 +293,7 @@ const Products = ({ cartData }) => {
     );
   };
 
-  // console.log("LOCATIONS", locations);
+  console.log("LOCATIONS", locations);
 
   const handleButtonClick = async () => {
     setLoading(true);
@@ -309,7 +309,7 @@ const Products = ({ cartData }) => {
       );
 
       const responseData = response.data;
-      // console.log("RESPONSE DATA:", responseData);
+      console.log("RESPONSE DATA:", responseData);
       responseData.sort((a, b) => b.products.length - a.products.length);
       setResponseData(responseData);
       setAddedToCartImage(Array(responseData.length).fill(false));
@@ -496,7 +496,7 @@ const Products = ({ cartData }) => {
     sessionStorage.setItem("storesLength", selectedAllLength);
   }
 
-  // console.log("SELECTED ALL:", selectedAll);
+  console.log("SELECTED ALL:", selectedAll);
 
   const removeStore = (storeId) => {
     const data = JSON.parse(sessionStorage.getItem("stores1"));
@@ -942,7 +942,7 @@ const Products = ({ cartData }) => {
                           alignItems: "center",
                         }}
                       >
-                        {item.cart == true && storesLength != 0 ? (
+                        {item.cart == true ? (
                           <>
                             <Image
                               style={{ paddingLeft: "90px" }}
