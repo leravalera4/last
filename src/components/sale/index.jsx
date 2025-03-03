@@ -650,7 +650,7 @@ const Index = () => {
       let response;
       if (storeSale && storeSale != null && com == true) {
         response = await axios.post(
-          "http://localhost:8080/api/sale",
+          "https://server-blue-ten.vercel.app/api/sale",
           //"http://localhost:8080/api/sale",
           {
             selectedStoresID: [storeSale],
@@ -662,7 +662,7 @@ const Index = () => {
       } else {
         response = await axios.post(
           //"http://localhost:8080/api/sale",
-          "http://localhost:8080/api/sale",
+          "https://server-blue-ten.vercel.app/api/sale",
           {
             selectedStoresID: [newSelectedLocationValue],
           }
