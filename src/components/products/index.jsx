@@ -695,12 +695,12 @@ const Products = ({ cartData }) => {
                 // }}
                 // style={{paddingLeft:'7%'}}
                 className={`${noir.className} label`}
-                style={{ fontSize: "16px", paddingRight: "8px" }} 
+                style={{ fontSize: "16px", paddingRight: "8px" }}
               >
                 Select Location:
               </labels>
               <select
-                style={{ width: "200px",marginRight: "16px" }}
+                style={{ width: "200px", marginRight: "16px" }}
                 className={`${noir.className} select`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
                 value={selectedLocation}
@@ -731,7 +731,7 @@ const Products = ({ cartData }) => {
                     backgroundColor:
                       selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
                     borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
-                    margin: "0px"
+                    margin: "0px",
                   }}
                   disabled={
                     selectedAll.some(
