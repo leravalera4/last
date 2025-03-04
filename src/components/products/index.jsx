@@ -148,7 +148,7 @@ const Products = ({ cartData }) => {
   //   return () => window.removeEventListener("storage", handleStorage);
   // }, []);
 
-  // console.log("STO_LEN",storesLength)
+  console.log("STO_LEN",storesLength)
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
