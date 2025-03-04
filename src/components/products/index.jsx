@@ -150,6 +150,8 @@ const Products = ({ cartData }) => {
 
   console.log("STO_LEN",storesLength)
 
+   console.log("STO_LEN",storesLength)
+  
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
   }
