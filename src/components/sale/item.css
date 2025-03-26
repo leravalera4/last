@@ -300,6 +300,7 @@ button {
   color: black;
   text-decoration: underline;
   font-size:18px;
+  text-align: center;
 }
 
 .yes {
@@ -448,28 +449,7 @@ button {
   }
 }
 
-.button-active {
-  box-shadow: 
-  rgb(204, 219, 232) 3px 3px 6px 0px inset, 
-  rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset,
-  rgb(204, 219, 232) 3px -3px 6px 0px inset,   /* Тень сверху */
-  rgba(255, 255, 255, 0.5) -3px 3px 6px 1px inset; /* Тень снизу */
-  outline: 0px;
-  display: flex;
-  cursor: pointer;
-  padding: 5px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 20px;
-  vertical-align: middle;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
-  color: rgb(36, 41, 46);
-  background-color: rgb(250, 251, 252);
-  transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
 
-  margin-right: 12px;
-}
 
 .button-inactive {
   outline: 0px;
@@ -488,4 +468,113 @@ button {
     rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset;
   transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
   margin-right: 12px;
+}
+
+
+.button-55 {
+  display: inline-flex;
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  /* font-family: Neucha, sans-serif; */
+  font-size: 14px;
+  line-height: 23px;
+  outline: none;
+  padding: .75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 20px;
+}
+
+.button-54 {
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Neucha, sans-serif;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: .75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 20px;
+}
+
+.button-55:hover {
+  box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.button-55:focus {
+  box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+}
+
+.button-active {
+  display: inline-flex;
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  /* box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px; */
+  box-sizing: border-box;
+  color: #4B6F4C;
+  cursor: pointer;
+  display: inline-block;
+  /* font-family: Neucha, sans-serif; */
+  font-size: 14px;
+  line-height: 23px;
+  outline: none;
+  padding: .75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-right: 20px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }

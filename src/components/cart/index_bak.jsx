@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import Image from "next/image";
-import basket from "../../app/images/cart_2.svg";
+import basket from "../../app/images/cart.svg";
 import localFont from "next/font/local";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -60,6 +60,7 @@ const Cart = () => {
   const [tit, setTitle] = useState();
   const [change, setChange] = useState();
   const [filtered, setFiltered] = useState();
+  const [hideButtons, setHideButtons] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [state, setState] = useState({
     isPaneOpen: false,
@@ -82,12 +83,12 @@ const Cart = () => {
   //   const handleStorageChange = () => {
   //     const theme = JSON.parse(sessionStorage.getItem("cartIDs"));
   //     const sale = JSON.parse(sessionStorage.getItem("cart"));
-  //     const name = JSON.parse(sessionStorage.getItem("storesName"));
+  //     const name = JSON.parse(sessionStorage.getItem("stores"));
   //     const special = JSON.parse(sessionStorage.getItem("special"));
   //     const filteredStores = name.filter((store) =>
   //       theme.includes(store.id.toString())
   //     );
-  //     sessionStorage.setItem("storeSale", JSON.stringify(filteredStores));
+  //     sessionStorage.setItem("stores", JSON.stringify(filteredStores));
   //     setTheme(theme);
   //     setSale(sale);
   //     setSpecial(special);
@@ -107,7 +108,7 @@ const Cart = () => {
     const handleStorageChange = () => {
       const theme = getSessionData("cartIDs") || [];
       const sale = getSessionData("cart");
-      const name = getSessionData("storesName") || [];
+      const name = getSessionData("stores") || [];
       const special = getSessionData("special");
 
       const filteredStores = name.filter((store) =>
@@ -120,7 +121,7 @@ const Cart = () => {
       //     theme.includes(store.id.toString())
       //   );
       // }
-      setSessionData("storeSale", filteredStores);
+      setSessionData("stores", filteredStores);
 
       setTheme(theme);
       setSale(sale);
@@ -167,98 +168,62 @@ const Cart = () => {
         name,
       });
       const responses = response.data;
-      console.log("RESPONSE", responses);
       setResponseData(responses);
-
-
-    //   if(responses.length === 1) {
-    //   const removeItemsWithoutTitle = (responses) => {
-    //     return responses.map(store => ({
-    //       ...store,
-    //       items: store.items.filter(item => item.title) // Оставляем только те элементы, у которых есть title
-    //     }));
-    //   };
-      
-    //   const updatedData = removeItemsWithoutTitle(responses);
-    //   setResponseData(updatedData);
-    // }
     } catch (error) {
       console.error("Ошибка при выполнении запроса:", error);
     }
   };
 
-
   const removeStore = (storeId) => {
     const updatedData = response.filter((store) => store.id != storeId);
     setResponseData(updatedData);
     const get = JSON.parse(sessionStorage.getItem("cartIDs"));
-    const sel = JSON.parse(sessionStorage.getItem("sel"));
+     const get1 = JSON.parse(sessionStorage.getItem("stores_1"));
     const st = JSON.parse(sessionStorage.getItem("storesLength"));
-    let updatedSel;
-    if (sel) {
-      updatedSel = sel.filter((store) => store.id != storeId);
-    }
+    const sel = JSON.parse(sessionStorage.getItem("stores")) || []; //storesName -> stores
+    const updatedSel = sel.filter((store) => store.id != storeId);
+    const updatedTemp = sel.filter((store) => store.storeID != storeId);
     const change = st - 1;
     setChange(change);
+
     if (change === 0) {
       sessionStorage.removeItem("cart");
       sessionStorage.removeItem("names");
+      sessionStorage.removeItem("sel");
+      sessionStorage.removeItem("stores");
     }
+
+    if (get.length === 0) {
+      sessionStorage.removeItem("cart");
+      sessionStorage.removeItem("names");
+      sessionStorage.removeItem("sel");
+      sessionStorage.removeItem("stores");
+    }
+
     console.log("CHANGE", change);
+    console.log("GET", get);
+
     const da = get.filter((store) => store != storeId);
     sessionStorage.setItem("cartIDs", JSON.stringify(da));
-    sessionStorage.setItem("stores1", JSON.stringify(da));
+    sessionStorage.setItem("IDs", JSON.stringify(da));
     sessionStorage.setItem("sel", JSON.stringify(updatedSel));
-    sessionStorage.setItem("stores", JSON.stringify(da)); //changed
+    sessionStorage.setItem("stores", JSON.stringify(updatedSel));
+    sessionStorage.setItem("storesName", JSON.stringify(updatedSel));
+    sessionStorage.setItem("temp", JSON.stringify(updatedSel));
+    // sessionStorage.setItem("stores", JSON.stringify(da)); //changed
     sessionStorage.setItem("storesLength", JSON.stringify(change));
     window.dispatchEvent(new Event("storage"));
   };
 
-
-
-  const removeProduct = (productID) => {
-    const updatedData = response.map((store) => {
-      // Фильтруем товары, исключая удаляемый
-      const updatedItems = store.items.filter((item) => item.productID !== productID);
-  
-      // Пересчитываем totalPrices после удаления
-      const totalPrices = updatedItems.reduce(
-        (sum, item) => sum + item.prices,
-        0
-      );
-  
-      // Пересчитываем difference после удаления
-      const difference = updatedItems.reduce(
-        (sum, item) => sum + item.difference,
-        0
-      );
-  
-      return {
-        ...store,
-        items: updatedItems,
-        totalPrices,
-        difference, // Обновленный difference
-      };
-    });
-  
-    setResponseData(updatedData); // Обновляем состояние
-  
-    const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    const updatedCart = cart.filter((id) => id !== productID);
-    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    window.dispatchEvent(new Event("storage"));
-  };
-  
-
-  let title, storesName, cart;
+  let title, stores, cart;
   if (typeof window !== "undefined") {
     title = JSON.parse(sessionStorage.getItem("names"));
     cart = JSON.parse(sessionStorage.getItem("cart"));
-    storesName = JSON.parse(sessionStorage.getItem("storesName"));
+    stores = JSON.parse(sessionStorage.getItem("stores"));
   }
 
   const mergedData = data.map((item) => {
-    const match = storesName.find((store) => store.id == item.id);
+    const match = stores.find((store) => store.id == item.id);
     if (match) {
       return { ...item, store: match.store, location: match.location };
     }
@@ -297,106 +262,6 @@ const Cart = () => {
   useEffect(() => {
     setQuantity(titleLength);
   }, [titleLength]); // Срабатывает при изменении response
-
-  // const increaseQuantity = (itemId) => {
-  //   const updatedResponse = response.map((store) => {
-  //     const updatedItems = store.items.map((item) => {
-  //       if (item.productID === itemId) {
-  //         const name = item.title;
-  //         let title = JSON.parse(sessionStorage.getItem("names")) || []; // Получаем массив или создаем пустой
-  //         title.push(name);
-  //         sessionStorage.setItem("names", JSON.stringify(title)); // Сохраняем обновленный
-  //         const newQuantity = item.quantity + 1;
-  //         const newPrice = parseFloat(
-  //           (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
-  //         );
-  //         return { ...item, quantity: newQuantity, prices: newPrice };
-  //       }
-  //       return item;
-  //     });
-
-  //     // Пересчитываем totalPrices после обновления items
-  //     const totalPrices = updatedItems.reduce(
-  //       (sum, item) => sum + item.prices,
-  //       0
-  //     );
-
-  //     return {
-  //       ...store,
-  //       items: updatedItems,
-  //       totalPrices,
-  //     };
-  //   });
-
-  //   setResponseData(updatedResponse);
-
-  //   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-
-  //   // Добавляем ID продукта в корзину
-  //   cart.push(itemId);
-
-  //   // Сохраняем обновленную корзину в sessionStorage
-  //   sessionStorage.setItem("cart", JSON.stringify(cart));
-
-  //   // Обновление состояния в других вкладках
-  //   window.dispatchEvent(new Event("storage"));
-  // };
-
-  // const decreaseQuantity = (itemId) => {
-  //   const updatedResponse = response.map((store) => {
-  //     const updatedItems = store.items.map((item) => {
-  //       if (item.productID === itemId) {
-  //         const name = item.title;
-  //         let title = JSON.parse(sessionStorage.getItem("names")) || [];
-
-  //         // Находим индекс первого вхождения `name` и удаляем его
-  //         const nameIndex = title.indexOf(name);
-  //         if (nameIndex !== -1) {
-  //           title.splice(nameIndex, 1); // Удаляем только одно вхождение
-  //         }
-
-  //         // Сохраняем обновленный массив обратно в sessionStorage
-  //         sessionStorage.setItem("names", JSON.stringify(title));
-
-  //         // Уменьшаем количество, но проверяем, чтобы оно не стало меньше 1
-  //         const newQuantity = Math.max(item.quantity - 1, 1);
-  //         const newPrice = parseFloat(
-  //           (newQuantity * (item.regprice || item.saleprice || 0)).toFixed(2)
-  //         );
-  //         return { ...item, quantity: newQuantity, prices: newPrice };
-  //       }
-  //       return item;
-  //     });
-
-  //     // Пересчитываем totalPrices после обновления items
-  //     const totalPrices = updatedItems.reduce(
-  //       (sum, item) => sum + item.prices,
-  //       0
-  //     );
-
-  //     return {
-  //       ...store,
-  //       items: updatedItems,
-  //       totalPrices,
-  //     };
-  //   });
-
-  //   setResponseData(updatedResponse);
-
-  //   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-
-  //   // Находим индекс элемента в корзине и удаляем, если его количество стало 0
-  //   const itemIndex = cart.indexOf(itemId);
-  //   if (itemIndex !== -1) {
-  //     cart.splice(itemIndex, 1);
-  //   }
-
-  //   // Сохраняем обновленную корзину в sessionStorage
-  //   sessionStorage.setItem("cart", JSON.stringify(cart));
-
-  //   // Обновление состояния в других вкладках
-  //   window.dispatchEvent(new Event("storage"));
-  // };
 
   const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
@@ -573,6 +438,8 @@ const Cart = () => {
 
   const targetRef = useRef();
 
+  console.log("RESPONSE", response);
+
   return (
     <div className="cart">
       <div style={{ display: "flex", cursor: "pointer", alignItems: "center" }}>
@@ -631,7 +498,7 @@ const Cart = () => {
       >
         {isMobile ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {response && response.length === 0  ? (
+            {response && response.length === 0 ? (
               <p
                 style={{
                   display: "flex",
@@ -757,31 +624,6 @@ const Cart = () => {
                                 alignItems: "center",
                               }}
                             >
-                              <button
-                                style={{
-                                  outline: "0px",
-                                  // marginLeft: "20px"
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                                className={noir.className}
-                                onClick={() => {
-                                  console.log("item.productID:", productID);
-                                  removeProduct(productID);
-                                }}
-                                title="Delete Store"
-                              >
-                                <img
-                                  src={del.src || del}
-                                  style={{ width: "30px", height: "30px" }}
-                                />
-                              </button>
                               <img
                                 alt={title} // Используем title в alt
                                 style={{
@@ -801,26 +643,32 @@ const Cart = () => {
                               >
                                 {title} {/* Отображаем title */}
                               </p>
-
-                              <button
-                                onClick={() => decreaseQuantity(item.productID)}
-                                style={{
-                                  outline: "0px",
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                              >
-                                <img
-                                  style={{ width: "30px", height: "30px" }}
-                                  src={minus.src || minus}
-                                />
-                              </button>
+                              {item.quantity === 0 ? (
+                                <button>LA</button>
+                              ) : (
+                                <button
+                                  onClick={() =>
+                                    decreaseQuantity(item.productID)
+                                  }
+                                  style={{
+                                    display: hideButtons ? "none" : "block",
+                                    outline: "0px",
+                                    fontSize: "21px",
+                                    fontWeight: "500",
+                                    lineHeight: "20px",
+                                    verticalAlign: "middle",
+                                    color: "red",
+                                    border: "0px",
+                                    cursor: "pointer",
+                                    backgroundColor: "transparent ",
+                                  }}
+                                >
+                                  <img
+                                    style={{ width: "30px", height: "30px" }}
+                                    src={minus.src || minus}
+                                  />
+                                </button>
+                              )}
 
                               <p>{item.quantity}</p>
                               <button
@@ -986,7 +834,7 @@ const Cart = () => {
                               ) : (
                                 <>
                                   {it.stock === "Out of Stock" &&
-                                    it.quantity >= 0 && (
+                                    it.quantity >= 1 && (
                                       <p style={{ color: "rgb(225, 37, 27)" }}>
                                         Sold Out ($0)
                                       </p>
@@ -1052,6 +900,7 @@ const Cart = () => {
                       >
                         Total: ${item.totalPrices.toFixed(2)}
                       </p>
+                      {/* <p>Total savings ${item.difference.toFixed(2)}</p> */}
                     </div>
                   </TabPanel>
                 ))}
@@ -1059,7 +908,7 @@ const Cart = () => {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {(response && response.length === 0) || cart && cart.length === 0 ? (
+            {response === null || response.length === 0 ? (
               <p
                 style={{
                   display: "flex",
@@ -1111,6 +960,25 @@ const Cart = () => {
                             alignItems: "center",
                           }}
                         >
+                          <img
+                            alt={title} // Используем title в alt
+                            src={imageSrc} // Используем выбранное изображение
+                            style={{
+                              paddingRight: "8px",
+                              height: "30px",
+                              width: "30px",
+                            }}
+                          />
+                          <p
+                            style={{
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              width: "200px",
+                            }}
+                          >
+                            {title} {/* Отображаем title */}
+                          </p>
                           <button
                             disabled={item.quantity === 0}
                             onClick={() => decreaseQuantity(item.productID)}
@@ -1152,53 +1020,6 @@ const Cart = () => {
                           >
                             <Image width={30} height={30} src={plus} />
                           </button>
-
-                          <img
-                            alt={title} // Используем title в alt
-                            src={imageSrc} // Используем выбранное изображение
-                            style={{
-                              paddingRight: "8px",
-                              height: "30px",
-                              width: "30px",
-                            }}
-                          />
-                          <p
-                            style={{
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              width: "200px",
-                            }}
-                          >
-                            {title} {/* Отображаем title */}
-                          </p>
-
-                          <button
-                            style={{
-                              outline: "0px",
-                              // marginLeft: "20px"
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor: "pointer",
-                              backgroundColor: "transparent",
-                            }}
-                            className={noir.className}
-                            onClick={() => {
-                              console.log("item.productID:", item.productID);
-                              removeProduct(item.productID);
-                            }}
-                            title="Delete Store"
-                          >
-                            <img
-                              src={del.src || del}
-                              style={{ width: "30px", height: "30px" }}
-                            />
-                          </button>  
-                          
                         </li>
                       );
                     })}
@@ -1430,7 +1251,14 @@ const Cart = () => {
                     borderColor: "#1b1f2326",
                     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
                   }}
-                  onClick={() => generatePDF(targetRef, options)}
+                  // onClick={() => generatePDF(targetRef, options)}
+                  onClick={() => {
+                    setHideButtons(true); // Скрываем кнопки
+                    setTimeout(() => {
+                      generatePDF(targetRef, options);
+                      setHideButtons(false); // Возвращаем кнопки после генерации PDF
+                    }, 1000);
+                  }}
                 >
                   Download products List
                 </button>

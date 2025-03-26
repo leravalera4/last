@@ -15,9 +15,11 @@ import "./products.css";
 import Loading from "../loaders";
 import Ab from "../ab";
 import del from "../../app/images/de.svg";
-import added from "../../app/images/added_2.svg";
+import flag from "../../app/images/flag.svg";
+import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Location from "../location";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
 
@@ -108,25 +110,127 @@ const Products = ({ cartData }) => {
   const [storesName, setStoresName] = useState();
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [isVisible, setIsVisible] = useState(true);
-  const [location, setLocation] = useState(null);
-  const [storeSale, setStoreSale] = useState();
+  const [sal, setSal] = useState([]);
+  
   const [loadingLocation, setLoadingLocation] = useState();
-  // const [storesLength, setStoresLength] = useState(() =>
-  //   sessionStorage.getItem("storesLength")
-  // );
+  const [cartLength, setCartLength] = useState();
+  const [storesLength, setStoresLength] = useState(() =>
+    sessionStorage.getItem("storesLength")
+  );
+  const [location, setLocation] = useState(null);
   const [addedToCart, setAddedToCart] = useState(
     Array(responseData.length).fill(false)
   );
   const [addedToCartImage, setAddedToCartImage] = useState(
     Array(responseData.length).fill(false)
   );
+  const [isVisible, setIsVisible] = useState(true);
   const [state, setState] = useState({
     isPaneOpen: false,
     isPaneOpenLeft: false,
   });
 
   const [isMobile, setIsMobile] = useState(false);
+
+  // const getLocation = () => {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         setLocation({ lat: latitude, lng: longitude });
+  //         setError(null);
+  //         console.log("User location:", latitude, longitude);
+  //       },
+  //       (err) => {
+  //         setError(`Ошибка: ${err.message}`);
+  //       }
+  //     );
+  //   } else {
+  //     setError("Геолокация не поддерживается в этом браузере.");
+  //   }
+  // };
+
+  const getStoresFromServer = async () => {
+    try {
+      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching stores:", error);
+      return [];
+    }
+  };
+
+  const getLocation = async () => {
+    if ("geolocation" in navigator) {
+      setLoadingLocation(true); // Начинаем загрузку
+      setIsVisible(false);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({ lat: latitude, lng: longitude });
+          setError(null);
+          console.log("User location:", latitude, longitude);
+
+          // Получаем список магазинов с сервера
+          const stores = await getStoresFromServer();
+
+          // Получаем ближайшие магазины
+          const closestStores = getClosestStores(latitude, longitude, stores);
+
+          console.log("Closest stores:", closestStores);
+          setIsVisible(false);
+          setLoadingLocation(false); // Останавливаем загрузку
+        },
+        (err) => {
+          setError(`Ошибка: ${err.message}`);
+          setLoadingLocation(false); // Останавливаем загрузку при ошибке
+        }
+      );
+    } else {
+      setError("Геолокация не поддерживается в этом браузере.");
+    }
+  };
+
+  const toRad = (value) => (value * Math.PI) / 180;
+
+  const haversine = (lat1, lng1, lat2, lng2) => {
+    const R = 6371; // Радиус Земли в километрах
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // Расстояние в километрах
+  };
+
+  const getClosestStores = (userLat, userLng, stores) => {
+    const sortedStores = stores
+      .map((store) => {
+        const distance = haversine(userLat, userLng, store.lat, store.lng);
+        return { ...store, distance };
+      })
+      .sort((a, b) => a.distance - b.distance); // Сортировка по расстоянию
+
+    const top3Stores = sortedStores.slice(0, 3); // Выбираем первые 3 магазина
+
+    console.log(top3Stores);
+
+    setSelectedAll(top3Stores); // Устанавливаем состояние
+
+    const storeIds = top3Stores.map((store) => store.id);
+    sessionStorage.setItem("stores1", JSON.stringify(storeIds));
+    sessionStorage.setItem("storeSale", JSON.stringify(top3Stores)); // storeSale - >
+    sessionStorage.setItem("storesName", JSON.stringify(top3Stores));
+    sessionStorage.setItem("storeSale", JSON.stringify(top3Stores));
+    return top3Stores; // Возвращаем отсортированные магазины
+  };
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -152,9 +256,68 @@ const Products = ({ cartData }) => {
   //   return () => window.removeEventListener("storage", handleStorage);
   // }, []);
 
-  // console.log("STO_LEN",storesLength)
+  // useEffect(() => {
+  //   const handleStorage = () => {
+  //     if (typeof window !== "undefined") {
+  //       const stores = sessionStorage.getItem("stores");
+  //        const cart = sessionStorage.getItem("cart") || [];
+  //       const storesArray = JSON.parse(stores);
+  //        const cartArray = JSON.parse(cart);
+  //       setStoresLength(storesArray.length); // если storesArray существует
+  //        setCartLength(cartArray.length); // если storesArray существует
+  //     }
+  //   };
 
-  //  console.log("STO_LEN",storesLength)
+  //   console.log("CART LENGTH", cartLength);
+
+  //   if (typeof window !== "undefined") {
+  //     window.addEventListener("storage", handleStorage);
+  //   }
+
+  //   return () => {
+  //     if (typeof window !== "undefined") {
+  //       window.removeEventListener("storage", handleStorage);
+  //     }
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    const handleStorage = () => {
+      if (typeof window !== "undefined") {
+        const stores = sessionStorage.getItem("stores");
+        const cart = sessionStorage.getItem("cart");
+  
+        const storesArray = stores ? JSON.parse(stores) : [];
+        const cartArray = cart ? JSON.parse(cart) : [];
+  
+        setStoresLength(storesArray.length);
+        setCartLength(cartArray.length);
+      
+        if(cartLength === 0){
+          setAddedToCart([])
+        }
+      }
+    };
+  
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage", handleStorage);
+    }
+  
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("storage", handleStorage);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("Updated CART LENGTH:", cartLength);
+  }, [cartLength]);
+
+
+  console.log("STO_LEN", storesLength);
+  console.log("CART_LEN", cartLength);
+console.log("ADDED TO CART", addedToCart)
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
@@ -173,7 +336,7 @@ const Products = ({ cartData }) => {
       sessionStorage.getItem("selectedLocation")
     );
     const store1 = JSON.parse(sessionStorage.getItem("store1"));
-    const selectedAll = JSON.parse(sessionStorage.getItem("storeSale"));
+    const selectedAll = JSON.parse(sessionStorage.getItem("selectedAll"));
     setSelectedLocation(selectedLocation);
     setSelectedStore(selectedStore);
     setSelectedStoresID(store1);
@@ -227,8 +390,8 @@ const Products = ({ cartData }) => {
   // }, []);
 
   const handleStoreChange = async (selectedStore) => {
-    setIsVisible(false);
     setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+    setIsVisible(false);
     sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
     const store = JSON.parse(sessionStorage.getItem("selectedStore"));
     try {
@@ -300,9 +463,12 @@ const Products = ({ cartData }) => {
     );
   };
 
-  console.log("LOCATIONS", locations);
+  // console.log("LOCATIONS", locations);
 
   const handleButtonClick = async () => {
+    // if (responseData && responseData.length > 0) {
+    //   setAddedToCart(responseData.length).fill(false);
+    // }
     setLoading(true);
     const selectedStoresID =
       JSON.parse(sessionStorage.getItem("stores1")) || [];
@@ -316,10 +482,11 @@ const Products = ({ cartData }) => {
       );
 
       const responseData = response.data;
-      console.log("RESPONSE DATA:", responseData);
+      // console.log("RESPONSE DATA:", responseData);
       responseData.sort((a, b) => b.products.length - a.products.length);
       setResponseData(responseData);
       setAddedToCartImage(Array(responseData.length).fill(false));
+      setAddedToCart(Array(responseData.length).fill(false));
       sessionStorage.setItem("stores", JSON.stringify(selectedStoresID));
 
       let storage1;
@@ -376,16 +543,17 @@ const Products = ({ cartData }) => {
         newStoreLocationObject,
       ]);
 
-      const selectedAll = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+      const selectedAll =
+        JSON.parse(sessionStorage.getItem("selectedAll")) || [];
       if (!selectedAll.includes(newStoreLocationObject)) {
         storesNames.push(newStoreLocationObject);
-        sessionStorage.setItem("storeSale", JSON.stringify(selectedAll));
+        sessionStorage.setItem("selectedAll", JSON.stringify(selectedAll));
       }
-      const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || [];
+      const storesNames1 = JSON.parse(sessionStorage.getItem("sel")) || []; // !!!!!!!!!!! (sel)
 
       if (!storesNames1.includes(newStoreLocationObject)) {
         storesNames1.push(newStoreLocationObject);
-        sessionStorage.setItem("sel", JSON.stringify(storesNames1));
+        sessionStorage.setItem("sel", JSON.stringify(storesNames1)); // !!!!!!!!!!! (sel)
       }
       const names1 = JSON.parse(sessionStorage.getItem("stores1")) || [];
 
@@ -409,8 +577,8 @@ const Products = ({ cartData }) => {
   };
 
   const handleAddToCart = async (product, index) => {
-
-    const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || [];
+    const arrayOfStores =
+      JSON.parse(sessionStorage.getItem("cartIDs")) || [];
 
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
@@ -438,7 +606,10 @@ const Products = ({ cartData }) => {
             JSON.parse(sessionStorage.getItem("cartIDs")) || [];
           if (!existingStoreIDs.includes(item.storeID)) {
             existingStoreIDs.push(item.storeID);
-            sessionStorage.setItem("cartIDs", JSON.stringify(existingStoreIDs));
+            sessionStorage.setItem(
+              "cartIDs",
+              JSON.stringify(existingStoreIDs)
+            );
             setSt(existingStoreIDs);
           }
         } else {
@@ -478,8 +649,14 @@ const Products = ({ cartData }) => {
         return updatedAddedToCartImage;
       });
 
+      // if(existingItems && existingItems.length === 0){
+      //   setAddedToCart([])
+      //   setAddedToCartImage([])
+      //   setCart([])
+      // }
+
       setCart(updatedCart);
-      //   sessionStorage.setItem("temp", JSON.stringify(updatedCart)); //23 March
+      sessionStorage.setItem("temp", JSON.stringify(updatedCart));
 
       window.dispatchEvent(new Event("storage")); // Обновление других вкладок
     } catch (error) {
@@ -493,38 +670,80 @@ const Products = ({ cartData }) => {
     //   window.removeEventListener("storage", handleAddToCart);
     // };
   };
-  let selectedAllLength;
-  if (selectedAll) {
-    selectedAllLength = selectedAll.length;
-  }
 
+  const selectedAllLength = selectedSel.length;
   if (typeof window !== "undefined") {
     sessionStorage.setItem("storesLength", selectedAllLength);
   }
 
-  console.log("SELECTED ALL:", selectedAll);
+  // console.log("SELECTED ALL:", selectedAll);
+
+  // const removeStore = (storeId) => {
+  //   const data = JSON.parse(sessionStorage.getItem("stores1"));
+  //   let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+
+  //   if (!updatedData) {
+  //     updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+  //   }
+  //   const updatedData1 = updatedData.filter((store) => store.id != storeId);
+  //   sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+  //   sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+  //   setSelectedAll(updatedData1);
+  //   const da = data.filter((store) => store != storeId);
+  //   sessionStorage.setItem("stores1", JSON.stringify(da));
+  //   setSelectedStores(selectedAll.map((item) => item.location));
+  //   setSelectedStoresID(da);
+  //   setSelectedStores(selectedAll);
+  //   if(da.length === 0){
+  //         // if (cart.length === 0) {
+  //   //   sessionStorage.removeItem("cartIDs");
+  //     sessionStorage.removeItem("cart");
+  //   //   // sessionStorage.removeItem("stores1");
+  //   // }
+  //   }
+  //   handleButtonClick();
+  // };
 
   const removeStore = (storeId) => {
-    const data = JSON.parse(sessionStorage.getItem("stores1"));
-    let updatedData = JSON.parse(sessionStorage.getItem("sel"));
-
-    if (!updatedData) {
-      updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+    const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
+    const temp1 = JSON.parse(sessionStorage.getItem("temp")) || [];
+    let updatedData = JSON.parse(sessionStorage.getItem("sel")) || []; /// !!!!!!!!!!!! (sel)
+  
+    if (!updatedData.length) {
+      updatedData = JSON.parse(sessionStorage.getItem("storesName")) || [];
     }
+  
     const updatedData1 = updatedData.filter((store) => store.id != storeId);
-    sessionStorage.setItem("sel", JSON.stringify(updatedData1));
     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
     sessionStorage.setItem("storesName", JSON.stringify(updatedData1));
+  
     setSelectedAll(updatedData1);
-    const da = data.filter((store) => store != storeId);
+    
+    const da = data.filter((store) => store !== storeId);
+    const temp = temp1.filter((store) => store != storeId);
     sessionStorage.setItem("stores1", JSON.stringify(da));
     sessionStorage.setItem("cartIDs", JSON.stringify(da));
-    setSelectedStores(selectedAll.map((item) => item.location));
+    sessionStorage.setItem("temp", JSON.stringify(temp));
+  
+    setSelectedStores(updatedData1.map((item) => item.location));
     setSelectedStoresID(da);
-    setSelectedStores(selectedAll);
+    setSelectedStores(updatedData1);
+  
+    console.log("DA (filtered stores1):", da);
+    console.log("Cart before removing:", sessionStorage.getItem("cart"));
+  
+    if (da.length === 0) {
+      if (sessionStorage.getItem("cart")) {
+        sessionStorage.removeItem("cart");
+        console.log("Cart removed");
+      } else {
+        console.log("Cart was already removed or does not exist");
+      }
+    }
+  
     handleButtonClick();
-    window.dispatchEvent(new Event("storage"));
   };
+  
 
   React.useEffect(() => {
     window.addEventListener("storage", () => {
@@ -533,7 +752,7 @@ const Products = ({ cartData }) => {
       const selectedLocation = JSON.parse(
         sessionStorage.getItem("selectedLocation")
       );
-      const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("sel")); // !!!!!!!!!!! (sel)
       const stores1 = JSON.parse(sessionStorage.getItem("stores1"));
     });
   }, [selectedLocation, selectedStore, selectedAll]);
@@ -542,12 +761,12 @@ const Products = ({ cartData }) => {
     // Function to handle changes in sessionStorage
     const handleStorageChange = () => {
       const sale = JSON.parse(sessionStorage.getItem("selectedStore"));
-      const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
+      const selectedAll = JSON.parse(sessionStorage.getItem("sel")); ///!!!!!!!!!!!!!!!!!!!!!!!! (sel)
       const storedResponseData = JSON.parse(
         sessionStorage.getItem("selectedLocation")
       );
       const stores1 = JSON.parse(sessionStorage.getItem("stores1"));
-      const cartNames = JSON.parse(sessionStorage.getItem("storeSale"));
+      const cartNames = JSON.parse(sessionStorage.getItem("selectedAll"));
       if (cartNames) {
         setSelectedAll(cartNames);
       }
@@ -573,121 +792,54 @@ const Products = ({ cartData }) => {
     // };
   }, []);
 
+  console.log("RESPONSE DATA", responseData);
+  console.log("ADDED to CART", addedToCart);
+
+  useEffect(() => {
+    const storesName = sessionStorage.getItem("storesName") || [];
+
+    if (storesName.length === 0) {
+      setIsVisible(true); // Скрыть элемент, если storeSale присутствует в sessionStorage
+    } else {
+      setIsVisible(false);
+    }
+  }, []); // Пустой массив зависимостей, чтобы эффект сработал только один раз при монтировании компонента
+
+
   useEffect(() => {
     const handleStorageChange = () => {
       const updatedSelectedAll = JSON.parse(sessionStorage.getItem("sel"));
       setSelectedAll(updatedSelectedAll); // Обновляем состояние
     };
+  
     // Добавляем слушатель события для изменения sessionStorage
     window.addEventListener("storage", handleStorageChange);
-
+  
     // Убираем слушатель при размонтировании компонента
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []); // Пустой массив зависимостей, чтобы эффект сработал один раз
 
-  //   useEffect(() => {
-  //     const handleStorageChange = () => {
-  //       const updatedSelectedAll = JSON.parse(sessionStorage.getItem("sel"));
-  //       setSelectedAll(updatedSelectedAll); // Update state with the new value
+  // useEffect(() => {
+  //   if (selectedAll !== null) {
+  //      removeStore();
+  //   }
+  // }, [selectedAll]); // Вызываем handleButtonClick при изменении selectedAll
 
-  //       // Trigger the button click handler after updating the state
-  //     };
-  //     handleButtonClick();
-  //     // Add the event listener to detect sessionStorage changes
-  //     window.addEventListener("storage", handleStorageChange);
+  // useEffect(() => {
+  //   const handleStorage = () => {
+  //     const stores = sessionStorage.getItem("stores");
+  //     const storesArray = JSON.parse(stores);
+  //   };
 
-  //     // Clean up the event listener when the component is unmounted
-  //     return () => {
-  //       window.removeEventListener("storage", handleStorageChange);
-  //     };
-  //   }, []); // Empty dependency array to run only once when the component mounts
+  //   if (typeof window !== "undefined") {
+  //     window.addEventListener("storage", handleStorage);
+  //   }
+  //   return () => window.removeEventListener("storage", handleStorage);
+  // }, []);
 
-  const getLocation = async () => {
-    if ("geolocation" in navigator) {
-      //   setLoadingLocation(true); // Начинаем загрузку
-      //   setIsVisible(false);
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({ lat: latitude, lng: longitude });
-          setError(null);
-          console.log("User location:", latitude, longitude);
-
-          // Получаем список магазинов с сервера
-          const stores = await getStoresFromServer();
-
-          // Получаем ближайшие магазины
-          const closestStores = getClosestStores(latitude, longitude, stores);
-
-          console.log("Closest stores:", closestStores);
-          setIsVisible(false);
-          setLoadingLocation(false); // Останавливаем загрузку
-        },
-        (err) => {
-          setError(`Ошибка: ${err.message}`);
-          setLoadingLocation(false); // Останавливаем загрузку при ошибке
-        }
-      );
-    } else {
-      setError("Геолокация не поддерживается в этом браузере.");
-    }
-  };
-
-  const toRad = (value) => (value * Math.PI) / 180;
-
-  const haversine = (lat1, lng1, lat2, lng2) => {
-    const R = 6371; // Радиус Земли в километрах
-    const dLat = toRad(lat2 - lat1);
-    const dLng = toRad(lng2 - lng1);
-
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) *
-        Math.cos(toRad(lat2)) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c; // Расстояние в километрах
-  };
-
-  const getClosestStores = (userLat, userLng, stores) => {
-    const sortedStores = stores
-      .map((store) => {
-        const distance = haversine(userLat, userLng, store.lat, store.lng);
-        return { ...store, distance };
-      })
-      .sort((a, b) => a.distance - b.distance); // Сортировка по расстоянию
-
-    const top3Stores = sortedStores.slice(0, 3); // Выбираем первые 3 магазина
-    setStoreSale(top3Stores); // Устанавливаем состояние
-    setStoresName(top3Stores);
-    setSelectedAll(top3Stores);
-    const storeIds = top3Stores.map((store) => store.id);
-    sessionStorage.setItem("stores1", JSON.stringify(storeIds));
-    sessionStorage.setItem("storesName", JSON.stringify(top3Stores));
-    sessionStorage.setItem("stores", JSON.stringify(storeIds));
-    sessionStorage.setItem("storeSale", JSON.stringify(top3Stores));
-    sessionStorage.setItem("cartIDs", JSON.stringify(storeIds));
-    sessionStorage.setItem("sel", JSON.stringify(top3Stores));
-    // sessionStorage.setItem("storesName", JSON.stringify(top3Stores));
-    // sessionStorage.setItem("storeSale", JSON.stringify(top3Stores));
-    // sessionStorage.setItem("cartIDs", JSON.stringify(top3Stores)); // cartIDs -> cartIDs
-    return top3Stores; // Возвращаем отсортированные магазины
-  };
-
-  const getStoresFromServer = async () => {
-    try {
-      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching stores:", error);
-      return [];
-    }
-  };
+  // console.log("STO_LEN",storesLength)
 
   return (
     <div
@@ -695,7 +847,7 @@ const Products = ({ cartData }) => {
       style={{ paddingTop: "10px" }}
       itemType="http://schema.org/Store"
     >
-      <div style={{ marginLeft: "10%", marginRight: "10%", height: "766px" }}>
+      <div style={{ marginLeft: "20%", marginRight: "20%", height: "766px" }}>
         <h2
           style={{
             textAlign: "center",
@@ -718,20 +870,19 @@ const Products = ({ cartData }) => {
           Select stores you'd like to compare grocery prices at
         </p>
 
-        <div
-          className="select-container"
-          style={{ paddingRight: "10%", paddingLeft: "10%" }}
-        >
+        <div className="select-container">
           <div
-            // className="select-store"
+            className="select-store"
             style={{
               display: "flex",
-            //   width: "320px",
+              //width: "320px",
+              widows: "auto",
               flexDirection: "row",
               alignItems: "center",
+              width: isVisible ? "450px" : "330px", // Меняем ширину после нажатия
             }}
           >
-            {/* <label
+            <label
               style={{
                 paddingRight: "8px",
                 fontSize: "16px",
@@ -739,28 +890,15 @@ const Products = ({ cartData }) => {
               className={noir.className}
             >
               Select Store:
-            </label> */}
+            </label>
             <select
-              className={`${noir.className} button-55`}
-              onChange={(e) => {
-                handleStoreChange(e.target.value);
-                // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
-                // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
-              }}
+              className={noir.className}
+              onChange={(e) => handleStoreChange(e.target.value)}
               value={selectedStore}
-              style={{
-                width: "200px",
-                padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                marginRight: "0px",
-              }}
+              // onClick={setIsVisible(false)}
             >
-              <option
-                className={noir.className}
-                value=""
-                //   disabled
-                selected
-              >
-                Please Select Store...
+              <option className={noir.className} value="">
+                Select...
               </option>
               {availableStores.map((store) => (
                 <option className={noir.className} key={store} value={store}>
@@ -768,53 +906,43 @@ const Products = ({ cartData }) => {
                 </option>
               ))}
             </select>
+            {isVisible && (
+              <>
+                <p style={{ padding: "0px 20px" }}>OR</p>
+                <button
+                  onClick={getLocation}
+                  className={noir.className}
+                  // style={{
+                  //   outline: "0",
+                  //   width: "auto",
+                  //   height: "38px",
+                  //   cursor: "pointer",
+                  //   padding: "5px 16px",
+                  //   fontSize: "14px",
+                  //   fontWeight: "500",
+                  //   lineHeight: "20px",
+                  //   verticalAlign: "middle",
+                  //   border: "1px solid",
+                  //   borderRadius: " 6px",
+                  //   color: " #24292e",
+                  //   backgroundColor: "#fafbfc",
+                  //   borderColor: "#1b1f2326",
+                  //   boxShadow:
+                  //     "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                  // }}
+                >
+                  Find Stores Near Me
+                </button>
+              </>
+            )}
           </div>
-          {isVisible && (
-            <>
-              <p
-                style={{
-                  fontSize: "16px",
-                  padding: "0px 20px",
-                }}
-                className={`${noir.className} label`}
-              >
-                or
-              </p>
-              <button
-                onClick={getLocation}
-                className={`${noir.className} button-55`}
-                style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
-                //   style={{
-                //     outline: "0",
-                //     width: "auto",
-                //     height: "38px",
-                //     cursor: "pointer",
-                //     padding: "5px 16px",
-                //     fontSize: "14px",
-                //     fontWeight: "500",
-                //     lineHeight: "20px",
-                //     verticalAlign: "middle",
-                //     border: "1px solid",
-                //     borderRadius: " 6px",
-                //     color: " #24292e",
-                //     backgroundColor: "#fafbfc",
-                //     borderColor: "#1b1f2326",
-                //     boxShadow:
-                //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                //   }}
-              >
-                Find Stores Near Me
-              </button>
-            </>
-          )}
-
           {selectedStore !== null && (
             <div
-              //   className="select-store"
+              className="select-store"
               style={{ display: "flex", width: "335px", alignItems: "center" }}
             >
-              {/* <label
+              <label
                 style={{
                   paddingRight: "8px",
                   fontSize: "16px",
@@ -822,16 +950,10 @@ const Products = ({ cartData }) => {
                 className={noir.className}
               >
                 Select City:
-              </label> */}
+              </label>
               <select
-                required
-                style={{
-                  width: "200px",
-                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                  marginRight: "24px",
-                  marginLeft: "24px",
-                }}
-                className={`${noir.className} button-55`}
+                style={{ width: "151px" }}
+                className={`${noir.className} select`}
                 // style={{
                 //   width: "232px",
                 //   height: "38px",
@@ -850,17 +972,18 @@ const Products = ({ cartData }) => {
                 onChange={(e) => handleCityChange(e.target.value)}
                 value={selectedCity}
               >
+                <option className={noir.className} value="">
+                  Select...
+                </option>
                 <option
                   style={{ color: "#212529" }}
                   value=""
-                  //   disabled
+                  disabled
                   selected
-                  //   hidden
-                  // disabled
-                  //   selected
+                  hidden
                   className={noir.className}
                 >
-                  Please Select City...
+                  Please Choose City...
                 </option>
                 {cities.map((city) => (
                   <option className={noir.className} key={city} value={city}>
@@ -873,10 +996,10 @@ const Products = ({ cartData }) => {
 
           {selectedCity !== null && (
             <div
-              //   className="select-store"
+              className="select-store"
               style={{ display: "flex", width: "560px", alignItems: "center" }}
             >
-              {/* <labels
+              <labels
                 // style={{
                 //   paddingRight: "8px",
                 //   fontSize: "18px",
@@ -887,15 +1010,10 @@ const Products = ({ cartData }) => {
                 style={{ fontSize: "16px", paddingRight: "8px" }}
               >
                 Select Location:
-              </labels> */}
+              </labels>
               <select
-                required
-                style={{
-                  width: "200px",
-                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                  marginRight: "24px",
-                }}
-                className={`${noir.className} button-55`}
+                style={{ width: "200px", marginRight: "16px" }}
+                className={`${noir.className} select`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
                 value={selectedLocation}
                 onKeyDown={(e) => {
@@ -906,18 +1024,7 @@ const Products = ({ cartData }) => {
                   }
                 }}
               >
-                <option
-                  style={{ color: "#212529" }}
-                  value=""
-                  //   disabled
-                  //   selected
-                  //   hidden
-                  // disabled
-                  selected
-                  className={noir.className}
-                >
-                  Please Select Location...
-                </option>
+                <option value="">Select...</option>
                 {locations.map((location, index) => (
                   <option
                     className={noir.className}
@@ -928,24 +1035,23 @@ const Products = ({ cartData }) => {
                   </option>
                 ))}
               </select>
-
               {selectedLocation && (
                 <button
-                  //   style={{
-                  //     cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
-                  //     color: selectedAllLength === 3 ? "#ccc" : "#24292e", // Change color when disabled
-                  //     backgroundColor:
-                  //       selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
-                  //     borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
-                  //     margin: "0px",
-                  //   }}
+                  style={{
+                    cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
+                    color: selectedAllLength === 3 ? "#ccc" : "#24292e", // Change color when disabled
+                    backgroundColor:
+                      selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
+                    borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
+                    margin: "0px",
+                  }}
                   disabled={
                     selectedAll.some(
                       (store) => store.location === selectedLocation
                     ) || selectedAllLength === 3
                   }
                   // disabled={selectedAll.includes(selectedLocation)}
-                  className={`${noir.className} button-54`}
+                  className={`${noir.className} button`}
                   onClick={handleAddStore}
                 >
                   Add Store
@@ -1010,12 +1116,12 @@ const Products = ({ cartData }) => {
 
           {selectedAll.length > 0 && (
             <div className="search" onKeyDown={handleKeyDown} tabIndex="0">
-              {/* <label
+              <label
                 style={{ paddingRight: "8px", fontSize: "16px" }}
                 className={`${noir.className} label`}
               >
                 Search:
-              </label> */}
+              </label>
               <input
                 className={noir.className}
                 placeholder="Search for..."
@@ -1026,25 +1132,25 @@ const Products = ({ cartData }) => {
               />
 
               <button
-                className={`${noir.className} button-55`}
-                // style={{
-                //   outline: "0",
-                //   height: "38px",
-                //   cursor: "pointer",
-                //   padding: "5px 16px",
-                //   fontSize: "14px",
-                //   fontWeight: "500",
-                //   lineHeight: "20px",
-                //   verticalAlign: "middle",
-                //   border: "1px solid",
-                //   borderRadius: " 6px",
-                //   color: " #24292e",
-                //   backgroundColor: "#fafbfc",
-                //   borderColor: "#1b1f2326",
-                //   boxShadow:
-                //     "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                // }}
+                className={noir.className}
+                style={{
+                  outline: "0",
+                  height: "38px",
+                  cursor: "pointer",
+                  padding: "5px 16px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  lineHeight: "20px",
+                  verticalAlign: "middle",
+                  border: "1px solid",
+                  borderRadius: " 6px",
+                  color: " #24292e",
+                  backgroundColor: "#fafbfc",
+                  borderColor: "#1b1f2326",
+                  boxShadow:
+                    "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                }}
                 //disabled={searchText === null || selectedLocation === null}
                 onClick={handleButtonClick}
                 ref={buttonRef}
@@ -1060,8 +1166,43 @@ const Products = ({ cartData }) => {
           )}
         </div>
 
-        {firstTime && selectedAll.length === 0 ? (
-          <Ab style={{ marginLeft: "20%", marginRight: "20%" }} />
+        {sal.length > 0 && (
+          <>
+            <h3 className={`${noir.className} h3`}>Stores Near You</h3>
+            <ul className="ul">
+              {sal.map((store) => (
+                <li className={`${noir.className} li`}>
+                  {" "}
+                  <b>{store.store}</b> : {store.location}, {store.city}{" "}
+                  (Distance: {store.distance.toFixed(2)} km)
+                  <button
+                    style={{
+                      outline: "0px",
+                      // marginLeft: "20px"
+                      fontSize: "15px",
+                      fontWeight: "500",
+                      lineHeight: "20px",
+                      verticalAlign: "middle",
+                      color: "red",
+                      border: "0px",
+                      cursor: "pointer",
+                      backgroundColor: "transparent",
+                    }}
+                    className={noir.className}
+                    onClick={() => removeStore(store.id)}
+                    title="Delete Store"
+                  >
+                    <Image src={del} width={30} height={30} alt="delete" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        {loadingLocation == true ? (
+          <Location style={{ paddingLeft: "10%", paddingRight: "10px" }} />
+        ) : selectedAll.length === 0 && sal.length === 0 && <Loading /> ? (
+          <Ab />
         ) : (
           <>
             <div>
@@ -1086,7 +1227,9 @@ const Products = ({ cartData }) => {
                   <ul className="ul" value={selectedAll}>
                     {selectedAll.map((store, index) => (
                       <li className={`${noir.className} li`} key={index}>
-                        {store.store} : {store.location}, {store.city}
+                        <b>{store.store}</b> : {store.location}, {store.city}{" "}
+                        {store.distance &&
+                          `(Distance: ${store.distance.toFixed(2)} km)`}
                         <button
                           style={{
                             outline: "0px",
@@ -1129,7 +1272,13 @@ const Products = ({ cartData }) => {
                     itemScope
                     itemType="http://schema.org/Product"
                   >
-                    <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
                       <p className={`${noir.className} text`} itemProp="price">
                         {loading ? (
                           <Skeleton width={230} height={50} />
@@ -1137,6 +1286,16 @@ const Products = ({ cartData }) => {
                           item.title
                         )}
                       </p>
+                      {item.member_price === "Prepared in Canada" && (
+                        <Image
+                          width={20}
+                          style={{
+                            paddingLeft: "10px",
+                            paddingBottom: "14px",
+                          }}
+                          src={flag}
+                        />
+                      )}
                     </div>
                     <>
                       <div
@@ -1148,7 +1307,7 @@ const Products = ({ cartData }) => {
                           alignItems: "center",
                         }}
                       >
-                        {item.cart == true ? (
+                        {item.cart == true && (storesLength !== 0 && cartLength > 0 ) ? (
                           <>
                             <Image
                               style={{ paddingLeft: "90px" }}
@@ -1206,25 +1365,24 @@ const Products = ({ cartData }) => {
                       <Skeleton width={121} height={52} />
                     ) : (
                       <button
-                        className={`${noir.className} button-55`}
-                        style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
-                        // style={{
-                        //   outline: "0",
-                        //   cursor: "pointer",
-                        //   fontSize: "14px",
-                        //   fontWeight: "500",
-                        //   lineHeight: "20px",
-                        //   verticalAlign: "middle",
-                        //   border: "1px solid",
-                        //   borderRadius: " 6px",
-                        //   color: " #24292e",
-                        //   backgroundColor: "#fafbfc",
-                        //   borderColor: "#1b1f2326",
-                        //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                        // }}
+                        className={`${noir.className} box`}
+                        style={{
+                          outline: "0",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          lineHeight: "20px",
+                          verticalAlign: "middle",
+                          border: "1px solid",
+                          borderRadius: " 6px",
+                          color: " #24292e",
+                          backgroundColor: "#fafbfc",
+                          borderColor: "#1b1f2326",
+                          transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                        }}
                         onClick={() => handleAddToCart(item, index)}
                       >
-                        {addedToCart[index] ? (
+                        {addedToCart[index] && (storesLength !== 0 && cartLength > 0 ) ? (
                           <p style={{ color: "green", padding: " 0px 19px" }}>
                             Add more
                           </p>

@@ -1,7 +1,7 @@
 .cart{
         display: flex;
         flex-direction: row;
-        padding-right: 10%;
+        padding-right: 20%;
         margin-left: 130px;
 }
 
@@ -28,7 +28,7 @@
 .cart{
         display: flex;
         flex-direction: row;
-        padding-right: 10%;
+        padding-right: 20%;
         margin-left: 0px;
 }
 
