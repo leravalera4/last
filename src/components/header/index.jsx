@@ -122,7 +122,7 @@
 "use client"
 import React from "react";
 import localFont from "next/font/local";
-import header from "../../app/images/header.svg";
+import header from "../../app/images/hed.svg";
 import Image from "next/image";
 import Cart from "../cart";
 import Navigation from "../navigation";
@@ -176,7 +176,7 @@ const Header = () => {
     }}>
             <header className="header"
       >
-        <div style={{display:'flex',flexDirection:'row',marginLeft:'10%'}}>
+        <div style={{display:'flex',flexDirection:'row',marginLeft:'20%'}}>
         <Link href="/">
           <Image className="image" alt="header" src={header} width={70} height={70} />
         </Link>
@@ -190,7 +190,7 @@ const Header = () => {
         </Link> 
         </div>      
         <Navigation style={{display:'flex',justifyContent:'center',alignItms:'center'}} />
-        <Cart style={{paddingRigt:'10%',zIndex:'100000'}}/>
+        <Cart style={{paddingRigt:'20%',zIndex:'100000'}}/>
       </header>
     </Headroom>
 

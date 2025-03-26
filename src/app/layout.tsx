@@ -5,6 +5,7 @@ import Header from 'src/components/header'
 import Script from 'next/script'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react'
+import Chatbot from 'src/components/chatbot'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-       <meta name="google-adsense-account" content="ca-pub-4646397629011500"/>
+        <meta name="google-site-verification" content="j0SKXll7FJFhpuNBjySgfPXEnc-UOLgsQAnoeGTn6l0" />
         <meta name="description" content="Spend wisely" />
         <meta name="keywords" content="groceries,spend,compare,save,money,products,grocery,nofrills,fortinos,compare prices,best deals,shopping deals,compare prices between stores,great deals,shopping price comparison,site to compare prices of products,sale price finder" />
         <meta name="robots" content="index, follow" />
@@ -45,15 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="canonical" href="https://shoppyscan.ca" />
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052" crossOrigin="anonymous" />
-<Script id="clarity-script" strategy="afterInteractive">
-          {`
-            (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "qtvbcjas31");
-          `}
-        </Script>
       </head>
       <body className={inter.className}>
         <Header />
