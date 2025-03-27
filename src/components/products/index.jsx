@@ -705,7 +705,9 @@ const Products = ({ cartData }) => {
       style={{ paddingTop: "10px" }}
       itemType="http://schema.org/Store"
     >
-      <div style={{ marginLeft: "10%", marginRight: "10%", height: "766px" }}>
+      <div style={{ marginLeft: "10%", marginRight: "10%",
+        // height: "766px" 
+         }}>
         <h2
           style={{
             textAlign: "center",
