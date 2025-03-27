@@ -13,6 +13,7 @@ import "react-sliding-pane/dist/react-sliding-pane.css";
 import basket from "../../app/images/basket.png";
 import "./products.css";
 import Loading from "../loaders";
+import flag from "../../app/images/flag.svg";
 import Ab from "../ab";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added_2.svg";
@@ -1130,7 +1131,13 @@ const Products = ({ cartData }) => {
                     itemScope
                     itemType="http://schema.org/Product"
                   >
-                    <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
                       <p className={`${noir.className} text`} itemProp="price">
                         {loading ? (
                           <Skeleton width={230} height={50} />
@@ -1138,6 +1145,16 @@ const Products = ({ cartData }) => {
                           item.title
                         )}
                       </p>
+                      {item.member_price === "Prepared in Canada" && (
+                        <Image
+                          width={20}
+                          style={{
+                            paddingLeft: "10px",
+                            paddingBottom: "14px",
+                          }}
+                          src={flag}
+                        />
+                      )}
                     </div>
                     <>
                       <div
