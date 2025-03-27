@@ -409,7 +409,6 @@ const Products = ({ cartData }) => {
   };
 
   const handleAddToCart = async (product, index) => {
-
     const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || [];
 
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
@@ -681,7 +680,9 @@ const Products = ({ cartData }) => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
+      const response = await axios.get(
+        "https://server-blue-ten.vercel.app/api/sale/sal"
+      ); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -726,7 +727,7 @@ const Products = ({ cartData }) => {
             // className="select-store"
             style={{
               display: "flex",
-            //   width: "320px",
+              //   width: "320px",
               flexDirection: "row",
               alignItems: "center",
             }}
@@ -1207,7 +1208,7 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                        // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
                         //   cursor: "pointer",
@@ -1225,11 +1226,23 @@ const Products = ({ cartData }) => {
                         onClick={() => handleAddToCart(item, index)}
                       >
                         {addedToCart[index] ? (
-                          <p style={{ color: "green", padding: " 0px 19px" }}>
+                          <p
+                            style={{
+                              color: "green",
+                              marginBottom: "10px",
+                              marginTop: "10px",
+                            }}
+                          >
                             Add more
                           </p>
                         ) : (
-                          <p style={{ color: "black", padding: " 0px 19px" }}>
+                          <p
+                            style={{
+                              color: "black",
+                              marginBottom: "10px",
+                              marginTop: "10px",
+                            }}
+                          >
                             Add to List
                           </p>
                         )}
