@@ -434,7 +434,7 @@ const Index = () => {
       );
       const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
       const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
-      
+
       console.log("STORE_LOCATION", storeLocation);
 
       newStoreLocationObject = {
@@ -497,13 +497,19 @@ const Index = () => {
     try {
       let response;
       if (storeSale && storeSale != null && com == true) {
-        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
-          selectedStoresID: [storeSale],
-        });
+        response = await axios.post(
+          "https://server-blue-ten.vercel.app/api/sale",
+          {
+            selectedStoresID: [storeSale],
+          }
+        );
       } else {
-        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
-          selectedStoresID: [newSelectedLocationValue],
-        });
+        response = await axios.post(
+          "https://server-blue-ten.vercel.app/api/sale",
+          {
+            selectedStoresID: [newSelectedLocationValue],
+          }
+        );
       }
       // Assuming the response contains the data you need
       const storesData = response.data;
@@ -559,7 +565,7 @@ const Index = () => {
     const arrayOfStores1 =
       JSON.parse(sessionStorage.getItem("storeSale")) || [];
 
-      const cartObj = JSON.parse(sessionStorage.getItem("cartObj")) || [];
+    const cartObj = JSON.parse(sessionStorage.getItem("cartObj")) || [];
 
     setArrayOfStores(arrayOfStores); //id из корзины
     setArrayOfStores1(arrayOfStores1); //id из корзины
@@ -571,8 +577,8 @@ const Index = () => {
     let storeID = selectedItem.storeid;
     let storeID_new = selectedItem.storeID;
 
-    const obj = {productID:selectedItem.productID, name:selectedItem.title}
-    console.log("OBJ",obj)
+    const obj = { productID: selectedItem.productID, name: selectedItem.title };
+    console.log("OBJ", obj);
 
     setProductCounts((prevCounts) => ({
       ...prevCounts,
@@ -623,7 +629,7 @@ const Index = () => {
     sessionStorage.setItem("special", JSON.stringify(updatedAddedToCartImage));
 
     existingItems.push(itemCode);
-    cartObj.push(obj)
+    cartObj.push(obj);
     sessionStorage.setItem("cart", JSON.stringify(existingItems));
     sessionStorage.setItem("cartObj", JSON.stringify(cartObj));
     window.dispatchEvent(new Event("storage"));
@@ -772,7 +778,9 @@ const Index = () => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
+      const response = await axios.get(
+        "https://server-blue-ten.vercel.app/api/sale/sal"
+      ); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -780,55 +788,53 @@ const Index = () => {
     }
   };
 
-//   useEffect(() => {
-//     const handleStorageChange = () => {
-//       const activeLocation = JSON.parse(sessionStorage.getItem("selectedLocation"));
-//       setSelectedLocation(activeLocation); // Обновляем состояние
-//       console.log("SE_LO",activeLocation)
-//     };
+  //   useEffect(() => {
+  //     const handleStorageChange = () => {
+  //       const activeLocation = JSON.parse(sessionStorage.getItem("selectedLocation"));
+  //       setSelectedLocation(activeLocation); // Обновляем состояние
+  //       console.log("SE_LO",activeLocation)
+  //     };
 
-//     // Добавляем слушатель события для изменения sessionStorage
-//     window.addEventListener("storage", handleStorageChange);
+  //     // Добавляем слушатель события для изменения sessionStorage
+  //     window.addEventListener("storage", handleStorageChange);
 
-//     // Убираем слушатель при размонтировании компонента
-//     return () => {
-//       window.removeEventListener("storage", handleStorageChange);
-//     };
-//   }, []); // Пустой массив зависимостей, чтобы эффект сработал один раз
+  //     // Убираем слушатель при размонтировании компонента
+  //     return () => {
+  //       window.removeEventListener("storage", handleStorageChange);
+  //     };
+  //   }, []); // Пустой массив зависимостей, чтобы эффект сработал один раз
 
+  useEffect(() => {
+    window.addEventListener("storage", () => {
+      // Сохраняем данные в localStorage
+      sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+      sessionStorage.setItem(
+        "selectedLocation",
+        JSON.stringify(selectedLocation)
+      );
+      sessionStorage.setItem("selectedCity", JSON.stringify(selectedCity));
 
-    useEffect(() => {
-      window.addEventListener("storage", () => {
-        // Сохраняем данные в localStorage
-        sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-        sessionStorage.setItem(
-          "selectedLocation",
-          JSON.stringify(selectedLocation)
-        );
-        sessionStorage.setItem("selectedCity", JSON.stringify(selectedCity));
-  
-        // Извлекаем данные из localStorage
-        const store = sessionStorage.getItem("selectedStore");
-        const location = sessionStorage.getItem("selectedLocation");
-        const city = sessionStorage.getItem("selectedCity");
-        // Обновляем состояние, только если store существует и оно не обновлялось
-        if (store !== null) {
-          setStore1(JSON.parse(store));
-        }
-        if (location !== null) {
-          setLocation1(JSON.parse(location));
-        }
-        if (city !== null) {
-          setCity1(JSON.parse(city));
-        }
-      });
-    }, [selectedStore, selectedLocation, selectedCity]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
+      // Извлекаем данные из localStorage
+      const store = sessionStorage.getItem("selectedStore");
+      const location = sessionStorage.getItem("selectedLocation");
+      const city = sessionStorage.getItem("selectedCity");
+      // Обновляем состояние, только если store существует и оно не обновлялось
+      if (store !== null) {
+        setStore1(JSON.parse(store));
+      }
+      if (location !== null) {
+        setLocation1(JSON.parse(location));
+      }
+      if (city !== null) {
+        setCity1(JSON.parse(city));
+      }
+    });
+  }, [selectedStore, selectedLocation, selectedCity]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
 
-
-    const handleLocationChange = (value) => {
-        console.log("CHANGING LOCATION TO:", value);
-        setSelectedLocation(value);
-      };
+  const handleLocationChange = (value) => {
+    console.log("CHANGING LOCATION TO:", value);
+    setSelectedLocation(value);
+  };
 
   return (
     <div
@@ -1205,9 +1211,9 @@ const Index = () => {
                   setSelectedStore(store.store);
                   setSelectedLocation(store.location);
                   setSelectedCity(store.city);
-                //   console.log("SELECTED LOCATION",store.location)
-                  console.log("SELECTED STORE",store.store)
-                  console.log("SELECTED CITY",store.city)
+                  //   console.log("SELECTED LOCATION",store.location)
+                  console.log("SELECTED STORE", store.store);
+                  console.log("SELECTED CITY", store.city);
                   // console.log("Setting locValue to ID:", store.id);
                   // console.log("Setting locValue to STORE:", store.store);
                   // console.log("Setting locValue to LOCATION:", store.location);
@@ -1553,15 +1559,31 @@ const Index = () => {
                                   style={{
                                     marginLeft: "15px",
                                     fontSize: "15px",
+                                    cursor:
+                                      len === 3 && checkForStore === false
+                                        ? "not-allowed"
+                                        : "pointer", // Изменение курсора
+                                        color:
+                                              len === 3 && checkForStore === false
+                                                ? "#ccc"
+                                                : "#24292e", // Change color when disabled
+                                            backgroundColor:
+                                              len === 3 && checkForStore === false
+                                                ? "#f0f0f0"
+                                                : "#fafbfc", // Change background when disabled
+                                            borderColor:
+                                              len === 3 && checkForStore === false
+                                                ? "#ddd"
+                                                : "#1b1f2326", // Change border when disabled
                                   }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  //   disabled={
-                                  //     len === 3 && checkForStore === false
-                                  //   }
+                                  disabled={
+                                    len === 3 && checkForStore === false
+                                  }
                                   //   style={{
                                   //     outline: "0",
                                   //     width: "75%",
@@ -1781,11 +1803,11 @@ const Index = () => {
                                 <button
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
-                                //   className={`${noir.className} ${
-                                //     len === 3 && checkForStore === false
-                                //       ? ""
-                                //       : "box"
-                                //   }`}
+                                  //   className={`${noir.className} ${
+                                  //     len === 3 && checkForStore === false
+                                  //       ? ""
+                                  //       : "box"
+                                  //   }`}
                                   disabled={
                                     len === 3 && checkForStore === false
                                   }
@@ -2008,11 +2030,11 @@ const Index = () => {
                                 <button
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
-                                //   className={`${noir.className} ${
-                                //     len === 3 && checkForStore === false
-                                //       ? ""
-                                //       : "box"
-                                //   }`}
+                                  //   className={`${noir.className} ${
+                                  //     len === 3 && checkForStore === false
+                                  //       ? ""
+                                  //       : "box"
+                                  //   }`}
                                   disabled={
                                     len === 3 && checkForStore === false
                                   }
@@ -2234,12 +2256,12 @@ const Index = () => {
                               ) : (
                                 <button
                                   onClick={() => handleAddToCart(item, index)}
-                                //   className={`${noir.className} ${
-                                //     len === 3 && checkForStore === false
-                                //       ? ""
-                                //       : "box"
-                                //   }`}
-                                className={`${noir.className} button-54`}
+                                  //   className={`${noir.className} ${
+                                  //     len === 3 && checkForStore === false
+                                  //       ? ""
+                                  //       : "box"
+                                  //   }`}
+                                  className={`${noir.className} button-54`}
                                   disabled={
                                     len === 3 && checkForStore === false
                                   }
