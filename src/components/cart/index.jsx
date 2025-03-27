@@ -60,6 +60,7 @@ const Cart = () => {
   const [tit, setTitle] = useState();
   const [change, setChange] = useState();
   const [filtered, setFiltered] = useState();
+  const [cartObj, setCartObj] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [state, setState] = useState({
     isPaneOpen: false,
@@ -109,7 +110,7 @@ const Cart = () => {
       const sale = getSessionData("cart");
       const name = getSessionData("storesName") || [];
       const special = getSessionData("special");
-
+      const cartObj = getSessionData("cartObj");
       const filteredStores = name.filter((store) =>
         theme.includes(store.id.toString())
       );
@@ -127,11 +128,14 @@ const Cart = () => {
       setSpecial(special);
       setName(name);
       setFiltered(filteredStores);
+      setCartObj(cartObj);
     };
 
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
+
+  console.log("OBJ CART CART", cartObj);
 
   React.useEffect(() => {
     if (data && data.length > 0 && data[0].value) {
@@ -161,32 +165,33 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post("https://server-blue-ten.vercel.app/api/sale/name", {
-        sale,
-        theme,
-        name,
-      });
+      const response = await axios.post(
+        "https://server-blue-ten.vercel.app/api/sale/name",
+        {
+          sale,
+          theme,
+          name,
+        }
+      );
       const responses = response.data;
       console.log("RESPONSE", responses);
       setResponseData(responses);
 
+      //   if(responses.length === 1) {
+      //   const removeItemsWithoutTitle = (responses) => {
+      //     return responses.map(store => ({
+      //       ...store,
+      //       items: store.items.filter(item => item.title) // Оставляем только те элементы, у которых есть title
+      //     }));
+      //   };
 
-    //   if(responses.length === 1) {
-    //   const removeItemsWithoutTitle = (responses) => {
-    //     return responses.map(store => ({
-    //       ...store,
-    //       items: store.items.filter(item => item.title) // Оставляем только те элементы, у которых есть title
-    //     }));
-    //   };
-      
-    //   const updatedData = removeItemsWithoutTitle(responses);
-    //   setResponseData(updatedData);
-    // }
+      //   const updatedData = removeItemsWithoutTitle(responses);
+      //   setResponseData(updatedData);
+      // }
     } catch (error) {
       console.error("Ошибка при выполнении запроса:", error);
     }
   };
-
 
   const removeStore = (storeId) => {
     const updatedData = response.filter((store) => store.id != storeId);
@@ -214,25 +219,25 @@ const Cart = () => {
     window.dispatchEvent(new Event("storage"));
   };
 
-
-
   const removeProduct = (productID) => {
     const updatedData = response.map((store) => {
       // Фильтруем товары, исключая удаляемый
-      const updatedItems = store.items.filter((item) => item.productID !== productID);
-  
+      const updatedItems = store.items.filter(
+        (item) => item.productID !== productID
+      );
+
       // Пересчитываем totalPrices после удаления
       const totalPrices = updatedItems.reduce(
         (sum, item) => sum + item.prices,
         0
       );
-  
+
       // Пересчитываем difference после удаления
       const difference = updatedItems.reduce(
         (sum, item) => sum + item.difference,
         0
       );
-  
+
       return {
         ...store,
         items: updatedItems,
@@ -240,15 +245,14 @@ const Cart = () => {
         difference, // Обновленный difference
       };
     });
-  
+
     setResponseData(updatedData); // Обновляем состояние
-  
+
     const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const updatedCart = cart.filter((id) => id !== productID);
     sessionStorage.setItem("cart", JSON.stringify(updatedCart));
     window.dispatchEvent(new Event("storage"));
   };
-  
 
   let title, storesName, cart;
   if (typeof window !== "undefined") {
@@ -571,6 +575,11 @@ const Cart = () => {
     }
   }, []);
 
+  const getTitleByProductID = (productID) => {
+    const product = cartObj.find((p) => p.productID == productID);
+    return product ? product.name : "Нет названия";
+  };
+
   const targetRef = useRef();
 
   return (
@@ -631,7 +640,7 @@ const Cart = () => {
       >
         {isMobile ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {response && response.length === 0  ? (
+            {response && response.length === 0 ? (
               <p
                 style={{
                   display: "flex",
@@ -745,8 +754,8 @@ const Cart = () => {
                           const title =
                             item.title ||
                             response[1]?.items?.[index]?.title ||
-                            response[2]?.items?.[index]?.title;
-
+                            response[2]?.items?.[index]?.title ||
+                            getTitleByProductID(item.productID); // Берем название из массива
                           return (
                             <li
                               key={item.productID}
@@ -1059,7 +1068,8 @@ const Cart = () => {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {(response && response.length === 0) || cart && cart.length === 0 ? (
+            {(response && response.length === 0) ||
+            (cart && cart.length === 0) ? (
               <p
                 style={{
                   display: "flex",
@@ -1099,7 +1109,8 @@ const Cart = () => {
                       const title =
                         item.title ||
                         response[1]?.items?.[index]?.title ||
-                        response[2]?.items?.[index]?.title;
+                        response[2]?.items?.[index]?.title ||
+                        getTitleByProductID(item.productID); // Берем название из массива
 
                       return (
                         <li
@@ -1197,8 +1208,7 @@ const Cart = () => {
                               src={del.src || del}
                               style={{ width: "30px", height: "30px" }}
                             />
-                          </button>  
-                          
+                          </button>
                         </li>
                       );
                     })}
