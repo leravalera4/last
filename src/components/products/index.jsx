@@ -414,7 +414,12 @@ const Products = ({ cartData }) => {
 
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
-
+    const cartObj = JSON.parse(sessionStorage.getItem("cartObj")) || [];
+    const obj = { productID: product.productID, name: product.title };
+    console.log("OBJ PRODUCTS", obj);
+    cartObj.push(obj);
+    sessionStorage.setItem("cartObj", JSON.stringify(cartObj));
+    
     try {
       inc(index);
       const updatedCart = [...cart]; // Создаем копию корзины
