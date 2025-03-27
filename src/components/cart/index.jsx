@@ -20,9 +20,9 @@ import "react-tabs/style/react-tabs.css";
 
 const options = {
   filename: "test.pdf",
-  //   page: {
-  //     margin:Margin.SMALL,
-  //  },
+  page: {
+    margin: Margin.SMALL,
+  },
 };
 
 const noir = localFont({
@@ -61,7 +61,9 @@ const Cart = () => {
   const [change, setChange] = useState();
   const [filtered, setFiltered] = useState();
   const [cartObj, setCartObj] = useState();
+  const [visible, setVisible] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [state, setState] = useState({
     isPaneOpen: false,
     isPaneOpenLeft: false,
@@ -147,7 +149,7 @@ const Cart = () => {
   // const getNames = async (sale, theme, name) => {
   //   try {
   //     const response = await axios.post(
-  //       "https://server-blue-ten.vercel.app/api/sale/name",
+  //       "http://localhost:8080/api/sale/name",
   //       { sale: sale, theme: theme, name: name } // Wrap the sale data in an object with the key "sale"
   //     );
   //     const responses = response.data;
@@ -165,14 +167,11 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/sale/name",
-        {
-          sale,
-          theme,
-          name,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/api/sale/name", {
+        sale,
+        theme,
+        name,
+      });
       const responses = response.data;
       console.log("RESPONSE", responses);
       setResponseData(responses);
@@ -582,6 +581,45 @@ const Cart = () => {
 
   const targetRef = useRef();
 
+  const hideLogoBeforeDownload = () => {
+    document.querySelectorAll(".logo, .site-name").forEach((el) => {
+      el.style.display = "none";
+    });
+  };
+
+  const showLogoBeforeDownload = () => {
+    document.querySelectorAll(".logo, .site-name").forEach((el) => {
+      el.style.display = "block";
+    });
+  };
+
+  const hideButtonsBeforeDownload = () => {
+    document.querySelectorAll(".exclude-from-pdf").forEach((btn) => {
+      btn.style.display = "none";
+    });
+  };
+
+  const showButtonsAfterDownload = () => {
+    document.querySelectorAll(".exclude-from-pdf").forEach((btn) => {
+      btn.style.display = "inline-block";
+    });
+  };
+
+  const handleDownload = async () => {
+    setIsDownloading(true); // Показываем спиннер
+
+    showLogoBeforeDownload(); // Включаем логотип перед генерацией
+    hideButtonsBeforeDownload(); // Скрываем кнопки
+
+    await generatePDF(targetRef, options);
+
+    hideLogoBeforeDownload(); // Скрываем логотип обратно
+    showButtonsAfterDownload(); // Показываем кнопки обратно
+
+    setIsDownloading(false); // Убираем спиннер
+    setVisible(false);
+  };
+
   return (
     <div className="cart">
       <div style={{ display: "flex", cursor: "pointer", alignItems: "center" }}>
@@ -792,13 +830,14 @@ const Cart = () => {
                                 />
                               </button>
                               <img
+                                className="exclude-from-pdf"
                                 alt={title} // Используем title в alt
+                                src={imageSrc} // Используем выбранное изображение
                                 style={{
-                                  width: "30px",
-                                  height: "30px",
                                   paddingRight: "8px",
+                                  height: "30px",
+                                  width: "30px",
                                 }}
-                                src={imageSrc.src || imageSrc}
                               />
                               <p
                                 style={{
@@ -812,6 +851,7 @@ const Cart = () => {
                               </p>
 
                               <button
+                                className="exclude-from-pdf"
                                 onClick={() => decreaseQuantity(item.productID)}
                                 style={{
                                   outline: "0px",
@@ -830,9 +870,10 @@ const Cart = () => {
                                   src={minus.src || minus}
                                 />
                               </button>
-
+                              <p className="logo">QTY: </p>
                               <p>{item.quantity}</p>
                               <button
+                                className="exclude-from-pdf"
                                 onClick={() => increaseQuantity(item.productID)}
                                 style={{
                                   outline: "0px",
@@ -911,6 +952,7 @@ const Cart = () => {
                               >
                                 {li.title}
                               </p>
+
                               <p>({li.quantity})</p>
                             </li>
                           ))}
@@ -1085,6 +1127,8 @@ const Cart = () => {
                 <Spiner />
                 <p>Checking latest prices for you...</p>
               </>
+            ) : isDownloading ? (
+              <p>Loading...</p>
             ) : (
               <div style={{ display: "flex" }}>
                 <div ref={targetRef}>
@@ -1123,6 +1167,7 @@ const Cart = () => {
                           }}
                         >
                           <button
+                            className="exclude-from-pdf"
                             disabled={item.quantity === 0}
                             onClick={() => decreaseQuantity(item.productID)}
                             style={{
@@ -1145,9 +1190,10 @@ const Cart = () => {
                               <Image width={30} height={30} src={minus} />
                             )}
                           </button>
-
+                          <p className="logo">Quantity: </p>
                           <p>{item.quantity}</p>
                           <button
+                            className="exclude-from-pdf"
                             onClick={() => increaseQuantity(item.productID)}
                             style={{
                               outline: "0px",
@@ -1163,8 +1209,10 @@ const Cart = () => {
                           >
                             <Image width={30} height={30} src={plus} />
                           </button>
-
+                          &nbsp; &nbsp;
+                          <p className="logo">Item: </p>
                           <img
+                            className="exclude-from-pdf"
                             alt={title} // Используем title в alt
                             src={imageSrc} // Используем выбранное изображение
                             style={{
@@ -1183,7 +1231,6 @@ const Cart = () => {
                           >
                             {title} {/* Отображаем title */}
                           </p>
-
                           <button
                             style={{
                               outline: "0px",
@@ -1197,7 +1244,7 @@ const Cart = () => {
                               cursor: "pointer",
                               backgroundColor: "transparent",
                             }}
-                            className={noir.className}
+                            className="exclude-from-pdf"
                             onClick={() => {
                               console.log("item.productID:", item.productID);
                               removeProduct(item.productID);
@@ -1423,27 +1470,43 @@ const Cart = () => {
                 <button
                   className={`${noir.className} box`}
                   style={{
+                    backgroundColor: "#fff",
+                    backgroundImage: "none",
+                    backgroundPosition: "0 90%",
+                    backgroundRepeat: "repeat no-repeat",
+                    backgroundSize: " 4px 3px",
+                    borderRadius: "15px 225px 255px 15px 15px 255px 225px 15px",
+                    borderStyle: "solid",
+                    borderWidth: "2px",
+                    boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
+                    boxSizing: "border-box",
+                    color: "#41403e",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    padding: ".75rem",
+                    textDecoration: "none",
+                    transition: "all 235ms ease-in-out",
+                    borderBottomLeftRadius: " 15px 255px",
+                    borderBottomRightRadius: "225px 15px",
+                    borderTopLeftRadius: "255px 15px",
+                    borderTopRightRadius: "15px 225px",
+                    touchAction: "manipulation",
+                    marginRight: "20px",
                     marginLeft: "auto",
                     width: "190px",
-                    outline: "0",
-                    cursor: "pointer",
                     height: "38px",
                     padding: "5px 16px",
                     fontSize: "14px",
                     fontWeight: "500",
-                    lineHeight: "20px",
                     verticalAlign: "middle",
-                    border: "1px solid",
-                    borderRadius: " 6px",
-                    color: " #24292e",
-                    backgroundColor: "#fafbfc",
-                    borderColor: "#1b1f2326",
-                    transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
                   }}
-                  onClick={() => generatePDF(targetRef, options)}
+                  onClick={() => {
+                    handleDownload(targetRef, options);
+                  }}
                 >
                   Download products List
                 </button>
+                <Image src={minus} className="logo" width={30} height={30} />
               </div>
             )}
           </div>

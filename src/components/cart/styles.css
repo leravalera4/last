@@ -35,3 +35,6 @@
   }
 
 
+  .logo, .site-name {
+    display: none;
+  }
