@@ -167,7 +167,7 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/sale/name", {
+      const response = await axios.post("https://server-blue-ten.vercel.app/api/sale/name", {
         sale,
         theme,
         name,
