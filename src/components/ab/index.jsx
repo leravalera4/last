@@ -38,72 +38,269 @@ const noir = localFont({
 });
 
 const Index = () => {
-  return (
-    <div className="h1" style={{ margin: "0 20%" }}>
-      {/* Section 1: Compare Prices */}
-      <section style={{ paddingBottom: "1.5rem"}}>
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
-          <Image src={first} width={180} height={180} alt="Chart Icon" />
-          <div style={{ paddingLeft: "10px" }}>
-            <h4
-              className={noir.className}
-              style={{
-                margin: "0 0 -0.5rem 0px",
-                fontSize: "1.5rem",
-                fontWeight: 700,
-              }}
-            >
-             Select Multiple Stores
-            </h4>
-            <p className={noir.className}>
-            With Shoppy Scan, you have the power to choose from a vast array of stores. Whether it's your local supermarket, favorite online retailer, or specialty boutique, you can effortlessly add them to your list of selected stores.
-            </p>
-          </div>
-        </div>
-      </section>
+  const [isMobile, setIsMobile] = React.useState(false);
 
-      {/* Section 2: Check What's on Sale */}
-      <section style={{ paddingBottom: "1.5rem" }}>
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
-          <div style={{ textAlign: "right", marginRight: "10px" }}>
-            <h4
-              className={noir.className}
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  React.useEffect(() => {
+    // Call handleResize on mount to set the correct initial state
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures it runs only once on mount
+
+  return (
+    <>
+      {isMobile ? (
+        <div className="h1">
+          {/* Section 1: Compare Prices */}
+          <section style={{ paddingBottom: "1.5rem", paddingTop: "1.5rem" }}>
+            <div
               style={{
-                margin: "0 0 -0.5rem 10px",
-                fontSize: "1.5rem",
-                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
               }}
             >
-              Compare Prices
-            </h4>
-            <p className={noir.className}>
-            Shoppy Scan empowers you to compare prices across all the stores you've selected. Easily find the best deals and make informed decisions on your purchases. Say goodbye to guesswork and hello to savings!
-            </p>
-          </div>
-          <Image src={second} width={180} height={180} alt="Sale Icon" />
-        </div>
-      </section>
-      <section style={{ paddingBottom: "1.5rem"}}>
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
-          <Image src={third} width={180} height={180} alt="Chart Icon" />
-          <div style={{ marginLeft: "10px" }}>
-            <h4
-              className={noir.className}
+              <h4
+                className={noir.className}
+                style={{
+                  margin: "0 0 -0.5rem 0px",
+                  fontSize: "1.3rem",
+                  fontWeight: 700,
+                }}
+              >
+                Select Multiple Stores
+              </h4>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Image
+                  src={first}
+                  width={150}
+                  height={150}
+                  alt="Chart Icon"
+                  priority
+                  key={first}
+                  style={{ paddingTop: "18px" }}
+                />
+                <p style={{ textAlign: "center" }} className={noir.className}>
+                  With Shoppy Scan, you have the power to choose from a vast
+                  array of stores. Whether it's your local supermarket, favorite
+                  online retailer, or specialty boutique, you can effortlessly
+                  add them to your list of selected stores.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section style={{ paddingBottom: "1.5rem", paddingTop: "1.5rem" }}>
+            <div
               style={{
-                margin: "0 0 -0.5rem 0px",
-                fontSize: "1.5rem",
-                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
               }}
             >
-              Add to List for Total Price
-            </h4>
-            <p className={noir.className}>
-            As you browse through products, simply add them to your cart with a click. Shop Scan automatically calculates the total price of your selections in each selected store. This means you can see the total cost of your shopping list across all your chosen stores before making a purchase.
-            </p>
-          </div>
+              <h4
+                className={noir.className}
+                style={{
+                  margin: "0 0 -0.5rem 0px",
+                  fontSize: "1.3rem",
+                  fontWeight: 700,
+                }}
+              >
+                Compare Prices
+              </h4>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Image
+                  src={second}
+                  width={150}
+                  height={150}
+                  alt="Chart Icon"
+                  priority
+                  key={second}
+                  style={{ paddingTop: "18px" }}
+                />
+                <p style={{ textAlign: "center" }} className={noir.className}>
+                  Shoppy Scan empowers you to compare prices across all the
+                  stores you've selected. Easily find the best deals and make
+                  informed decisions on your purchases. Say goodbye to guesswork
+                  and hello to savings!
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section style={{ paddingBottom: "1.5rem", paddingTop: "1.5rem" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <h4
+                className={noir.className}
+                style={{
+                  margin: "0 0 -0.5rem 0px",
+                  fontSize: "1.3rem",
+                  fontWeight: 700,
+                }}
+              >
+                Add to List for Total Price
+              </h4>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Image
+                  src={third}
+                  width={150}
+                  height={150}
+                  alt="Chart Icon"
+                  priority
+                  key={third}
+                  style={{ paddingTop: "18px" }}
+                />
+                <p style={{ textAlign: "center" }} className={noir.className}>
+                  As you browse through products, simply add them to your cart
+                  with a click. Shop Scan automatically calculates the total
+                  price of your selections in each selected store. This means
+                  you can see the total cost of your shopping list across all
+                  your chosen stores before making a purchase.
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
-    </div>
+      ) : (
+        <div className="h1" style={{ margin: "0 20%" }}>
+          {/* Section 1: Compare Prices */}
+          <section style={{ paddingBottom: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <Image
+                src={first}
+                width={180}
+                height={180}
+                alt="Chart Icon"
+                priority
+                key={first}
+              />
+              <div style={{ paddingLeft: "10px" }}>
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 0px",
+                    fontSize: "1.5rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  Select Multiple Stores
+                </h4>
+                <p className={noir.className}>
+                  With Shoppy Scan, you have the power to choose from a vast
+                  array of stores. Whether it's your local supermarket, favorite
+                  online retailer, or specialty boutique, you can effortlessly
+                  add them to your list of selected stores.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section 2: Check What's on Sale */}
+          <section style={{ paddingBottom: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <div style={{ textAlign: "right", marginRight: "10px" }}>
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 10px",
+                    fontSize: "1.5rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  Compare Prices
+                </h4>
+                <p className={noir.className}>
+                  Shoppy Scan empowers you to compare prices across all the
+                  stores you've selected. Easily find the best deals and make
+                  informed decisions on your purchases. Say goodbye to guesswork
+                  and hello to savings!
+                </p>
+              </div>
+              <Image
+                src={second}
+                width={180}
+                height={180}
+                alt="Sale Icon"
+                priority
+                key={second}
+              />
+            </div>
+          </section>
+          <section style={{ paddingBottom: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <Image
+                src={third}
+                width={180}
+                height={180}
+                alt="Chart Icon"
+                priority
+                key={third}
+              />
+              <div style={{ marginLeft: "10px" }}>
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 0px",
+                    fontSize: "1.5rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  Add to List for Total Price
+                </h4>
+                <p className={noir.className}>
+                  As you browse through products, simply add them to your cart
+                  with a click. Shop Scan automatically calculates the total
+                  price of your selections in each selected store. This means
+                  you can see the total cost of your shopping list across all
+                  your chosen stores before making a purchase.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
+    </>
   );
 };
 
