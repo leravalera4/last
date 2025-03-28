@@ -519,8 +519,8 @@ button {
   color: #41403e;
   cursor: pointer;
   display: inline-block;
-  font-family: Neucha, sans-serif;
-  font-size: 1rem;
+  /* font-family: Neucha, sans-serif; */
+  font-size: 14px;
   line-height: 23px;
   outline: none;
   padding: .75rem;
