@@ -746,7 +746,10 @@ const Products = ({ cartData }) => {
 
         <div
           className="select-container"
-          style={{ paddingRight: "10%", paddingLeft: "10%" }}
+          style={{
+            paddingRight: isMobile ? "5%" : "10%",
+            paddingLeft: isMobile ? "5%" : "10%",
+          }}
         >
           <div
             // className="select-store"
@@ -755,6 +758,7 @@ const Products = ({ cartData }) => {
               //   width: "320px",
               flexDirection: "row",
               alignItems: "center",
+              width: isMobile && "100%",
             }}
           >
             {/* <label
@@ -775,9 +779,11 @@ const Products = ({ cartData }) => {
               }}
               value={selectedStore}
               style={{
-                width: "200px",
                 padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                 marginRight: "0px",
+                width: isMobile ? "100%" : "200px",
+                marginBottom: "10px",
+                fontSize: "16px",
               }}
             >
               <option
@@ -838,7 +844,11 @@ const Products = ({ cartData }) => {
           {selectedStore !== null && (
             <div
               //   className="select-store"
-              style={{ display: "flex", width: "335px", alignItems: "center" }}
+              style={{
+                display: "flex",
+                width: isMobile ? "100%" : "335px",
+                alignItems: "center",
+              }}
             >
               {/* <label
                 style={{
@@ -852,10 +862,12 @@ const Products = ({ cartData }) => {
               <select
                 required
                 style={{
-                  width: "200px",
+                  width: isMobile ? "100%" : "200px",
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                  marginRight: "24px",
-                  marginLeft: "24px",
+                  marginRight: !isMobile && "24px",
+                  marginLeft: !isMobile && "24px",
+                  margin: "0px",
+                  fontSize: "16px",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -900,7 +912,12 @@ const Products = ({ cartData }) => {
           {selectedCity !== null && (
             <div
               //   className="select-store"
-              style={{ display: "flex", width: "560px", alignItems: "center" }}
+              style={{
+                display: "flex",
+                flexDirection: isMobile && "column",
+                width: isMobile ? "100%" : "560px",
+                alignItems: "center",
+              }}
             >
               {/* <labels
                 // style={{
@@ -917,9 +934,11 @@ const Products = ({ cartData }) => {
               <select
                 required
                 style={{
-                  width: "200px",
+                  width: isMobile ? "100%" : "200px",
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                  marginRight: "24px",
+                  marginRight: !isMobile && "24px",
+                  fontSize: "16px",
+                  margin: "0px",
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
@@ -1053,12 +1072,11 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
-                style={{borderColor: isMobile && "black" }}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",
                 //   cursor: "pointer",
-                //   padding: "5px 16px",ss
+                //   padding: "5px 16px",
                 //   fontSize: "14px",
                 //   fontWeight: "500",
                 //   lineHeight: "20px",
@@ -1250,6 +1268,7 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
+                        style={{ borderColor: isMobile && "black"}}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
@@ -1273,7 +1292,6 @@ const Products = ({ cartData }) => {
                               color: "green",
                               marginBottom: isMobile ? "2px" : "10px",
                               marginTop: isMobile ? "2px" : "10px",
-                              borderColor: isMobile && "black",
                             }}
                           >
                             Add more
@@ -1284,7 +1302,6 @@ const Products = ({ cartData }) => {
                               color: "black",
                               marginBottom: isMobile ? "2px" : "10px",
                               marginTop: isMobile ? "2px" : "10px",
-                              borderColor: isMobile && "black",
                             }}
                           >
                             Add to List
