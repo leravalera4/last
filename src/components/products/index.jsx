@@ -1273,7 +1273,7 @@ const Products = ({ cartData }) => {
                               color: "green",
                               marginBottom: isMobile ? "2px" : "10px",
                               marginTop: isMobile ? "2px" : "10px",
-                              border: isMobile && "black",
+                              borderColor: isMobile && "black",
                             }}
                           >
                             Add more
@@ -1284,7 +1284,7 @@ const Products = ({ cartData }) => {
                               color: "black",
                               marginBottom: isMobile ? "2px" : "10px",
                               marginTop: isMobile ? "2px" : "10px",
-                              border: isMobile && "black",
+                              borderColor: isMobile && "black",
                             }}
                           >
                             Add to List
