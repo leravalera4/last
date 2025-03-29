@@ -784,6 +784,7 @@ const Products = ({ cartData }) => {
                 width: isMobile ? "100%" : "200px",
                 marginBottom: "10px",
                 fontSize: "16px",
+                borderColor: "black",
               }}
             >
               <option
@@ -868,6 +869,7 @@ const Products = ({ cartData }) => {
                   marginLeft: !isMobile && "24px",
                   margin: "0px",
                   fontSize: "16px",
+                  borderColor: "black",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -939,6 +941,7 @@ const Products = ({ cartData }) => {
                   marginRight: !isMobile && "24px",
                   fontSize: "16px",
                   margin: "0px",
+                  borderColor: "black"
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
@@ -1268,7 +1271,7 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ borderColor: isMobile && "black"}}
+                        style={{ borderColor: isMobile && "black" }}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
