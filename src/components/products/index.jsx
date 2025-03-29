@@ -1053,11 +1053,12 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
+                style={{borderColor: isMobile && "black" }}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",
                 //   cursor: "pointer",
-                //   padding: "5px 16px",
+                //   padding: "5px 16px",ss
                 //   fontSize: "14px",
                 //   fontWeight: "500",
                 //   lineHeight: "20px",
