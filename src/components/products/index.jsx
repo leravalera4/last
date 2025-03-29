@@ -718,9 +718,8 @@ const Products = ({ cartData }) => {
     >
       <div
         style={{
-          marginLeft: "10%",
-          marginRight: "10%",
-          // height: "766px"
+          marginLeft: isMobile ? "5%" : "10%",
+          marginLeft: isMobile ? "5%" : "10%",
         }}
       >
         <h2
