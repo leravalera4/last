@@ -867,6 +867,7 @@ const Products = ({ cartData }) => {
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
                   marginLeft: !isMobile && "24px",
+                  marginBottom: "10px",
                   margin: "0px",
                   fontSize: "16px",
                   borderColor: "black",
@@ -939,6 +940,7 @@ const Products = ({ cartData }) => {
                   width: isMobile ? "100%" : "200px",
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
+                  marginBottom: "10px",
                   fontSize: "16px",
                   margin: "0px",
                   borderColor: "black"
