@@ -935,7 +935,7 @@ const Cart = () => {
                           style={{
                             margin: "0",
                             padding: "0",
-                            width: "50%",
+                            width: "40%",
                             paddingRight: "10%",
                           }}
                         >
