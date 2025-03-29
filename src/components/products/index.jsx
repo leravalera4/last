@@ -429,9 +429,6 @@ const Products = ({ cartData }) => {
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
 
-
-   
-
     try {
       inc(index);
       const updatedCart = [...cart]; // Создаем копию корзины
@@ -719,9 +716,13 @@ const Products = ({ cartData }) => {
       style={{ paddingTop: "10px" }}
       itemType="http://schema.org/Store"
     >
-      <div style={{ marginLeft: "10%", marginRight: "10%",
-        // height: "766px" 
-         }}>
+      <div
+        style={{
+          marginLeft: "10%",
+          marginRight: "10%",
+          // height: "766px"
+        }}
+      >
         <h2
           style={{
             textAlign: "center",
@@ -1270,8 +1271,9 @@ const Products = ({ cartData }) => {
                           <p
                             style={{
                               color: "green",
-                              marginBottom: "10px",
-                              marginTop: "10px",
+                              marginBottom: isMobile ? "2px" : "10px",
+                              marginTop: isMobile ? "2px" : "10px",
+                              border: isMobile && "black",
                             }}
                           >
                             Add more
@@ -1280,8 +1282,9 @@ const Products = ({ cartData }) => {
                           <p
                             style={{
                               color: "black",
-                              marginBottom: "10px",
-                              marginTop: "10px",
+                              marginBottom: isMobile ? "2px" : "10px",
+                              marginTop: isMobile ? "2px" : "10px",
+                              border: isMobile && "black",
                             }}
                           >
                             Add to List
@@ -1322,7 +1325,7 @@ const Products = ({ cartData }) => {
                                 style={{
                                   paddingRight: "12px",
                                   maxWidth: "275px",
-                                  fontSize: isMobile ? '14px' : "15px",
+                                  fontSize: isMobile ? "14px" : "15px",
                                 }}
                                 key={index}
                               >
