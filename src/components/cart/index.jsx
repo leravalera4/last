@@ -1111,7 +1111,7 @@ const Cart = () => {
                           ))}
                         </ul>
                       </div>
-                      <div style={{display:'flex',flexDirection:'column'}}>
+                      <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                         <p
                           style={{
                             display: "flex",

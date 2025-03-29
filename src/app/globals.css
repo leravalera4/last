@@ -27,3 +27,10 @@ border:none;
 /* .slide-pane_from_right.content-after-open{
   width:92%;
 } */
+
+.slide-pane__content {
+  position: relative;
+  overflow-y: auto;
+  padding: 5% 5%;
+  flex: 1 1 auto;
+}
