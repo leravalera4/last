@@ -141,6 +141,20 @@ const Products = ({ cartData }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Проверка на наличие `window`
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
   // useEffect(() => {
   //   const handleStorage = () => {
   //     const stores = sessionStorage.getItem("stores");
