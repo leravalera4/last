@@ -167,14 +167,11 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/sale/name",
-        {
-          sale,
-          theme,
-          name,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/api/sale/name", {
+        sale,
+        theme,
+        name,
+      });
       const responses = response.data;
       console.log("RESPONSE", responses);
       setResponseData(responses);
@@ -589,7 +586,7 @@ const Cart = () => {
       el.style.display = "none";
     });
   };
-  
+
   const showLogoBeforeDownload = () => {
     document.querySelectorAll(".logo, .site-name").forEach((el) => {
       el.style.display = "block";
@@ -610,20 +607,19 @@ const Cart = () => {
 
   const handleDownload = async () => {
     setIsDownloading(true); // Показываем спиннер
-  
+
     showLogoBeforeDownload(); // Включаем логотип перед генерацией
     hideButtonsBeforeDownload(); // Скрываем кнопки
-  
+
     await generatePDF(targetRef, options);
-  
+
     hideLogoBeforeDownload(); // Скрываем логотип обратно
     showButtonsAfterDownload(); // Показываем кнопки обратно
-  
+
     setIsDownloading(false); // Убираем спиннер
     setVisible(false);
   };
-  
-  
+
   return (
     <div className="cart">
       <div style={{ display: "flex", cursor: "pointer", alignItems: "center" }}>
@@ -781,7 +777,7 @@ const Cart = () => {
                           alignContent: "center",
                         }}
                       >
-                        <b>Products</b>            
+                        <b>Products</b>
                       </p>
                       {response &&
                         response.length != null &&
@@ -823,9 +819,12 @@ const Cart = () => {
                                 }}
                                 className={noir.className}
                                 onClick={() => {
-                                  console.log("item.productID:", item.productID);
-                                   removeProduct(item.productID);
-                                  console.log("ITEM:", item.productID)
+                                  console.log(
+                                    "item.productID:",
+                                    item.productID
+                                  );
+                                  removeProduct(item.productID);
+                                  console.log("ITEM:", item.productID);
                                 }}
                                 title="Delete Store"
                               >
@@ -834,16 +833,16 @@ const Cart = () => {
                                   style={{ width: "30px", height: "30px" }}
                                 />
                               </button>
-                                <img
+                              <img
                                 className="exclude-from-pdf"
-                                  alt={title} // Используем title в alt
-                                  src={imageSrc} // Используем выбранное изображение
-                                  style={{
-                                    paddingRight: "8px",
-                                    height: "30px",
-                                    width: "30px",
-                                  }}
-                                />
+                                alt={title} // Используем title в alt
+                                src={imageSrc} // Используем выбранное изображение
+                                style={{
+                                  paddingRight: "8px",
+                                  height: "30px",
+                                  width: "30px",
+                                }}
+                              />
                               <p
                                 style={{
                                   textOverflow: "ellipsis",
@@ -875,7 +874,7 @@ const Cart = () => {
                                   src={minus.src || minus}
                                 />
                               </button>
-                                <p className="logo">QTY: </p>
+                              <p className="logo">QTY: </p>
                               <p>{item.quantity}</p>
                               <button
                                 className="exclude-from-pdf"
@@ -905,7 +904,6 @@ const Cart = () => {
                 )}
               </TabPanel>
 
-
               {response != null &&
                 response.map((item, index) => (
                   <TabPanel key={index}>
@@ -923,7 +921,12 @@ const Cart = () => {
                     </div>
 
                     <div>
-                      <div style={{ display: "flex",justifyContent:'space-between' }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
                         <ul
                           style={{
                             margin: "0",
@@ -957,9 +960,9 @@ const Cart = () => {
                                   width: "200px",
                                 }}
                               >
-                                {li.title} 
+                                {li.title}
                               </p>
-                                
+
                               <p>({li.quantity})</p>
                             </li>
                           ))}
@@ -1216,11 +1219,10 @@ const Cart = () => {
                           >
                             <Image width={30} height={30} src={plus} />
                           </button>
-                          &nbsp;
-                          &nbsp;
-<p className="logo">Item: </p>
+                          &nbsp; &nbsp;
+                          <p className="logo">Item: </p>
                           <img
-                          className="exclude-from-pdf"
+                            className="exclude-from-pdf"
                             alt={title} // Используем title в alt
                             src={imageSrc} // Используем выбранное изображение
                             style={{
@@ -1239,7 +1241,6 @@ const Cart = () => {
                           >
                             {title} {/* Отображаем title */}
                           </p>
-
                           <button
                             style={{
                               outline: "0px",
@@ -1256,7 +1257,7 @@ const Cart = () => {
                             className="exclude-from-pdf"
                             onClick={() => {
                               console.log("item.productID:", item);
-                              // removeProduct(item.productID);
+                              removeProduct(item.productID);
                             }}
                             title="Delete Store"
                           >
@@ -1479,35 +1480,35 @@ const Cart = () => {
                 <button
                   className={`${noir.className} box`}
                   style={{
-    backgroundColor: "#fff",
-    backgroundImage: "none",
-    backgroundPosition: "0 90%",
-    backgroundRepeat: "repeat no-repeat",
-    backgroundSize:" 4px 3px",
-   borderRadius: "15px 225px 255px 15px 15px 255px 225px 15px",
-    borderStyle: "solid",
-    borderWidth: "2px",
-    boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
-    boxSizing: "border-box",
-    color: "#41403e",
-    cursor: "pointer",
-    fontSize: "14px",
-    padding: ".75rem",
-    textDecoration: "none",
-    transition: "all 235ms ease-in-out",
-    borderBottomLeftRadius:" 15px 255px",
-    borderBottomRightRadius: "225px 15px",
-    borderTopLeftRadius: "255px 15px",
-    borderTopRightRadius: "15px 225px",
-    touchAction: "manipulation",
-    marginRight: "20px",
-    marginLeft: "auto",
-    width: "190px",
-    height: "38px",
-    padding: "5px 16px",
-    fontSize: "14px",
-    fontWeight: "500",
-    verticalAlign: "middle"
+                    backgroundColor: "#fff",
+                    backgroundImage: "none",
+                    backgroundPosition: "0 90%",
+                    backgroundRepeat: "repeat no-repeat",
+                    backgroundSize: " 4px 3px",
+                    borderRadius: "15px 225px 255px 15px 15px 255px 225px 15px",
+                    borderStyle: "solid",
+                    borderWidth: "2px",
+                    boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
+                    boxSizing: "border-box",
+                    color: "#41403e",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                    padding: ".75rem",
+                    textDecoration: "none",
+                    transition: "all 235ms ease-in-out",
+                    borderBottomLeftRadius: " 15px 255px",
+                    borderBottomRightRadius: "225px 15px",
+                    borderTopLeftRadius: "255px 15px",
+                    borderTopRightRadius: "15px 225px",
+                    touchAction: "manipulation",
+                    marginRight: "20px",
+                    marginLeft: "auto",
+                    width: "190px",
+                    height: "38px",
+                    padding: "5px 16px",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                    verticalAlign: "middle",
                   }}
                   onClick={() => {
                     handleDownload(targetRef, options);
