@@ -1308,7 +1308,7 @@ const Products = ({ cartData }) => {
                                 style={{
                                   paddingRight: "12px",
                                   maxWidth: "275px",
-                                  fontSize: "15px",
+                                  fontSize: isMobile ? '14px' : "15px",
                                 }}
                                 key={index}
                               >
