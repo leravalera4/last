@@ -1565,6 +1565,7 @@ const Index = () => {
                                   style={{
                                     marginLeft: isMobile ? "12px" : "15px",
                                     fontSize: "15px",
+                                    borderRadius: isMobile && "15px"
                                   }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
