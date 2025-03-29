@@ -167,11 +167,14 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post("https://server-blue-ten.vercel.app/api/sale/name", {
-        sale,
-        theme,
-        name,
-      });
+      const response = await axios.post(
+        "https://server-blue-ten.vercel.app/api/sale/name",
+        {
+          sale,
+          theme,
+          name,
+        }
+      );
       const responses = response.data;
       console.log("RESPONSE", responses);
       setResponseData(responses);
@@ -855,29 +858,31 @@ const Cart = () => {
                               </p>
 
                               <button
-                            className="exclude-from-pdf"
-                            disabled={item.quantity === 0}
-                            onClick={() => decreaseQuantity(item.productID)}
-                            style={{
-                              outline: "0px",
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor:
-                                item.quantity === 0 ? "not-allowed" : "pointer",
-                              backgroundColor: "transparent",
-                            }}
-                          >
-                            {/* // <Image width={30} height={30} src={minus} /> */}
-                            {item.quantity === 0 ? (
-                              <Image width={30} height={30} src={block} />
-                            ) : (
-                              <Image width={30} height={30} src={minus} />
-                            )}
-                          </button>
+                                className="exclude-from-pdf"
+                                disabled={item.quantity === 0}
+                                onClick={() => decreaseQuantity(item.productID)}
+                                style={{
+                                  outline: "0px",
+                                  fontSize: "21px",
+                                  fontWeight: "500",
+                                  lineHeight: "20px",
+                                  verticalAlign: "middle",
+                                  color: "red",
+                                  border: "0px",
+                                  cursor:
+                                    item.quantity === 0
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  backgroundColor: "transparent",
+                                }}
+                              >
+                                {/* // <Image width={30} height={30} src={minus} /> */}
+                                {item.quantity === 0 ? (
+                                  <Image width={30} height={30} src={block} />
+                                ) : (
+                                  <Image width={30} height={30} src={minus} />
+                                )}
+                              </button>
                               <p className="logo">QTY: </p>
                               <p>{item.quantity}</p>
                               <button
@@ -1106,17 +1111,28 @@ const Cart = () => {
                           ))}
                         </ul>
                       </div>
-
-                      <p
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          paddingTop: "16px",
-                          fontWeight: "700",
-                        }}
-                      >
-                        Total: ${item.totalPrices.toFixed(2)}
-                      </p>
+                      <div style={{display:'flex',flexDirection:'column'}}>
+                        <p
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: "16px",
+                            fontWeight: "700",
+                          }}
+                        >
+                          Total: ${item.totalPrices.toFixed(2)}
+                        </p>
+                        <p
+                          style={{
+                            color: "#008000",
+                            fontSize: "14px",
+                            paddingTop: "0px",
+                            marginTop: "0px",
+                          }}
+                        >
+                          Total discount ${item.difference.toFixed(2)}
+                        </p>
+                      </div>
                     </div>
                   </TabPanel>
                 ))}

@@ -67,28 +67,6 @@ const Header = () => {
     };
   }, []); // Empty dependency array ensures it runs only once on mount
 
-  // <header class="header"><div style="display:flex;flex-direction:row;margin-left: 5%;"><a href="/">
-  //   <img alt="header" loading="lazy" width="70" height="70" decoding="async" data-nimg="1" class="image" style="color:transparent" src="/_next/static/media/hed.216278b7.svg"></a>
-  //   <a style="text-decoration:none" href="/"><h1 style="text-decoration:none;color:black" class="__className_91264f boxy">Shoppy Scan</h1>
-  //   </a></div><div><div class="hamburger">
-  //     <div class="bar "></div
-  //     <div class="bar "></div>
-  //     <div class="bar "></div></div>
-  //     <div class="overlay ">
-  //       </div>
-  //       <nav class="menu ">
-  //         <a class="__className_91264f active" href="/">Special Price</a>
-  //         <a class="__className_91264f link" href="/about">Compare Prices</a>
-  //         </nav></div>
-  //         <div class="cart">
-  //           <div style="display:flex;cursor:pointer;align-items:center">
-  //             <img alt="shopping" src="/_next/static/media/cart_2.c00fef37.svg" style="width:60px;height:60px;cursor:pointer;/* margin-bottom:16px; */">
-  //             <p class="__className_91264f list">List</p>
-  //             <p class="__className_91264f list" style="font-size:18px">(<!-- -->0<!-- -->)</p>
-  //             </div>
-  //             </div>
-  //             </header>
-
   return (
     <Headroom
       style={{
@@ -110,7 +88,7 @@ const Header = () => {
           }}
         >
           <div
-            style={{ display: "flex", flexDirection: "row", marginLeft: "5%" }}
+            style={{ display: "flex", flexDirection: "row"}}
           >
             <Link href="/">
               <Image
