@@ -855,25 +855,29 @@ const Cart = () => {
                               </p>
 
                               <button
-                                className="exclude-from-pdf"
-                                onClick={() => decreaseQuantity(item.productID)}
-                                style={{
-                                  outline: "0px",
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor: "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                              >
-                                <img
-                                  style={{ width: "30px", height: "30px" }}
-                                  src={minus.src || minus}
-                                />
-                              </button>
+                            className="exclude-from-pdf"
+                            disabled={item.quantity === 0}
+                            onClick={() => decreaseQuantity(item.productID)}
+                            style={{
+                              outline: "0px",
+                              fontSize: "21px",
+                              fontWeight: "500",
+                              lineHeight: "20px",
+                              verticalAlign: "middle",
+                              color: "red",
+                              border: "0px",
+                              cursor:
+                                item.quantity === 0 ? "not-allowed" : "pointer",
+                              backgroundColor: "transparent",
+                            }}
+                          >
+                            {/* // <Image width={30} height={30} src={minus} /> */}
+                            {item.quantity === 0 ? (
+                              <Image width={30} height={30} src={block} />
+                            ) : (
+                              <Image width={30} height={30} src={minus} />
+                            )}
+                          </button>
                               <p className="logo">QTY: </p>
                               <p>{item.quantity}</p>
                               <button
