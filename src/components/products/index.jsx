@@ -1330,7 +1330,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: "15px",
+                                        fontSize: isMobile ? "14px" : "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -1338,7 +1338,7 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
-                                          fontSize: "15px",
+                                          fontSize: isMobile ? "14px" : "15px",
                                         }}
                                       >
                                         (2 FOR ${store.saleprice} ea)
@@ -1350,7 +1350,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: "15px",
+                                        fontSize: isMobile ? "14px" : "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -1358,7 +1358,7 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
-                                          fontSize: "15px",
+                                          fontSize: isMobile ? "14px" : "15px",
                                         }}
                                       >
                                         (3 FOR ${store.saleprice} ea)
@@ -1370,7 +1370,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: "15px",
+                                        fontSize: isMobile ? "14px" : "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -1389,7 +1389,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: "15px",
+                                        fontSize: isMobile ? "14px" : "15px",
                                       }}
                                     >
                                       ${store.saleprice}
@@ -1401,7 +1401,7 @@ const Products = ({ cartData }) => {
                                     style={{
                                       fontWeight: "700",
                                       color: "rgb(225, 37, 27)",
-                                      fontSize: "15px",
+                                      fontSize: isMobile ? "14px" : "15px",
                                     }}
                                   >
                                     ${store.saleprice}
@@ -1412,7 +1412,7 @@ const Products = ({ cartData }) => {
                                   className={noir.className}
                                   style={{
                                     fontWeight: "700",
-                                    fontSize: "15px",
+                                    fontSize: isMobile ? "14px" : "15px",
                                   }}
                                 >
                                   {store.non_member_price}
@@ -1423,7 +1423,7 @@ const Products = ({ cartData }) => {
                                   className={noir.className}
                                   style={{
                                     fontWeight: "700",
-                                    fontSize: "15px",
+                                    fontSize: isMobile ? "14px" : "15px",
                                   }}
                                 >
                                   {store.regprice}
@@ -1455,7 +1455,7 @@ const Products = ({ cartData }) => {
                                   marginRight: "10px",
                                   paddingLeft: "2px",
                                   textDecoration: "line-through",
-                                  fontSize: "15px",
+                                  fontSize: isMobile ? "14px" : "15px",
                                   textDecorationColor: "rgb(125, 120, 120)",
                                 }}
                                 key={index}
@@ -1487,7 +1487,7 @@ const Products = ({ cartData }) => {
                                   color: "rgb(225, 37, 27)",
                                   fontWeight: "400",
                                   marginRight: "10px",
-                                  fontSize: "15px",
+                                  fontSize: isMobile ? "14px" : "15px",
                                   paddingLeft: "4px",
                                   // marginLeft: "8px",
                                   //paddingTop: "2px",
