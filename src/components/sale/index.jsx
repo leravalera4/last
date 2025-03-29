@@ -885,7 +885,8 @@ const Index = () => {
             padding: "0.375rem 0.9rem 0.375rem 0.75rem",
             marginRight: "0px",
             marginBottom: isMobile && '10px',
-            fontSize:isMobile && '16px'
+            fontSize:isMobile && '16px',
+            borderColor: isMobile && "black"
             // marginRight: "24px",
           }}
           // style={{
@@ -985,7 +986,8 @@ const Index = () => {
                 marginLeft: !isMobile && "24px",
                 margin: isMobile && '0px',
                 marginBottom: isMobile && '10px',
-                fontSize:isMobile && '16px'
+                fontSize:isMobile && '16px',
+                borderColor: isMobile && "black"
               }}
               // style={{
               //   width: "232px",
@@ -1050,7 +1052,8 @@ const Index = () => {
                 marginLeft: !isMobile && "24px",
                 margin: isMobile && '0px',
                 marginBottom: isMobile && '10px',
-                fontSize:isMobile && '16px'
+                fontSize:isMobile && '16px',
+                borderColor: isMobile && "black"
               }}
               onChange={(e) => setSelectedLocation(e.target.value)} // ✅ Используем setSelectedLocation
               value={selectedLocation}
@@ -1146,7 +1149,7 @@ const Index = () => {
             <button
               type="submit"
               className={`${noir.className} button-55`}
-              style={{ padding: "0.375rem 24px 0.375rem 0.75rem",fontSize:isMobile && '16px' }}
+              style={{ padding: "0.375rem 24px 0.375rem 0.75rem",fontSize:isMobile && '16px',borderColor: isMobile && "black" }}
               //   style={{
               //     outline: "0",
               //     cursor: "pointer",
@@ -1186,6 +1189,7 @@ const Index = () => {
                   padding: !isMobile && "0.150rem 0.375rem 0.150rem 0.375rem",
                   flexDirection: isMobile && "column",
                   width: isMobile && '33%',
+                  borderColor: isMobile && "black",
                   height:'100%'
 
                 }}
@@ -1293,6 +1297,7 @@ const Index = () => {
               marginTop: "32px",
               paddingLeft: isMobile ? "5%" : "20%",
               paddingRight: isMobile ? "5%" : "20%",
+              borderColor: isMobile && "black"
             }}
           >
             {loading ? (
@@ -1572,9 +1577,9 @@ const Index = () => {
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  //   disabled={
-                                  //     len === 3 && checkForStore === false
-                                  //   }
+                                    disabled={
+                                      len === 3 && checkForStore === false
+                                    }
                                   //   style={{
                                   //     outline: "0",
                                   //     width: "75%",
