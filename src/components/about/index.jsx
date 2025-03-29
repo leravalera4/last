@@ -38,6 +38,29 @@ const noir = localFont({
 });
 
 const Index = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  React.useEffect(() => {
+    // Call handleResize on mount to set the correct initial state
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures it runs only once on mount
+  
   return (
     <>
       {isMobile ? (
