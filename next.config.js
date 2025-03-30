@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
-// const nextConfig = {}
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ['assets.shop.loblaws.ca'],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+};
 
-// module.exports = nextConfig
-module.exports = {
-    images: {
-      domains: ['assets.shop.loblaws.ca'],
-    },
-  };
-
-
-
+module.exports = nextConfig;
