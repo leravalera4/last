@@ -203,7 +203,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/sale/stores")
+      .get("https://server-blue-ten.vercel.app/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -234,7 +234,7 @@ const Products = ({ cartData }) => {
     const store = JSON.parse(sessionStorage.getItem("selectedStore"));
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/sale/stores/${selectedStore}`
+        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -267,7 +267,7 @@ const Products = ({ cartData }) => {
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
+        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -309,7 +309,7 @@ const Products = ({ cartData }) => {
       JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/updateLocation",
+        "https://server-blue-ten.vercel.app/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
@@ -688,7 +688,7 @@ const Products = ({ cartData }) => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/sale/sal"); // Замените на ваш API endpoint
+      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
