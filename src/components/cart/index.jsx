@@ -167,11 +167,14 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post("https://server-blue-ten.vercel.app/api/sale/name", {
-        sale,
-        theme,
-        name,
-      });
+      const response = await axios.post(
+        "https://server-blue-ten.vercel.app/api/sale/name",
+        {
+          sale,
+          theme,
+          name,
+        }
+      );
       const responses = response.data;
       console.log("RESPONSE", responses);
       setResponseData(responses);
@@ -931,7 +934,7 @@ const Cart = () => {
                           style={{
                             margin: "0",
                             padding: "0",
-                            width: "50%",
+                            width: "40%",
                             paddingRight: "10%",
                           }}
                         >
@@ -1102,27 +1105,34 @@ const Cart = () => {
                           ))}
                         </ul>
                       </div>
-
-                      <p
+                      <div
                         style={{
                           display: "flex",
-                          justifyContent: "center",
-                          paddingTop: "16px",
-                          fontWeight: "700",
+                          flexDirection: "row",
+                          alignItems: "center",
                         }}
                       >
-                        Total: ${item.totalPrices.toFixed(2)}
-                      </p>
-                      <p
-                        style={{
-                          color: "#008000",
-                          fontSize: "14px",
-                          paddingTop: "0px",
-                          marginTop: "0px",
-                        }}
-                      >
-                        Total discount ${item.difference.toFixed(2)}
-                      </p>
+                        <p
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: "16px",
+                            fontWeight: "700",
+                          }}
+                        >
+                          Total: ${item.totalPrices.toFixed(2)}
+                        </p>
+                        <p
+                          style={{
+                            color: "#008000",
+                            fontSize: "14px",
+                            paddingTop: "0px",
+                            marginTop: "0px",
+                          }}
+                        >
+                          Total discount ${item.difference.toFixed(2)}
+                        </p>
+                      </div>
                     </div>
                   </TabPanel>
                 ))}

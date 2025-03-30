@@ -1084,6 +1084,7 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
+                style={{ borderColor: "black" }}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",
