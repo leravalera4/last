@@ -688,7 +688,9 @@ const Products = ({ cartData }) => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
+      const response = await axios.get(
+        "https://server-blue-ten.vercel.app/api/sale/sal"
+      ); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -791,7 +793,7 @@ const Products = ({ cartData }) => {
                 width: isMobile ? "100%" : "200px",
                 marginBottom: "10px",
                 fontSize: "16px",
-                borderColor:'black'
+                borderColor: "black",
               }}
             >
               <option
@@ -876,6 +878,7 @@ const Products = ({ cartData }) => {
                   marginLeft: !isMobile && "24px",
                   margin: "0px",
                   fontSize: "16px",
+                  borderColor: "black",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -947,6 +950,7 @@ const Products = ({ cartData }) => {
                   marginRight: !isMobile && "24px",
                   fontSize: "16px",
                   margin: "0px",
+                  borderColor: "black",
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
