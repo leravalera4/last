@@ -450,7 +450,7 @@ const Cart = () => {
             width: "60px",
             height: "60px",
             cursor: "pointer",
-            marginBottom: "16px",
+            // marginBottom: "16px",
           }}
           onClick={() => {
             getNames(sale, theme, name);
@@ -719,7 +719,7 @@ const Cart = () => {
                           style={{
                             margin: "0",
                             padding: "0",
-                            width: "40%",
+                            width: "50%",
                             paddingRight: "10%",
                           }}
                         >

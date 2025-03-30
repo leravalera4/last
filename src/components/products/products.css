@@ -175,7 +175,7 @@ display: flex;
 }
   
   .card{
-    width: 100%;
+    width: 380px;
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       display: flex;
       flex-direction: column;
@@ -239,9 +239,9 @@ display: flex;
     display: none;
   }
 
-  .image {
+  /* .image {
     width: 120px;
-  }
+  } */
   .text {
     font-size: 16px;
     height: 0px;

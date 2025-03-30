@@ -1,4 +1,5 @@
 "use client";
+"use cache"
 
 import React from "react";
 import localFont from "next/font/local";

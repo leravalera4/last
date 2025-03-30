@@ -20,7 +20,7 @@
     "axios": "^1.6.2",
     "git": "^0.1.5",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.1",
+    "jspdf": "^2.5.2",
     "lord-icon-element": "^4.1.2",
     "lottie-web": "^5.12.2",
     "next": "^14.2.9",

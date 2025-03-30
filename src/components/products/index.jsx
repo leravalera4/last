@@ -141,20 +141,6 @@ const Products = ({ cartData }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Проверка на наличие `window`
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 768);
-      };
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-  }, []);
-
   // useEffect(() => {
   //   const handleStorage = () => {
   //     const stores = sessionStorage.getItem("stores");
@@ -217,7 +203,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores")
+      .get("http://localhost:8080/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -248,7 +234,7 @@ const Products = ({ cartData }) => {
     const store = JSON.parse(sessionStorage.getItem("selectedStore"));
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}`
+        `http://localhost:8080/api/sale/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -281,7 +267,7 @@ const Products = ({ cartData }) => {
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
+        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -323,7 +309,7 @@ const Products = ({ cartData }) => {
       JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/updateLocation",
+        "http://localhost:8080/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
@@ -428,6 +414,7 @@ const Products = ({ cartData }) => {
 
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
+    const cartObj = JSON.parse(sessionStorage.getItem("cartObj")) || [];
 
     try {
       inc(index);
@@ -512,6 +499,7 @@ const Products = ({ cartData }) => {
     //   window.removeEventListener("storage", handleAddToCart);
     // };
   };
+
   let selectedAllLength;
   if (selectedAll) {
     selectedAllLength = selectedAll.length;
@@ -700,9 +688,7 @@ const Products = ({ cartData }) => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get(
-        "https://server-blue-ten.vercel.app/api/sale/sal"
-      ); // Замените на ваш API endpoint
+      const response = await axios.get("http://localhost:8080/api/sale/sal"); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -710,16 +696,37 @@ const Products = ({ cartData }) => {
     }
   };
 
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  React.useEffect(() => {
+    // Call handleResize on mount to set the correct initial state
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures it runs only once on mount
+
   return (
     <div
       itemScope
-      style={{ paddingTop: "10px" }}
+      style={{ paddingTop: "10px", height: "100%" }}
       itemType="http://schema.org/Store"
     >
       <div
         style={{
           marginLeft: isMobile ? "5%" : "10%",
-          marginLeft: isMobile ? "5%" : "10%",
+          marginRight: isMobile ? "5%" : "10%",
         }}
       >
         <h2
@@ -784,7 +791,7 @@ const Products = ({ cartData }) => {
                 width: isMobile ? "100%" : "200px",
                 marginBottom: "10px",
                 fontSize: "16px",
-                borderColor: "black",
+                borderColor:'black'
               }}
             >
               <option
@@ -867,10 +874,8 @@ const Products = ({ cartData }) => {
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
                   marginLeft: !isMobile && "24px",
-                  marginBottom: "10px",
                   margin: "0px",
                   fontSize: "16px",
-                  borderColor: "black",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -940,10 +945,8 @@ const Products = ({ cartData }) => {
                   width: isMobile ? "100%" : "200px",
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
-                  marginBottom: "10px",
                   fontSize: "16px",
                   margin: "0px",
-                  borderColor: "black"
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
@@ -1273,7 +1276,6 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ borderColor: isMobile && "black" }}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
@@ -1295,8 +1297,8 @@ const Products = ({ cartData }) => {
                           <p
                             style={{
                               color: "green",
-                              marginBottom: isMobile ? "2px" : "10px",
-                              marginTop: isMobile ? "2px" : "10px",
+                              marginBottom: "10px",
+                              marginTop: "10px",
                             }}
                           >
                             Add more
@@ -1305,8 +1307,8 @@ const Products = ({ cartData }) => {
                           <p
                             style={{
                               color: "black",
-                              marginBottom: isMobile ? "2px" : "10px",
-                              marginTop: isMobile ? "2px" : "10px",
+                              marginBottom: "10px",
+                              marginTop: "10px",
                             }}
                           >
                             Add to List
@@ -1347,7 +1349,7 @@ const Products = ({ cartData }) => {
                                 style={{
                                   paddingRight: "12px",
                                   maxWidth: "275px",
-                                  fontSize: isMobile ? "14px" : "15px",
+                                  fontSize: "15px",
                                 }}
                                 key={index}
                               >
@@ -1369,7 +1371,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -1377,7 +1379,7 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
-                                          fontSize: isMobile ? "14px" : "15px",
+                                          fontSize: "15px",
                                         }}
                                       >
                                         (2 FOR ${store.saleprice} ea)
@@ -1389,7 +1391,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -1397,7 +1399,7 @@ const Products = ({ cartData }) => {
                                         style={{
                                           marginLeft: "4px",
                                           fontWeight: "400",
-                                          fontSize: isMobile ? "14px" : "15px",
+                                          fontSize: "15px",
                                         }}
                                       >
                                         (3 FOR ${store.saleprice} ea)
@@ -1409,7 +1411,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.mem}
@@ -1428,7 +1430,7 @@ const Products = ({ cartData }) => {
                                       style={{
                                         fontWeight: "700",
                                         color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
+                                        fontSize: "15px",
                                       }}
                                     >
                                       ${store.saleprice}
@@ -1440,7 +1442,7 @@ const Products = ({ cartData }) => {
                                     style={{
                                       fontWeight: "700",
                                       color: "rgb(225, 37, 27)",
-                                      fontSize: isMobile ? "14px" : "15px",
+                                      fontSize: "15px",
                                     }}
                                   >
                                     ${store.saleprice}
@@ -1451,7 +1453,7 @@ const Products = ({ cartData }) => {
                                   className={noir.className}
                                   style={{
                                     fontWeight: "700",
-                                    fontSize: isMobile ? "14px" : "15px",
+                                    fontSize: "15px",
                                   }}
                                 >
                                   {store.non_member_price}
@@ -1462,7 +1464,7 @@ const Products = ({ cartData }) => {
                                   className={noir.className}
                                   style={{
                                     fontWeight: "700",
-                                    fontSize: isMobile ? "14px" : "15px",
+                                    fontSize: "15px",
                                   }}
                                 >
                                   {store.regprice}
@@ -1494,7 +1496,7 @@ const Products = ({ cartData }) => {
                                   marginRight: "10px",
                                   paddingLeft: "2px",
                                   textDecoration: "line-through",
-                                  fontSize: isMobile ? "14px" : "15px",
+                                  fontSize: "15px",
                                   textDecorationColor: "rgb(125, 120, 120)",
                                 }}
                                 key={index}
@@ -1526,7 +1528,7 @@ const Products = ({ cartData }) => {
                                   color: "rgb(225, 37, 27)",
                                   fontWeight: "400",
                                   marginRight: "10px",
-                                  fontSize: isMobile ? "14px" : "15px",
+                                  fontSize: "15px",
                                   paddingLeft: "4px",
                                   // marginLeft: "8px",
                                   //paddingTop: "2px",
