@@ -791,7 +791,7 @@ const Products = ({ cartData }) => {
                 width: isMobile ? "100%" : "200px",
                 marginBottom: "10px",
                 fontSize: "16px",
-                borderColor:'black'
+                borderColor: isMobile && 'black'
               }}
             >
               <option
