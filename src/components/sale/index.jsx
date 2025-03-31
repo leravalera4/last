@@ -935,7 +935,7 @@ const Index = () => {
             <button
               onClick={getLocation}
               className={`${noir.className} button-55`}
-              style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+              style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem",borderColor:isMobile && black }}
               //   style={{
               //     outline: "0",
               //     width: "auto",
@@ -985,7 +985,8 @@ const Index = () => {
                 marginLeft: !isMobile && "24px",
                 margin: isMobile && '0px',
                 marginBottom: isMobile && '10px',
-                fontSize:isMobile && '16px'
+                fontSize:isMobile && '16px',
+                borderColor:isMobile && black
               }}
               // style={{
               //   width: "232px",
@@ -1050,7 +1051,8 @@ const Index = () => {
                 marginLeft: !isMobile && "24px",
                 margin: isMobile && '0px',
                 marginBottom: isMobile && '10px',
-                fontSize:isMobile && '16px'
+                fontSize:isMobile && '16px',
+
               }}
               onChange={(e) => setSelectedLocation(e.target.value)} // ✅ Используем setSelectedLocation
               value={selectedLocation}
@@ -1186,7 +1188,8 @@ const Index = () => {
                   padding: !isMobile && "0.150rem 0.375rem 0.150rem 0.375rem",
                   flexDirection: isMobile && "column",
                   width: isMobile && '33%',
-                  height:'100%'
+                  height:'100%',
+                  borderColor:isMobile && black
 
                 }}
                 onClick={() => {
@@ -1565,6 +1568,7 @@ const Index = () => {
                                   style={{
                                     marginLeft: isMobile ? "12px" : "15px",
                                     fontSize: "15px",
+                                    borderColor:isMobile && black
                                     // borderRadius: isMobile && "15px"
                                   }}
                                   //   className={`${noir.className} ${
@@ -1806,6 +1810,7 @@ const Index = () => {
                                     outline: "0",
                                     width: "75%",
                                     height: "38px",
+                                    borderColor:isMobile && black,
                                     cursor:
                                       len === 3 && checkForStore === false
                                         ? "not-allowed"
