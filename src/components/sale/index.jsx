@@ -497,19 +497,13 @@ const Index = () => {
     try {
       let response;
       if (storeSale && storeSale != null && com == true) {
-        response = await axios.post(
-          "https://server-blue-ten.vercel.app/api/sale",
-          {
-            selectedStoresID: [storeSale],
-          }
-        );
+        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
+          selectedStoresID: [storeSale],
+        });
       } else {
-        response = await axios.post(
-          "https://server-blue-ten.vercel.app/api/sale",
-          {
-            selectedStoresID: [newSelectedLocationValue],
-          }
-        );
+        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
+          selectedStoresID: [newSelectedLocationValue],
+        });
       }
       // Assuming the response contains the data you need
       const storesData = response.data;
@@ -778,9 +772,7 @@ const Index = () => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get(
-        "https://server-blue-ten.vercel.app/api/sale/sal"
-      ); // Замените на ваш API endpoint
+      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -890,10 +882,10 @@ const Index = () => {
           className={`${noir.className} button-55`}
           style={{
             width: isMobile ? "90%" : "200px",
-            padding: !isMobile && "0.375rem 0.9rem 0.375rem 0.75rem",
+            padding: "0.375rem 0.9rem 0.375rem 0.75rem",
             marginRight: "0px",
-            marginBottom: isMobile && "10px",
-            fontSize: isMobile && "16px",
+            marginBottom: isMobile && '10px',
+            fontSize:isMobile && '16px'
             // marginRight: "24px",
           }}
           // style={{
@@ -943,10 +935,7 @@ const Index = () => {
             <button
               onClick={getLocation}
               className={`${noir.className} button-55`}
-              style={{
-                padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                borderColor: isMobile && "black",
-              }}
+              style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem",borderColor:isMobile && black }}
               //   style={{
               //     outline: "0",
               //     width: "auto",
@@ -990,14 +979,14 @@ const Index = () => {
             <select
               className={`${noir.className} button-55`}
               style={{
-                width: isMobile ? "90%" : "200px",
+                width: isMobile ? '90%' : "200px",
                 padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                 marginRight: !isMobile && "24px",
                 marginLeft: !isMobile && "24px",
-                margin: isMobile && "0px",
-                marginBottom: isMobile && "10px",
-                fontSize: isMobile && "16px",
-                borderColor: isMobile && "black",
+                margin: isMobile && '0px',
+                marginBottom: isMobile && '10px',
+                fontSize:isMobile && '16px',
+                borderColor:isMobile && black
               }}
               // style={{
               //   width: "232px",
@@ -1057,12 +1046,13 @@ const Index = () => {
               style={{
                 padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                 paddingRight: !isMobile && "24px",
-                width: isMobile ? "90%" : "230px",
+                width: isMobile ? '90%' : "230px",
                 marginRight: !isMobile && "24px",
                 marginLeft: !isMobile && "24px",
-                margin: isMobile && "0px",
-                marginBottom: isMobile && "10px",
-                fontSize: isMobile && "16px",
+                margin: isMobile && '0px',
+                marginBottom: isMobile && '10px',
+                fontSize:isMobile && '16px',
+                
               }}
               onChange={(e) => setSelectedLocation(e.target.value)} // ✅ Используем setSelectedLocation
               value={selectedLocation}
@@ -1158,10 +1148,7 @@ const Index = () => {
             <button
               type="submit"
               className={`${noir.className} button-55`}
-              style={{
-                padding: "0.375rem 24px 0.375rem 0.75rem",
-                fontSize: isMobile && "16px",
-              }}
+              style={{ padding: "0.375rem 24px 0.375rem 0.75rem",fontSize:isMobile && '16px' }}
               //   style={{
               //     outline: "0",
               //     cursor: "pointer",
@@ -1189,14 +1176,9 @@ const Index = () => {
       </div>
 
       {storeSale && storeSale.length > 0 ? (
-        <div
-          style={{
-            paddingLeft: isMobile ? "5%" : "20%",
-            paddingRight: isMobile ? "5%" : "20%",
-          }}
-        >
+        <div style={{ paddingLeft: isMobile ? "5%" :"20%", paddingRight: isMobile ? "5%" :"20%" }}>
           <h2 className={noir.className}>Stores on your List</h2>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{display:"flex",flexDirection:'row'}}>
             {storeSale.map((store, index) => (
               <button
                 className={activeButtons[index] ? "button-active" : "button-55"}
@@ -1205,9 +1187,8 @@ const Index = () => {
                   fontSize: "14px",
                   padding: !isMobile && "0.150rem 0.375rem 0.150rem 0.375rem",
                   flexDirection: isMobile && "column",
-                  width: isMobile && "33%",
-                  height: "100%",
-                  borderColor: isMobile && "black",
+                  width: isMobile && '33%',
+                  height:'100%',
                 }}
                 onClick={() => {
                   sessionStorage.setItem("activeID", JSON.stringify(store.id));
@@ -1290,12 +1271,7 @@ const Index = () => {
         </div>
       ) : (
         responseData.length !== 0 && (
-          <div
-            style={{
-              paddingLeft: isMobile ? "5%" : "20%",
-              paddingBottom: "21px",
-            }}
-          >
+          <div style={{ paddingLeft: isMobile ? '5%' : "20%", paddingBottom: "21px" }}>
             <h2 className={noir.className}>Stores on your List</h2>
             <p
               className={noir.className}
@@ -1590,7 +1566,6 @@ const Index = () => {
                                   style={{
                                     marginLeft: isMobile ? "12px" : "15px",
                                     fontSize: "15px",
-                                    borderColor: isMobile && "black",
                                     // borderRadius: isMobile && "15px"
                                   }}
                                   //   className={`${noir.className} ${
@@ -1598,9 +1573,9 @@ const Index = () => {
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
+                                    disabled={
+                                      len === 3 && checkForStore === false
+                                    }
                                   //   style={{
                                   //     outline: "0",
                                   //     width: "75%",
@@ -1832,7 +1807,6 @@ const Index = () => {
                                     outline: "0",
                                     width: "75%",
                                     height: "38px",
-                                    borderColor: isMobile && "black",
                                     cursor:
                                       len === 3 && checkForStore === false
                                         ? "not-allowed"
