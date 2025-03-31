@@ -63,7 +63,7 @@ const Chatbot = () => {
 
   const getGPTResponse = async (input, products) => {
     try {
-      const response = await axios.post('https://server-blue-ten.vercel.app/api/chatgpt', {
+      const response = await axios.post('http://localhost:8080/api/chatgpt', {
         prompt: input,
         products: products,
       });

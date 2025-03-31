@@ -213,7 +213,7 @@ const Index = () => {
 
   // useEffect(() => {
   //   axios
-  //     .get("https://server-blue-ten.vercel.app/api/stores")
+  //     .get("http://localhost:8080/api/stores")
   //     .then((response) => {
   //       setAvailableStores(response.data);
   //     })
@@ -226,7 +226,7 @@ const Index = () => {
   //   setSelectedStore(selectedStore);
   //   try {
   //     const response = await axios.get(
-  //       `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
+  //       `http://localhost:8080/api/stores/${selectedStore}`
   //     );
 
   //     if (response.status === 200) {
@@ -246,7 +246,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/sale/stores")
+      .get("http://localhost:8080/sale/stores")
       .then((response) => setAvailableStores(response.data))
       .catch((error) =>
         console.error("Error fetching available stores:", error)
@@ -260,7 +260,7 @@ const Index = () => {
 
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/sale/stores/${store}`
+        `http://localhost:8080/sale/stores/${store}`
       );
       if (response.status === 200 && response.data.locations) {
         setCities(Object.keys(response.data.locations)); // Получаем список городов
@@ -277,7 +277,7 @@ const Index = () => {
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/sale/stores/${selectedStore}/${city}`
+        `http://localhost:8080/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -309,7 +309,7 @@ const Index = () => {
 
   //   try {
   //     const response = await axios.get(
-  //       `https://server-blue-ten.vercel.app/api/sale/stores/${store}`
+  //       `http://localhost:8080/api/sale/stores/${store}`
   //     );
   //     if (response.status === 200) {
   //       setCities(Object.keys(response.data.locations));
@@ -327,7 +327,7 @@ const Index = () => {
   //   setSelectedCity(city);
   //   try {
   //     const response = await axios.get(
-  //       `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
+  //       `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
   //     );
   //     const loc = response.data.locations;
   //     console.log("RESPONSE", loc);
@@ -344,7 +344,7 @@ const Index = () => {
   //   setSelectedCity(city);
   //   try {
   //     const response = await axios.get(
-  //       `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
+  //       `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
   //     );
   //     const loc = Object.keys(response.data.locations); // Преобразуем в массив ключей
   //     console.log("RESPONSE", loc);
@@ -534,8 +534,8 @@ const Index = () => {
       let response;
       if (storeSale && storeSale != null && com == true) {
         response = await axios.post(
-          "https://server-blue-ten.vercel.app/api/sale",
-          //"https://server-blue-ten.vercel.app/api/sale",
+          "http://localhost:8080/api/sale",
+          //"http://localhost:8080/api/sale",
           {
             selectedStoresID: [storeSale],
           }
@@ -545,8 +545,8 @@ const Index = () => {
         // });
       } else {
         response = await axios.post(
-          //"https://server-blue-ten.vercel.app/api/sale",
-          "https://server-blue-ten.vercel.app/api/sale",
+          //"http://localhost:8080/api/sale",
+          "http://localhost:8080/api/sale",
           {
             selectedStoresID: [newSelectedLocationValue],
           }

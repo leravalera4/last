@@ -203,7 +203,7 @@ const Products = ({ cartData }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores")
+      .get("http://localhost:8080/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -234,7 +234,7 @@ const Products = ({ cartData }) => {
     const store = JSON.parse(sessionStorage.getItem("selectedStore"));
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}`
+        `http://localhost:8080/api/sale/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -267,7 +267,7 @@ const Products = ({ cartData }) => {
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
+        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -309,7 +309,7 @@ const Products = ({ cartData }) => {
       JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/updateLocation",
+        "http://localhost:8080/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,
@@ -688,9 +688,7 @@ const Products = ({ cartData }) => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get(
-        "https://server-blue-ten.vercel.app/api/sale/sal"
-      ); // Замените на ваш API endpoint
+      const response = await axios.get("http://localhost:8080/api/sale/sal"); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -793,7 +791,7 @@ const Products = ({ cartData }) => {
                 width: isMobile ? "100%" : "200px",
                 marginBottom: "10px",
                 fontSize: "16px",
-                borderColor: "black",
+                borderColor:'black'
               }}
             >
               <option
@@ -878,7 +876,6 @@ const Products = ({ cartData }) => {
                   marginLeft: !isMobile && "24px",
                   margin: "0px",
                   fontSize: "16px",
-                  borderColor: "black",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -950,7 +947,6 @@ const Products = ({ cartData }) => {
                   marginRight: !isMobile && "24px",
                   fontSize: "16px",
                   margin: "0px",
-                  borderColor: "black",
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
@@ -1084,7 +1080,6 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
-                style={{ borderColor: "black" }}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",

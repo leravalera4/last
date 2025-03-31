@@ -149,7 +149,7 @@ const Cart = () => {
   // const getNames = async (sale, theme, name) => {
   //   try {
   //     const response = await axios.post(
-  //       "https://server-blue-ten.vercel.app/api/sale/name",
+  //       "http://localhost:8080/api/sale/name",
   //       { sale: sale, theme: theme, name: name } // Wrap the sale data in an object with the key "sale"
   //     );
   //     const responses = response.data;
@@ -167,14 +167,11 @@ const Cart = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/sale/name",
-        {
-          sale,
-          theme,
-          name,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/api/sale/name", {
+        sale,
+        theme,
+        name,
+      });
       const responses = response.data;
       console.log("RESPONSE", responses);
       setResponseData(responses);
@@ -934,7 +931,7 @@ const Cart = () => {
                           style={{
                             margin: "0",
                             padding: "0",
-                            width: "40%",
+                            width: "50%",
                             paddingRight: "10%",
                           }}
                         >
@@ -1105,34 +1102,27 @@ const Cart = () => {
                           ))}
                         </ul>
                       </div>
-                      <div
+
+                      <p
                         style={{
                           display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
+                          justifyContent: "center",
+                          paddingTop: "16px",
+                          fontWeight: "700",
                         }}
                       >
-                        <p
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            paddingTop: "16px",
-                            fontWeight: "700",
-                          }}
-                        >
-                          Total: ${item.totalPrices.toFixed(2)}
-                        </p>
-                        <p
-                          style={{
-                            color: "#008000",
-                            fontSize: "14px",
-                            paddingTop: "0px",
-                            marginTop: "0px",
-                          }}
-                        >
-                          Total discount ${item.difference.toFixed(2)}
-                        </p>
-                      </div>
+                        Total: ${item.totalPrices.toFixed(2)}
+                      </p>
+                      <p
+                        style={{
+                          color: "#008000",
+                          fontSize: "14px",
+                          paddingTop: "0px",
+                          marginTop: "0px",
+                        }}
+                      >
+                        Total discount ${item.difference.toFixed(2)}
+                      </p>
                     </div>
                   </TabPanel>
                 ))}
