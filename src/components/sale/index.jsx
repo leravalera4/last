@@ -1207,6 +1207,7 @@ const Index = () => {
                   flexDirection: isMobile && "column",
                   width: isMobile && "33%",
                   height: "100%",
+                  borderColor: isMobile && 'black' 
                 }}
                 onClick={() => {
                   sessionStorage.setItem("activeID", JSON.stringify(store.id));
