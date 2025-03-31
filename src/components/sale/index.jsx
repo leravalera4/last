@@ -890,7 +890,7 @@ const Index = () => {
           className={`${noir.className} button-55`}
           style={{
             width: isMobile ? "90%" : "200px",
-            padding: isMobile ? "50px 40px" : "0.375rem 0.9rem 0.375rem 0.75rem",
+            padding: isMobile ? "8px 16px" : "0.375rem 0.9rem 0.375rem 0.75rem",
             marginRight: "0px",
             marginBottom: isMobile && "10px",
             fontSize: isMobile && "16px",
@@ -1160,6 +1160,7 @@ const Index = () => {
               style={{
                 padding: "0.375rem 24px 0.375rem 0.75rem",
                 fontSize: isMobile && "16px",
+                borderColor: isMobile && "black",
               }}
               //   style={{
               //     outline: "0",
@@ -1588,7 +1589,8 @@ const Index = () => {
                                   style={{
                                     marginLeft: isMobile ? "12px" : "15px",
                                     fontSize: "15px",
-                                    borderRadius: isMobile && "15px",
+                                    borderColor: isMobile && "black",
+                                    // borderRadius: isMobile && "15px",
                                   }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
