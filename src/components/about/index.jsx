@@ -99,7 +99,7 @@ const Index = () => {
                   fontWeight: 700,
                 }}
               >
-                Stay Updated on Discounts and Promotions
+                Compare Prices Across Stores
               </h4>
 
               <div
@@ -249,12 +249,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={third}
+                  src={forth}
                   width={150}
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={third}
+                  key={forth}
                   style={{ paddingTop: "18px" }}
                 />
                 <p style={{ textAlign: "center" }} className={noir.className}>
