@@ -877,7 +877,7 @@ const Products = ({ cartData }) => {
                   // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
                   marginLeft: !isMobile && "24px",
-                  margin: "0px",
+                  marginBottom: isMobile && "10px",
                   fontSize: isMobile && "16px",
                   borderColor: isMobile && "black",
                   height: isMobile && "48px",
@@ -1086,7 +1086,7 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
-                style={{ borderColor: "black" }}
+                style={{ borderColor: "black", marginRight: isMobile && "0px" }}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",
