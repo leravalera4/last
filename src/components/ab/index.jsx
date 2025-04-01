@@ -1,5 +1,5 @@
 "use client";
-"use cache"
+"use cache";
 
 import React from "react";
 import localFont from "next/font/local";
@@ -204,7 +204,7 @@ const Index = () => {
           </section>
         </div>
       ) : (
-        <div className="h1" style={{ margin: "0 20%" }}>
+        <div className="h1" style={{ margin: "0 20%", marginTop: "5%" }}>
           {/* Section 1: Compare Prices */}
           <section style={{ paddingBottom: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
