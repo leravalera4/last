@@ -39,6 +39,28 @@ const noir = localFont({
 });
 
 const Index = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  React.useEffect(() => {
+    // Call handleResize on mount to set the correct initial state
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures it runs only once on mount
   return (
     <>
       {isMobile ? (
@@ -167,7 +189,7 @@ const Index = () => {
                   fontWeight: 700,
                 }}
               >
-               Organize and Track Your Shopping
+                Organize and Track Your Shopping
               </h4>
 
               <div
@@ -187,7 +209,12 @@ const Index = () => {
                   style={{ paddingTop: "18px" }}
                 />
                 <p style={{ textAlign: "center" }} className={noir.className}>
-                Shoppy Scan makes managing your shopping list effortless. Add items to your virtual cart to keep track of products you’re interested in, get real-time price updates, compare options, and choose the best time to buy. It’s the perfect tool for smart shoppers who want to optimize their spending without the hassle of manual tracking.
+                  Shoppy Scan makes managing your shopping list effortless. Add
+                  items to your virtual cart to keep track of products you’re
+                  interested in, get real-time price updates, compare options,
+                  and choose the best time to buy. It’s the perfect tool for
+                  smart shoppers who want to optimize their spending without the
+                  hassle of manual tracking.
                 </p>
               </div>
             </div>
@@ -229,7 +256,11 @@ const Index = () => {
                   style={{ paddingTop: "18px" }}
                 />
                 <p style={{ textAlign: "center" }} className={noir.className}>
-                Never miss a chance to save with Shoppy Scan. Accessible on all your devices, our platform is your convenient shopping companion. Whether you're at home or on the go, enjoy a seamless, user-friendly experience. Shop with confidence and make smarter purchasing decisions every time.
+                  Never miss a chance to save with Shoppy Scan. Accessible on
+                  all your devices, our platform is your convenient shopping
+                  companion. Whether you're at home or on the go, enjoy a
+                  seamless, user-friendly experience. Shop with confidence and
+                  make smarter purchasing decisions every time.
                 </p>
               </div>
             </div>
