@@ -1193,6 +1193,7 @@ const Index = () => {
           style={{
             paddingLeft: isMobile ? "5%" : "20%",
             paddingRight: isMobile ? "5%" : "20%",
+            paddingBottom : isMobile ? "10%" : "5%"
           }}
         >
           <h2 className={noir.className}>Stores on your List</h2>
