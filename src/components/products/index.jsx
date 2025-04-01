@@ -792,7 +792,7 @@ const Products = ({ cartData }) => {
                 marginRight: "0px",
                 width: isMobile ? "100%" : "200px",
                 marginBottom: "10px",
-                fontSize: "16px",
+                fontSize: isMobile && "16px",
                 borderColor: isMobile && "black",
               }}
             >
@@ -877,7 +877,8 @@ const Products = ({ cartData }) => {
                   marginRight: !isMobile && "24px",
                   marginLeft: !isMobile && "24px",
                   margin: "0px",
-                  fontSize: "16px",
+                  fontSize: isMobile && "16px",
+                  borderColor: isMobile && "black",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -947,8 +948,9 @@ const Products = ({ cartData }) => {
                   width: isMobile ? "100%" : "200px",
                   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
-                  fontSize: "16px",
+                  fontSize: isMobile && "16px",
                   margin: "0px",
+                  borderColor: isMobile && "black",
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
@@ -1082,6 +1084,7 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
+                style={{borderColor:'black'}}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",
@@ -1278,7 +1281,7 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ padding:'0px' }}
+                        style={{ padding:'10px',borderColor:'black' }}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
