@@ -793,7 +793,8 @@ const Products = ({ cartData }) => {
                 marginBottom: isMobile && "10px",
                 fontSize: isMobile && "16px",
                 borderColor: isMobile && "black",
-                height: isMobile && "48px"
+                height: isMobile && "48px",
+                padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
               }}
             >
               <option
@@ -879,7 +880,8 @@ const Products = ({ cartData }) => {
                   margin: "0px",
                   fontSize: isMobile && "16px",
                   borderColor: isMobile && "black",
-                   height: isMobile && "48px"
+                  height: isMobile && "48px",
+                  padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                 }}
                 className={`${noir.className} button-55`}
                 // style={{
@@ -951,7 +953,8 @@ const Products = ({ cartData }) => {
                   marginBottom: isMobile && "10px",
                   fontSize: isMobile && "16px",
                   borderColor: isMobile && "black",
-                  height: isMobile && "48px"
+                  height: isMobile && "48px",
+                  padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                 }}
                 className={`${noir.className} button-55`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
@@ -993,7 +996,7 @@ const Products = ({ cartData }) => {
                     cursor: selectedAllLength === 3 && "not-allowed",
                     color: selectedAllLength === 3 && "#ccc",
                     backgroundColor: selectedAllLength === 3 && "#f0f0f0",
-                    borderColor: selectedAllLength === 3 ? "#ddd" : 'black',
+                    borderColor: selectedAllLength === 3 ? "#ddd" : "black",
                   }}
                   disabled={
                     selectedAll.some(

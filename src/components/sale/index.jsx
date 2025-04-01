@@ -894,7 +894,8 @@ const Index = () => {
             fontSize: isMobile && "16px",
             borderColor: isMobile && "black",
             marginBottom: isMobile && "10px",
-            height: isMobile && "48px"
+            height: isMobile && "48px",
+            padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
             // marginRight: "24px",
           }}
           // style={{
@@ -989,7 +990,7 @@ const Index = () => {
               className={`${noir.className} button-55`}
               style={{
                 width: isMobile ? "90%" : "200px",
-                 padding: isMobile ? "8px 16px" : "0.375rem 0.9rem 0.375rem 0.75rem",
+                padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                 marginRight: !isMobile && "24px",
                 marginLeft: !isMobile && "24px",
                 margin: isMobile && "0px",
@@ -1053,7 +1054,7 @@ const Index = () => {
             <select
               className={`${noir.className} button-55`}
               style={{
-                padding: isMobile ? "8px 16px" : "0.375rem 0.9rem 0.375rem 0.75rem",
+                padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                 paddingRight: !isMobile && "24px",
                 width: isMobile ? "90%" : "230px",
                 marginRight: !isMobile && "24px",
@@ -1193,7 +1194,7 @@ const Index = () => {
           style={{
             paddingLeft: isMobile ? "5%" : "20%",
             paddingRight: isMobile ? "5%" : "20%",
-            paddingBottom : isMobile ? "10%" : "5%"
+            paddingBottom: isMobile ? "10%" : "5%",
           }}
         >
           <h2 className={noir.className}>Stores on your List</h2>
@@ -1208,7 +1209,7 @@ const Index = () => {
                   flexDirection: isMobile && "column",
                   width: isMobile && "33%",
                   height: "100%",
-                  borderColor: isMobile && 'black' 
+                  borderColor: isMobile && "black",
                 }}
                 onClick={() => {
                   sessionStorage.setItem("activeID", JSON.stringify(store.id));
