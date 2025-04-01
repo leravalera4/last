@@ -839,8 +839,8 @@ const Index = () => {
   return (
     <div
       style={{
-        // marginLeft: "80px",
-        // marginRight: "80px",
+        marginLeft: isMobile ? "5%" : "10%",
+        marginRight: isMobile ? "5%" : "10%",
         paddingTop: "10px",
       }}
     >
