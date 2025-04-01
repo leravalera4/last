@@ -752,25 +752,25 @@ const Products = ({ cartData }) => {
         >
           Select stores you'd like to compare grocery prices at
         </p>
-
-        <div
-          className="select-container"
-          style={{
-            paddingRight: isMobile ? "5%" : "10%",
-            paddingLeft: isMobile ? "5%" : "10%",
-          }}
-        >
+        {isMobile ? (
           <div
-            // className="select-store"
-            style={{
-              display: "flex",
-              //   width: "320px",
-              flexDirection: "row",
-              alignItems: "center",
-              width: isMobile && "100%",
-            }}
+            className="select-container"
+            // style={{
+            //   paddingRight: isMobile ? "5%" : "10%",
+            //   paddingLeft: isMobile ? "5%" : "10%",
+            // }}
           >
-            {/* <label
+            <div
+              // className="select-store"
+              style={{
+                display: "flex",
+                //   width: "320px",
+                flexDirection: isMobile && !isVisible ? "row" : "column",
+                alignItems: "center",
+                width: isMobile && "100%",
+              }}
+            >
+              {/* <label
               style={{
                 paddingRight: "8px",
                 fontSize: "16px",
@@ -779,161 +779,143 @@ const Products = ({ cartData }) => {
             >
               Select Store:
             </label> */}
-            <select
-              className={`${noir.className} button-55`}
-              onChange={(e) => {
-                handleStoreChange(e.target.value);
-                // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
-                // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
-              }}
-              value={selectedStore}
-              style={{
-                marginRight: isMobile && "0px",
-                width: isMobile ? "100%" : "200px",
-                marginBottom: isMobile && "10px",
-                fontSize: isMobile && "16px",
-                borderColor: isMobile && "black",
-                height: isMobile && "48px",
-                padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-              }}
-            >
-              <option
-                className={noir.className}
-                value=""
-                //   disabled
-                selected
-              >
-                Please Select Store...
-              </option>
-              {availableStores.map((store) => (
-                <option className={noir.className} key={store} value={store}>
-                  {store}
-                </option>
-              ))}
-            </select>
-          </div>
-          {isVisible && (
-            <>
-              <p
-                style={{
-                  fontSize: "16px",
-                  padding: "0px 20px",
-                }}
-                className={`${noir.className} label`}
-              >
-                or
-              </p>
-              <button
-                onClick={getLocation}
-                className={`${noir.className} button-55`}
-                style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
-                //   style={{
-                //     outline: "0",
-                //     width: "auto",
-                //     height: "38px",
-                //     cursor: "pointer",
-                //     padding: "5px 16px",
-                //     fontSize: "14px",
-                //     fontWeight: "500",
-                //     lineHeight: "20px",
-                //     verticalAlign: "middle",
-                //     border: "1px solid",
-                //     borderRadius: " 6px",
-                //     color: " #24292e",
-                //     backgroundColor: "#fafbfc",
-                //     borderColor: "#1b1f2326",
-                //     boxShadow:
-                //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                //   }}
-              >
-                Find Stores Near Me
-              </button>
-            </>
-          )}
-
-          {selectedStore !== null && (
-            <div
-              //   className="select-store"
-              style={{
-                display: "flex",
-                width: isMobile ? "100%" : "335px",
-                alignItems: "center",
-              }}
-            >
-              {/* <label
-                style={{
-                  paddingRight: "8px",
-                  fontSize: "16px",
-                }}
-                className={noir.className}
-              >
-                Select City:
-              </label> */}
               <select
-                required
+                className={`${noir.className} button-55`}
+                onChange={(e) => {
+                  handleStoreChange(e.target.value);
+                  // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
+                  // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
+                }}
+                value={selectedStore}
                 style={{
-                  width: isMobile ? "100%" : "200px",
-                  // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                  marginRight: !isMobile && "24px",
-                  marginLeft: !isMobile && "24px",
+                  marginRight: isMobile && !isVisible && "12px",
+                  width: isMobile ? "70%" : "200px",
                   marginBottom: isMobile && "10px",
                   fontSize: isMobile && "16px",
                   borderColor: isMobile && "black",
                   height: isMobile && "48px",
                   padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                 }}
-                className={`${noir.className} button-55`}
-                // style={{
-                //   width: "232px",
-                //   height: "38px",
-                //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-                //   fontSize: "1rem",
-                //   fontWeight: "400",
-                //   lineHeight: "1.5",
-                //   color: "#212529",
-                //   backgroundColor: "#fff",
-                //   border: "1px solid #ced4da",
-                //   borderRadius: "0.25rem",
-                //   transition:
-                //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-                // }}
-                // onChange={(e) => handleStoreChange(e.target.value)}
-                onChange={(e) => handleCityChange(e.target.value)}
-                value={selectedCity}
               >
                 <option
-                  style={{ color: "#212529" }}
+                  className={noir.className}
                   value=""
                   //   disabled
                   selected
-                  //   hidden
-                  // disabled
-                  //   selected
-                  className={noir.className}
                 >
-                  Please Select City...
+                  Select Store...
                 </option>
-                {cities.map((city) => (
-                  <option className={noir.className} key={city} value={city}>
-                    {city}
+                {availableStores.map((store) => (
+                  <option className={noir.className} key={store} value={store}>
+                    {store}
                   </option>
                 ))}
               </select>
+              {isVisible && (
+                <>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      padding: "0px 20px",
+                      margin: "8px",
+                    }}
+                    className={`${noir.className}`}
+                  >
+                    or
+                  </p>
+                  <button
+                    onClick={getLocation}
+                    className={`${noir.className} button-55`}
+                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                    //   style={{
+                    //     outline: "0",
+                    //     width: "auto",
+                    //     height: "38px",
+                    //     cursor: "pointer",
+                    //     padding: "5px 16px",
+                    //     fontSize: "14px",
+                    //     fontWeight: "500",
+                    //     lineHeight: "20px",
+                    //     verticalAlign: "middle",
+                    //     border: "1px solid",
+                    //     borderRadius: " 6px",
+                    //     color: " #24292e",
+                    //     backgroundColor: "#fafbfc",
+                    //     borderColor: "#1b1f2326",
+                    //     boxShadow:
+                    //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                    //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                    //   }}
+                  >
+                    Find Stores Near Me
+                  </button>
+                </>
+              )}
+              {selectedStore !== null && (
+                <select
+                  required
+                  style={{
+                    width: isMobile ? "100%" : "200px",
+                    // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                    marginRight: isMobile ? "0px" : "24px",
+                    marginLeft: !isMobile && "24px",
+                    marginBottom: isMobile && "10px",
+                    fontSize: isMobile && "16px",
+                    borderColor: isMobile && "black",
+                    height: isMobile && "48px",
+                    padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                  }}
+                  className={`${noir.className} button-55`}
+                  // style={{
+                  //   width: "232px",
+                  //   height: "38px",
+                  //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                  //   fontSize: "1rem",
+                  //   fontWeight: "400",
+                  //   lineHeight: "1.5",
+                  //   color: "#212529",
+                  //   backgroundColor: "#fff",
+                  //   border: "1px solid #ced4da",
+                  //   borderRadius: "0.25rem",
+                  //   transition:
+                  //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                  // }}
+                  // onChange={(e) => handleStoreChange(e.target.value)}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                  value={selectedCity}
+                >
+                  <option
+                    style={{ color: "#212529" }}
+                    value=""
+                    //   disabled
+                    selected
+                    //   hidden
+                    // disabled
+                    //   selected
+                    className={noir.className}
+                  >
+                    Select City...
+                  </option>
+                  {cities.map((city) => (
+                    <option className={noir.className} key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
-          )}
 
-          {selectedCity !== null && (
-            <div
-              //   className="select-store"
-              style={{
-                display: "flex",
-                flexDirection: isMobile && "column",
-                width: isMobile ? "100%" : "560px",
-                alignItems: "center",
-              }}
-            >
-              {/* <labels
+            {selectedCity !== null && (
+              <div
+                //   className="select-store"
+                style={{
+                  display: "flex",
+                  flexDirection: isMobile && "column",
+                  width: isMobile ? "100%" : "560px",
+                  alignItems: "center",
+                }}
+              >
+                {/* <labels
                 // style={{
                 //   paddingRight: "8px",
                 //   fontSize: "18px",
@@ -945,73 +927,73 @@ const Products = ({ cartData }) => {
               >
                 Select Location:
               </labels> */}
-              <select
-                required
-                style={{
-                  width: isMobile ? "100%" : "200px",
-                  marginRight: !isMobile && "24px",
-                  marginBottom: isMobile && "10px",
-                  fontSize: isMobile && "16px",
-                  borderColor: isMobile && "black",
-                  height: isMobile && "48px",
-                  padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-                }}
-                className={`${noir.className} button-55`}
-                onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
-                value={selectedLocation}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddStore();
-                    e.target.blur();
-                  }
-                }}
-              >
-                <option
-                  style={{ color: "#212529" }}
-                  value=""
-                  //   disabled
-                  //   selected
-                  //   hidden
-                  // disabled
-                  selected
-                  className={noir.className}
-                >
-                  Please Select Location...
-                </option>
-                {locations.map((location, index) => (
-                  <option
-                    className={noir.className}
-                    key={index}
-                    value={location}
-                  >
-                    {location}
-                  </option>
-                ))}
-              </select>
-
-              {selectedLocation && (
-                <button
+                <select
+                  required
                   style={{
-                    cursor: selectedAllLength === 3 && "not-allowed",
-                    color: selectedAllLength === 3 && "#ccc",
-                    backgroundColor: selectedAllLength === 3 && "#f0f0f0",
-                    borderColor: selectedAllLength === 3 ? "#ddd" : "black",
+                    width: isMobile ? "100%" : "200px",
+                    marginRight: isMobile ? "0px" : "24px",
+                    marginBottom: isMobile && "10px",
+                    fontSize: isMobile && "16px",
+                    borderColor: isMobile && "black",
+                    height: isMobile && "48px",
+                    padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                   }}
-                  disabled={
-                    selectedAll.some(
-                      (store) => store.location === selectedLocation
-                    ) || selectedAllLength === 3
-                  }
-                  // disabled={selectedAll.includes(selectedLocation)}
-                  className={`${noir.className} button-54`}
-                  onClick={handleAddStore}
+                  className={`${noir.className} button-55`}
+                  onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
+                  value={selectedLocation}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddStore();
+                      e.target.blur();
+                    }
+                  }}
                 >
-                  Add Store
-                </button>
-              )}
+                  <option
+                    style={{ color: "#212529" }}
+                    value=""
+                    //   disabled
+                    //   selected
+                    //   hidden
+                    // disabled
+                    selected
+                    className={noir.className}
+                  >
+                    Select Location...
+                  </option>
+                  {locations.map((location, index) => (
+                    <option
+                      className={noir.className}
+                      key={index}
+                      value={location}
+                    >
+                      {location}
+                    </option>
+                  ))}
+                </select>
 
-              {/*             <select
+                {selectedLocation && (
+                  <button
+                    style={{
+                      cursor: selectedAllLength === 3 && "not-allowed",
+                      color: selectedAllLength === 3 && "#ccc",
+                      backgroundColor: selectedAllLength === 3 && "#f0f0f0",
+                      borderColor: selectedAllLength === 3 ? "#ddd" : "black",
+                    }}
+                    disabled={
+                      selectedAll.some(
+                        (store) => store.location === selectedLocation
+                      ) || selectedAllLength === 3
+                    }
+                    // disabled={selectedAll.includes(selectedLocation)}
+                    className={`${noir.className} button-54`}
+                    onClick={handleAddStore}
+                  >
+                    Add Store
+                  </button>
+                )}
+
+                {/*             <select
               className={`${noir.className} select`}
               // style={{
               //   height: "38px",
@@ -1064,61 +1046,436 @@ const Products = ({ cartData }) => {
                 </option>
               ))}
             </select> */}
-            </div>
-          )}
+              </div>
+            )}
 
-          {selectedAll.length > 0 && (
-            <div className="search" onKeyDown={handleKeyDown} tabIndex="0">
-              {/* <label
+            {selectedAll.length > 0 && (
+              <div className="search" onKeyDown={handleKeyDown} tabIndex="0">
+                {/* <label
                 style={{ paddingRight: "8px", fontSize: "16px" }}
                 className={`${noir.className} label`}
               >
                 Search:
               </label> */}
-              <input
-                className={noir.className}
-                placeholder="Search for..."
-                type="text"
-                value={searchText}
-                onChange={handleSearchChange}
-                required
-              />
+                <input
+                  className={noir.className}
+                  placeholder="Search for..."
+                  type="text"
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  required
+                />
 
-              <button
+                <button
+                  className={`${noir.className} button-55`}
+                  style={{
+                    borderColor: "black",
+                    marginRight: isMobile && "0px",
+                  }}
+                  // style={{
+                  //   outline: "0",
+                  //   height: "38px",
+                  //   cursor: "pointer",
+                  //   padding: "5px 16px",
+                  //   fontSize: "14px",
+                  //   fontWeight: "500",
+                  //   lineHeight: "20px",
+                  //   verticalAlign: "middle",
+                  //   border: "1px solid",
+                  //   borderRadius: " 6px",
+                  //   color: " #24292e",
+                  //   backgroundColor: "#fafbfc",
+                  //   borderColor: "#1b1f2326",
+                  //   boxShadow:
+                  //     "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                  // }}
+                  //disabled={searchText === null || selectedLocation === null}
+                  onClick={handleButtonClick}
+                  ref={buttonRef}
+                  //  disabled={!searchText || !selectedLocation || selectedAllLength && selectedAllLength.length === 0}
+                  disabled={
+                    !searchText ||
+                    (selectedAllLength && selectedAllLength.length === 0)
+                  }
+                >
+                  Search
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div
+            className="select-container"
+            style={{
+              paddingRight: isMobile ? "5%" : "10%",
+              paddingLeft: isMobile ? "5%" : "10%",
+            }}
+          >
+            <div
+              // className="select-store"
+              style={{
+                display: "flex",
+                //   width: "320px",
+                flexDirection: "row",
+                alignItems: "center",
+                width: isMobile && "100%",
+              }}
+            >
+              {/* <label
+              style={{
+                paddingRight: "8px",
+                fontSize: "16px",
+              }}
+              className={noir.className}
+            >
+              Select Store:
+            </label> */}
+              <select
                 className={`${noir.className} button-55`}
-                style={{ borderColor: "black", marginRight: isMobile && "0px" }}
-                // style={{
-                //   outline: "0",
-                //   height: "38px",
-                //   cursor: "pointer",
-                //   padding: "5px 16px",
-                //   fontSize: "14px",
-                //   fontWeight: "500",
-                //   lineHeight: "20px",
-                //   verticalAlign: "middle",
-                //   border: "1px solid",
-                //   borderRadius: " 6px",
-                //   color: " #24292e",
-                //   backgroundColor: "#fafbfc",
-                //   borderColor: "#1b1f2326",
-                //   boxShadow:
-                //     "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                // }}
-                //disabled={searchText === null || selectedLocation === null}
-                onClick={handleButtonClick}
-                ref={buttonRef}
-                //  disabled={!searchText || !selectedLocation || selectedAllLength && selectedAllLength.length === 0}
-                disabled={
-                  !searchText ||
-                  (selectedAllLength && selectedAllLength.length === 0)
-                }
+                onChange={(e) => {
+                  handleStoreChange(e.target.value);
+                  // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
+                  // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
+                }}
+                value={selectedStore}
+                style={{
+                  marginRight: isMobile && "0px",
+                  width: isMobile ? "100%" : "200px",
+                  marginBottom: isMobile && "10px",
+                  fontSize: isMobile && "16px",
+                  borderColor: isMobile && "black",
+                  height: isMobile && "48px",
+                  padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                }}
               >
-                Search
-              </button>
+                <option
+                  className={noir.className}
+                  value=""
+                  //   disabled
+                  selected
+                >
+                  Select Store...
+                </option>
+                {availableStores.map((store) => (
+                  <option className={noir.className} key={store} value={store}>
+                    {store}
+                  </option>
+                ))}
+              </select>
+              {isVisible && (
+                <>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      padding: "0px 20px",
+                      margin: "8px",
+                    }}
+                    className={`${noir.className}`}
+                  >
+                    or
+                  </p>
+                  <button
+                    onClick={getLocation}
+                    className={`${noir.className} button-55`}
+                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                    //   style={{
+                    //     outline: "0",
+                    //     width: "auto",
+                    //     height: "38px",
+                    //     cursor: "pointer",
+                    //     padding: "5px 16px",
+                    //     fontSize: "14px",
+                    //     fontWeight: "500",
+                    //     lineHeight: "20px",
+                    //     verticalAlign: "middle",
+                    //     border: "1px solid",
+                    //     borderRadius: " 6px",
+                    //     color: " #24292e",
+                    //     backgroundColor: "#fafbfc",
+                    //     borderColor: "#1b1f2326",
+                    //     boxShadow:
+                    //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                    //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                    //   }}
+                  >
+                    Find Stores Near Me
+                  </button>
+                </>
+              )}
             </div>
-          )}
-        </div>
+
+            {selectedStore !== null && (
+              <div
+                //   className="select-store"
+                style={{
+                  display: "flex",
+                  width: isMobile ? "100%" : "335px",
+                  alignItems: "center",
+                }}
+              >
+                {/* <label
+                style={{
+                  paddingRight: "8px",
+                  fontSize: "16px",
+                }}
+                className={noir.className}
+              >
+                Select City:
+              </label> */}
+                <select
+                  required
+                  style={{
+                    width: isMobile ? "100%" : "200px",
+                    // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                    marginRight: isMobile ? "0px" : "24px",
+                    marginLeft: !isMobile && "24px",
+                    marginBottom: isMobile && "10px",
+                    fontSize: isMobile && "16px",
+                    borderColor: isMobile && "black",
+                    height: isMobile && "48px",
+                    padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                  }}
+                  className={`${noir.className} button-55`}
+                  // style={{
+                  //   width: "232px",
+                  //   height: "38px",
+                  //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                  //   fontSize: "1rem",
+                  //   fontWeight: "400",
+                  //   lineHeight: "1.5",
+                  //   color: "#212529",
+                  //   backgroundColor: "#fff",
+                  //   border: "1px solid #ced4da",
+                  //   borderRadius: "0.25rem",
+                  //   transition:
+                  //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                  // }}
+                  // onChange={(e) => handleStoreChange(e.target.value)}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                  value={selectedCity}
+                >
+                  <option
+                    style={{ color: "#212529" }}
+                    value=""
+                    //   disabled
+                    selected
+                    //   hidden
+                    // disabled
+                    //   selected
+                    className={noir.className}
+                  >
+                    Select City...
+                  </option>
+                  {cities.map((city) => (
+                    <option className={noir.className} key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {selectedCity !== null && (
+              <div
+                //   className="select-store"
+                style={{
+                  display: "flex",
+                  flexDirection: isMobile && "column",
+                  width: isMobile ? "100%" : "560px",
+                  alignItems: "center",
+                }}
+              >
+                {/* <labels
+                // style={{
+                //   paddingRight: "8px",
+                //   fontSize: "18px",
+                //   paddingLeft: "24px",
+                // }}
+                // style={{paddingLeft:'7%'}}
+                className={`${noir.className} label`}
+                style={{ fontSize: "16px", paddingRight: "8px" }}
+              >
+                Select Location:
+              </labels> */}
+                <select
+                  required
+                  style={{
+                    width: isMobile ? "100%" : "200px",
+                    marginRight: isMobile ? "0px" : "24px",
+                    marginBottom: isMobile && "10px",
+                    fontSize: isMobile && "16px",
+                    borderColor: isMobile && "black",
+                    height: isMobile && "48px",
+                    padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                  }}
+                  className={`${noir.className} button-55`}
+                  onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
+                  value={selectedLocation}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddStore();
+                      e.target.blur();
+                    }
+                  }}
+                >
+                  <option
+                    style={{ color: "#212529" }}
+                    value=""
+                    //   disabled
+                    //   selected
+                    //   hidden
+                    // disabled
+                    selected
+                    className={noir.className}
+                  >
+                    Select Location...
+                  </option>
+                  {locations.map((location, index) => (
+                    <option
+                      className={noir.className}
+                      key={index}
+                      value={location}
+                    >
+                      {location}
+                    </option>
+                  ))}
+                </select>
+
+                {selectedLocation && (
+                  <button
+                    style={{
+                      cursor: selectedAllLength === 3 && "not-allowed",
+                      color: selectedAllLength === 3 && "#ccc",
+                      backgroundColor: selectedAllLength === 3 && "#f0f0f0",
+                      borderColor: selectedAllLength === 3 ? "#ddd" : "black",
+                    }}
+                    disabled={
+                      selectedAll.some(
+                        (store) => store.location === selectedLocation
+                      ) || selectedAllLength === 3
+                    }
+                    // disabled={selectedAll.includes(selectedLocation)}
+                    className={`${noir.className} button-54`}
+                    onClick={handleAddStore}
+                  >
+                    Add Store
+                  </button>
+                )}
+
+                {/*             <select
+              className={`${noir.className} select`}
+              // style={{
+              //   height: "38px",
+              //   padding: "0.375rem 0.25rem 0.375rem 0.75rem",
+              //   fontSize: "1rem",
+              //   fontWeight: "400",
+              //   lineHeight: "1.5",
+              //   color: "#212529",
+              //   backgroundColor: "#fff",
+              //   border: "1px solid #ced4da",
+              //   borderRadius: "0.25rem",
+              //   transition:
+              //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+              // }}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+              value={selectedLocation}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Предотвращает стандартное поведение Enter
+
+                  handleAddStore(); // Запускает вашу функцию обработки
+                  e.target.blur(); // Убирает фокус с поля
+                }
+              }}
+            >
+              <option
+                value=""
+                disabled
+                selected
+                hidden
+                className={noir.className}
+              >
+                Please Choose Location
+              </option>
+              <option
+                value={selectedLocation}
+                selected
+                hidden
+                className={noir.className}
+              >
+                {selectedLocation}
+              </option>
+              {locations.map((location, index) => (
+                <option
+                  className={noir.className}
+                  key={location}
+                  value={location}
+                >
+                  {location}
+                </option>
+              ))}
+            </select> */}
+              </div>
+            )}
+
+            {selectedAll.length > 0 && (
+              <div className="search" onKeyDown={handleKeyDown} tabIndex="0">
+                {/* <label
+                style={{ paddingRight: "8px", fontSize: "16px" }}
+                className={`${noir.className} label`}
+              >
+                Search:
+              </label> */}
+                <input
+                  className={noir.className}
+                  placeholder="Search for..."
+                  type="text"
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  required
+                />
+
+                <button
+                  className={`${noir.className} button-55`}
+                  style={{
+                    borderColor: "black",
+                    marginRight: isMobile && "0px",
+                  }}
+                  // style={{
+                  //   outline: "0",
+                  //   height: "38px",
+                  //   cursor: "pointer",
+                  //   padding: "5px 16px",
+                  //   fontSize: "14px",
+                  //   fontWeight: "500",
+                  //   lineHeight: "20px",
+                  //   verticalAlign: "middle",
+                  //   border: "1px solid",
+                  //   borderRadius: " 6px",
+                  //   color: " #24292e",
+                  //   backgroundColor: "#fafbfc",
+                  //   borderColor: "#1b1f2326",
+                  //   boxShadow:
+                  //     "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                  // }}
+                  //disabled={searchText === null || selectedLocation === null}
+                  onClick={handleButtonClick}
+                  ref={buttonRef}
+                  //  disabled={!searchText || !selectedLocation || selectedAllLength && selectedAllLength.length === 0}
+                  disabled={
+                    !searchText ||
+                    (selectedAllLength && selectedAllLength.length === 0)
+                  }
+                >
+                  Search
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {firstTime && selectedAll.length === 0 ? (
           <Ab style={{ marginLeft: "20%", marginRight: "20%" }} />
@@ -1283,7 +1640,7 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ padding: "10px", borderColor: "black" }}
+                        style={{ paddingTop: "4px",paddingBottom:'4px', borderColor: "black" }}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
