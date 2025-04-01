@@ -1316,8 +1316,8 @@ const Index = () => {
               overflowX: "auto",
               //minWidth: "100%",
               marginTop: "32px",
-              paddingLeft: isMobile ? "5%" : "20%",
-              paddingRight: isMobile ? "5%" : "20%",
+              paddingLeft: isMobile ? "5%" : "10%",
+              paddingRight: isMobile ? "5%" : "10%",
             }}
           >
             {loading ? (
