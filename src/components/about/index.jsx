@@ -143,6 +143,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Stay Updated on Discounts and Promotions

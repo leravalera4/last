@@ -723,6 +723,16 @@ const Cart = () => {
                           <p style={{ fontWeight: "700", lineHeight: "214%" }}>
                             Total: ${item.totalPrices.toFixed(2)}
                           </p>
+                          <p
+                          style={{
+                            color: "#008000",
+                            fontSize: "14px",
+                            paddingTop: "0px",
+                            marginTop: "0px",
+                          }}
+                        >
+                          Total discount ${item.difference.toFixed(2)}
+                        </p>
                           <button
                             style={{
                               outline: "0px",
