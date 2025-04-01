@@ -780,7 +780,7 @@ const Products = ({ cartData }) => {
               Select Store:
             </label> */}
             <select
-              className={`${noir.className} button-55`}
+              className={`${noir.className} button-56`}
               onChange={(e) => {
                 handleStoreChange(e.target.value);
                 // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
@@ -873,14 +873,14 @@ const Products = ({ cartData }) => {
                 required
                 style={{
                   width: isMobile ? "100%" : "200px",
-                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                  // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
                   marginLeft: !isMobile && "24px",
                   margin: "0px",
                   fontSize: isMobile && "16px",
                   borderColor: isMobile && "black",
                 }}
-                className={`${noir.className} button-55`}
+                className={`${noir.className} button-56`}
                 // style={{
                 //   width: "232px",
                 //   height: "38px",
@@ -946,13 +946,13 @@ const Products = ({ cartData }) => {
                 required
                 style={{
                   width: isMobile ? "100%" : "200px",
-                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                  // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                   marginRight: !isMobile && "24px",
                   fontSize: isMobile && "16px",
                   margin: "0px",
                   borderColor: isMobile && "black",
                 }}
-                className={`${noir.className} button-55`}
+                className={`${noir.className} button-56`}
                 onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
                 value={selectedLocation}
                 onKeyDown={(e) => {
