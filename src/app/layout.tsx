@@ -77,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={inter.className}>
         <Header />
-        {children}
+        <main>{children}</main> 
         <SpeedInsights />
         <Analytics />
         <Footer/>

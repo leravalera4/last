@@ -1127,8 +1127,8 @@ const Products = ({ cartData }) => {
                     style={{
                       display: "flex",
                       flexDirection: "row",
-                      justifyContent: "flex-end",
-                      marginRight: "60px",
+                      // justifyContent: "flex-end",
+                      // marginRight: "60px",
                     }}
                   ></div>
                 )}
