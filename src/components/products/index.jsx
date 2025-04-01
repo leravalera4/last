@@ -788,10 +788,10 @@ const Products = ({ cartData }) => {
               }}
               value={selectedStore}
               style={{
-                padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                marginRight: "0px",
+                padding: isMobile && "10px 10px 10px 10px",
+                marginRight: isMobile ? "0px" : "24px",
                 width: isMobile ? "100%" : "200px",
-                marginBottom: "10px",
+                marginBottom: isMobile && "10px",
                 fontSize: isMobile && "16px",
                 borderColor: isMobile && "black",
               }}
@@ -988,14 +988,12 @@ const Products = ({ cartData }) => {
 
               {selectedLocation && (
                 <button
-                  //   style={{
-                  //     cursor: selectedAllLength === 3 ? "not-allowed" : "pointer", // Изменение курсора
-                  //     color: selectedAllLength === 3 ? "#ccc" : "#24292e", // Change color when disabled
-                  //     backgroundColor:
-                  //       selectedAllLength === 3 ? "#f0f0f0" : "#fafbfc", // Change background when disabled
-                  //     borderColor: selectedAllLength === 3 ? "#ddd" : "#1b1f2326", // Change border when disabled
-                  //     margin: "0px",
-                  //   }}
+                  style={{
+                    cursor: selectedAllLength === 3 && "not-allowed",
+                    color: selectedAllLength === 3 && "#ccc",
+                    backgroundColor: selectedAllLength === 3 && "#f0f0f0",
+                    borderColor: selectedAllLength === 3 ? "#ddd" : 'black',
+                  }}
                   disabled={
                     selectedAll.some(
                       (store) => store.location === selectedLocation
@@ -1084,7 +1082,7 @@ const Products = ({ cartData }) => {
 
               <button
                 className={`${noir.className} button-55`}
-                style={{borderColor:'black'}}
+                style={{ borderColor: "black" }}
                 // style={{
                 //   outline: "0",
                 //   height: "38px",
@@ -1281,7 +1279,7 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ padding:'10px',borderColor:'black' }}
+                        style={{ padding: "10px", borderColor: "black" }}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
