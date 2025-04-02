@@ -770,15 +770,6 @@ const Products = ({ cartData }) => {
                 width: isMobile && "100%",
               }}
             >
-              {/* <label
-              style={{
-                paddingRight: "8px",
-                fontSize: "16px",
-              }}
-              className={noir.className}
-            >
-              Select Store:
-            </label> */}
               <select
                 className={`${noir.className} button-55`}
                 onChange={(e) => {
@@ -851,6 +842,7 @@ const Products = ({ cartData }) => {
                   </button>
                 </>
               )}
+              
               {selectedStore !== null && (
                 <select
                   required
