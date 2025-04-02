@@ -945,7 +945,7 @@ const Index = () => {
             <button
               onClick={getLocation}
               className={`${noir.className} button-55`}
-              style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+              style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem",borderColor:isMobile && "black",fontSize: isMobile && "16px" }}
               //   style={{
               //     outline: "0",
               //     width: "auto",
@@ -1591,7 +1591,7 @@ const Index = () => {
                                   className={`${noir.className} button-54`}
                                   style={{
                                     marginLeft: isMobile ? "12px" : "15px",
-                                    fontSize: "15px",
+                                    fontSize: isMobile ? "16px" : "15px",
                                     borderColor: isMobile && "black",
                                     borderColor:
                                     len === 3 && checkForStore === false
@@ -1823,45 +1823,52 @@ const Index = () => {
                                 <button
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
+                                  style={{
+                                    marginLeft: isMobile ? "12px" : "15px",
+                                    fontSize: isMobile ? "16px" : "15px",
+                                    borderColor: isMobile && "black",
+                                    borderColor:
+                                    len === 3 && checkForStore === false
+                                      && "#ddd",
+                                      cursor:
+                                      len === 3 && checkForStore === false
+                                        ? "not-allowed"
+                                        : "pointer", // Изменение курсора
+                                    // borderRadius: isMobile && "15px",
+                                    color:
+                                    len === 3 && checkForStore === false
+                                      && "#ccc"
+                                  }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
+                                    disabled={
                                       len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "13px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
+                                    }
+                                  //   style={{
+                                  // //     outline: "0",
+                                  // //     width: "75%",
+                                  // //     height: "38px",
+
+                                  // //     padding: "5px 16px",
+                                  // //     fontSize: "13px",
+                                  // //     fontWeight: "500",
+                                  // //     lineHeight: "20px",
+                                  // //     verticalAlign: "middle",
+                                  // //     border: "1px solid",
+                                  // //     borderRadius: " 6px",
+
+                                  // //     backgroundColor:
+                                  // //       len === 3 && checkForStore === false
+                                  // //         ? "#f0f0f0"
+                                  // //         : "#fafbfc", // Change background when disabled
+
+                                  // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                  //   }}
                                 >
-                                  {addedToCart[index]
+                                  {productCounts[item.productID] > 0
                                     ? "Add more"
                                     : "Add to List"}
                                 </button>
@@ -2050,45 +2057,52 @@ const Index = () => {
                                 <button
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
+                                  style={{
+                                    marginLeft: isMobile ? "12px" : "15px",
+                                    fontSize: isMobile ? "16px" : "15px",
+                                    borderColor: isMobile && "black",
+                                    borderColor:
+                                    len === 3 && checkForStore === false
+                                      && "#ddd",
+                                      cursor:
+                                      len === 3 && checkForStore === false
+                                        ? "not-allowed"
+                                        : "pointer", // Изменение курсора
+                                    // borderRadius: isMobile && "15px",
+                                    color:
+                                    len === 3 && checkForStore === false
+                                      && "#ccc"
+                                  }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
+                                    disabled={
                                       len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "13px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
+                                    }
+                                  //   style={{
+                                  // //     outline: "0",
+                                  // //     width: "75%",
+                                  // //     height: "38px",
+
+                                  // //     padding: "5px 16px",
+                                  // //     fontSize: "13px",
+                                  // //     fontWeight: "500",
+                                  // //     lineHeight: "20px",
+                                  // //     verticalAlign: "middle",
+                                  // //     border: "1px solid",
+                                  // //     borderRadius: " 6px",
+
+                                  // //     backgroundColor:
+                                  // //       len === 3 && checkForStore === false
+                                  // //         ? "#f0f0f0"
+                                  // //         : "#fafbfc", // Change background when disabled
+
+                                  // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                  //   }}
                                 >
-                                  {addedToCart[index]
+                                  {productCounts[item.productID] > 0
                                     ? "Add more"
                                     : "Add to List"}
                                 </button>
@@ -2276,46 +2290,53 @@ const Index = () => {
                               ) : (
                                 <button
                                   onClick={() => handleAddToCart(item, index)}
+                                  className={`${noir.className} button-54`}
+                                  style={{
+                                    marginLeft: isMobile ? "12px" : "15px",
+                                    fontSize: isMobile ? "16px" : "15px",
+                                    borderColor: isMobile && "black",
+                                    borderColor:
+                                    len === 3 && checkForStore === false
+                                      && "#ddd",
+                                      cursor:
+                                      len === 3 && checkForStore === false
+                                        ? "not-allowed"
+                                        : "pointer", // Изменение курсора
+                                    // borderRadius: isMobile && "15px",
+                                    color:
+                                    len === 3 && checkForStore === false
+                                      && "#ccc"
+                                  }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  className={`${noir.className} button-54`}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                  style={{
-                                    outline: "0",
-                                    width: "75%",
-                                    height: "38px",
-                                    cursor:
+                                    disabled={
                                       len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer", // Изменение курсора
-                                    padding: "5px 16px",
-                                    fontSize: "13px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    border: "1px solid",
-                                    borderRadius: " 6px",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : "#24292e", // Change color when disabled
-                                    backgroundColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#f0f0f0"
-                                        : "#fafbfc", // Change background when disabled
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : "#1b1f2326", // Change border when disabled
-                                    //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  }}
+                                    }
+                                  //   style={{
+                                  // //     outline: "0",
+                                  // //     width: "75%",
+                                  // //     height: "38px",
+
+                                  // //     padding: "5px 16px",
+                                  // //     fontSize: "13px",
+                                  // //     fontWeight: "500",
+                                  // //     lineHeight: "20px",
+                                  // //     verticalAlign: "middle",
+                                  // //     border: "1px solid",
+                                  // //     borderRadius: " 6px",
+
+                                  // //     backgroundColor:
+                                  // //       len === 3 && checkForStore === false
+                                  // //         ? "#f0f0f0"
+                                  // //         : "#fafbfc", // Change background when disabled
+
+                                  // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                  //   }}
                                 >
-                                  {addedToCart[index]
+                                  {productCounts[item.productID] > 0
                                     ? "Add more"
                                     : "Add to List"}
                                 </button>
@@ -2515,51 +2536,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -2759,51 +2786,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -3003,51 +3036,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -3247,51 +3286,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -3491,51 +3536,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -3735,51 +3786,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -3979,51 +4036,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -4224,51 +4287,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
@@ -4469,51 +4538,57 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${noir.className} ${
+                                    onClick={() => handleAddToCart(item, index)}
+                                    className={`${noir.className} button-54`}
+                                    style={{
+                                      marginLeft: isMobile ? "12px" : "15px",
+                                      fontSize: isMobile ? "16px" : "15px",
+                                      borderColor: isMobile && "black",
+                                      borderColor:
+                                      len === 3 && checkForStore === false
+                                        && "#ddd",
+                                        cursor:
                                         len === 3 && checkForStore === false
-                                          ? ""
-                                          : "box"
-                                      }`}
+                                          ? "not-allowed"
+                                          : "pointer", // Изменение курсора
+                                      // borderRadius: isMobile && "15px",
+                                      color:
+                                      len === 3 && checkForStore === false
+                                        && "#ccc"
+                                    }}
+                                    //   className={`${noir.className} ${
+                                    //     len === 3 && checkForStore === false
+                                    //       ? ""
+                                    //       : "box"
+                                    //   }`}
                                       disabled={
                                         len === 3 && checkForStore === false
                                       }
-                                      style={{
-                                        outline: "0",
-                                        width: "75%",
-                                        height: "38px",
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer", // Изменение курсора
-                                        padding: "5px 16px",
-                                        fontSize: "13px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        border: "1px solid",
-                                        borderRadius: " 6px",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : "#24292e", // Change color when disabled
-                                        backgroundColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#f0f0f0"
-                                            : "#fafbfc", // Change background when disabled
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : "#1b1f2326", // Change border when disabled
-                                        //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                      }}
-                                    >
-                                      {addedToCart[index]
-                                        ? "Add more"
-                                        : "Add to List"}
-                                    </button>
+                                    //   style={{
+                                    // //     outline: "0",
+                                    // //     width: "75%",
+                                    // //     height: "38px",
+  
+                                    // //     padding: "5px 16px",
+                                    // //     fontSize: "13px",
+                                    // //     fontWeight: "500",
+                                    // //     lineHeight: "20px",
+                                    // //     verticalAlign: "middle",
+                                    // //     border: "1px solid",
+                                    // //     borderRadius: " 6px",
+  
+                                    // //     backgroundColor:
+                                    // //       len === 3 && checkForStore === false
+                                    // //         ? "#f0f0f0"
+                                    // //         : "#fafbfc", // Change background when disabled
+  
+                                    // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                    //   }}
+                                  >
+                                    {productCounts[item.productID] > 0
+                                      ? "Add more"
+                                      : "Add to List"}
+                                  </button>
                                   )}
                                 </div>
                               </li>
