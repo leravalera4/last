@@ -1590,7 +1590,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "12px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "15px",
                                     fontSize: isMobile ? "16px" : "15px",
                                     borderColor: isMobile && "black",
                                     borderColor:
@@ -1824,7 +1824,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "12px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "15px",
                                     fontSize: isMobile ? "16px" : "15px",
                                     borderColor: isMobile && "black",
                                     borderColor:
@@ -2058,7 +2058,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "12px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "15px",
                                     fontSize: isMobile ? "16px" : "15px",
                                     borderColor: isMobile && "black",
                                     borderColor:
@@ -2292,7 +2292,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "12px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "15px",
                                     fontSize: isMobile ? "16px" : "15px",
                                     borderColor: isMobile && "black",
                                     borderColor:
@@ -2539,7 +2539,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -2789,7 +2789,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -3039,7 +3039,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -3289,7 +3289,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -3539,7 +3539,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -3789,7 +3789,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -4039,7 +4039,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -4290,7 +4290,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
@@ -4541,7 +4541,7 @@ const Index = () => {
                                     onClick={() => handleAddToCart(item, index)}
                                     className={`${noir.className} button-54`}
                                     style={{
-                                      marginLeft: isMobile ? "12px" : "15px",
+                                      marginLeft: isMobile ? "10px" : "15px",
                                       fontSize: isMobile ? "16px" : "15px",
                                       borderColor: isMobile && "black",
                                       borderColor:
