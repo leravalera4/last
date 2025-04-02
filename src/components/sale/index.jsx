@@ -937,6 +937,7 @@ const Index = () => {
               style={{
                 fontSize: "16px",
                 padding: "0px 20px",
+                margin: "8px",
               }}
               className={`${noir.className}`}
             >
@@ -2448,34 +2449,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -2675,34 +2678,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -2902,34 +2907,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -3129,34 +3136,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -3356,34 +3365,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -3583,34 +3594,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -3810,34 +3823,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -4038,34 +4053,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
@@ -4266,34 +4283,36 @@ const Index = () => {
                                     <Skeleton />
                                   ) : (
                                     <button
-                                    onClick={() => handleAddToCart(item, index)}
-                                    className={`${noir.className} button-54`}
-                                    style={{
-                                      marginLeft: isMobile ? "10px" : "15px",
-                                      fontSize: isMobile ? "16px" : "15px",
-                                      borderColor:
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "15px",
+                                        fontSize: isMobile ? "16px" : "15px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
                                         len === 3 && checkForStore === false
-                                          ? "#ddd"
-                                          : isMobile
-                                          ? "black"
-                                          : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                      cursor:
-                                        len === 3 && checkForStore === false
-                                          ? "not-allowed"
-                                          : "pointer",
-                                      color:
-                                        len === 3 && checkForStore === false
-                                          ? "#ccc"
-                                          : undefined,
-                                    }}
-                                    disabled={
-                                      len === 3 && checkForStore === false
-                                    }
-                                  >
-                                    {productCounts[item.productID] > 0
-                                      ? "Add more"
-                                      : "Add to List"}
-                                  </button>
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
                                   )}
                                 </div>
                               </li>
