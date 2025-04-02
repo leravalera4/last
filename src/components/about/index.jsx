@@ -190,6 +190,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Organize and Track Your Shopping
@@ -237,6 +238,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Shop Smarter, Anytime, Anywhere
