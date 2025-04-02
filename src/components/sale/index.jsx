@@ -923,7 +923,7 @@ const Index = () => {
             // hidden
             className={noir.className}
           >
-            Please Select Store...
+            Select Store...
           </option>
           {availableStores.map((store) => (
             <option className={noir.className} key={store} value={store}>
@@ -938,7 +938,7 @@ const Index = () => {
                 fontSize: "16px",
                 padding: "0px 20px",
               }}
-              className={`${noir.className} label`}
+              className={`${noir.className}`}
             >
               or
             </p>
@@ -1024,7 +1024,7 @@ const Index = () => {
                 // hidden
                 className={noir.className}
               >
-                Please Select City...
+                Select City...
               </option>
               {cities.map((city) => (
                 <option className={noir.className} key={city} value={city}>
@@ -1082,7 +1082,7 @@ const Index = () => {
                 // hidden
                 className={noir.className}
               >
-                Please Select Location...
+                Select Location...
               </option>
               {locations.map((location, index) => (
                 <option className={noir.className} key={index} value={location}>
@@ -1593,44 +1593,45 @@ const Index = () => {
                                     marginLeft: isMobile ? "12px" : "15px",
                                     fontSize: "15px",
                                     borderColor: isMobile && "black",
+                                    borderColor:
+                                    len === 3 && checkForStore === false
+                                      && "#ddd",
+                                      cursor:
+                                      len === 3 && checkForStore === false
+                                        ? "not-allowed"
+                                        : "pointer", // Изменение курсора
                                     // borderRadius: isMobile && "15px",
+                                    color:
+                                    len === 3 && checkForStore === false
+                                      && "#ccc"
                                   }}
                                   //   className={`${noir.className} ${
                                   //     len === 3 && checkForStore === false
                                   //       ? ""
                                   //       : "box"
                                   //   }`}
-                                  //   disabled={
-                                  //     len === 3 && checkForStore === false
-                                  //   }
+                                    disabled={
+                                      len === 3 && checkForStore === false
+                                    }
                                   //   style={{
-                                  //     outline: "0",
-                                  //     width: "75%",
-                                  //     height: "38px",
-                                  //     cursor:
-                                  //       len === 3 && checkForStore === false
-                                  //         ? "not-allowed"
-                                  //         : "pointer", // Изменение курсора
-                                  //     padding: "5px 16px",
-                                  //     fontSize: "13px",
-                                  //     fontWeight: "500",
-                                  //     lineHeight: "20px",
-                                  //     verticalAlign: "middle",
-                                  //     border: "1px solid",
-                                  //     borderRadius: " 6px",
-                                  //     color:
-                                  //       len === 3 && checkForStore === false
-                                  //         ? "#ccc"
-                                  //         : "#24292e", // Change color when disabled
-                                  //     backgroundColor:
-                                  //       len === 3 && checkForStore === false
-                                  //         ? "#f0f0f0"
-                                  //         : "#fafbfc", // Change background when disabled
-                                  //     borderColor:
-                                  //       len === 3 && checkForStore === false
-                                  //         ? "#ddd"
-                                  //         : "#1b1f2326", // Change border when disabled
-                                  //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                  // //     outline: "0",
+                                  // //     width: "75%",
+                                  // //     height: "38px",
+
+                                  // //     padding: "5px 16px",
+                                  // //     fontSize: "13px",
+                                  // //     fontWeight: "500",
+                                  // //     lineHeight: "20px",
+                                  // //     verticalAlign: "middle",
+                                  // //     border: "1px solid",
+                                  // //     borderRadius: " 6px",
+
+                                  // //     backgroundColor:
+                                  // //       len === 3 && checkForStore === false
+                                  // //         ? "#f0f0f0"
+                                  // //         : "#fafbfc", // Change background when disabled
+
+                                  // //     //transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
                                   //   }}
                                 >
                                   {productCounts[item.productID] > 0

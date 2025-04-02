@@ -826,7 +826,7 @@ const Products = ({ cartData }) => {
                   <button
                     onClick={getLocation}
                     className={`${noir.className} button-55`}
-                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem",borderColor:"black" }}
                     //   style={{
                     //     outline: "0",
                     //     width: "auto",
@@ -979,6 +979,7 @@ const Products = ({ cartData }) => {
                       color: selectedAllLength === 3 && "#ccc",
                       backgroundColor: selectedAllLength === 3 && "#f0f0f0",
                       borderColor: selectedAllLength === 3 ? "#ddd" : "black",
+                      fontSize: isMobile && "16px"
                     }}
                     disabled={
                       selectedAll.some(
@@ -1071,6 +1072,7 @@ const Products = ({ cartData }) => {
                   style={{
                     borderColor: "black",
                     marginRight: isMobile && "0px",
+                    fontSize : isMobile && "16px"
                   }}
                   // style={{
                   //   outline: "0",
@@ -1178,7 +1180,7 @@ const Products = ({ cartData }) => {
                   <button
                     onClick={getLocation}
                     className={`${noir.className} button-55`}
-                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem", borderColor:"black" }}
                     //   style={{
                     //     outline: "0",
                     //     width: "auto",
