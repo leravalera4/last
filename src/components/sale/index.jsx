@@ -1409,9 +1409,9 @@ const Index = () => {
                   type="submit"
                   className={`${noir.className} button-55`}
                   style={{
-                    padding: "0.375rem 24px 0.375rem 0.75rem",
-                    fontSize: isMobile && "16px",
-                    borderColor: isMobile && "black",
+                    borderColor: "black",
+                    marginRight: isMobile && "0px",
+                    fontSize : isMobile && "16px"
                   }}
                   //   style={{
                   //     outline: "0",
