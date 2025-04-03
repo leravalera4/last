@@ -870,14 +870,16 @@ const Cart = () => {
                                   verticalAlign: "middle",
                                   color: "red",
                                   border: "0px",
-                                  cursor: "pointer",
+                                  cursor:
+                                    item.quantity === 0 ? "not-allowed" : "pointer",
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                <img
-                                  style={{ width: "30px", height: "30px" }}
-                                  src={minus.src || minus}
-                                />
+                            {item.quantity === 0 ? (
+                              <Image width={30} height={30} src={block} />
+                            ) : (
+                              <Image width={30} height={30} src={minus} />
+                            )}
                               </button>
                               <p className="logo">QTY: </p>
                               <p>{item.quantity}</p>
@@ -1279,7 +1281,7 @@ const Cart = () => {
                             className="exclude-from-pdf"
                             onClick={() => {
                               console.log("item.productID:", item);
-                              // removeProduct(item.productID);
+                              removeProduct(item.productID);
                             }}
                             title="Delete Store"
                           >
