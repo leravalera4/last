@@ -996,6 +996,7 @@ const Index = () => {
                     marginBottom: isMobile && "10px",
                     fontSize: isMobile && "16px",
                     borderColor: isMobile && "black",
+                    height: isMobile && "48px",
                   }}
                   // style={{
                   //   width: "232px",
@@ -1049,6 +1050,7 @@ const Index = () => {
                       marginBottom: isMobile && "10px",
                       fontSize: isMobile && "16px",
                       borderColor: isMobile && "black",
+                      height: isMobile && "48px",
                     }}
                     onChange={(e) => setSelectedLocation(e.target.value)} // ✅ Используем setSelectedLocation
                     value={selectedLocation}
@@ -1136,7 +1138,6 @@ const Index = () => {
                 fontSize: isMobile && "16px",
                 borderColor: isMobile && "black",
                 marginBottom: isMobile && "10px",
-                height: isMobile && "48px",
                 padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                 // marginRight: "24px",
               }}
