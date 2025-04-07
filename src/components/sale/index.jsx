@@ -1222,47 +1222,18 @@ const Index = () => {
             )}
             {selectedStore != null && (
               <>
-                {/* <label
-                   style={{
-                     fontSize: "16px",
-                   }}
-                   // style={{
-                   //   paddingRight: "8px",
-                   //   fontSize: "18px",
-                   //   paddingLeft: "24px",
-                   // }}
-                   className={`${noir.className} label`}
-                 >
-                   Select City:
-                 </label> */}
                 <select
                   className={`${noir.className} button-55`}
                   style={{
                     width: isMobile ? "90%" : "200px",
                     marginLeft: isMobile ? "0px" : "20px",
-                    padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-                    marginRight: !isMobile && "24px",
-                    // marginLeft: !isMobile && "24px",
-                    margin: isMobile && "0px",
-                    marginBottom: isMobile && "10px",
-                    fontSize: isMobile && "16px",
-                    borderColor: isMobile && "black",
+                    marginRight: isMobile ? undefined : "24px",
+                    padding: isMobile ? undefined : "0.375rem 2.25rem 0.375rem 0.75rem",
+                    margin: isMobile ? "0px" : undefined,
+                    marginBottom: isMobile ? "10px" : undefined,
+                    fontSize: isMobile ? "16px" : undefined,
+                    borderColor: isMobile ? "black" : undefined,
                   }}
-                  // style={{
-                  //   width: "232px",
-                  //   height: "38px",
-                  //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-                  //   fontSize: "1rem",
-                  //   fontWeight: "400",
-                  //   lineHeight: "1.5",
-                  //   color: "#212529",
-                  //   backgroundColor: "#fff",
-                  //   border: "1px solid #ced4da",
-                  //   borderRadius: "0.25rem",
-                  //   transition:
-                  //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-                  // }}
-                  // onChange={(e) => handleStoreChange(e.target.value)}
                   onChange={(e) => handleCityChange(e.target.value)}
                   value={selectedCity}
                 >
