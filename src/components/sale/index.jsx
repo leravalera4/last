@@ -18,6 +18,7 @@ import { useRef } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Tour from "../tour/tour_sale.jsx";
+import FirstTime from "../tour/first_time";
 import "react-toastify/dist/ReactToastify.css";
 
 //import { useContext } from "react";
