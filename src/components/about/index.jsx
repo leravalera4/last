@@ -391,12 +391,12 @@ const Index = () => {
                 </p>
               </div>
               <Image
-                src={second}
+                src={forth}
                 width={180}
                 height={180}
                 alt="Sale Icon"
                 priority
-                key={second}
+                key={forth}
               />
             </div>
           </section>
