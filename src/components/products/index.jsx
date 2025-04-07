@@ -1141,7 +1141,7 @@ const Products = ({ cartData }) => {
                   borderColor: isMobile && "black",
                   height: isMobile && "48px",
                   padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-                  marginRight: "0px"
+                  marginRight: !isVisible && "0px"
                 }}
               >
                 <option
