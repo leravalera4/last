@@ -1239,9 +1239,10 @@ const Index = () => {
                   className={`${noir.className} button-55`}
                   style={{
                     width: isMobile ? "90%" : "200px",
+                    marginLeft: isMobile ? "0px" : "20px",
                     padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
                     marginRight: !isMobile && "24px",
-                    marginLeft: !isMobile && "24px",
+                    // marginLeft: !isMobile && "24px",
                     margin: isMobile && "0px",
                     marginBottom: isMobile && "10px",
                     fontSize: isMobile && "16px",
