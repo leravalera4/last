@@ -997,6 +997,7 @@ const Index = () => {
                     fontSize: isMobile && "16px",
                     borderColor: isMobile && "black",
                     height: isMobile && "48px",
+                    marginLeft: !isMobile && "20px"
                   }}
                   // style={{
                   //   width: "232px",
