@@ -892,6 +892,7 @@ const Index = () => {
                 borderColor: isMobile && "black",
                 height: isMobile && "48px",
                 padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                marginLeft: !isMobile && "20px",
               }}
               // style={{
               //   width: "232px",

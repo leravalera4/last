@@ -317,13 +317,14 @@ const Index = () => {
                     fontWeight: 700,
                   }}
                 >
-                  Compare Prices
+                  Stay Updated on Discounts and Promotions
                 </h4>
                 <p className={noir.className}>
-                  Shoppy Scan empowers you to compare prices across all the
-                  stores you've selected. Easily find the best deals and make
-                  informed decisions on your purchases. Say goodbye to guesswork
-                  and hello to savings!
+                  Never miss an opportunity to save with Shoppy Scan. Stay
+                  updated with the latest discounts, exclusive offers, and
+                  seasonal promotions. From flash sales to limited-time deals,
+                  we keep you informed about the best opportunities to save on
+                  the products you love.
                 </p>
               </div>
               <Image
@@ -355,16 +356,48 @@ const Index = () => {
                     fontWeight: 700,
                   }}
                 >
-                  Add to List for Total Price
+                  Organize and Track Your Shopping
                 </h4>
                 <p className={noir.className}>
-                  As you browse through products, simply add them to your cart
-                  with a click. Shop Scan automatically calculates the total
-                  price of your selections in each selected store. This means
-                  you can see the total cost of your shopping list across all
-                  your chosen stores before making a purchase.
+                  Shoppy Scan makes managing your shopping list effortless. Add
+                  items to your virtual cart to keep track of products you’re
+                  interested in, get real-time price updates, compare options,
+                  and choose the best time to buy. It’s the perfect tool for
+                  smart shoppers who want to optimize their spending without the
+                  hassle of manual tracking.
                 </p>
               </div>
+            </div>
+          </section>
+          <section style={{ paddingBottom: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <div style={{ textAlign: "right", marginRight: "10px" }}>
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 10px",
+                    fontSize: "1.5rem",
+                    fontWeight: 700,
+                  }}
+                >
+                  Shop Smarter, Anytime, Anywhere
+                </h4>
+                <p className={noir.className}>
+                  Never miss a chance to save with Shoppy Scan. Accessible on
+                  all your devices, our platform is your convenient shopping
+                  companion. Whether you're at home or on the go, enjoy a
+                  seamless, user-friendly experience. Shop with confidence and
+                  make smarter purchasing decisions every time.
+                </p>
+              </div>
+              <Image
+                src={second}
+                width={180}
+                height={180}
+                alt="Sale Icon"
+                priority
+                key={second}
+              />
             </div>
           </section>
         </div>
