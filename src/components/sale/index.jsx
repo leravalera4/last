@@ -1444,11 +1444,11 @@ const Index = () => {
 
       {storeSale && storeSale.length > 0 ? (
         <div
-          style={{
-            paddingLeft: isMobile ? "5%" : "20%",
-            paddingRight: isMobile ? "5%" : "20%",
-            paddingBottom: isMobile ? "10%" : "5%",
-          }}
+        style={{
+          paddingLeft: isMobile ? "5%" : "10%",
+          paddingRight: isMobile ? "5%" : "10%",
+          paddingBottom: isMobile ? "10%" : "3%",
+        }}
         >
           <h2 className={noir.className}>Stores on your List</h2>
           <div style={{ display: "flex", flexDirection: "row" }}>
@@ -1844,7 +1844,7 @@ const Index = () => {
                                   className={`${noir.className} button-54`}
                                   style={{
                                     marginLeft: isMobile ? "10px" : "15px",
-                                    fontSize: isMobile ? "16px" : "15px",
+                                    fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
                                         ? "#ddd"
@@ -2055,7 +2055,7 @@ const Index = () => {
                                   className={`${noir.className} button-54`}
                                   style={{
                                     marginLeft: isMobile ? "10px" : "15px",
-                                    fontSize: isMobile ? "16px" : "15px",
+                                    fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
                                         ? "#ddd"
@@ -2266,7 +2266,7 @@ const Index = () => {
                                   className={`${noir.className} button-54`}
                                   style={{
                                     marginLeft: isMobile ? "10px" : "15px",
-                                    fontSize: isMobile ? "16px" : "15px",
+                                    fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
                                         ? "#ddd"
@@ -2477,7 +2477,7 @@ const Index = () => {
                                   className={`${noir.className} button-54`}
                                   style={{
                                     marginLeft: isMobile ? "10px" : "15px",
-                                    fontSize: isMobile ? "16px" : "15px",
+                                    fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
                                         ? "#ddd"
@@ -2703,7 +2703,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -2932,7 +2932,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -3161,7 +3161,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -3390,7 +3390,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -3619,7 +3619,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -3848,7 +3848,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -4077,7 +4077,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -4307,7 +4307,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -4537,7 +4537,7 @@ const Index = () => {
                                       className={`${noir.className} button-54`}
                                       style={{
                                         marginLeft: isMobile ? "10px" : "15px",
-                                        fontSize: isMobile ? "16px" : "15px",
+                                        fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"

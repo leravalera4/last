@@ -150,7 +150,7 @@ const Header = () => {
       ) : (
         <header className="header">
           <div
-            style={{ display: "flex", flexDirection: "row", marginLeft: "20%" }}
+            style={{ display: "flex", flexDirection: "row", marginLeft: "15%" }}
           >
             <Link href="/">
               <Image
@@ -177,7 +177,7 @@ const Header = () => {
               alignItms: "center",
             }}
           />
-          <Cart style={{ paddingRigt: "20%", zIndex: "100000" }} />
+          <Cart style={{ paddingRigt: "15%", zIndex: "100000" }} />
         </header>
       )}
     </Headroom>
