@@ -34,6 +34,7 @@ const Footer = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          boxShadow:" rgba(37, 39, 89, 0.08) 0px -8px 8px 0px"
         }}
       >
         <p className={noir.className}>
