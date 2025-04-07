@@ -107,6 +107,7 @@ const Index = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState();
   const [selectedAll, setSelectedAll] = useState([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
@@ -836,6 +837,12 @@ const Index = () => {
     setSelectedLocation(value);
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  if (!mounted) return null;
+
   return (
     <div
       style={{
@@ -844,7 +851,7 @@ const Index = () => {
         paddingTop: "10px",
       }}
     >
-      {responseData.length > 0 ? <Tour style={{ zIndex: "10" }} /> : ""}
+       {responseData.length > 0 ? <Tour style={{ zIndex: "10" }} /> : <FirstTime style={{ zIndex: "10" }}/>}
       <h2
         style={{
           textAlign: "center",

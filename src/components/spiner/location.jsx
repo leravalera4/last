@@ -5,7 +5,7 @@ import image from '../../app/images/location.gif'
 const index = () => {
   return (
     <div>
-        <Image width={120} height={120} src={image} alt="spiner"/>
+        <Image width={200} height={200} src={image} alt="spiner"/>
     </div>
   )
 }
