@@ -272,7 +272,7 @@ const Index = () => {
           </section>
         </div>
       ) : (
-        <div className="h1" style={{ margin: "0 20%" }}>
+        <div className="h1" style={{ margin: "0 20%", marginTop: "3%" }}>
           {/* Section 1: Compare Prices */}
           <section style={{ paddingBottom: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
