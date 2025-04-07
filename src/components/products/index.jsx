@@ -1141,6 +1141,7 @@ const Products = ({ cartData }) => {
                   borderColor: isMobile && "black",
                   height: isMobile && "48px",
                   padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                  marginRight: "0px"
                 }}
               >
                 <option
@@ -1344,6 +1345,7 @@ const Products = ({ cartData }) => {
                       color: selectedAllLength === 3 && "#ccc",
                       backgroundColor: selectedAllLength === 3 && "#f0f0f0",
                       borderColor: selectedAllLength === 3 ? "#ddd" : "black",
+                      fontSize: isMobile ? "16px" : "14px",
                     }}
                     disabled={
                       selectedAll.some(
