@@ -1246,24 +1246,6 @@ const Cart = () => {
                           </button>
                         </div>
                           <p className="logo">Quantity: </p>
-                          <p>{item.quantity}</p>
-                          <button
-                            className="exclude-from-pdf"
-                            onClick={() => increaseQuantity(item.productID)}
-                            style={{
-                              outline: "0px",
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor: "pointer",
-                              backgroundColor: "transparent",
-                            }}
-                          >
-                            <Image width={30} height={30} src={plus} />
-                          </button>
                           &nbsp; &nbsp;
                           <p className="logo">Item: </p>
                           <img
