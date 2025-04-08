@@ -1432,7 +1432,11 @@ const Index = () => {
           paddingBottom: isMobile ? "10%" : "3%",
         }}
         >
-          <h2 className={noir.className}>Stores on your List</h2>
+          {productNames && productNames.length !== 0 ? (
+            <h2 className={noir.className}>Stores on your List</h2>
+          ) : (
+            <h2 className={noir.className}>Selected Stores</h2>
+          )}
           <div style={{ display: "flex", flexDirection: "row" }}>
             {storeSale.map((store, index) => (
               <button
