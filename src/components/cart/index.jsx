@@ -1245,7 +1245,6 @@ const Cart = () => {
                             <Image width={30} height={30} src={plus} />
                           </button>
                         </div>
-                          <p className="logo">Quantity: </p>
                           &nbsp; &nbsp;
                           <p className="logo">Item: </p>
                           <img
