@@ -802,19 +802,19 @@ const Products = ({ cartData }) => {
                   </option>
                 ))}
               </select>
-              {isVisible && (
-                <>
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      padding: "0px 20px",
-                      margin: "8px",
-                    }}
-                    className={`${noir.className}`}
-                  >
-                    or
-                  </p>
-                  {selectedAll.length === 0 && (
+              {isVisible ||
+                (selectedAll.length === 0 && (
+                  <>
+                    <p
+                      style={{
+                        fontSize: "16px",
+                        padding: "0px 20px",
+                        margin: "8px",
+                      }}
+                      className={`${noir.className}`}
+                    >
+                      or
+                    </p>
                     <button
                       onClick={getLocation}
                       className={`${noir.className} button-55`}
@@ -844,9 +844,8 @@ const Products = ({ cartData }) => {
                     >
                       Find Stores Near Me
                     </button>
-                  )}
-                </>
-              )}
+                  </>
+                ))}
 
               {selectedStore !== null && (
                 <select
