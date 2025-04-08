@@ -1853,7 +1853,6 @@ const Products = ({ cartData }) => {
                                     {store.regprice}
                                   </p>
                                 )}
-
                                 {/* Was Price */}
                                 {store.wasprice != null && (
                                   <p
@@ -1868,25 +1867,22 @@ const Products = ({ cartData }) => {
                                     ({store.wasprice})
                                   </p>
                                 )}
-
-                                {/* Stock */}
-                                {store.stock != null && (
-                                  <p
-                                    className={noir.className}
-                                    style={{
-                                      color:
-                                        store.stock === "Out of Stock"
-                                          ? "rgb(225, 37, 27)"
-                                          : "rgb(225, 37, 27)",
-                                      fontWeight: "400",
-                                      fontSize: isMobile ? "14px" : "15px",
-                                    }}
-                                  >
-                                    {store.stock === "Out of Stock"
-                                      ? ("Sold Out")
-                                      : (store.stock)}
-                                  </p>
-                                )}
+                                {/* Stock */}( store.stock != null && (
+                                <p
+                                  className={noir.className}
+                                  style={{
+                                    color: "rgb(225, 37, 27)",
+                                    fontWeight: "400",
+                                    fontSize: isMobile ? "14px" : "15px",
+                                  }}
+                                >
+                                  (
+                                  {store.stock === "Out of Stock"
+                                    ? "Sold Out"
+                                    : store.stock}
+                                  )
+                                </p>
+                                ) )
                               </div>
                             </div>
                           )
