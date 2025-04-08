@@ -814,35 +814,40 @@ const Products = ({ cartData }) => {
                   >
                     or
                   </p>
-                  <button
-                    onClick={getLocation}
-                    className={`${noir.className} button-55`}
-                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem",borderColor:"black" }}
-                    //   style={{
-                    //     outline: "0",
-                    //     width: "auto",
-                    //     height: "38px",
-                    //     cursor: "pointer",
-                    //     padding: "5px 16px",
-                    //     fontSize: "14px",
-                    //     fontWeight: "500",
-                    //     lineHeight: "20px",
-                    //     verticalAlign: "middle",
-                    //     border: "1px solid",
-                    //     borderRadius: " 6px",
-                    //     color: " #24292e",
-                    //     backgroundColor: "#fafbfc",
-                    //     borderColor: "#1b1f2326",
-                    //     boxShadow:
-                    //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                    //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                    //   }}
-                  >
-                    Find Stores Near Me
-                  </button>
+                  {selectedAll.length === 0 && (
+                    <button
+                      onClick={getLocation}
+                      className={`${noir.className} button-55`}
+                      style={{
+                        padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                        borderColor: "black",
+                      }}
+                      //   style={{
+                      //     outline: "0",
+                      //     width: "auto",
+                      //     height: "38px",
+                      //     cursor: "pointer",
+                      //     padding: "5px 16px",
+                      //     fontSize: "14px",
+                      //     fontWeight: "500",
+                      //     lineHeight: "20px",
+                      //     verticalAlign: "middle",
+                      //     border: "1px solid",
+                      //     borderRadius: " 6px",
+                      //     color: " #24292e",
+                      //     backgroundColor: "#fafbfc",
+                      //     borderColor: "#1b1f2326",
+                      //     boxShadow:
+                      //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                      //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                      //   }}
+                    >
+                      Find Stores Near Me
+                    </button>
+                  )}
                 </>
               )}
-              
+
               {selectedStore !== null && (
                 <select
                   required
@@ -971,7 +976,7 @@ const Products = ({ cartData }) => {
                       color: selectedAllLength === 3 && "#ccc",
                       backgroundColor: selectedAllLength === 3 && "#f0f0f0",
                       borderColor: selectedAllLength === 3 ? "#ddd" : "black",
-                      fontSize: isMobile && "16px"
+                      fontSize: isMobile && "16px",
                     }}
                     disabled={
                       selectedAll.some(
@@ -1064,7 +1069,7 @@ const Products = ({ cartData }) => {
                   style={{
                     borderColor: "black",
                     marginRight: isMobile && "0px",
-                    fontSize : isMobile && "16px"
+                    fontSize: isMobile && "16px",
                   }}
                   // style={{
                   //   outline: "0",
@@ -1173,7 +1178,10 @@ const Products = ({ cartData }) => {
                   <button
                     onClick={getLocation}
                     className={`${noir.className} button-55`}
-                    style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem", borderColor:"black" }}
+                    style={{
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      borderColor: "black",
+                    }}
                     //   style={{
                     //     outline: "0",
                     //     width: "auto",
@@ -1636,7 +1644,11 @@ const Products = ({ cartData }) => {
                     ) : (
                       <button
                         className={`${noir.className} button-55`}
-                        style={{ paddingTop: "4px",paddingBottom:'4px', borderColor: "black" }}
+                        style={{
+                          paddingTop: "4px",
+                          paddingBottom: "4px",
+                          borderColor: "black",
+                        }}
                         // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
                         // style={{
                         //   outline: "0",
