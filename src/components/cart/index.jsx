@@ -1200,6 +1200,7 @@ const Cart = () => {
                             alignItems: "center",
                           }}
                         >
+                          <div style={{ display: "flex", flexDirection: "row" }}>
                           <button
                             className="exclude-from-pdf"
                             disabled={item.quantity === 0}
@@ -1224,6 +1225,26 @@ const Cart = () => {
                               <Image width={30} height={30} src={minus} />
                             )}
                           </button>
+                          <p className="logo">Quantity: </p>
+                          <p style={{width: "20px",textAlign: "center"}}>{item.quantity}</p>
+                          <button
+                            className="exclude-from-pdf"
+                            onClick={() => increaseQuantity(item.productID)}
+                            style={{
+                              outline: "0px",
+                              fontSize: "21px",
+                              fontWeight: "500",
+                              lineHeight: "20px",
+                              verticalAlign: "middle",
+                              color: "red",
+                              border: "0px",
+                              cursor: "pointer",
+                              backgroundColor: "transparent",
+                            }}
+                          >
+                            <Image width={30} height={30} src={plus} />
+                          </button>
+                        </div>
                           <p className="logo">Quantity: </p>
                           <p>{item.quantity}</p>
                           <button
