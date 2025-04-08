@@ -831,7 +831,7 @@ const Cart = () => {
                                   removeProduct(item.productID);
                                   console.log("ITEM:", item.productID);
                                 }}
-                                title="Delete Store"
+                                title="Delete Product"
                               >
                                 <img
                                   src={del.src || del}
@@ -1283,7 +1283,7 @@ const Cart = () => {
                               console.log("item.productID:", item);
                               removeProduct(item.productID);
                             }}
-                            title="Delete Store"
+                            title="Delete Product"
                           >
                             <img
                               src={del.src || del}
