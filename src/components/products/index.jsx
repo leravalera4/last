@@ -802,7 +802,7 @@ const Products = ({ cartData }) => {
                   </option>
                 ))}
               </select>
-              {isVisible ||
+              {isVisible &&
                 (selectedAll.length === 0 && (
                   <>
                     <p
