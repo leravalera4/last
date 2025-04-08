@@ -802,50 +802,49 @@ const Products = ({ cartData }) => {
                   </option>
                 ))}
               </select>
-              {isVisible &&
-                (selectedAll.length === 0 && (
-                  <>
-                    <p
-                      style={{
-                        fontSize: "16px",
-                        padding: "0px 20px",
-                        margin: "8px",
-                      }}
-                      className={`${noir.className}`}
-                    >
-                      or
-                    </p>
-                    <button
-                      onClick={getLocation}
-                      className={`${noir.className} button-55`}
-                      style={{
-                        padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                        borderColor: "black",
-                      }}
-                      //   style={{
-                      //     outline: "0",
-                      //     width: "auto",
-                      //     height: "38px",
-                      //     cursor: "pointer",
-                      //     padding: "5px 16px",
-                      //     fontSize: "14px",
-                      //     fontWeight: "500",
-                      //     lineHeight: "20px",
-                      //     verticalAlign: "middle",
-                      //     border: "1px solid",
-                      //     borderRadius: " 6px",
-                      //     color: " #24292e",
-                      //     backgroundColor: "#fafbfc",
-                      //     borderColor: "#1b1f2326",
-                      //     boxShadow:
-                      //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                      //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                      //   }}
-                    >
-                      Find Stores Near Me
-                    </button>
-                  </>
-                ))}
+              {isVisible && selectedAll.length === 0 && (
+                <>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      padding: "0px 20px",
+                      margin: "8px",
+                    }}
+                    className={`${noir.className}`}
+                  >
+                    or
+                  </p>
+                  <button
+                    onClick={getLocation}
+                    className={`${noir.className} button-55`}
+                    style={{
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      borderColor: "black",
+                    }}
+                    //   style={{
+                    //     outline: "0",
+                    //     width: "auto",
+                    //     height: "38px",
+                    //     cursor: "pointer",
+                    //     padding: "5px 16px",
+                    //     fontSize: "14px",
+                    //     fontWeight: "500",
+                    //     lineHeight: "20px",
+                    //     verticalAlign: "middle",
+                    //     border: "1px solid",
+                    //     borderRadius: " 6px",
+                    //     color: " #24292e",
+                    //     backgroundColor: "#fafbfc",
+                    //     borderColor: "#1b1f2326",
+                    //     boxShadow:
+                    //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                    //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                    //   }}
+                  >
+                    Find Stores Near Me
+                  </button>
+                </>
+              )}
 
               {selectedStore !== null && (
                 <select
@@ -1707,91 +1706,119 @@ const Products = ({ cartData }) => {
                               style={{
                                 display: "flex",
                                 flexDirection: "row",
-                                // alignItems: "center",
-                                justifyContent: "space-between",
+                                // justifyContent: "space-between",
+                                marginBottom: "10px",
+                                alignItems: "center",
                               }}
                               key={index}
                             >
+                              {/* Store Name and City */}
                               <p
                                 className={noir.className}
                                 style={{
                                   paddingRight: "12px",
-                                  maxWidth: "275px",
+                                  //   maxWidth: "275px",
+                                  width: "200px",
                                   fontSize: isMobile ? "14px" : "15px",
                                 }}
-                                key={index}
                               >
-                                {loading ? (
-                                  <Skeleton />
-                                ) : (
-                                  `${store.store}, ${store.city}`
-                                )}
+                                {`${store.store}, ${store.city}`}
                               </p>
 
-                              {loading ? (
-                                <Loading />
-                              ) : store.saleprice != null ? (
-                                store.mem != null ? (
-                                  store.mem * 2 > store.saleprice ? (
-                                    <p
-                                      itemProp="priceCurrency"
-                                      className={noir.className}
-                                      style={{
-                                        fontWeight: "700",
-                                        color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
-                                      }}
-                                    >
-                                      ${store.mem}
-                                      <span
+                              {/* Pricing + Stock Block */}
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  gap: "8px",
+                                  justifyContent: "flex-end",
+                                  flexWrap: "wrap",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {/* Sale Price */}
+                                {store.saleprice != null ? (
+                                  store.mem != null ? (
+                                    store.mem * 2 > store.saleprice ? (
+                                      <p
+                                        itemProp="priceCurrency"
+                                        className={noir.className}
                                         style={{
-                                          marginLeft: "4px",
-                                          fontWeight: "400",
+                                          fontWeight: "700",
+                                          color: "rgb(225, 37, 27)",
                                           fontSize: isMobile ? "14px" : "15px",
                                         }}
                                       >
-                                        (2 FOR ${store.saleprice} ea)
-                                      </span>
-                                    </p>
-                                  ) : store.for3 < store.saleprice ? (
-                                    <p
-                                      className={noir.className}
-                                      style={{
-                                        fontWeight: "700",
-                                        color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
-                                      }}
-                                    >
-                                      ${store.mem}
-                                      <span
+                                        ${store.mem}
+                                        <span
+                                          style={{
+                                            marginLeft: "4px",
+                                            fontWeight: "400",
+                                            fontSize: isMobile
+                                              ? "14px"
+                                              : "15px",
+                                          }}
+                                        >
+                                          (2 FOR ${store.saleprice} ea)
+                                        </span>
+                                      </p>
+                                    ) : store.for3 < store.saleprice ? (
+                                      <p
+                                        className={noir.className}
                                         style={{
-                                          marginLeft: "4px",
-                                          fontWeight: "400",
+                                          fontWeight: "700",
+                                          color: "rgb(225, 37, 27)",
                                           fontSize: isMobile ? "14px" : "15px",
                                         }}
                                       >
-                                        (3 FOR ${store.saleprice} ea)
-                                      </span>
-                                    </p>
-                                  ) : store.mem > store.saleprice ? (
-                                    <p
-                                      className={noir.className}
-                                      style={{
-                                        fontWeight: "700",
-                                        color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
-                                      }}
-                                    >
-                                      ${store.mem}
-                                      <span
+                                        ${store.mem}
+                                        <span
+                                          style={{
+                                            marginLeft: "4px",
+                                            fontWeight: "400",
+                                            fontSize: isMobile
+                                              ? "14px"
+                                              : "15px",
+                                          }}
+                                        >
+                                          (3 FOR ${store.saleprice} ea)
+                                        </span>
+                                      </p>
+                                    ) : store.mem > store.saleprice ? (
+                                      <p
+                                        className={noir.className}
                                         style={{
-                                          marginLeft: "4px",
-                                          fontWeight: "400",
+                                          fontWeight: "700",
+                                          color: "rgb(225, 37, 27)",
+                                          fontSize: isMobile ? "14px" : "15px",
                                         }}
                                       >
-                                        (${store.saleprice} MIN 2)
-                                      </span>
-                                    </p>
+                                        ${store.mem}
+                                        <span
+                                          style={{
+                                            marginLeft: "4px",
+                                            fontWeight: "400",
+                                            fontSize: isMobile
+                                              ? "14px"
+                                              : "15px",
+                                          }}
+                                        >
+                                          (${store.saleprice} MIN 2)
+                                        </span>
+                                      </p>
+                                    ) : (
+                                      <p
+                                        className={noir.className}
+                                        style={{
+                                          fontWeight: "700",
+                                          color: "rgb(225, 37, 27)",
+                                          fontSize: isMobile ? "14px" : "15px",
+                                        }}
+                                      >
+                                        ${store.saleprice}
+                                      </p>
+                                    )
                                   ) : (
                                     <p
                                       className={noir.className}
@@ -1804,114 +1831,64 @@ const Products = ({ cartData }) => {
                                       ${store.saleprice}
                                     </p>
                                   )
+                                ) : store.non_member_price != null ? (
+                                  <p
+                                    className={noir.className}
+                                    style={{
+                                      fontWeight: "700",
+                                      fontSize: isMobile ? "14px" : "15px",
+                                    }}
+                                  >
+                                    {store.non_member_price}
+                                    <span>(2 FOR mimi ${store.sale})</span>
+                                  </p>
                                 ) : (
                                   <p
                                     className={noir.className}
                                     style={{
                                       fontWeight: "700",
-                                      color: "rgb(225, 37, 27)",
                                       fontSize: isMobile ? "14px" : "15px",
                                     }}
                                   >
-                                    ${store.saleprice}
+                                    {store.regprice}
                                   </p>
-                                )
-                              ) : store.non_member_price != null ? (
-                                <p
-                                  className={noir.className}
-                                  style={{
-                                    fontWeight: "700",
-                                    fontSize: isMobile ? "14px" : "15px",
-                                  }}
-                                >
-                                  {store.non_member_price}
-                                  <span>(2 FOR mimi ${store.sale})</span>
-                                </p>
-                              ) : (
-                                <p
-                                  className={noir.className}
-                                  style={{
-                                    fontWeight: "700",
-                                    fontSize: isMobile ? "14px" : "15px",
-                                  }}
-                                >
-                                  {store.regprice}
-                                </p>
-                              )}
+                                )}
+
+                                {/* Was Price */}
+                                {store.wasprice != null && (
+                                  <p
+                                    className={noir.className}
+                                    style={{
+                                      color: "rgb(125, 120, 120)",
+                                      fontWeight: "400",
+                                      textDecoration: "line-through",
+                                      fontSize: isMobile ? "14px" : "15px",
+                                    }}
+                                  >
+                                    ({store.wasprice})
+                                  </p>
+                                )}
+
+                                {/* Stock */}
+                                {store.stock != null && (
+                                  <p
+                                    className={noir.className}
+                                    style={{
+                                      color:
+                                        store.stock === "Out of Stock"
+                                          ? "rgb(255, 0, 0)"
+                                          : "rgb(225, 37, 27)",
+                                      fontWeight: "400",
+                                      fontSize: isMobile ? "14px" : "15px",
+                                    }}
+                                  >
+                                    {store.stock === "Out of Stock"
+                                      ? "Sold Out"
+                                      : store.stock}
+                                  </p>
+                                )}
+                              </div>
                             </div>
-                          )
-                        )}
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-around",
-                          //  paddingBottom: "25px",
-                          // paddingTop: "1px",
-                        }}
-                      >
-                        {item.products.map((store, index) =>
-                          store.wasprice ? (
-                            loading ? (
-                              <Skeleton width={25} height={25} />
-                            ) : (
-                              <p
-                                className={noir.className}
-                                style={{
-                                  color: "rgb(125, 120, 120)",
-                                  fontWeight: "400",
-                                  marginRight: "10px",
-                                  paddingLeft: "2px",
-                                  textDecoration: "line-through",
-                                  fontSize: isMobile ? "14px" : "15px",
-                                  textDecorationColor: "rgb(125, 120, 120)",
-                                }}
-                                key={index}
-                              >
-                                ({store.wasprice})
-                              </p>
-                            )
-                          ) : (
-                            <p style={{ paddingTop: "20px" }}></p>
-                          )
-                        )}
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-around",
-                          //paddingTop: "1px",
-                        }}
-                      >
-                        {item.products.map((store, index) =>
-                          store.stock ? (
-                            loading ? (
-                              <Skeleton width={25} height={25} />
-                            ) : (
-                              <p
-                                className={noir.className}
-                                style={{
-                                  color: "rgb(225, 37, 27)",
-                                  fontWeight: "400",
-                                  marginRight: "10px",
-                                  fontSize: isMobile ? "14px" : "15px",
-                                  paddingLeft: "4px",
-                                  // marginLeft: "8px",
-                                  //paddingTop: "2px",
-                                }}
-                                key={index}
-                              >
-                                (
-                                {store.stock === "Out of Stock"
-                                  ? "Sold Out"
-                                  : store.stock}
-                                )
-                              </p>
-                            )
-                          ) : (
-                            <p style={{ paddingTop: "20px" }}></p>
                           )
                         )}
                       </div>
