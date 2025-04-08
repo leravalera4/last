@@ -1876,15 +1876,15 @@ const Products = ({ cartData }) => {
                                     style={{
                                       color:
                                         store.stock === "Out of Stock"
-                                          ? "rgb(255, 0, 0)"
+                                          ? "rgb(225, 37, 27)"
                                           : "rgb(225, 37, 27)",
                                       fontWeight: "400",
                                       fontSize: isMobile ? "14px" : "15px",
                                     }}
                                   >
                                     {store.stock === "Out of Stock"
-                                      ? "Sold Out"
-                                      : store.stock}
+                                      ? ("Sold Out")
+                                      : (store.stock)}
                                   </p>
                                 )}
                               </div>
