@@ -69,6 +69,7 @@ const Cart = () => {
     isPaneOpenLeft: false,
   });
   const [isMobile, setIsMobile] = useState(false);
+  const [isIpad, setIsIpad] = React.useState(false);
 
   const pdfRef = useRef();
 
@@ -563,18 +564,16 @@ const Cart = () => {
   //   };
   // }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Проверка на наличие `window`
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 768);
-      };
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
+  const handleResponsive = () => {
+    const width = window.innerWidth;
+    setIsMobile(width < 768);
+    setIsIpad(width >= 768 && width < 1024);
+  };
+
+  React.useEffect(() => {
+    handleResponsive();
+    window.addEventListener("resize", handleResponsive);
+    return () => window.removeEventListener("resize", handleResponsive);
   }, []);
 
   const getTitleByProductID = (productID) => {
@@ -679,7 +678,7 @@ const Cart = () => {
           setState({ isPaneOpen: false });
         }}
       >
-        {isMobile ? (
+        {isMobile || isIpad ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
             {response && response.length === 0 ? (
               <p
@@ -719,11 +718,9 @@ const Cart = () => {
                               {item.storeName}
                             </p>
                           </div>
-                            <p
-                              style={{ fontWeight: "700", lineHeight: "214%" }}
-                            >
-                              Total: ${item.totalPrices.toFixed(2)}
-                            </p>
+                          <p style={{ fontWeight: "700", lineHeight: "214%" }}>
+                            Total: ${item.totalPrices.toFixed(2)}
+                          </p>
 
                           <button
                             style={{
@@ -871,15 +868,17 @@ const Cart = () => {
                                   color: "red",
                                   border: "0px",
                                   cursor:
-                                    item.quantity === 0 ? "not-allowed" : "pointer",
+                                    item.quantity === 0
+                                      ? "not-allowed"
+                                      : "pointer",
                                   backgroundColor: "transparent",
                                 }}
                               >
-                            {item.quantity === 0 ? (
-                              <Image width={30} height={30} src={block} />
-                            ) : (
-                              <Image width={30} height={30} src={minus} />
-                            )}
+                                {item.quantity === 0 ? (
+                                  <Image width={30} height={30} src={block} />
+                                ) : (
+                                  <Image width={30} height={30} src={minus} />
+                                )}
                               </button>
                               <p className="logo">QTY: </p>
                               <p>{item.quantity}</p>
@@ -1200,51 +1199,57 @@ const Cart = () => {
                             alignItems: "center",
                           }}
                         >
-                          <div style={{ display: "flex", flexDirection: "row" }}>
-                          <button
-                            className="exclude-from-pdf"
-                            disabled={item.quantity === 0}
-                            onClick={() => decreaseQuantity(item.productID)}
-                            style={{
-                              outline: "0px",
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor:
-                                item.quantity === 0 ? "not-allowed" : "pointer",
-                              backgroundColor: "transparent",
-                            }}
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
                           >
-                            {/* // <Image width={30} height={30} src={minus} /> */}
-                            {item.quantity === 0 ? (
-                              <Image width={30} height={30} src={block} />
-                            ) : (
-                              <Image width={30} height={30} src={minus} />
-                            )}
-                          </button>
-                          <p className="logo">Quantity: </p>
-                          <p style={{width: "20px",textAlign: "center"}}>{item.quantity}</p>
-                          <button
-                            className="exclude-from-pdf"
-                            onClick={() => increaseQuantity(item.productID)}
-                            style={{
-                              outline: "0px",
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor: "pointer",
-                              backgroundColor: "transparent",
-                            }}
-                          >
-                            <Image width={30} height={30} src={plus} />
-                          </button>
-                        </div>
+                            <button
+                              className="exclude-from-pdf"
+                              disabled={item.quantity === 0}
+                              onClick={() => decreaseQuantity(item.productID)}
+                              style={{
+                                outline: "0px",
+                                fontSize: "21px",
+                                fontWeight: "500",
+                                lineHeight: "20px",
+                                verticalAlign: "middle",
+                                color: "red",
+                                border: "0px",
+                                cursor:
+                                  item.quantity === 0
+                                    ? "not-allowed"
+                                    : "pointer",
+                                backgroundColor: "transparent",
+                              }}
+                            >
+                              {/* // <Image width={30} height={30} src={minus} /> */}
+                              {item.quantity === 0 ? (
+                                <Image width={30} height={30} src={block} />
+                              ) : (
+                                <Image width={30} height={30} src={minus} />
+                              )}
+                            </button>
+                            <p className="logo">Quantity: </p>
+                            <p style={{ width: "20px", textAlign: "center" }}>
+                              {item.quantity}
+                            </p>
+                            <button
+                              className="exclude-from-pdf"
+                              onClick={() => increaseQuantity(item.productID)}
+                              style={{
+                                outline: "0px",
+                                fontSize: "21px",
+                                fontWeight: "500",
+                                lineHeight: "20px",
+                                verticalAlign: "middle",
+                                color: "red",
+                                border: "0px",
+                                cursor: "pointer",
+                                backgroundColor: "transparent",
+                              }}
+                            >
+                              <Image width={30} height={30} src={plus} />
+                            </button>
+                          </div>
                           &nbsp; &nbsp;
                           <p className="logo">Item: </p>
                           <img
