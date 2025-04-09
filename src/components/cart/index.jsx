@@ -632,7 +632,7 @@ const Cart = () => {
             width: "60px",
             height: "60px",
             cursor: "pointer",
-            marginBottom: isMobile ? "5px" : "16px", //March 28
+            marginBottom: isMobile || isIpad ? "5px" : "16px", //March 28
           }}
           onClick={() => {
             getNames(sale, theme, name);
