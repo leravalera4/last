@@ -426,7 +426,7 @@ const Cart = () => {
     if (typeof window !== "undefined") {
       // Проверка на наличие `window`
       const handleResize = () => {
-        setIsMobile(window.innerWidth <= 768);
+        setIsMobile(window.innerWidth <= 1024);
       };
       handleResize();
       window.addEventListener("resize", handleResize);
