@@ -60,7 +60,7 @@
 
 
 /* Медиа-запросы для больших экранов */
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .hamburger {
         display: none; /* Скрываем гамбургер на больших экранах */
     }
