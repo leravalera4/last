@@ -567,7 +567,7 @@ const Cart = () => {
     if (typeof window !== "undefined") {
       // Проверка на наличие `window`
       const handleResize = () => {
-        setIsMobile(window.innerWidth <= 1024);
+        setIsMobile(window.innerWidth <= 768);
       };
       handleResize();
       window.addEventListener("resize", handleResize);
@@ -670,7 +670,7 @@ const Cart = () => {
         // style={{
         //   width: window.innerWidth <= 768 ? "100%" : "70%", // Изменение ширины на мобильных устройствах
         // }}
-        width='window.innerWidth <= 1024 ? "100%" : "70%"'
+        width='window.innerWidth <= 768 ? "100%" : "70%"'
         overlayClassName="overlay"
         className={`${noir.className} panel`}
         isOpen={state.isPaneOpen}
