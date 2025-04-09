@@ -332,7 +332,7 @@ button {
   font-weight: 500;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
   .button-active, .button-inactive {
     outline: 0;
@@ -409,7 +409,7 @@ button {
   margin-right: 10%;
 } */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .container {
     flex-direction: column; /* Для мобильных устройств */
 /*     padding-bottom: 10%; */
