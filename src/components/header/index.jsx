@@ -47,47 +47,18 @@ const Header = () => {
     };
   }, []);
 
-  const handleResize = () => {
-    if (window.innerWidth < 768) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
+  const handleResponsive = () => {
+    const width = window.innerWidth;
+    setIsMobile(width < 768);
+    setIsIpad(width >= 768 && width < 1024);
   };
-
-  const handleResizeIpad = () => {
-    if (769 < window.innerWidth < 1024) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  };
-
+  
   React.useEffect(() => {
-    // Call handleResize on mount to set the correct initial state
-    handleResize();
+    handleResponsive();
+    window.addEventListener("resize", handleResponsive);
+    return () => window.removeEventListener("resize", handleResponsive);
+  }, []);
 
-    // Add resize event listener
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []); // Empty dependency array ensures it runs only once on mount
-
-  React.useEffect(() => {
-    // Call handleResize on mount to set the correct initial state
-    handleResizeIpad();
-
-    // Add resize event listener
-    window.addEventListener("resize", handleResizeIpad);
-
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener("resize", handleResizeIpad);
-    };
-  }, []); // Empty dependency array ensures it runs only once on mount
 
   return (
     <Headroom
@@ -134,7 +105,7 @@ const Header = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              alignItms: "center",
+              alignItems: "center",
             }}
           />
           <Cart
