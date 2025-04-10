@@ -779,13 +779,13 @@ const Products = ({ cartData }) => {
                 }}
                 value={selectedStore}
                 style={{
-                  marginRight: isMobile && !isVisible ? "12px" : "0px",
+                  marginRight: isMobile || isVisible ? "0px" : "12px",
                   width: isMobile ? "70%" : "200px",
-                  marginBottom: isMobile && "10px",
-                  fontSize: isMobile && "16px",
-                  borderColor: isMobile && "black",
-                  height: isMobile && "48px",
-                  padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                  marginBottom: isMobile ? "10px" : undefined,
+                  fontSize: isMobile ? "16px" : undefined,
+                  borderColor: isMobile ? "black" : undefined,
+                  height: isMobile ? "48px" : undefined,
+                  padding: !isMobile ? "0.375rem 2.25rem 0.375rem 0.75rem" : undefined,
                 }}
               >
                 <option
