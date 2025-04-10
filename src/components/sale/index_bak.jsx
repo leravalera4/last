@@ -1853,7 +1853,7 @@ const Index = () => {
                                         {item.member_price ===
                                           "Prepared in Canada" && (
                                           <Image
-                                            width={20}
+                                            width={30}
                                             height={20}
                                             src={flag}
                                             alt="Produced in Canada"
