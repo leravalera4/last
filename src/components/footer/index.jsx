@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import SocialIcons from "../social";
 
 const noir = localFont({
   src: [
@@ -41,6 +42,7 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} Shoppy Scan. All rights reserved.
         </p>
         <p className={noir.className}>support@shoppyscan.ca</p>
+        <SocialIcons/>
       </div>
     </footer>
   );
