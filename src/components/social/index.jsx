@@ -27,7 +27,7 @@ const SocialIcons = () => {
       style={{ filter: "brightness(0)" }}
     />
   </a>
-  <a href="https://www.facebook.com/shoppyscan" target="_blank" rel="noopener noreferrer">
+  {/* <a href="https://www.facebook.com/shoppyscan" target="_blank" rel="noopener noreferrer">
     <Image
       className="image"
       alt="Facebook"
@@ -36,7 +36,7 @@ const SocialIcons = () => {
       height={70}
       style={{ filter: "brightness(0)" }}
     />
-  </a>
+  </a> */}
   <a href="https://www.linkedin.com/company/shoppyscan" target="_blank" rel="noopener noreferrer">
     <Image
       className="image"
