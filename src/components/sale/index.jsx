@@ -11,7 +11,7 @@ import About from "../about";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import Loading from "../loaders";
-import added from "../../app/images/added_2.svg";
+import added from "../../app/images/added.svg";
 import error from "../../app/images/error.gif";
 import Image from "next/image.js";
 import { useRef } from "react";
