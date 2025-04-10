@@ -1829,7 +1829,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "10px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "24px",
                                     fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
@@ -2040,7 +2040,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "10px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "24px",
                                     fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
@@ -2251,7 +2251,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "10px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "24px",
                                     fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
@@ -2462,7 +2462,7 @@ const Index = () => {
                                   onClick={() => handleAddToCart(item, index)}
                                   className={`${noir.className} button-54`}
                                   style={{
-                                    marginLeft: isMobile ? "10px" : "15px",
+                                    marginLeft: isMobile ? "10px" : "24px",
                                     fontSize: isMobile ? "16px" : "14px",
                                     borderColor:
                                       len === 3 && checkForStore === false
@@ -2688,7 +2688,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -2917,7 +2917,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -3146,7 +3146,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -3375,7 +3375,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -3604,7 +3604,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -3833,7 +3833,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -4062,7 +4062,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -4292,7 +4292,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -4522,7 +4522,7 @@ const Index = () => {
                                       }
                                       className={`${noir.className} button-54`}
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "15px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "16px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
