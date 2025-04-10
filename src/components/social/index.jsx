@@ -25,32 +25,47 @@ const socialLinks = [
 
 const SocialIcons = () => {
   return (
-    <div className="flex justify-center gap-6 py-4 text-2xl text-gray-600">
+    <div style={{ display: "flex", gap: "1rem" }}>
       <Image
         className="image"
         alt="added"
         src={instagram}
-        width={30}
-        height={30}
-        style={{ fill: 'black'}}
-      />
+        width={70}
+        height={70}
+        style={{ fill: "black" }}
+      >
+        <a href="https://www.instagram.com/shoppyscan.ca/" />
+      </Image>
       <Image
         className="image"
         alt="added"
         src={facebook}
-        width={30}
-        height={30}
-        style={{ fill: 'black'}}
-      />
+        width={70}
+        height={70}
+        style={{ fill: "black" }}
+      >
+        <a href="https://www.instagram.com/shoppyscan.ca/" />
+      </Image>
       <Image
         className="image"
         alt="added"
         src={linkedin}
-        width={30}
-        height={30}
-        style={{ fill: 'black'}}
-      />
-      <Image className="image" alt="added" src={x} width={30} height={30} style={{ fill: 'black'}} />
+        width={70}
+        height={70}
+        style={{ fill: "black" }}
+      >
+        <a href="https://www.linkedin.com/company/shoppyscan" />
+      </Image>
+      <Image
+        className="image"
+        alt="added"
+        src={x}
+        width={60}
+        height={60}
+        style={{ fill: "black" }}
+      >
+        <a href="https://x.com/shoppyscan" />
+      </Image>
     </div>
   );
 };
