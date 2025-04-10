@@ -1716,8 +1716,8 @@ const Index = () => {
                                           <>
                                             <Image
                                               style={{ paddingLeft: "60px" }}
-                                              width={35}
-                                              height={35}
+                                              width={30}
+                                              height={30}
                                               src={added}
                                             />
                                             <p className={noir.className}>
@@ -1927,8 +1927,8 @@ const Index = () => {
                                           <>
                                             <Image
                                               style={{ paddingLeft: "60px" }}
-                                              width={35}
-                                              height={35}
+                                              width={30}
+                                              height={30}
                                               src={added}
                                             />
                                             <p className={noir.className}>
@@ -2138,8 +2138,8 @@ const Index = () => {
                                           <>
                                             <Image
                                               style={{ paddingLeft: "60px" }}
-                                              width={35}
-                                              height={35}
+                                              width={30}
+                                              height={30}
                                               src={added}
                                             />
                                             <p className={noir.className}>
@@ -2349,8 +2349,8 @@ const Index = () => {
                                           <>
                                             <Image
                                               style={{ paddingLeft: "60px" }}
-                                              width={35}
-                                              height={35}
+                                              width={30}
+                                              height={30}
                                               src={added}
                                             />
                                             <p className={noir.className}>
@@ -2565,8 +2565,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -2794,8 +2794,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -3023,8 +3023,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -3252,8 +3252,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -3481,8 +3481,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -3710,8 +3710,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -3939,8 +3939,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -4169,8 +4169,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
@@ -4399,8 +4399,8 @@ const Index = () => {
                                                   style={{
                                                     paddingLeft: "90px",
                                                   }}
-                                                  width={35}
-                                                  height={35}
+                                                  width={30}
+                                                  height={30}
                                                   src={added}
                                                 />
                                                 <p className={noir.className}>
