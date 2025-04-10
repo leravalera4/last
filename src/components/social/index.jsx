@@ -30,27 +30,27 @@ const SocialIcons = () => {
         className="image"
         alt="added"
         src={instagram}
-        width={70}
-        height={70}
+        width={30}
+        height={30}
         style={{ fill: 'black'}}
       />
       <Image
         className="image"
         alt="added"
         src={facebook}
-        width={70}
-        height={70}
+        width={30}
+        height={30}
         style={{ fill: 'black'}}
       />
       <Image
         className="image"
         alt="added"
         src={linkedin}
-        width={70}
-        height={70}
+        width={30}
+        height={30}
         style={{ fill: 'black'}}
       />
-      <Image className="image" alt="added" src={x} width={70} height={70} style={{ fill: 'black'}} />
+      <Image className="image" alt="added" src={x} width={30} height={30} style={{ fill: 'black'}} />
     </div>
   );
 };
