@@ -1564,7 +1564,7 @@ const Products = ({ cartData }) => {
                       </p>
                       {item.member_price === "Prepared in Canada" && (
                         <Image
-                          width={20}
+                          height={30}
                           style={{
                             paddingLeft: "10px",
                             paddingBottom: "14px",
