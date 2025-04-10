@@ -1611,14 +1611,15 @@ const Index = () => {
                                         {item.member_price ===
                                           "Prepared in Canada" && (
                                           <Image
-                                            width={20}
-                                            height={20}
-                                            src={flag}
-                                            alt="Produced in Canada"
-                                            style={{
-                                              paddingLeft: "92px",
-                                              marginTop: "8px",
-                                            }}
+                                          width={30}
+                                          height={30}
+                                          src={flag}
+                                          alt="Produced in Canada"
+                                          title="Produced in Canada"
+                                          style={{
+                                            paddingLeft: "92px",
+                                            marginTop: "8px",
+                                          }}
                                           />
                                         )}
                                         {productCounts[item.productID] > 0 ? (

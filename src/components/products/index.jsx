@@ -1709,6 +1709,7 @@ const Products = ({ cartData }) => {
                                 // justifyContent: "space-between",
                                 marginBottom: "10px",
                                 alignItems: "center",
+                                height: "32px",
                               }}
                               key={index}
                             >
@@ -1883,8 +1884,8 @@ const Products = ({ cartData }) => {
                                     }}
                                   >
                                     {store.stock === "Out of Stock"
-                                      ? ("Sold Out")
-                                      : (store.stock)}
+                                      ? "Sold Out"
+                                      : store.stock}
                                   </p>
                                 )}
                               </div>
