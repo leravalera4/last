@@ -16,11 +16,10 @@ import Image from "next/image.js";
 
 const SocialIcons = () => {
   return (
-<div style={{ display: "flex", gap: "1rem" }}>
+<div style={{ display: "flex", gap: "1rem",alignItems: "center" }}>
   <a href="https://www.instagram.com/shoppyscan.ca/" target="_blank" rel="noopener noreferrer">
     <Image
       className="image"
-      alt="Instagram"
       src={instagram}
       width={30}
       height={30}
