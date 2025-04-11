@@ -1709,6 +1709,7 @@ const Products = ({ cartData }) => {
                                 // justifyContent: "space-between",
                                 marginBottom: "10px",
                                 alignItems: "center",
+                                height: "32px"
                               }}
                               key={index}
                             >
