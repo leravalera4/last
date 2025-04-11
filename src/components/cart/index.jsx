@@ -566,6 +566,7 @@ const Cart = () => {
 
   const handleResponsive = () => {
     const width = window.innerWidth;
+    const height = window.innerHeight;
     const isPortrait = height > width;
     setIsMobile(width < 768);
     setIsIpad(width >= 768 && width <= 1024 && isPortrait);
