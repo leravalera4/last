@@ -22,8 +22,8 @@ const SocialIcons = () => {
       className="image"
       alt="Instagram"
       src={instagram}
-      width={70}
-      height={70}
+      width={30}
+      height={30}
       style={{ filter: "brightness(0)" }}
     />
   </a>
@@ -42,8 +42,8 @@ const SocialIcons = () => {
       className="image"
       alt="LinkedIn"
       src={linkedin}
-      width={70}
-      height={70}
+      width={30}
+      height={30}
       style={{ filter: "brightness(0)" }}
     />
   </a>
@@ -52,8 +52,8 @@ const SocialIcons = () => {
       className="image"
       alt="X"
       src={x}
-      width={60}
-      height={60}
+      width={25}
+      height={25}
       style={{ filter: "brightness(0)" }}
     />
   </a>
