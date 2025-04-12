@@ -152,7 +152,7 @@ const Products = ({ cartData }) => {
 
   const getStoresFromServer = async () => {
     try {
-      const response = await axios.get("https://server-blue-ten.vercel.app/api/sale/sal"); // Замените на ваш API endpoint
+      const response = await axios.get("https://api.shoppyscan.ca/api/sale/sal"); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {
       console.error("Error fetching stores:", error);
@@ -365,7 +365,7 @@ console.log("ADDED TO CART", addedToCart)
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores")
+      .get("https://api.shoppyscan.ca/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -396,7 +396,7 @@ console.log("ADDED TO CART", addedToCart)
     const store = JSON.parse(sessionStorage.getItem("selectedStore"));
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}`
+        `https://api.shoppyscan.ca/api/sale/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -429,7 +429,7 @@ console.log("ADDED TO CART", addedToCart)
     setSelectedCity(city);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
+        `https://api.shoppyscan.ca/api/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -474,7 +474,7 @@ console.log("ADDED TO CART", addedToCart)
       JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/updateLocation",
+        "https://api.shoppyscan.ca/api/updateLocation",
         {
           selectedStoresID: selectedStoresID,
           searchText: searchText,

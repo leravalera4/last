@@ -279,7 +279,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores")
+      .get("https://api.shoppyscan.ca/api/sale/stores")
       .then((response) => {
         setAvailableStores(response.data);
       })
@@ -292,7 +292,7 @@ const Index = () => {
     setSelectedStore(selectedStore);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}`
+        `https://api.shoppyscan.ca/api/sale/stores/${selectedStore}`
       );
 
       if (response.status === 200) {
@@ -481,14 +481,14 @@ const Index = () => {
     try {
       let response;
       if (storeSale && storeSale != null && com == true) {
-        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
+        response = await axios.post("https://api.shoppyscan.ca/api/sale", {
           selectedStoresID: [storeSale],
         });
         // console.log("Отправляемые данные:", {
         //   selectedStoresID: [storeSale],
         // });
       } else {
-        response = await axios.post("https://server-blue-ten.vercel.app/api/sale", {
+        response = await axios.post("https://api.shoppyscan.ca/api/sale", {
           selectedStoresID: [newSelectedLocationValue],
         });
         // console.log("Отправляемые данные:", {

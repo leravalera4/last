@@ -225,7 +225,7 @@ const Index = () => {
 
   useEffect(() => {
     axios
-      .get("https://server-blue-ten.vercel.app/api/sale/stores")
+      .get("https://api.shoppyscan.ca/api/sale/stores")
       .then((response) => setAvailableStores(response.data))
       .catch((error) =>
         console.error("Error fetching available stores:", error)
@@ -240,7 +240,7 @@ const Index = () => {
 
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${store}`
+        `https://api.shoppyscan.ca/api/sale/stores/${store}`
       );
       if (response.status === 200 && response.data.locations) {
         setCities(Object.keys(response.data.locations)); // Получаем список городов
@@ -258,7 +258,7 @@ const Index = () => {
     console.log("SELECTED_CITY", selectedCity);
     try {
       const response = await axios.get(
-        `https://server-blue-ten.vercel.app/api/sale/stores/${selectedStore}/${city}`
+        `https://api.shoppyscan.ca/api/sale/stores/${selectedStore}/${city}`
       );
 
       if (response.status === 200 && response.data.locations) {
@@ -372,190 +372,23 @@ const Index = () => {
     }
   }, [selectedLocation]);
 
-  // const handleAddStore = async () => {
-  //   setLoading(true);
-
-  //   let idExists;
-
-  //   if (array != null) {
-  //     idExists = array.includes(storedDat.id.toString());
-  //   }
-
-  //   if (!selectedLocation) {
-  //     console.warn("Please select a location before adding.");
-  //     return;
-  //   }
-  //   let newSelectedLocationValue;
-  //   if (selectedLocationsObject != null && selectedLocation != null) {
-  //     newSelectedLocationValue = selectedLocationsObject[selectedLocation];
-  //   }
-  //   const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
-  //   const storeLocation = JSON.parse(sessionStorage.getItem("activeLOCATION"));
-  //   const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
-  //   setSelectedCity(storeCity);
-  //   setSelectedLocation(storeLocation);
-  //   const sale = JSON.parse(sessionStorage.getItem("storeSale"));
-  //   const leng = JSON.parse(sessionStorage.getItem("storesLength")); // 371
-
-  //   const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
-  //   const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || []; //тут ID из корзины
-
-  //   setLen(leng);
-
-  //   const targetStore = {
-  //     store: store1,
-  //     location: location1,
-  //     city: city1,
-  //   };
-
-  //   let storeExists;
-
-  //   if (sale) {
-  //     storeExists = sale.some(
-  //       (store) =>
-  //         store.store === targetStore.store &&
-  //         store.location === targetStore.location &&
-  //         store.city === targetStore.city
-  //     );
-  //   }
-
-  //   let newStoreLocationObject;
-
-  //   if (storeSale && storeStore && storeLocation && storeCity && com == true) {
-  //     // setLocValue(storeSale); //тут выбранный объект из sale
-  //     // setSelectedStore(storeStore);
-  //     // setSelectedLocation(storeLocation);
-  //     // setSelectedCity((prev) => {
-  //     //   console.log("Предыдущий город:", prev);
-  //     //   return selectedCity;
-  //     // });
-
-  //     const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
-  //     const storeLocation = JSON.parse(
-  //       sessionStorage.getItem("activeLOCATION")
-  //     );
-  //     const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
-  //     const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
-
-  //     console.log("STORE_LOCATION", storeLocation);
-
-  //     newStoreLocationObject = {
-  //       store: storeStore,
-  //       location: storeLocation,
-  //       id: storeSale,
-  //       city: storeCity,
-  //     };
-
-  //     console.log("HERE IS IF", newStoreLocationObject);
-  //     setSelectedLocation(storeLocation);
-  //     console.log("STORE LOCATION", storeLocation);
-  //   } else {
-  //     newStoreLocationObject = {
-  //       store: selectedStore,
-  //       location: selectedLocation,
-  //       id: newSelectedLocationValue,
-  //       city: selectedCity,
-  //     };
-
-  //     console.log("HERE IS IF 2", newStoreLocationObject);
-
-  //     setLocValue(newSelectedLocationValue); //сюда кладем id
-  //     setSelectedStore(selectedStore);
-  //     setSelectedLocation(selectedLocation);
-  //     setSelectedCity(selectedCity);
-  //   }
-
-  //   if (len === 2) {
-  //     setLen(3);
-  //   }
-
-  //   const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
-
-  //   const isDuplicate = storesNames.some(
-  //     (store) =>
-  //       store.store === newStoreLocationObject.store &&
-  //       store.location === newStoreLocationObject.location &&
-  //       store.id == newStoreLocationObject.id
-  //   );
-
-  //   if (!isDuplicate) {
-  //     storesNames.push(newStoreLocationObject);
-  //     sessionStorage.setItem("storesName", JSON.stringify(storesNames));
-  //     sessionStorage.setItem("sel", JSON.stringify(storesNames));
-  //   }
-
-  //   const saveCartData = (newStoreLocationObject) => {
-  //     sessionStorage.setItem("sale", JSON.stringify(newStoreLocationObject));
-  //   };
-
-  //   saveCartData(newStoreLocationObject);
-  //   const storedData = JSON.parse(sessionStorage.getItem("sale"));
-  //   setStoredDat(storedData); // тут лежит один объект который в данный момет выбран
-
-  //   setSelectedStore(storedData.store);
-  //   setSelectedLocation(storedData.location);
-  //   setSelectedCity(storedData.city);
-  //   console.log("SELECTED_LOCATION", selectedLocation);
-  //   try {
-  //     let response;
-  //     if (storeSale && storeSale != null && com == true) {
-  //       response = await axios.post(
-  //         "https://server-blue-ten.vercel.app/api/sale",
-  //         {
-  //           selectedStoresID: [storeSale],
-  //         }
-  //       );
-  //     } else {
-  //       response = await axios.post(
-  //         "https://server-blue-ten.vercel.app/api/sale",
-  //         {
-  //           selectedStoresID: [newSelectedLocationValue],
-  //         }
-  //       );
-  //     }
-  //     // Assuming the response contains the data you need
-  //     const storesData = response.data;
-  //     setResponseData(storesData);
-  //     //setResponseData(storesData);
-  //     const dataToLocalStorage = sessionStorage.setItem(
-  //       "responseData",
-  //       JSON.stringify(storesData)
-  //     );
-  //     window.dispatchEvent(new Event("storage"));
-
-  //     //console.log(storesData);
-  //     setLoading(false);
-  //     setFirstTime(false);
-  //     saveCartData(newStoreLocationObject);
-  //   } catch (error) {
-  //     console.error("Error fetching stores data:", error.message);
-  //     // Handle the error (display a message to the user, log it, etc.)
-  //   }
-
-  //   // Reset selected location for the next selection
-  //   //setSelectedLocation(null);
-  // };
-
-
   const handleAddStore = async () => {
     setLoading(true);
-  
+
     let idExists;
-  
+
     if (array != null) {
-      idExists = array.includes(storedDat.id.toString());
+      idExists = array.includes(storedDat.id.toString());  //если массив cartIDS не пустой
     }
-  
+
     if (!selectedLocation) {
       console.warn("Please select a location before adding.");
       return;
     }
-  
     let newSelectedLocationValue;
     if (selectedLocationsObject != null && selectedLocation != null) {
       newSelectedLocationValue = selectedLocationsObject[selectedLocation];
     }
-  
     const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
     const storeLocation = JSON.parse(sessionStorage.getItem("activeLOCATION"));
     const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
@@ -563,19 +396,20 @@ const Index = () => {
     setSelectedLocation(storeLocation);
     const sale = JSON.parse(sessionStorage.getItem("storeSale"));
     const leng = JSON.parse(sessionStorage.getItem("storesLength")); // 371
-  
+
     const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
-  
+    const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || []; //тут ID из корзины
+
     setLen(leng);
-  
+
     const targetStore = {
       store: store1,
       location: location1,
       city: city1,
     };
-  
+
     let storeExists;
-  
+
     if (sale) {
       storeExists = sale.some(
         (store) =>
@@ -584,24 +418,34 @@ const Index = () => {
           store.city === targetStore.city
       );
     }
-  
+
     let newStoreLocationObject;
-  
-    if (storeSale && storeStore && storeLocation && storeCity && com === true) {
+
+    if (storeSale && storeStore && storeLocation && storeCity && com == true) {
+      // setLocValue(storeSale); //тут выбранный объект из sale
+      // setSelectedStore(storeStore);
+      // setSelectedLocation(storeLocation);
+      // setSelectedCity((prev) => {
+      //   console.log("Предыдущий город:", prev);
+      //   return selectedCity;
+      // });
+
       const storeStore = JSON.parse(sessionStorage.getItem("activeSTORE"));
-      const storeLocation = JSON.parse(sessionStorage.getItem("activeLOCATION"));
+      const storeLocation = JSON.parse(
+        sessionStorage.getItem("activeLOCATION")
+      );
       const storeCity = JSON.parse(sessionStorage.getItem("activeCITY"));
       const storeSale = JSON.parse(sessionStorage.getItem("activeID"));
-  
+
       console.log("STORE_LOCATION", storeLocation);
-  
+
       newStoreLocationObject = {
         store: storeStore,
         location: storeLocation,
         id: storeSale,
         city: storeCity,
       };
-  
+
       console.log("HERE IS IF", newStoreLocationObject);
       setSelectedLocation(storeLocation);
       console.log("STORE LOCATION", storeLocation);
@@ -612,78 +456,86 @@ const Index = () => {
         id: newSelectedLocationValue,
         city: selectedCity,
       };
-  
+
       console.log("HERE IS IF 2", newStoreLocationObject);
-  
+
       setLocValue(newSelectedLocationValue); //сюда кладем id
       setSelectedStore(selectedStore);
       setSelectedLocation(selectedLocation);
       setSelectedCity(selectedCity);
     }
-  
+
     if (len === 2) {
       setLen(3);
     }
-  
+
     const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
-  
+
     const isDuplicate = storesNames.some(
       (store) =>
         store.store === newStoreLocationObject.store &&
         store.location === newStoreLocationObject.location &&
         store.id == newStoreLocationObject.id
     );
-  
+
     if (!isDuplicate) {
       storesNames.push(newStoreLocationObject);
       sessionStorage.setItem("storesName", JSON.stringify(storesNames));
       sessionStorage.setItem("sel", JSON.stringify(storesNames));
     }
-  
+
     const saveCartData = (newStoreLocationObject) => {
       sessionStorage.setItem("sale", JSON.stringify(newStoreLocationObject));
     };
-  
+
     saveCartData(newStoreLocationObject);
     const storedData = JSON.parse(sessionStorage.getItem("sale"));
-    setStoredDat(storedData); // тут лежит один объект который в данный момент выбран
-  
+    setStoredDat(storedData); // тут лежит один объект который в данный момет выбран
+    console.log("STORED_DATA", storedDat);
+
     setSelectedStore(storedData.store);
     setSelectedLocation(storedData.location);
     setSelectedCity(storedData.city);
     console.log("SELECTED_LOCATION", selectedLocation);
-  
     try {
       let response;
-      if (storeSale && storeSale != null && com === true) {
+      if (storeSale && storeSale != null && com == true) {
         response = await axios.post(
-          "https://server-blue-ten.vercel.app/api/sale",
+          "https://api.shoppyscan.ca/api/sale",
           {
             selectedStoresID: [storeSale],
           }
         );
       } else {
         response = await axios.post(
-          "https://server-blue-ten.vercel.app/api/sale",
+          "https://api.shoppyscan.ca/api/sale",
           {
             selectedStoresID: [newSelectedLocationValue],
           }
         );
       }
-  
+      // Assuming the response contains the data you need
       const storesData = response.data;
       setResponseData(storesData);
-      sessionStorage.setItem("responseData", JSON.stringify(storesData));
+      //setResponseData(storesData);
+      const dataToLocalStorage = sessionStorage.setItem(
+        "responseData",
+        JSON.stringify(storesData)
+      );
       window.dispatchEvent(new Event("storage"));
-  
+
+      //console.log(storesData);
       setLoading(false);
       setFirstTime(false);
       saveCartData(newStoreLocationObject);
     } catch (error) {
       console.error("Error fetching stores data:", error.message);
+      // Handle the error (display a message to the user, log it, etc.)
     }
+
+    // Reset selected location for the next selection
+    //setSelectedLocation(null);
   };
-  
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -930,7 +782,7 @@ const Index = () => {
   const getStoresFromServer = async () => {
     try {
       const response = await axios.get(
-        "https://server-blue-ten.vercel.app/api/sale/sal"
+        "https://api.shoppyscan.ca/api/sale/sal"
       ); // Замените на ваш API endpoint
       return response.data;
     } catch (error) {

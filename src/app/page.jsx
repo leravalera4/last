@@ -120,8 +120,8 @@
 
 //   useEffect(() => {
 //     axios
-//      // .get('https://server-blue-ten.vercel.app/api/stores')
-//      .get('https://server-blue-ten.vercel.app/api/stores')   //http://localhost
+//      // .get('https://api.shoppyscan.ca/api/stores')
+//      .get('https://api.shoppyscan.ca/api/stores')   //http://localhost
 //       .then((response) => {
 //         setAvailableStores(response.data)
 //       })
@@ -135,7 +135,7 @@
 //     setSelectedStore(selectedStore) // сюда кладем выбранный из списка магазин (из массива выбираем один из)
 //     try {
 //       const response = await axios.get(
-//         `https://server-blue-ten.vercel.app/api/stores/${selectedStore}`
+//         `https://api.shoppyscan.ca/api/stores/${selectedStore}`
 //       )
 
 //       if (response.status === 200) {
@@ -174,7 +174,7 @@
 //   const handleButtonClick = async () => {
 //     try {
 //       const response = await axios.post(
-//         'https://server-blue-ten.vercel.app/api/updateLocation',
+//         'https://api.shoppyscan.ca/api/updateLocation',
 //         {
 //           selectedStoresID: selectedStoresID,
 //           searchText: searchText,

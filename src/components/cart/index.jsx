@@ -150,7 +150,7 @@ const Cart = () => {
   // const getNames = async (sale, theme, name) => {
   //   try {
   //     const response = await axios.post(
-  //       "https://server-blue-ten.vercel.app/api/sale/name",
+  //       "https://api.shoppyscan.ca/api/sale/name",
   //       { sale: sale, theme: theme, name: name } // Wrap the sale data in an object with the key "sale"
   //     );
   //     const responses = response.data;
@@ -169,7 +169,7 @@ const Cart = () => {
 
     try {
       const response = await axios.post(
-        "https://server-blue-ten.vercel.app/api/sale/name",
+        "https://api.shoppyscan.ca/api/sale/name",
         {
           sale,
           theme,
