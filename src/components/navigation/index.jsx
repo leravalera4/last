@@ -52,8 +52,8 @@ const HamburgerMenu = () => {
           Special Price
         </Link>
         <Link
-          href="/about"
-          className={`${noir.className} ${pathname === '/about' ? 'active' : 'link'}`}
+          href="/compare-prices"
+          className={`${noir.className} ${pathname === '/compare-prices' ? 'active' : 'link'}`}
           onClick={() => setIsOpen(false)}
         >
           Compare Prices

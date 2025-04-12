@@ -276,6 +276,8 @@ const Index = () => {
     }
   };
 
+  
+
   // Проверяем, что locations обновляется
   useEffect(() => {
     console.log("Updated LOCATIONS (после setState):", locations);
@@ -289,43 +291,6 @@ const Index = () => {
     }
   }, [locValue]); // Add other dependencies if needed
 
-  //   useEffect(() => {
-  //     window.addEventListener("storage", () => {
-  //       // Сохраняем данные в localStorage
-  //       sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-  //       sessionStorage.setItem(
-  //         "selectedLocation",
-  //         JSON.stringify(selectedLocation)
-  //       );
-  //       sessionStorage.setItem("selectedCity", JSON.stringify(selectedCity));
-
-  //       // Извлекаем данные из localStorage
-  //       const store = sessionStorage.getItem("selectedStore");
-  //       const location = sessionStorage.getItem("selectedLocation");
-  //       console.log("LOCATION_1", location);
-  //       const city = sessionStorage.getItem("selectedCity");
-  //       // Обновляем состояние, только если store существует и оно не обновлялось
-  //       if (store !== null) {
-  //         setStore1(JSON.parse(store));
-  //       }
-  //       if (location !== null) {
-  //         setLocation1(JSON.parse(location));
-  //       }
-  //       if (city !== null) {
-  //         setCity1(JSON.parse(city));
-  //       }
-  //     });
-  //   }, [selectedStore, selectedLocation, selectedCity]); // Эффект сработает только когда selectedStore или selectedLocation изменяются
-  // let com = true;
-  // if (storeSale &&
-  //   storeSale.location != selectedLocation &&
-  //   storeSale.store != selectedStore
-  // ) {
-  //   com = false;
-  // }
-  // else{
-  //   com = true;
-  // }
 
   useEffect(() => {
     // Слушаем изменения в sessionStorage
