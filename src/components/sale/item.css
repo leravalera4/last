@@ -358,8 +358,8 @@ button {
   .react-tabs__tab-list {
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* для плавного скроллинга на iOS */
+    /* overflow-x: auto;
+    -webkit-overflow-scrolling: touch; для плавного скроллинга на iOS */
   }
 
   .react-tabs__tab-list li {
