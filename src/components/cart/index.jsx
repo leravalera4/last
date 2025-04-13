@@ -943,37 +943,44 @@ const Cart = () => {
                             paddingRight: "10%",
                           }}
                         >
-                          {item.items.map((li, liIndex) => (
-                            <li
-                              style={{
-                                display: "flex",
-                                borderBottom: "1px solid rgb(204, 204, 204)",
-                                margin: "10px 0px",
-                                alignItems: "center",
-                              }}
-                              key={liIndex}
-                            >
-                              <img
-                                alt={title} // Используем title в alt
-                                width={30}
-                                height={30}
-                                src={li.image} // Используем выбранное изображение
-                                style={{ paddingRight: "8px" }}
-                              />
-                              <p
+                          {item.items.map((li, liIndex) => {
+                            const title =
+                              li.title ||
+                              response[1]?.items?.[liIndex]?.title ||
+                              response[2]?.items?.[liIndex]?.title ||
+                              getTitleByProductID(li.productID); // Берем название из массива
+
+                            return (
+                              <li
+                                key={liIndex}
                                 style={{
-                                  textOverflow: "ellipsis",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  width: "200px",
+                                  display: "flex",
+                                  borderBottom: "1px solid rgb(204, 204, 204)",
+                                  margin: "10px 0px",
+                                  alignItems: "center",
                                 }}
                               >
-                                {li.title}
-                              </p>
-
-                              <p>({li.quantity})</p>
-                            </li>
-                          ))}
+                                <img
+                                  alt={title}
+                                  width={30}
+                                  height={30}
+                                  src={li.image}
+                                  style={{ paddingRight: "8px" }}
+                                />
+                                <p
+                                  style={{
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    width: "200px",
+                                  }}
+                                >
+                                  {li.title || title}
+                                </p>
+                                <p>({li.quantity})</p>
+                              </li>
+                            );
+                          })}
                         </ul>
                         <ul
                           style={{
