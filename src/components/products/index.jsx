@@ -189,17 +189,40 @@ const Products = ({ cartData }) => {
     }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
+
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const handleBeforeUnload = () => {
+    const clearSession = () => {
       sessionStorage.clear();
     };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
+  
+    // 1. ПК и часть Android
+    window.addEventListener("beforeunload", clearSession);
+  
+    // 2. Мобильные браузеры — когда вкладка уходит в фон
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") {
+        clearSession();
+      }
+    });
+  
+    // Очистка обработчиков при размонтировании
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("beforeunload", clearSession);
+      document.removeEventListener("visibilitychange", clearSession);
     };
   }, []);
+  
 
   useEffect(() => {
     axios
