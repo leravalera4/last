@@ -818,7 +818,7 @@ const Index = () => {
         paddingTop: "10px",
       }}
     >
-       {responseData.length > 0 ? <Tour style={{ zIndex: "10" }} /> : <FirstTime style={{ zIndex: "10" }}/>}
+       {responseData.length > 0 && !isMobile ? <Tour style={{ zIndex: "10" }} /> : <FirstTime style={{ zIndex: "10" }}/>}
       <h2
         style={{
           textAlign: "center",

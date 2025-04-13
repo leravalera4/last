@@ -1902,7 +1902,7 @@ const Products = ({ cartData }) => {
         )}
       </div>
 
-      {responseData.length > 0 ? <Tour /> : ""}
+      {responseData.length > 0 && !isMobile ? <Tour /> : ""}
     </div>
   );
 };
