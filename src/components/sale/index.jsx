@@ -804,6 +804,58 @@ const Index = () => {
     setSelectedLocation(value);
   };
 
+  const handleStoreClick = async (store, index) => {
+    sessionStorage.setItem("activeID", JSON.stringify(store.id));
+    sessionStorage.setItem(
+      "activeSTORE",
+      JSON.stringify(store.store)
+    );
+    sessionStorage.setItem(
+      "activeLOCATION",
+      JSON.stringify(store.location)
+    );
+    sessionStorage.setItem(
+      "activeCITY",
+      JSON.stringify(store.city)
+    );
+    sessionStorage.setItem(
+      "sale",
+      JSON.stringify({
+        store: store.store, // assuming store name or another identifier
+        location: store.location,
+        id: store.id,
+        city: store.city,
+      })
+    );
+    setLocValue(store.id); // Это обновит состояние, но может не отразиться немедленно
+    setSelectedStore(store.store);
+    setSelectedLocation(store.location);
+    setSelectedCity(store.city);
+    //   console.log("SELECTED LOCATION",store.location)
+    console.log("SELECTED STORE", store.store);
+    console.log("SELECTED CITY", store.city);
+
+    const cityRes = await axios.get(`https://api.shoppyscan.ca/api/sale/stores/${store.store}`);
+    const cities = cityRes.data.locations ? Object.keys(cityRes.data.locations) : [];
+    setCities(cities);
+
+    const locRes = await axios.get(`https://api.shoppyscan.ca/api/sale/stores/${store.store}/${store.city}`);
+    const locations = locRes.data.locations ? Object.keys(locRes.data.locations) : [];
+    setLocations(locations);
+    setSelectedLocationsObject(locRes.data.locations);
+
+    console.log("Data fetched and state updated");
+    // console.log("Setting locValue to ID:", store.id);
+    // console.log("Setting locValue to STORE:", store.store);
+    // console.log("Setting locValue to LOCATION:", store.location);
+    // console.log("Setting locValue to LOC VALUE:", locValue);
+    // console.log("Setting locValue to CITY:", store.city);
+    // setSelectedStore(store.store);
+    // setSelectedLocation(store.location);
+    toggleButton(index);
+    handleAddStore(); // Вызываем функцию с актуальными данными
+  }
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -1417,45 +1469,7 @@ const Index = () => {
                   borderColor: isMobile && "black",
                 }}
                 onClick={() => {
-                  sessionStorage.setItem("activeID", JSON.stringify(store.id));
-
-                  sessionStorage.setItem(
-                    "activeSTORE",
-                    JSON.stringify(store.store)
-                  );
-                  sessionStorage.setItem(
-                    "activeLOCATION",
-                    JSON.stringify(store.location)
-                  );
-                  sessionStorage.setItem(
-                    "activeCITY",
-                    JSON.stringify(store.city)
-                  );
-                  sessionStorage.setItem(
-                    "sale",
-                    JSON.stringify({
-                      store: store.store, // assuming store name or another identifier
-                      location: store.location,
-                      id: store.id,
-                      city: store.city,
-                    })
-                  );
-                  setLocValue(store.id); // Это обновит состояние, но может не отразиться немедленно
-                  setSelectedStore(store.store);
-                  setSelectedLocation(store.location);
-                  setSelectedCity(store.city);
-                  //   console.log("SELECTED LOCATION",store.location)
-                  console.log("SELECTED STORE", store.store);
-                  console.log("SELECTED CITY", store.city);
-                  // console.log("Setting locValue to ID:", store.id);
-                  // console.log("Setting locValue to STORE:", store.store);
-                  // console.log("Setting locValue to LOCATION:", store.location);
-                  // console.log("Setting locValue to LOC VALUE:", locValue);
-                  // console.log("Setting locValue to CITY:", store.city);
-                  // setSelectedStore(store.store);
-                  // setSelectedLocation(store.location);
-                  toggleButton(index);
-                  handleAddStore(); // Вызываем функцию с актуальными данными
+                  handleStoreClick(store, index);
                 }}
                 // style={{
                 //   outline: "0px",
