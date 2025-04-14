@@ -18,11 +18,13 @@ import "./styles.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
+const today = new Date().toISOString().split('T')[0]; // формат YYYY-MM-DD
+
 const options = {
-  filename: "test.pdf",
-  //   page: {
-  //     margin:Margin.SMALL,
-  //  },
+  filename: `Product_List_${today}.pdf`,
+  // page: {
+  //   margin: Margin.SMALL,
+  // },
 };
 
 const noir = localFont({
