@@ -139,6 +139,7 @@ const Cart = () => {
   }, []);
 
   console.log("OBJ CART CART", cartObj);
+  console.log("STORE SALE", filteredStores);
 
   React.useEffect(() => {
     if (data && data.length > 0 && data[0].value) {
