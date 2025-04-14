@@ -804,7 +804,7 @@ const Products = ({ cartData }) => {
                   // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
                   // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
                 }}
-                value={selectedStore}
+                // value={selectedStore}
                 style={{
                   marginRight: "20px",
                   width: isMobile ? "70%" : "200px",
