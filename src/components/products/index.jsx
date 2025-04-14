@@ -575,6 +575,10 @@ const Products = ({ cartData }) => {
       const storedResponseData = JSON.parse(
         sessionStorage.getItem("selectedLocation")
       );
+      sessionStorage.removeItem("sale");
+      sessionStorage.removeItem("activeCITY");
+      sessionStorage.removeItem("activeLOCATION");
+      sessionStorage.removeItem("activeSTORE");
       const stores1 = JSON.parse(sessionStorage.getItem("stores1"));
       const cartNames = JSON.parse(sessionStorage.getItem("storeSale"));
       if (cartNames) {

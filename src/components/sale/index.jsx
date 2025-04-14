@@ -110,6 +110,8 @@ const Index = () => {
   const [selectedAll, setSelectedAll] = useState([]);
   const [mounted, setMounted] = useState(false);
 
+  
+
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     if (!cart) {
