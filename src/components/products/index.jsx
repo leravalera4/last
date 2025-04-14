@@ -1164,14 +1164,14 @@ const Products = ({ cartData }) => {
                 }}
                // value={selectedStore}
                 style={{
-                  marginRight: "0px",
+                  marginRight: "20px",
                   width: isMobile ? "100%" : "200px",
                   marginBottom: isMobile && "10px",
                   fontSize: isMobile && "16px",
                   borderColor: isMobile && "black",
                   height: isMobile && "48px",
                   padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-                  // marginRight: isVisible ? "0px" : "20px",
+                  marginRight: isVisible ? "0px" : "20px",
                 }}
               >
                 <option
@@ -1257,7 +1257,7 @@ const Products = ({ cartData }) => {
                     width: isMobile ? "100%" : "200px",
                     // padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                     marginRight: isMobile ? "0px" : "24px",
-                    marginLeft: "24px",
+                    marginLeft: !isMobile && "24px",
                     marginBottom: isMobile && "10px",
                     fontSize: isMobile && "16px",
                     borderColor: isMobile && "black",
