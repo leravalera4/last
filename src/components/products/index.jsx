@@ -169,10 +169,10 @@ const Products = ({ cartData }) => {
   };
 
   React.useEffect(() => {
-    const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
-    const selectedLocation = JSON.parse(
-      sessionStorage.getItem("selectedLocation")
-    );
+    // const selectedStore = JSON.parse(sessionStorage.getItem("selectedStore"));
+    // const selectedLocation = JSON.parse(
+    //   sessionStorage.getItem("selectedLocation")
+    // );
     const store1 = JSON.parse(sessionStorage.getItem("store1"));
     const selectedAll = JSON.parse(sessionStorage.getItem("storeSale"));
     setSelectedLocation(selectedLocation);
@@ -804,7 +804,7 @@ const Products = ({ cartData }) => {
                   // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
                   // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
                 }}
-                // value={selectedStore}
+                value={selectedStore}
                 style={{
                   marginRight: "20px",
                   width: isMobile ? "70%" : "200px",
@@ -1162,7 +1162,7 @@ const Products = ({ cartData }) => {
                   // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
                   // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
                 }}
-                value={selectedStore}
+               // value={selectedStore}
                 style={{
                   marginRight: "20px",
                   width: isMobile ? "100%" : "200px",
