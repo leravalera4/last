@@ -33,6 +33,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
   const [isIpad, setIsIpad] = React.useState(false);
+  const [isSmall, setIsSmall] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -53,7 +54,8 @@ const Header = () => {
     const height = window.innerHeight;
     const isPortrait = height > width;
     setIsMobile(width < 768);
-    setIsIpad(width >= 768 && width <= 1024 && isPortrait);
+    setIsIpad(width >= 768 && width <= 1140 && isPortrait);
+    setIsSmall(width >= 1140 && width <= 1260 && isPortrait);
   };
   
   React.useEffect(() => {
@@ -123,8 +125,7 @@ const Header = () => {
         </header>
       ) : (
         <header className="header">
-          <div
-            style={{ display: "flex", flexDirection: "row", marginLeft: "15%" }}
+          <div className="head"
           >
             <Link href="/">
               <Image

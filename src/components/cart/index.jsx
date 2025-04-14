@@ -569,7 +569,7 @@ const Cart = () => {
     const height = window.innerHeight;
     const isPortrait = height > width;
     setIsMobile(width < 768);
-    setIsIpad(width >= 768 && width <= 1024 && isPortrait);
+    setIsIpad(width >= 768 && width <= 1140 && isPortrait);
   };
 
   React.useEffect(() => {

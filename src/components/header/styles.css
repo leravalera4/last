@@ -77,8 +77,31 @@
     padding-top: 102px;
   } */
 
-@media (max-width: 1024px) {
+
+
+  .head {
+    display: flex;
+    flex-direction: row;
+    margin-left: 15%;
+  }
+
+@media (min-width: 1140px) and (max-width: 1460px) {
+  .head {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
+  }
+}
+
+
+@media (max-width: 1140px) {
   .boxy {
     display: none;
+  }
+
+  .head {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
   }
 }
