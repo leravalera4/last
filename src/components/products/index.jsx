@@ -819,7 +819,7 @@ const Products = ({ cartData }) => {
                   className={noir.className}
                   value=""
                   //   disabled
-                  selected
+                //  selected
                 >
                   Select Store...
                 </option>
@@ -910,7 +910,7 @@ const Products = ({ cartData }) => {
                     style={{ color: "#212529" }}
                     value=""
                     //   disabled
-                    selected
+                  //  selected
                     //   hidden
                     // disabled
                     //   selected
@@ -978,7 +978,7 @@ const Products = ({ cartData }) => {
                     //   selected
                     //   hidden
                     // disabled
-                    selected
+                  //  selected
                     className={noir.className}
                   >
                     Select Location...
@@ -1178,7 +1178,7 @@ const Products = ({ cartData }) => {
                   className={noir.className}
                   value=""
                   //   disabled
-                  selected
+                 // selected
                 >
                   Select Store...
                 </option>
@@ -1287,7 +1287,7 @@ const Products = ({ cartData }) => {
                     style={{ color: "#212529" }}
                     value=""
                     //   disabled
-                    selected
+                 //   selected
                     //   hidden
                     // disabled
                     //   selected
@@ -1355,7 +1355,7 @@ const Products = ({ cartData }) => {
                     //   selected
                     //   hidden
                     // disabled
-                    selected
+                 //   selected
                     className={noir.className}
                   >
                     Select Location...
