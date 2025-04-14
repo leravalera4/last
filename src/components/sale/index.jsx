@@ -829,6 +829,7 @@ const Index = () => {
   };
 
   const handleStoreClick = async (store, index) => {
+    setIsVisible(false);
     sessionStorage.setItem("activeID", JSON.stringify(store.id));
     sessionStorage.setItem(
       "activeSTORE",
