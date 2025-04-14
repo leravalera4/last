@@ -928,6 +928,7 @@ const Index = () => {
               flexDirection: isMobile && !isVisible ? "row" : "column",
               alignItems: "center",
               width: isMobile && "100%",
+              justifyContent: "center"
             }}
           >
             <select

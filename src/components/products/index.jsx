@@ -205,24 +205,23 @@ const Products = ({ cartData }) => {
     const clearSession = () => {
       sessionStorage.clear();
     };
-  
+
     // 1. ПК и часть Android
     window.addEventListener("beforeunload", clearSession);
-  
+
     // 2. Мобильные браузеры — когда вкладка уходит в фон
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") {
         clearSession();
       }
     });
-  
+
     // Очистка обработчиков при размонтировании
     return () => {
       window.removeEventListener("beforeunload", clearSession);
       document.removeEventListener("visibilitychange", clearSession);
     };
   }, []);
-  
 
   useEffect(() => {
     axios
@@ -722,7 +721,7 @@ const Products = ({ cartData }) => {
   };
 
   const handleResize = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -791,6 +790,7 @@ const Products = ({ cartData }) => {
                 flexDirection: isMobile && !isVisible ? "row" : "column",
                 alignItems: "center",
                 width: isMobile && "100%",
+                justifyContent: "center",
               }}
             >
               <select
@@ -1732,7 +1732,7 @@ const Products = ({ cartData }) => {
                                 // justifyContent: "space-between",
                                 marginBottom: "10px",
                                 alignItems: "center",
-                                height: "32px"
+                                height: "32px",
                               }}
                               key={index}
                             >
@@ -1907,8 +1907,8 @@ const Products = ({ cartData }) => {
                                     }}
                                   >
                                     {store.stock === "Out of Stock"
-                                      ? ("Sold Out")
-                                      : (store.stock)}
+                                      ? "Sold Out"
+                                      : store.stock}
                                   </p>
                                 )}
                               </div>
