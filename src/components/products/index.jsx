@@ -721,7 +721,7 @@ const Products = ({ cartData }) => {
   };
 
   const handleResize = () => {
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth <= 1024) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
