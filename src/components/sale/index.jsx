@@ -322,14 +322,14 @@ const Index = () => {
   }, []); // Пустой массив зависимостей, слушатель добавляется только один раз
 
   // Дополнительно обновляем sessionStorage, когда изменяется состояние
-  useEffect(() => {
-    sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-    sessionStorage.setItem(
-      "selectedLocation",
-      JSON.stringify(selectedLocation)
-    );
-    sessionStorage.setItem("selectedCity", JSON.stringify(selectedCity));
-  }, [selectedStore, selectedLocation, selectedCity]); // Эффект срабатывает при изменении этих значений
+  // useEffect(() => {
+  //   sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+  //   sessionStorage.setItem(
+  //     "selectedLocation",
+  //     JSON.stringify(selectedLocation)
+  //   );
+  //   sessionStorage.setItem("selectedCity", JSON.stringify(selectedCity));
+  // }, [selectedStore, selectedLocation, selectedCity]); // Эффект срабатывает при изменении этих значений
 
   useEffect(() => {
     if (selectedLocation) {

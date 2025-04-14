@@ -16,7 +16,7 @@ import Loading from "../loaders";
 import flag from "../../app/images/flag.svg";
 import Ab from "../ab";
 import del from "../../app/images/de.svg";
-import added from "../../app/images/added_2.svg";
+import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 // import Tour from "../tour/tour.jsx";
