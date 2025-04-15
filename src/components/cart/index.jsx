@@ -961,6 +961,35 @@ const Cart = () => {
                                   alignItems: "center",
                                 }}
                               >
+                                <button
+                                  style={{
+                                    outline: "0px",
+                                    // marginLeft: "20px"
+                                    fontSize: "21px",
+                                    fontWeight: "500",
+                                    lineHeight: "20px",
+                                    verticalAlign: "middle",
+                                    color: "red",
+                                    border: "0px",
+                                    cursor: "pointer",
+                                    backgroundColor: "transparent",
+                                  }}
+                                  className={noir.className}
+                                  onClick={() => {
+                                    console.log(
+                                      "item.productID:",
+                                      li.productID
+                                    );
+                                    removeProduct(li.productID);
+                                    console.log("ITEM:", li.productID);
+                                  }}
+                                  title="Delete Product"
+                                >
+                                  <img
+                                    src={del.src || del}
+                                    style={{ width: "30px", height: "30px" }}
+                                  />
+                                </button>
                                 <img
                                   alt={title}
                                   width={30}
