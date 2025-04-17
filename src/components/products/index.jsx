@@ -1740,8 +1740,8 @@ const Products = ({ cartData }) => {
                                 flexDirection: "row",
                                 // justifyContent: "space-between",
                                 marginBottom: "10px",
-                                alignItems: "center",
-                                height: "32px",
+                                alignItems: "flex-start",
+                                height: "48px",
                               }}
                               key={index}
                             >
@@ -1751,11 +1751,12 @@ const Products = ({ cartData }) => {
                                 style={{
                                   paddingRight: "12px",
                                   //   maxWidth: "275px",
-                                  width: "200px",
+                                  width: "160px",
                                   fontSize: isMobile ? "14px" : "15px",
                                 }}
                               >
-                                {`${store.store}, ${store.city}`}
+                                <b>{store.storetype}</b>: {store.store},{" "}
+                                {store.city}
                               </p>
 
                               {/* Pricing + Stock Block */}
