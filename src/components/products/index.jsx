@@ -252,6 +252,11 @@ const Products = ({ cartData }) => {
   const handleStoreChange = async (selectedStore) => {
     setIsVisible(false);
     setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+    setSelectedCity(null);
+    setSelectedLocation(null);
+    setLocations([]); // очищаем список локаций
+    setCities([]); // очищаем список городов
+    setSelectedLocationsObject({}); // очищаем объект локаций
     sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
     const store = JSON.parse(sessionStorage.getItem("selectedStore"));
     try {
