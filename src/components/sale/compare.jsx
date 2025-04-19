@@ -1833,7 +1833,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                 {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                 {item.brand ? item.brand : <span >LALALA</span>}
                                     </p>
                                   )}
                                   {loading ? (
