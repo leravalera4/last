@@ -1382,6 +1382,7 @@ const Index = () => {
                                       data-testid="product-brand"
                                     >
                                  {item.brand ? item.brand : "No brand"}
+                                 <p>LALALALAL</p>
                                     </p>
                                   )}
                                   {loading ? (
