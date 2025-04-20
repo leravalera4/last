@@ -185,41 +185,110 @@ const Index = () => {
     );
   };
 
+  // useEffect(() => {
+  //   // Функция для обработки изменений в localStorage
+  //   const handleStorageChange = () => {
+  //     const sale = JSON.parse(sessionStorage.getItem("sale"));
+  //     const cartIDs = JSON.parse(sessionStorage.getItem("cartIDs"));
+  //     let saleIdToString;
+
+  //     if (sale) {
+  //       saleIdToString = sale.id.toString();
+  //     }
+
+  //     let checkForStoreValue;
+  //     if (cartIDs && saleIdToString) {
+  //       checkForStoreValue = cartIDs.includes(saleIdToString);
+  //     }
+
+  //     // Обновляем состояние для checkForStore
+  //     setCheckForStore(checkForStoreValue);
+
+  //     const storeSale = JSON.parse(sessionStorage.getItem("storeSale"));
+  //     if (sale) {
+  //       setSelectedStore(sale.store);
+  //       handleStoreChange(sale.store);
+  //       setSelectedLocation(sale.location);
+  //       setSelectedCity(sale.city);
+  //     }
+  //     if (storeSale) {
+  //       setStoreSale(storeSale);
+  //     }
+  //   };
+
+  //   handleStorageChange();
+  //   //Слушаем изменения в localStorage
+  //   window.addEventListener("storage", handleStorageChange);
+
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
+  
   useEffect(() => {
-    // Функция для обработки изменений в localStorage
+    let isUpdating = false;
+  
+    const parseJSON = (key) => {
+      try {
+        return JSON.parse(sessionStorage.getItem(key) || "null");
+      } catch (e) {
+        console.error(`Error parsing ${key}:`, e);
+        return null;
+      }
+    };
+  
     const handleStorageChange = () => {
-      const sale = JSON.parse(sessionStorage.getItem("sale"));
-      const cartIDs = JSON.parse(sessionStorage.getItem("cartIDs"));
-      let saleIdToString;
-
-      if (sale) {
-        saleIdToString = sale.id.toString();
-      }
-
-      let checkForStoreValue;
-      if (cartIDs && saleIdToString) {
-        checkForStoreValue = cartIDs.includes(saleIdToString);
-      }
-
-      // Обновляем состояние для checkForStore
-      setCheckForStore(checkForStoreValue);
-
-      const storeSale = JSON.parse(sessionStorage.getItem("storeSale"));
+      if (isUpdating) return;
+  
+      const sale = parseJSON("sale");
+      const cartIDs  = parseJSON("cartIDs");
+      const storeSale = parseJSON("storeSale");
+      const storesName = parseJSON("storesName");
+  
+      const saleId = sale?.id?.toString();
+      const isInCart = saleId && cartIDs?.includes(saleId);
+  
+      setCheckForStore(!!isInCart);
+  
+      // Обновление выбранных значений
       if (sale) {
         setSelectedStore(sale.store);
         handleStoreChange(sale.store);
         setSelectedLocation(sale.location);
         setSelectedCity(sale.city);
       }
+  
       if (storeSale) {
         setStoreSale(storeSale);
       }
+  
+      // Обновляем store ID-ы только если они изменились
+      if (storesName) {
+        const newIds = storesName.map((store) => store.id);
+        const newIdsString = JSON.stringify(newIds);
+        const prevIdsString = sessionStorage.getItem("cartIDs");
+  
+        if (prevIdsString !== newIdsString) {
+          isUpdating = true;
+          sessionStorage.setItem("stores1", newIdsString);
+          sessionStorage.setItem("stores", newIdsString);
+          sessionStorage.setItem("cartIDs", newIdsString);
+          sessionStorage.setItem("storeSale", JSON.stringify(storesName));
+  
+          // Разблокируем обновление после короткой паузы
+          setTimeout(() => {
+            isUpdating = false;
+          }, 100);
+        }
+      }
     };
-
+  
+    // Первичная инициализация
     handleStorageChange();
-    //Слушаем изменения в localStorage
+  
+    // Слушаем изменения в sessionStorage (эмуляция через custom dispatch)
     window.addEventListener("storage", handleStorageChange);
-
+  
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
