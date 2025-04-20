@@ -110,8 +110,6 @@ const Index = () => {
   const [selectedAll, setSelectedAll] = useState([]);
   const [mounted, setMounted] = useState(false);
 
-  
-
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     if (!cart) {
@@ -205,6 +203,15 @@ const Index = () => {
       setCheckForStore(checkForStoreValue);
 
       const storeSale = JSON.parse(sessionStorage.getItem("storeSale"));
+      const storesName = JSON.parse(sessionStorage.getItem("storesName"));
+
+      if (storesName) {
+        const ids = storesName.map((store) => store.id);
+        sessionStorage.setItem("stores1", JSON.stringify(ids));
+        sessionStorage.setItem("stores", JSON.stringify(ids));
+        sessionStorage.setItem("cartIDs", JSON.stringify(ids));
+      }
+
       if (sale) {
         setSelectedStore(sale.store);
         handleStoreChange(sale.store);
@@ -278,8 +285,6 @@ const Index = () => {
     }
   };
 
-  
-
   // Проверяем, что locations обновляется
   useEffect(() => {
     console.log("Updated LOCATIONS (после setState):", locations);
@@ -292,7 +297,6 @@ const Index = () => {
       handleAddStore(); // Call your function with updated locValue
     }
   }, [locValue]); // Add other dependencies if needed
-
 
   useEffect(() => {
     // Слушаем изменения в sessionStorage
@@ -345,7 +349,7 @@ const Index = () => {
     let idExists;
 
     if (array != null) {
-      idExists = array.includes(storedDat.id.toString());  //если массив cartIDS не пустой
+      idExists = array.includes(storedDat.id.toString()); //если массив cartIDS не пустой
     }
 
     if (!selectedLocation) {
@@ -467,19 +471,13 @@ const Index = () => {
     try {
       let response;
       if (storeSale && storeSale != null && com == true) {
-        response = await axios.post(
-          "https://api.shoppyscan.ca/api/sale",
-          {
-            selectedStoresID: [storeSale],
-          }
-        );
+        response = await axios.post("https://api.shoppyscan.ca/api/sale", {
+          selectedStoresID: [storeSale],
+        });
       } else {
-        response = await axios.post(
-          "https://api.shoppyscan.ca/api/sale",
-          {
-            selectedStoresID: [newSelectedLocationValue],
-          }
-        );
+        response = await axios.post("https://api.shoppyscan.ca/api/sale", {
+          selectedStoresID: [newSelectedLocationValue],
+        });
       }
       // Assuming the response contains the data you need
       const storesData = response.data;
@@ -520,17 +518,17 @@ const Index = () => {
     const clearSession = () => {
       sessionStorage.clear();
     };
-  
+
     // 1. ПК и часть Android
     window.addEventListener("beforeunload", clearSession);
-  
+
     // 2. Мобильные браузеры — когда вкладка уходит в фон
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") {
         clearSession();
       }
     });
-  
+
     // Очистка обработчиков при размонтировании
     return () => {
       window.removeEventListener("beforeunload", clearSession);
@@ -831,18 +829,9 @@ const Index = () => {
   const handleStoreClick = async (store, index) => {
     setIsVisible(false);
     sessionStorage.setItem("activeID", JSON.stringify(store.id));
-    sessionStorage.setItem(
-      "activeSTORE",
-      JSON.stringify(store.store)
-    );
-    sessionStorage.setItem(
-      "activeLOCATION",
-      JSON.stringify(store.location)
-    );
-    sessionStorage.setItem(
-      "activeCITY",
-      JSON.stringify(store.city)
-    );
+    sessionStorage.setItem("activeSTORE", JSON.stringify(store.store));
+    sessionStorage.setItem("activeLOCATION", JSON.stringify(store.location));
+    sessionStorage.setItem("activeCITY", JSON.stringify(store.city));
     sessionStorage.setItem(
       "sale",
       JSON.stringify({
@@ -860,12 +849,20 @@ const Index = () => {
     console.log("SELECTED STORE", store.store);
     console.log("SELECTED CITY", store.city);
 
-    const cityRes = await axios.get(`https://api.shoppyscan.ca/api/sale/stores/${store.store}`);
-    const cities = cityRes.data.locations ? Object.keys(cityRes.data.locations) : [];
+    const cityRes = await axios.get(
+      `https://api.shoppyscan.ca/api/sale/stores/${store.store}`
+    );
+    const cities = cityRes.data.locations
+      ? Object.keys(cityRes.data.locations)
+      : [];
     setCities(cities);
 
-    const locRes = await axios.get(`https://api.shoppyscan.ca/api/sale/stores/${store.store}/${store.city}`);
-    const locations = locRes.data.locations ? Object.keys(locRes.data.locations) : [];
+    const locRes = await axios.get(
+      `https://api.shoppyscan.ca/api/sale/stores/${store.store}/${store.city}`
+    );
+    const locations = locRes.data.locations
+      ? Object.keys(locRes.data.locations)
+      : [];
     setLocations(locations);
     setSelectedLocationsObject(locRes.data.locations);
 
@@ -879,12 +876,12 @@ const Index = () => {
     // setSelectedLocation(store.location);
     toggleButton(index);
     handleAddStore(); // Вызываем функцию с актуальными данными
-  }
+  };
 
   useEffect(() => {
     setMounted(true);
   }, []);
-  
+
   if (!mounted) return null;
 
   return (
@@ -895,7 +892,11 @@ const Index = () => {
         paddingTop: "10px",
       }}
     >
-       {responseData.length > 0 && !isMobile ? <Tour style={{ zIndex: "10" }} /> : <FirstTime style={{ zIndex: "10" }}/>}
+      {responseData.length > 0 && !isMobile ? (
+        <Tour style={{ zIndex: "10" }} />
+      ) : (
+        <FirstTime style={{ zIndex: "10" }} />
+      )}
       <h2
         style={{
           textAlign: "center",
@@ -921,111 +922,111 @@ const Index = () => {
       </p>
 
       <div className="container">
-      {isMobile ? (
+        {isMobile ? (
           <>
-          <div
-            // className="select-store"
-            style={{
-              display: "flex",
-              //   width: "320px",
-              flexDirection: isMobile && !isVisible ? "row" : "column",
-              alignItems: "center",
-              width: isMobile && "100%",
-              justifyContent: "center"
-            }}
-          >
-            <select
-              className={`${noir.className} button-55`}
+            <div
+              // className="select-store"
               style={{
-                marginRight: isMobile && !isVisible ? "12px" : "0px",
-                width: isMobile ? "70%" : "200px",
-                marginBottom: isMobile && "10px",
-                fontSize: isMobile && "16px",
-                borderColor: isMobile && "black",
-                height: isMobile && "48px",
-                padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-                marginLeft: !isMobile && "20px",
+                display: "flex",
+                //   width: "320px",
+                flexDirection: isMobile && !isVisible ? "row" : "column",
+                alignItems: "center",
+                width: isMobile && "100%",
+                justifyContent: "center",
               }}
-              // style={{
-              //   width: "232px",
-              //   height: "38px",
-              //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-              //   fontSize: "1rem",
-              //   fontWeight: "400",
-              //   lineHeight: "1.5",
-              //   color: "#212529",
-              //   backgroundColor: "#fff",
-              //   border: "1px solid #ced4da",
-              //   borderRadius: "0.25rem",
-              //   transition:
-              //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-              // }}
-              onChange={(e) => handleStoreChange(e.target.value)}
-              value={selectedStore}
             >
-              <option
-                style={{ color: "#212529" }}
-                value=""
-                // disabled
-                selected
-                // hidden
-                className={noir.className}
+              <select
+                className={`${noir.className} button-55`}
+                style={{
+                  marginRight: isMobile && !isVisible ? "12px" : "0px",
+                  width: isMobile ? "70%" : "200px",
+                  marginBottom: isMobile && "10px",
+                  fontSize: isMobile && "16px",
+                  borderColor: isMobile && "black",
+                  height: isMobile && "48px",
+                  padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                  marginLeft: !isMobile && "20px",
+                }}
+                // style={{
+                //   width: "232px",
+                //   height: "38px",
+                //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                //   fontSize: "1rem",
+                //   fontWeight: "400",
+                //   lineHeight: "1.5",
+                //   color: "#212529",
+                //   backgroundColor: "#fff",
+                //   border: "1px solid #ced4da",
+                //   borderRadius: "0.25rem",
+                //   transition:
+                //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                // }}
+                onChange={(e) => handleStoreChange(e.target.value)}
+                value={selectedStore}
               >
-                Select Store...
-              </option>
-              {availableStores.map((store) => (
-                <option className={noir.className} key={store} value={store}>
-                  {store}
+                <option
+                  style={{ color: "#212529" }}
+                  value=""
+                  // disabled
+                  selected
+                  // hidden
+                  className={noir.className}
+                >
+                  Select Store...
                 </option>
-              ))}
-            </select>
-            {isVisible && (
-              <>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    padding: "0px 20px",
-                    margin: "8px",
-                  }}
-                  className={`${noir.className}`}
-                >
-                  or
-                </p>
-                <button
-                  onClick={getLocation}
-                  className={`${noir.className} button-55`}
-                  style={{
-                    padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                    borderColor: isMobile && "black",
-                    fontSize: isMobile && "16px",
-                  }}
-                  //   style={{
-                  //     outline: "0",
-                  //     width: "auto",
-                  //     height: "38px",
-                  //     cursor: "pointer",
-                  //     padding: "5px 16px",
-                  //     fontSize: "14px",
-                  //     fontWeight: "500",
-                  //     lineHeight: "20px",
-                  //     verticalAlign: "middle",
-                  //     border: "1px solid",
-                  //     borderRadius: " 6px",
-                  //     color: " #24292e",
-                  //     backgroundColor: "#fafbfc",
-                  //     borderColor: "#1b1f2326",
-                  //     boxShadow:
-                  //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                  //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                  //   }}
-                >
-                  Find Stores Near Me
-                </button>
-              </>
-            )}
-            {selectedStore != null && (
-              <>
-                {/* <label
+                {availableStores.map((store) => (
+                  <option className={noir.className} key={store} value={store}>
+                    {store}
+                  </option>
+                ))}
+              </select>
+              {isVisible && (
+                <>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      padding: "0px 20px",
+                      margin: "8px",
+                    }}
+                    className={`${noir.className}`}
+                  >
+                    or
+                  </p>
+                  <button
+                    onClick={getLocation}
+                    className={`${noir.className} button-55`}
+                    style={{
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      borderColor: isMobile && "black",
+                      fontSize: isMobile && "16px",
+                    }}
+                    //   style={{
+                    //     outline: "0",
+                    //     width: "auto",
+                    //     height: "38px",
+                    //     cursor: "pointer",
+                    //     padding: "5px 16px",
+                    //     fontSize: "14px",
+                    //     fontWeight: "500",
+                    //     lineHeight: "20px",
+                    //     verticalAlign: "middle",
+                    //     border: "1px solid",
+                    //     borderRadius: " 6px",
+                    //     color: " #24292e",
+                    //     backgroundColor: "#fafbfc",
+                    //     borderColor: "#1b1f2326",
+                    //     boxShadow:
+                    //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                    //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                    //   }}
+                  >
+                    Find Stores Near Me
+                  </button>
+                </>
+              )}
+              {selectedStore != null && (
+                <>
+                  {/* <label
               style={{
                 fontSize: "16px",
               }}
@@ -1038,58 +1039,64 @@ const Index = () => {
             >
               Select City:
             </label> */}
-                <select
-                  className={`${noir.className} button-55`}
-                  style={{
-                    width: isMobile ? "90%" : "200px",
-                    padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
-                    marginRight: !isMobile && "24px",
-                    marginLeft: !isMobile && "24px",
-                    margin: isMobile && "0px",
-                    marginBottom: isMobile && "10px",
-                    fontSize: isMobile && "16px",
-                    borderColor: isMobile && "black",
-                    height: isMobile && "48px",
-                    marginLeft: !isMobile && "20px"
-                  }}
-                  // style={{
-                  //   width: "232px",
-                  //   height: "38px",
-                  //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
-                  //   fontSize: "1rem",
-                  //   fontWeight: "400",
-                  //   lineHeight: "1.5",
-                  //   color: "#212529",
-                  //   backgroundColor: "#fff",
-                  //   border: "1px solid #ced4da",
-                  //   borderRadius: "0.25rem",
-                  //   transition:
-                  //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
-                  // }}
-                  // onChange={(e) => handleStoreChange(e.target.value)}
-                  onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity}
-                >
-                  <option
-                    style={{ color: "#212529" }}
-                    value=""
-                    // disabled
-                    selected
-                    // hidden
-                    className={noir.className}
+                  <select
+                    className={`${noir.className} button-55`}
+                    style={{
+                      width: isMobile ? "90%" : "200px",
+                      padding: !isMobile && "0.375rem 2.25rem 0.375rem 0.75rem",
+                      marginRight: !isMobile && "24px",
+                      marginLeft: !isMobile && "24px",
+                      margin: isMobile && "0px",
+                      marginBottom: isMobile && "10px",
+                      fontSize: isMobile && "16px",
+                      borderColor: isMobile && "black",
+                      height: isMobile && "48px",
+                      marginLeft: !isMobile && "20px",
+                    }}
+                    // style={{
+                    //   width: "232px",
+                    //   height: "38px",
+                    //   padding: "0.375rem 2.25rem 0.375rem 0.75rem",
+                    //   fontSize: "1rem",
+                    //   fontWeight: "400",
+                    //   lineHeight: "1.5",
+                    //   color: "#212529",
+                    //   backgroundColor: "#fff",
+                    //   border: "1px solid #ced4da",
+                    //   borderRadius: "0.25rem",
+                    //   transition:
+                    //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+                    // }}
+                    // onChange={(e) => handleStoreChange(e.target.value)}
+                    onChange={(e) => handleCityChange(e.target.value)}
+                    value={selectedCity}
                   >
-                    Select City...
-                  </option>
-                  {cities.map((city) => (
-                    <option className={noir.className} key={city} value={city}>
-                      {city}
+                    <option
+                      style={{ color: "#212529" }}
+                      value=""
+                      // disabled
+                      selected
+                      // hidden
+                      className={noir.className}
+                    >
+                      Select City...
                     </option>
-                  ))}
-                </select>
-              </>
-            )}
+                    {cities.map((city) => (
+                      <option
+                        className={noir.className}
+                        key={city}
+                        value={city}
+                      >
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
             </div>
-            <div style={{ display: "flex", flexDirection: "row",width :"100%" }}>
+            <div
+              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+            >
               {selectedCity !== null && (
                 <>
                   <select
@@ -1140,49 +1147,48 @@ const Index = () => {
               )}
             </div>
             {selectedLocation !== null && (
-                <form
-                  className="form"
-                  onSubmit={(e) => {
-                    e.preventDefault(); // Предотвращает стандартное поведение формы
-                    handleAddStore(); // Запускает вашу функцию обработки
-                    resetButtons();
+              <form
+                className="form"
+                onSubmit={(e) => {
+                  e.preventDefault(); // Предотвращает стандартное поведение формы
+                  handleAddStore(); // Запускает вашу функцию обработки
+                  resetButtons();
+                }}
+              >
+                <button
+                  type="submit"
+                  className={`${noir.className} button-55`}
+                  style={{
+                    borderColor: "black",
+                    marginRight: isMobile && "0px",
+                    fontSize: isMobile && "16px",
                   }}
+                  //   style={{
+                  //     outline: "0",
+                  //     cursor: "pointer",
+                  //     height: "38px",
+                  //     marginLeft: "10%",
+                  //     padding: "5px 16px",
+                  //     fontSize: "13px",
+                  //     fontWeight: "500",
+                  //     lineHeight: "20px",
+                  //     verticalAlign: "middle",
+                  //     border: "1px solid",
+                  //     borderRadius: "6px",
+                  //     color: "#24292e",
+                  //     backgroundColor: "#fafbfc",
+                  //     borderColor: "#1b1f2326",
+                  //     boxShadow:
+                  //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                  //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                  //   }}
                 >
-                  <button
-                    type="submit"
-                    className={`${noir.className} button-55`}
-                    style={{
-                      borderColor: "black",
-                      marginRight: isMobile && "0px",
-                      fontSize : isMobile && "16px"
-                    }}
-                    //   style={{
-                    //     outline: "0",
-                    //     cursor: "pointer",
-                    //     height: "38px",
-                    //     marginLeft: "10%",
-                    //     padding: "5px 16px",
-                    //     fontSize: "13px",
-                    //     fontWeight: "500",
-                    //     lineHeight: "20px",
-                    //     verticalAlign: "middle",
-                    //     border: "1px solid",
-                    //     borderRadius: "6px",
-                    //     color: "#24292e",
-                    //     backgroundColor: "#fafbfc",
-                    //     borderColor: "#1b1f2326",
-                    //     boxShadow:
-                    //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                    //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                    //   }}
-                  >
-                    Search
-                  </button>
-                </form>
-              )}
-            </>
-        ) 
-        : (
+                  Search
+                </button>
+              </form>
+            )}
+          </>
+        ) : (
           <>
             <select
               className={`${noir.className} button-55`}
@@ -1280,7 +1286,9 @@ const Index = () => {
                     width: isMobile ? "90%" : "200px",
                     marginLeft: "20px",
                     marginRight: "24px",
-                    padding: isMobile ? undefined : "0.375rem 2.25rem 0.375rem 0.75rem",
+                    padding: isMobile
+                      ? undefined
+                      : "0.375rem 2.25rem 0.375rem 0.75rem",
                     margin: isMobile ? "0px" : undefined,
                     marginBottom: isMobile ? "10px" : undefined,
                     fontSize: isMobile ? "16px" : undefined,
@@ -1438,7 +1446,7 @@ const Index = () => {
                   style={{
                     borderColor: "black",
                     marginRight: isMobile && "0px",
-                    fontSize : isMobile && "16px"
+                    fontSize: isMobile && "16px",
                   }}
                   //   style={{
                   //     outline: "0",
@@ -1470,11 +1478,11 @@ const Index = () => {
 
       {storeSale && storeSale.length > 0 ? (
         <div
-        style={{
-          paddingLeft: isMobile ? "5%" : "10%",
-          paddingRight: isMobile ? "5%" : "10%",
-          paddingBottom: isMobile ? "10%" : "3%",
-        }}
+          style={{
+            paddingLeft: isMobile ? "5%" : "10%",
+            paddingRight: isMobile ? "5%" : "10%",
+            paddingBottom: isMobile ? "10%" : "3%",
+          }}
         >
           {productNames && productNames.length !== 0 ? (
             <h2 className={noir.className}>Stores on your List</h2>
@@ -1588,24 +1596,27 @@ const Index = () => {
                       listStyle: "none",
                     }}
                   >
+                    {" "}
+                    {
+                      <Tab className={`${noir.className} links`}>
+                        {isMobile ? "All" : "All"}
+                      </Tab>
+                    }
                     {fruitsAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         {isMobile ? "Veggies" : "Veggies"}
                       </Tab>
                     )}
-
                     {snacksAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         {isMobile ? "Snacks" : "Snacks"}
                       </Tab>
                     )}
-
                     {dairyAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         {isMobile ? "Dairy" : "Dairy"}
                       </Tab>
                     )}
-
                     {drinksAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>Drinks</Tab>
                     )}
@@ -1618,33 +1629,27 @@ const Index = () => {
                     {naturalAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>Organic</Tab>
                     )}
-
                     {preparedAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         Prepared Meals
                       </Tab>
                     )}
-
                     {pantryAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>Pantry</Tab>
                     )}
-
                     {internationalAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         International Foods
                       </Tab>
                     )}
-
                     {meatAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>Meat</Tab>
                     )}
-
                     {fishAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         {isMobile ? "Seafood" : " Fish & Seafood"}
                       </Tab>
                     )}
-
                     {frozenAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         Frozen Food
@@ -1654,6 +1659,215 @@ const Index = () => {
                 </div>
               </>
             )}
+
+            {loading ? (
+              <Skeleton />
+            ) : fruitsAisleCount > 0 ? (
+              <TabPanel>
+                <h2 id="part4" className={noir.className}>
+                  All
+                </h2>
+
+                <p
+                  style={{ color: "rgb(125, 120, 120)" }}
+                  className={noir.className}
+                >
+                  *Out-of-stock items are not shown
+                </p>
+                {len === 3 && checkForStore === false && (
+                  <p
+                    style={{ color: "rgb(225, 37, 27)" }}
+                    className={noir.className}
+                  >
+                    You have reached the maximum number of stores on the List
+                    and cannot add more
+                  </p>
+                )}
+                <ul
+                  className="product-list"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    margin: "0px",
+                    padding: "0px",
+                    justifyContent: "center",
+                    // paddingLeft: "0px"
+                  }}
+                >
+                  {responseData &&
+                    responseData.map((item, index) => (
+                      <li
+                        key={index}
+                        tabIndex="-1"
+                        className="product-list-item"
+                      >
+                        <div className="product-container">
+                          <div className="product-info-container">
+                            <div className="product-image-container">
+                              {loading ? (
+                                <Skeleton width={110} height={110} />
+                              ) : (
+                                <>
+                                  <div
+                                    style={{
+                                      height: "35px",
+                                      display: "flex",
+
+                                      flexWrap: "nowrap",
+                                      alignItems: "center",
+                                      flexDirection: "row-reverse",
+                                    }}
+                                  >
+                                    {productCounts[item.productID] > 0 ? (
+                                      // &&
+                                      // storesLength != 0
+                                      <>
+                                        <Image
+                                          style={{ paddingLeft: "60px" }}
+                                          width={30}
+                                          height={30}
+                                          src={added}
+                                        />
+                                        <p className={noir.className}>
+                                          x{productCounts[item.productID]}
+                                        </p>
+                                      </>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </div>
+                                  <Zoom>
+                                    <img
+                                      alt="skksks"
+                                      src={item.image}
+                                      //loading="lazy"
+                                      className="product-image"
+                                      //aria-hidden="true"
+                                    />
+                                  </Zoom>
+                                </>
+                              )}
+                            </div>
+                            <div
+                              className="price-container"
+                              data-testid="price-product-tile"
+                            >
+                              {loading ? (
+                                <Skeleton width={70} height={16} />
+                              ) : (
+                                <p
+                                  className={`${noir.className} price-paragraph`}
+                                  data-testid="price"
+                                >
+                                  {item.non_member_price != null ? (
+                                    `${item.non_member_price} `
+                                  ) : (
+                                    <>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                        }}
+                                      >
+                                        {item.saleprice}
+                                        {item.wasprice != null ? (
+                                          <s
+                                            style={{
+                                              color: "rgb(125, 120, 120)",
+                                              fontWeight: "400",
+                                              marginRight: "10px",
+                                              paddingLeft: "2px",
+                                              paddingTop: "2px",
+                                            }}
+                                          >
+                                            {item.wasprice}
+                                          </s>
+                                        ) : null}
+                                      </div>
+                                    </>
+                                  )}
+                                  <span className="highlighted-price">
+                                    {item.non_member_price != null
+                                      ? `${item.sale}`
+                                      : `${item.sale != null ? item.sale : ""}`}
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                            {/* <a href="lalal" className="link-box-overlay"> */}
+                            <div className="overlay-container">
+                              {loading ? (
+                                <Skeleton width={154} height={12} />
+                              ) : (
+                                <p
+                                  className={`${noir.className} product-brand-paragraph`}
+                                  data-testid="product-brand"
+                                >
+                                  {item.brand}
+                                </p>
+                              )}
+                              {loading ? (
+                                <Skeleton width={154} height={12} />
+                              ) : (
+                                <h3
+                                  className={`${noir.className} product-title-heading`}
+                                  data-testid="product-title"
+                                >
+                                  {item.title}
+                                </h3>
+                              )}
+                              {loading ? (
+                                <Skeleton width={154} height={12} />
+                              ) : (
+                                <p
+                                  className="package-size-paragraph"
+                                  data-testid="product-package-size"
+                                >
+                                  {item.weight}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          {loading ? (
+                            <Skeleton />
+                          ) : (
+                            <>
+                              <button
+                                onClick={() => handleAddToCart(item, index)}
+                                className={`${noir.className} button-54`}
+                                style={{
+                                  marginLeft: isMobile ? "10px" : "24px",
+                                  fontSize: isMobile ? "16px" : "14px",
+                                  borderColor:
+                                    len === 3 && checkForStore === false
+                                      ? "#ddd"
+                                      : isMobile
+                                      ? "black"
+                                      : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                  cursor:
+                                    len === 3 && checkForStore === false
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  color:
+                                    len === 3 && checkForStore === false
+                                      ? "#ccc"
+                                      : undefined,
+                                }}
+                                disabled={len === 3 && checkForStore === false}
+                              >
+                                {productCounts[item.productID] > 0
+                                  ? "Add more"
+                                  : "Add to List"}
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </TabPanel>
+            ) : null}
 
             {loading ? (
               <Skeleton />
@@ -1803,7 +2017,13 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                      {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                      {item.brand ? (
+                                        item.brand
+                                      ) : (
+                                        <span style={{ opacity: 0 }}>
+                                          placeholder
+                                        </span>
+                                      )}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2014,7 +2234,13 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                       {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                      {item.brand ? (
+                                        item.brand
+                                      ) : (
+                                        <span style={{ opacity: 0 }}>
+                                          placeholder
+                                        </span>
+                                      )}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2225,7 +2451,13 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                       {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                      {item.brand ? (
+                                        item.brand
+                                      ) : (
+                                        <span style={{ opacity: 0 }}>
+                                          placeholder
+                                        </span>
+                                      )}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2436,7 +2668,13 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                       {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                      {item.brand ? (
+                                        item.brand
+                                      ) : (
+                                        <span style={{ opacity: 0 }}>
+                                          placeholder
+                                        </span>
+                                      )}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2660,7 +2898,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -2889,7 +3133,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3118,7 +3368,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3347,7 +3603,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3576,7 +3838,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3805,7 +4073,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4034,7 +4308,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4264,7 +4544,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4494,7 +4780,13 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : <span style={{ opacity: 0 }}>placeholder</span>}
+                                          {item.brand ? (
+                                            item.brand
+                                          ) : (
+                                            <span style={{ opacity: 0 }}>
+                                              placeholder
+                                            </span>
+                                          )}
                                         </p>
                                       )}
                                       {loading ? (
