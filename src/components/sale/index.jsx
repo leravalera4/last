@@ -203,14 +203,14 @@ const Index = () => {
       setCheckForStore(checkForStoreValue);
 
       const storeSale = JSON.parse(sessionStorage.getItem("storeSale"));
-      const storesName = JSON.parse(sessionStorage.getItem("storesName"));
+      // const storesName = JSON.parse(sessionStorage.getItem("storesName"));
 
-      if (storesName) {
-        const ids = storesName.map((store) => store.id);
-        sessionStorage.setItem("stores1", JSON.stringify(ids));
-        sessionStorage.setItem("stores", JSON.stringify(ids));
-        sessionStorage.setItem("cartIDs", JSON.stringify(ids));
-      }
+      // if (storesName) {
+      //   const ids = storesName.map((store) => store.id);
+      //   sessionStorage.setItem("stores1", JSON.stringify(ids));
+      //   sessionStorage.setItem("stores", JSON.stringify(ids));
+      //   sessionStorage.setItem("cartIDs", JSON.stringify(ids));
+      // }
 
       if (sale) {
         setSelectedStore(sale.store);
@@ -221,9 +221,9 @@ const Index = () => {
       if (storeSale) {
         setStoreSale(storeSale);
       }
-      if (storesName) {
-        sessionStorage.setItem("storeSale", JSON.stringify(storesName));
-      }
+      // if (storesName) {
+      //   sessionStorage.setItem("storeSale", JSON.stringify(storesName));
+      // }
     };
 
     handleStorageChange();
