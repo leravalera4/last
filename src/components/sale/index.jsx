@@ -221,6 +221,9 @@ const Index = () => {
       if (storeSale) {
         setStoreSale(storeSale);
       }
+      if (storesName) {
+        sessionStorage.setItem("storeSale", JSON.stringify(storesName));
+      }
     };
 
     handleStorageChange();
