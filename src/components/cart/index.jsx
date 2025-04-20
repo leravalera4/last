@@ -17,6 +17,8 @@ import block from "../../app/images/minus_block.svg";
 import "./styles.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const options = {
   filename: "test.pdf",
@@ -838,6 +840,7 @@ const Cart = () => {
                                   style={{ width: "30px", height: "30px" }}
                                 />
                               </button>
+                              <Zoom>
                               <img
                                 className="exclude-from-pdf"
                                 alt={title} // Используем title в alt
@@ -848,6 +851,7 @@ const Cart = () => {
                                   width: "30px",
                                 }}
                               />
+                              </Zoom>
                               <p
                                 style={{
                                   textOverflow: "ellipsis",
@@ -990,6 +994,7 @@ const Cart = () => {
                                     style={{ width: "30px", height: "30px" }}
                                   />
                                 </button>
+                                <Zoom>
                                 <img
                                   alt={title}
                                   width={30}
@@ -997,6 +1002,7 @@ const Cart = () => {
                                   src={li.image}
                                   style={{ paddingRight: "8px" }}
                                 />
+                                </Zoom>
                                 <p
                                   style={{
                                     textOverflow: "ellipsis",
@@ -1292,6 +1298,7 @@ const Cart = () => {
                           </div>
                           &nbsp; &nbsp;
                           <p className="logo">Item: </p>
+                          <Zoom>
                           <img
                             className="exclude-from-pdf"
                             alt={title} // Используем title в alt
@@ -1302,6 +1309,7 @@ const Cart = () => {
                               width: "30px",
                             }}
                           />
+                          </Zoom>
                           <p
                             style={{
                               textOverflow: "ellipsis",
