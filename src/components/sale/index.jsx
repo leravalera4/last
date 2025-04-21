@@ -2048,7 +2048,7 @@ const Index = () => {
                                         justifyContent: "center",
                                         width: "80%",
                                         height: "39px",
-                                        cursor: "none"
+                                        cursor: "default"
                                       }}
                                     >
                                       <button
