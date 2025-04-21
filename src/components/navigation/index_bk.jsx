@@ -6,7 +6,6 @@ import localFont from "next/font/local";
 import "./style.css";
 import { usePathname } from "next/navigation";
 
-
 const noir = localFont({
   src: [
     {
@@ -29,53 +28,22 @@ const noir = localFont({
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  const handleResize = () => {
-    if (window.innerWidth <= 1024) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  };
-
-  React.useEffect(() => {
-    // Call handleResize on mount to set the correct initial state
-    handleResize();
-
-    // Add resize event listener
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []); // Empty dependency array ensures it runs only once on mount
   const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-
-  const isPage1 = pathname === "/compare-prices"
-  const toggleHref = isPage1 ? "/sale-prices" : "/compare-prices";
-  const toggleText = isPage1 ? "Go to Compare Prices" : "Go to Special Price";
-
   return (
     <div>
-      <div className="hamburger" >
-      <Link href={toggleHref} style={{color:'black'}} className={noir.className}>
-      <div className={`bar ${isOpen ? "open" : ""}`}></div>
+      <div className="hamburger" onClick={toggleMenu}>
         <div className={`bar ${isOpen ? "open" : ""}`}></div>
         <div className={`bar ${isOpen ? "open" : ""}`}></div>
-      </Link>
-
+        <div className={`bar ${isOpen ? "open" : ""}`}></div>
       </div>
       <div className={`overlay ${isOpen ? 'open' : ''}`} onClick={() => setIsOpen(false)}></div>
       
-      <nav  style={{gap:'20px'}} className={`menu ${isOpen ? "open" : ""}`}>
-
+      <nav style={{gap:'20px'}} className={`menu ${isOpen ? "open" : ""}`}>
         <Link
           href="/"
           className={`${noir.className} ${pathname === '/' ? 'active' : 'link'}`}

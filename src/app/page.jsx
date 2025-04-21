@@ -354,11 +354,53 @@
 
 // export default StoreSelector;
 
+// import React from "react";
+// import Sale from "../components/sale";
+// import Script from "next/script";
+
+// const page = () => {
+//   return (
+//     <div>
+//       <Script
+//         async
+//         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
+//         crossOrigin="anonymous"
+//       />
+//       <Sale />
+//     </div>
+//   );
+// };
+
+// export default page;
+
+"use client";
 import React from "react";
 import Sale from "../components/sale";
+import Main from "../components/main";
 import Script from "next/script";
 
 const page = () => {
+  const [isMobile, setIsMobile] = React.useState(false); // состояние для отслеживания мобильной версии
+
+  React.useEffect(() => {
+    window.addEventListener("storage", () => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 1024); // Если ширина меньше 768px, то мобильная версия
+      };
+
+      // Вызываем функцию сразу при монтировании
+      handleResize();
+
+      // Добавляем слушатель события изменения размера
+      window.addEventListener("resize", handleResize);
+
+      // Убираем слушатель при размонтировании компонента
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    });
+  }, []);
+
   return (
     <div>
       <Script
@@ -366,7 +408,7 @@ const page = () => {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
         crossOrigin="anonymous"
       />
-      <Sale />
+      {isMobile ? <Main /> : <Sale />}
     </div>
   );
 };

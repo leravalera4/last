@@ -8,7 +8,6 @@ import Navigation from "../navigation";
 import Link from "next/link";
 import "./styles.css";
 import Headroom from "react-headroom";
-import { useRouter } from 'next/navigation';
 const noir = localFont({
   src: [
     {
@@ -49,6 +48,7 @@ const Header = () => {
     };
   }, []);
 
+
   const handleResponsive = () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -57,19 +57,13 @@ const Header = () => {
     setIsIpad(width >= 768 && width <= 1140 && isPortrait);
     setIsSmall(width >= 1140 && width <= 1260 && isPortrait);
   };
-
+  
   React.useEffect(() => {
     handleResponsive();
     window.addEventListener("resize", handleResponsive);
     return () => window.removeEventListener("resize", handleResponsive);
   }, []);
 
-  const router = useRouter();
-
-  const handleClick = () => {
-    window.location.reload();
-    console.log("Header clicked");
-  };
 
   return (
     <Headroom
@@ -88,7 +82,7 @@ const Header = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            backgroundColor: "white",
+            backgroundColor:'white'
           }}
         >
           <div
@@ -101,14 +95,12 @@ const Header = () => {
                 src={header}
                 width={70}
                 height={70}
-                // onClick={handleClick}
               />
             </Link>
             <Link style={{ textDecoration: "none" }} href="/">
               <h1
                 style={{ textDecoration: "none", color: "black" }}
                 className={`${noir.className} boxy`}
-                // onClick={handleClick}
               >
                 Shoppy Scan
               </h1>
@@ -133,7 +125,8 @@ const Header = () => {
         </header>
       ) : (
         <header className="header">
-          <div className="head">
+          <div className="head"
+          >
             <Link href="/">
               <Image
                 className="image"
@@ -141,14 +134,12 @@ const Header = () => {
                 src={header}
                 width={70}
                 height={70}
-                onClick={handleClick}
               />
             </Link>
             <Link style={{ textDecoration: "none" }} href="/">
               <h1
                 style={{ textDecoration: "none", color: "black" }}
                 className={`${noir.className} boxy`}
-                onClick={handleClick}
               >
                 Shoppy Scan
               </h1>
