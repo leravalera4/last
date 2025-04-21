@@ -2011,7 +2011,7 @@ const Index = () => {
                                       style={{
                                         marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "15px" : "14px",
-                                        height: "39px",
+                                        height: "51px",
                                         padding: ".375rem .9rem .375rem .75rem",
                                         borderColor:
                                           len === 3 && checkForStore === false
@@ -2081,7 +2081,7 @@ const Index = () => {
                                           marginRight: "10px",
                                           marginLeft: "10px",
                                           fontFamiy:"monospace",
-                                          width: "40px",
+                                          width: isMobile ? "20px" :"40px",
                                           textAlign: "center"
                                         }}
                                       >
