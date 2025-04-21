@@ -2052,20 +2052,20 @@ const Index = () => {
                                         onClick={() =>
                                           handleDeleteFromCart(item, index)
                                         }
-                                        // style={{
-                                        //   outline: "0px",
-                                        //   fontSize: "21px",
-                                        //   fontWeight: "500",
-                                        //   lineHeight: "20px",
-                                        //   verticalAlign: "middle",
-                                        //   color: "red",
-                                        //   border: "0px",
-                                        //   cursor:
-                                        //     item.quantity === 0
-                                        //       ? "not-allowed"
-                                        //       : "pointer",
-                                        //   backgroundColor: "transparent",
-                                        // }}
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor:
+                                            item.quantity === 0
+                                              ? "not-allowed"
+                                              : "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
                                       >
                                         <Image
                                           width={20}
@@ -2088,17 +2088,17 @@ const Index = () => {
                                         onClick={() =>
                                           handleAddToCart(item, index)
                                         }
-                                        // style={{
-                                        //   outline: "0px",
-                                        //   fontSize: "21px",
-                                        //   fontWeight: "500",
-                                        //   lineHeight: "20px",
-                                        //   verticalAlign: "middle",
-                                        //   color: "red",
-                                        //   border: "0px",
-                                        //   cursor: "pointer",
-                                        //   backgroundColor: "transparent",
-                                        // }}
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor: "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
                                       >
                                          <Image
                                           width={20}
