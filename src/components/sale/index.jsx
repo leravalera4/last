@@ -2046,8 +2046,8 @@ const Index = () => {
                                         marginLeft: "8px",
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        width: "80%",
-                                        height: "39px",
+                                        width: isMobile ? "90%" : "80%",
+                                        height: isMobile ? "51px" : "39px",
                                         cursor: "default"
                                       }}
                                     >
