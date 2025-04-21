@@ -2011,7 +2011,7 @@ const Index = () => {
                                       style={{
                                         marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "15px" : "14px",
-                                        height: "51px",
+                                        height: isMobile ? "51px" : "39px",
                                         padding: ".375rem .9rem .375rem .75rem",
                                         borderColor:
                                           len === 3 && checkForStore === false
