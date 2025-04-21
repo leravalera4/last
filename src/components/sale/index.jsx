@@ -2012,7 +2012,7 @@ const Index = () => {
                                         marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "15px" : "14px",
                                         height: "39px",
-                                        padding: isMobile ? '0px' : '.375rem .9rem .375rem .75rem;',
+                                        // padding: isMobile ? '.375rem .9rem .375rem .75rem;' : '0px',
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
