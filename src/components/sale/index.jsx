@@ -2111,10 +2111,10 @@ const Index = () => {
                                           display: "flex",
                                           flexDirection: "row",
                                           marginRight: "0px",
-                                          marginLeft: "24px",
+                                          // marginLeft: "24px",
                                           alignItems: "center",
                                           justifyContent: "center",
-                                          width: "auto", // используем auto для гибкости
+                                          width: "90%", // используем auto для гибкости
                                           height: "39px",
                                         }}
                                       >
