@@ -20,6 +20,9 @@ import "react-tabs/style/react-tabs.css";
 import Tour from "../tour/tour_sale.jsx";
 import FirstTime from "../tour/first_time";
 import "react-toastify/dist/ReactToastify.css";
+import Popup from "../pop-up/index.jsx";
+import plus from "../../app/images/plus.svg";
+import minus from "../../app/images/minus.svg";
 
 //import { useContext } from "react";
 //import { AppContext } from '../../app/context'
@@ -109,6 +112,8 @@ const Index = () => {
   const [error, setError] = useState();
   const [selectedAll, setSelectedAll] = useState([]);
   const [mounted, setMounted] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); 
+  const [popupMessage, setPopupMessage] = useState(""); 
 
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
@@ -608,7 +613,15 @@ const Index = () => {
     }
   }, [storeSale, selectedLocation, selectedStore]);
 
+  const handleClosePopup = () => {
+    setShowPopup(false); // Закрываем попап
+  };
+
   const handleAddToCart = async (product, index) => {
+    if (!hasPopupShown) {
+      setShowPopup(true); // Показываем попап при первом клике
+      setHasPopupShown(true);  // Отмечаем, что попап был показан
+    }
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
     const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || []; //тут ID из корзины
@@ -682,6 +695,29 @@ const Index = () => {
     cartObj.push(obj);
     sessionStorage.setItem("cart", JSON.stringify(existingItems));
     sessionStorage.setItem("cartObj", JSON.stringify(cartObj));
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  const handleDeleteFromCart = async (product, index) => {
+    const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
+    const selectedItem = responseData[index];
+    const itemCode = selectedItem.productID;
+
+    // Удаляем только ОДНО вхождение itemCode
+    const indexToRemove = existingItems.indexOf(itemCode);
+    if (indexToRemove !== -1) {
+      existingItems.splice(indexToRemove, 1);
+    }
+
+    // Обновляем sessionStorage с новым массивом
+    sessionStorage.setItem("cart", JSON.stringify(existingItems));
+
+    // Обновляем количество товара в состоянии
+    setProductCounts((prevCounts) => ({
+      ...prevCounts,
+      [itemCode]: Math.max((prevCounts[itemCode] || 0) - 1, 0), // чтобы не ушло в минус
+    }));
+
     window.dispatchEvent(new Event("storage"));
   };
 
@@ -1850,9 +1886,9 @@ const Index = () => {
                                               height={30}
                                               src={added}
                                             />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
+                                            {/* <p className={noir.className}>
+                                              x{productCounts[item.productID]}
+                                            </p> */}
                                           </>
                                         ) : (
                                           ""
@@ -1955,35 +1991,118 @@ const Index = () => {
                               {loading ? (
                                 <Skeleton />
                               ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} button-54`}
-                                  style={{
-                                    marginLeft: isMobile ? "10px" : "24px",
-                                    fontSize: isMobile ? "16px" : "14px",
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : isMobile
-                                        ? "black"
-                                        : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : undefined,
-                                  }}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                >
-                                  {productCounts[item.productID] > 0
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
+                                <>
+                                  {(productCounts &&
+                                    productCounts[item.productID] === 0) ||
+                                  productCounts[item.productID] ===
+                                    undefined ? (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${
+                                        noir?.className ?? ""
+                                      } button-54`} // добавил защиту от undefined для noir.className
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "24px",
+                                        fontSize: isMobile ? "16px" : "14px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                    >
+                                      Add to List
+                                    </button>
+                                  ) : (
+                                    <div
+                                      className={`${
+                                        noir?.className ?? ""
+                                      } button-54`}
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        marginRight: "0px",
+                                        marginLeft: "24px",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: "110px",
+                                        height: "39px",
+                                      }}
+                                    >
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteFromCart(item, index)
+                                        }
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor:
+                                            item.quantity === 0
+                                              ? "not-allowed"
+                                              : "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
+                                      >
+                                        <Image
+                                          width={30}
+                                          height={30}
+                                          src={minus}
+                                        />
+                                      </button>
+                                      <p
+                                        style={{
+                                          marginRight: "10px",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {productCounts[item.productID]}
+                                      </p>
+                                      <button
+                                        onClick={() =>
+                                          handleAddToCart(item, index)
+                                        }
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor: "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
+                                      >
+                                        <img
+                                          style={{
+                                            width: "30px",
+                                            height: "30px",
+                                          }}
+                                          src={plus?.src || plus} // добавил защиту на plus.src
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
                               )}
                             </div>
                           </li>
@@ -4711,6 +4830,7 @@ const Index = () => {
           </p>
         </div>
       )}
+      {showPopup && <Popup message={popupMessage} onClose={handleClosePopup} />}
     </div>
   );
 };
