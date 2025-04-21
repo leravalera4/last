@@ -2011,6 +2011,8 @@ const Index = () => {
                                       style={{
                                         marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "15px" : "14px",
+                                        padding: "0px",
+                                        height: "39px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
