@@ -2010,7 +2010,7 @@ const Index = () => {
                                       } button-54`} // добавил защиту от undefined для noir.className
                                       style={{
                                         marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "16px" : "14px",
+                                        fontSize: isMobile ? "15px" : "14px",
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
@@ -2041,10 +2041,10 @@ const Index = () => {
                                         display: "flex",
                                         flexDirection: "row",
                                         marginRight: "0px",
-                                        marginLeft: "24px",
+                                        marginLeft: "8px",
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        width: "110px",
+                                        width: "80%",
                                         height: "39px",
                                       }}
                                     >
@@ -2052,20 +2052,20 @@ const Index = () => {
                                         onClick={() =>
                                           handleDeleteFromCart(item, index)
                                         }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
+                                        // style={{
+                                        //   outline: "0px",
+                                        //   fontSize: "21px",
+                                        //   fontWeight: "500",
+                                        //   lineHeight: "20px",
+                                        //   verticalAlign: "middle",
+                                        //   color: "red",
+                                        //   border: "0px",
+                                        //   cursor:
+                                        //     item.quantity === 0
+                                        //       ? "not-allowed"
+                                        //       : "pointer",
+                                        //   backgroundColor: "transparent",
+                                        // }}
                                       >
                                         <Image
                                           width={20}
@@ -2077,6 +2077,9 @@ const Index = () => {
                                         style={{
                                           marginRight: "10px",
                                           marginLeft: "10px",
+                                          fontFamiy:"monospace",
+                                          width: "40px",
+                                          textAlign: "center"
                                         }}
                                       >
                                         {productCounts[item.productID]}
@@ -2085,17 +2088,17 @@ const Index = () => {
                                         onClick={() =>
                                           handleAddToCart(item, index)
                                         }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
+                                        // style={{
+                                        //   outline: "0px",
+                                        //   fontSize: "21px",
+                                        //   fontWeight: "500",
+                                        //   lineHeight: "20px",
+                                        //   verticalAlign: "middle",
+                                        //   color: "red",
+                                        //   border: "0px",
+                                        //   cursor: "pointer",
+                                        //   backgroundColor: "transparent",
+                                        // }}
                                       >
                                          <Image
                                           width={20}
