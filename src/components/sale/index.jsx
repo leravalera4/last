@@ -2009,9 +2009,10 @@ const Index = () => {
                                         noir?.className ?? ""
                                       } button-54`} // добавил защиту от undefined для noir.className
                                       style={{
-                                        marginLeft: isMobile ? "10px" : "8px",
+                                        marginLeft: isMobile ? "10px" : "24px",
                                         fontSize: isMobile ? "15px" : "14px",
                                         height: "39px",
+                                        padding: isMobile ? '0px' : '.375rem .9rem .375rem .75rem;',
                                         borderColor:
                                           len === 3 && checkForStore === false
                                             ? "#ddd"
