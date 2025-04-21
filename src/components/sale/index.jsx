@@ -21,8 +21,8 @@ import Tour from "../tour/tour_sale.jsx";
 import FirstTime from "../tour/first_time";
 import "react-toastify/dist/ReactToastify.css";
 import Popup from "../pop-up/index.jsx";
-import plus from "../../app/images/plus.svg";
-import minus from "../../app/images/minus.svg";
+import plus from "../../app/images/plus_no.svg";
+import minus from "../../app/images/minus_no.svg";
 
 //import { useContext } from "react";
 //import { AppContext } from '../../app/context'
@@ -1968,7 +1968,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                       {item.brand ? item.brand : '\u00A0'}
+                                      {item.brand ? item.brand : "\u00A0"}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2033,182 +2033,79 @@ const Index = () => {
                                       Add to List
                                     </button>
                                   ) : (
-                                    // <div
-                                    //   className={`${
-                                    //     noir?.className ?? ""
-                                    //   } button-54`}
-                                    //   style={{
-                                    //     display: "flex",
-                                    //     flexDirection: "row",
-                                    //     marginRight: "0px",
-                                    //     marginLeft: "24px",
-                                    //     alignItems: "center",
-                                    //     justifyContent: "center",
-                                    //     width: "110px",
-                                    //     height: "39px",
-                                    //   }}
-                                    // >
-                                    //   <button
-                                    //     onClick={() =>
-                                    //       handleDeleteFromCart(item, index)
-                                    //     }
-                                    //     style={{
-                                    //       outline: "0px",
-                                    //       fontSize: "21px",
-                                    //       fontWeight: "500",
-                                    //       lineHeight: "20px",
-                                    //       verticalAlign: "middle",
-                                    //       color: "red",
-                                    //       border: "0px",
-                                    //       cursor:
-                                    //         item.quantity === 0
-                                    //           ? "not-allowed"
-                                    //           : "pointer",
-                                    //       backgroundColor: "transparent",
-                                    //     }}
-                                    //   >
-                                    //     <Image
-                                    //       width={30}
-                                    //       height={30}
-                                    //       src={minus}
-                                    //     />
-                                    //   </button>
-                                    //   <p
-                                    //     style={{
-                                    //       marginRight: "3%",
-                                    //       marginLeft: "3%",
-                                    //     }}
-                                    //   >
-                                    //     {productCounts[item.productID]}
-                                    //   </p>
-                                    //   <button
-                                    //     onClick={() =>
-                                    //       handleAddToCart(item, index)
-                                    //     }
-                                    //     style={{
-                                    //       outline: "0px",
-                                    //       fontSize: "21px",
-                                    //       fontWeight: "500",
-                                    //       lineHeight: "20px",
-                                    //       verticalAlign: "middle",
-                                    //       color: "red",
-                                    //       border: "0px",
-                                    //       cursor: "pointer",
-                                    //       backgroundColor: "transparent",
-                                    //     }}
-                                    //   >
-                                    //     <img
-                                    //       style={{
-                                    //         width: "30px",
-                                    //         height: "30px",
-                                    //       }}
-                                    //       src={plus?.src || plus} // добавил защиту на plus.src
-                                    //     />
-                                    //   </button>
-                                    // </div>
-                                    <>
-                                      <div
-                                        className={`${
-                                          noir?.className ?? ""
-                                        } button-54`}
+                                    <div
+                                      className={`${
+                                        noir?.className ?? ""
+                                      } button-54`}
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        marginRight: "0px",
+                                        marginLeft: "24px",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: "110px",
+                                        height: "39px",
+                                      }}
+                                    >
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteFromCart(item, index)
+                                        }
                                         style={{
-                                          display: "flex",
-                                          flexDirection: "row",
-                                          marginRight: "0px",
-                                          // marginLeft: "24px",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                          width: "90%", // используем auto для гибкости
-                                          height: "51px",
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor:
+                                            item.quantity === 0
+                                              ? "not-allowed"
+                                              : "pointer",
+                                          backgroundColor: "transparent",
                                         }}
                                       >
-                                        <button
-                                          onClick={() =>
-                                            handleDeleteFromCart(item, index)
-                                          }
-                                          style={{
-                                            outline: "0px",
-                                            fontSize: "1.2rem", // Используйте rem для адаптивности
-                                            fontWeight: "500",
-                                            lineHeight: "1.2",
-                                            verticalAlign: "middle",
-                                            color: "red",
-                                            border: "0px",
-                                            cursor:
-                                              item.quantity === 0
-                                                ? "not-allowed"
-                                                : "pointer",
-                                            backgroundColor: "transparent",
-                                          }}
-                                        >
-                                          <Image
-                                            width={30}
-                                            height={30}
-                                            src={minus}
-                                          />
-                                        </button>
-                                        <p
-                                          style={{
-                                            marginRight: "3%",
-                                            marginLeft: "3%",
-                                            fontSize: "1.2rem", // адаптивный размер шрифта
-                                          }}
-                                        >
-                                          {productCounts[item.productID]}
-                                        </p>
-                                        <button
-                                          onClick={() =>
-                                            handleAddToCart(item, index)
-                                          }
-                                          style={{
-                                            outline: "0px",
-                                            fontSize: "1.2rem", // адаптивный размер шрифта
-                                            fontWeight: "500",
-                                            lineHeight: "1.2",
-                                            verticalAlign: "middle",
-                                            color: "red",
-                                            border: "0px",
-                                            cursor: "pointer",
-                                            backgroundColor: "transparent",
-                                          }}
-                                        >
-                                          <img
-                                            style={{
-                                              width: "30px",
-                                              height: "30px",
-                                            }}
-                                            src={plus?.src || plus}
-                                          />
-                                        </button>
-                                      </div>
-
-                                      <style jsx>{`
-                                        @media (max-width: 1024px) {
-                                          .button-54 {
-                                            flex-direction: column; /* Стековая ориентация на мобильных */
-                                            width: auto;
-                                          }
-                                          .button-54 button {
-                                            font-size: 1rem; /* Меньше шрифт на мобильных */
-                                            width: 100%;
-                                            margin: 5px 0;
-                                          }
-                                          .button-54 p {
-                                            font-size: 1rem;
-                                            margin: 5px 0;
-                                          }
+                                        <Image
+                                          width={30}
+                                          height={30}
+                                          src={minus}
+                                        />
+                                      </button>
+                                      <p
+                                        style={{
+                                          marginRight: "10px",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {productCounts[item.productID]}
+                                      </p>
+                                      <button
+                                        onClick={() =>
+                                          handleAddToCart(item, index)
                                         }
-
-                                        @media (max-width: 480px) {
-                                          .button-54 {
-                                            flex-direction: column;
-                                          }
-                                          .button-54 button {
-                                            font-size: 0.9rem;
-                                          }
-                                        }
-                                      `}</style>
-                                    </>
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor: "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
+                                      >
+                                        <img
+                                          style={{
+                                            width: "30px",
+                                            height: "30px",
+                                          }}
+                                          src={plus?.src || plus} // добавил защиту на plus.src
+                                        />
+                                      </button>
+                                    </div>
                                   )}
                                 </>
                               )}
@@ -2365,7 +2262,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                     {item.brand ? item.brand : '\u00A0'}
+                                      {item.brand ? item.brand : "\u00A0"}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2576,7 +2473,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                       {item.brand ? item.brand : '\u00A0'}
+                                      {item.brand ? item.brand : "\u00A0"}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2787,7 +2684,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                       {item.brand ? item.brand : '\u00A0'}
+                                      {item.brand ? item.brand : "\u00A0"}
                                     </p>
                                   )}
                                   {loading ? (
@@ -3011,7 +2908,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3240,7 +3137,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3469,7 +3366,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3698,7 +3595,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3927,7 +3824,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4156,7 +4053,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4385,7 +4282,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4615,7 +4512,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4845,7 +4742,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                           {item.brand ? item.brand : '\u00A0'}
+                                          {item.brand ? item.brand : "\u00A0"}
                                         </p>
                                       )}
                                       {loading ? (
