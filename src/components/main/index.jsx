@@ -20,12 +20,12 @@ import del from "../../app/images/de.svg";
 import added from "../../app/images/added_2.svg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Fortinos from "../../app/images/Fortinos.svg";
-import Maxi from "../../app/images/Maxi.svg";
+// import Fortinos from "../../app/images/Fortinos.svg";
+// import Maxi from "../../app/images/Maxi.svg";
 // Fortinos: "../../app/images/Fortinos.svg",
 // Maxi: "../../app/images/images/Maxi.svg",
 // Zehrs: "../../app/images/images/Zehrs.svg",
-import Nofrills from "../../app/images/NoFrills_1.svg";
+// import Nofrills from "../../app/images/NoFrills_1.svg";
 // Superstore: "../../app/images/images/Superstore.svg",
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
