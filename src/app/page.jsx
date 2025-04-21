@@ -387,7 +387,7 @@ const page = () => {
       const handleResize = () => {
         setIsMobile(window.innerWidth <= 1024); // Если ширина меньше 768px, то мобильная версия
       };
-
+      
       // Вызываем функцию сразу при монтировании
       handleResize();
 
