@@ -2115,7 +2115,7 @@ const Index = () => {
                                           alignItems: "center",
                                           justifyContent: "center",
                                           width: "90%", // используем auto для гибкости
-                                          height: "39px",
+                                          height: "51px",
                                         }}
                                       >
                                         <button
