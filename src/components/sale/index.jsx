@@ -1964,7 +1964,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                      {item.brand}
+                                       {item.brand ? item.brand : '\u00A0'}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2361,7 +2361,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                      {item.brand}
+                                     {item.brand ? item.brand : '\u00A0'}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2572,7 +2572,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                      {item.brand}
+                                       {item.brand ? item.brand : '\u00A0'}
                                     </p>
                                   )}
                                   {loading ? (
@@ -2783,7 +2783,7 @@ const Index = () => {
                                       className={`${noir.className} product-brand-paragraph`}
                                       data-testid="product-brand"
                                     >
-                                      {item.brand}
+                                       {item.brand ? item.brand : '\u00A0'}
                                     </p>
                                   )}
                                   {loading ? (
@@ -3007,7 +3007,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3236,7 +3236,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3465,7 +3465,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3694,7 +3694,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -3923,7 +3923,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4152,7 +4152,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4381,7 +4381,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4611,7 +4611,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
@@ -4841,7 +4841,7 @@ const Index = () => {
                                           className={`${noir.className} product-brand-paragraph`}
                                           data-testid="product-brand"
                                         >
-                                          {item.brand}
+                                           {item.brand ? item.brand : '\u00A0'}
                                         </p>
                                       )}
                                       {loading ? (
