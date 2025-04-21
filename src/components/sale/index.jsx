@@ -2068,7 +2068,7 @@ const Index = () => {
                                         }}
                                       >
                                         <Image
-                                          width={30}
+                                          width={20}
                                           height={30}
                                           src={minus}
                                         />
@@ -2097,12 +2097,10 @@ const Index = () => {
                                           backgroundColor: "transparent",
                                         }}
                                       >
-                                        <img
-                                          style={{
-                                            width: "30px",
-                                            height: "30px",
-                                          }}
-                                          src={plus?.src || plus} // добавил защиту на plus.src
+                                         <Image
+                                          width={20}
+                                          height={30}
+                                          src={plus}
                                         />
                                       </button>
                                     </div>
