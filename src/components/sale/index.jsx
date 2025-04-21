@@ -112,8 +112,8 @@ const Index = () => {
   const [error, setError] = useState();
   const [selectedAll, setSelectedAll] = useState([]);
   const [mounted, setMounted] = useState(false);
-  const [showPopup, setShowPopup] = useState(false); 
-  const [popupMessage, setPopupMessage] = useState(""); 
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
   const [hasPopupShown, setHasPopupShown] = useState(false);
 
   useEffect(() => {
@@ -621,7 +621,7 @@ const Index = () => {
   const handleAddToCart = async (product, index) => {
     if (!hasPopupShown) {
       setShowPopup(true); // Показываем попап при первом клике
-      setHasPopupShown(true);  // Отмечаем, что попап был показан
+      setHasPopupShown(true); // Отмечаем, что попап был показан
     }
     const existingItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     const title = JSON.parse(sessionStorage.getItem("names")) || [];
@@ -2029,79 +2029,182 @@ const Index = () => {
                                       Add to List
                                     </button>
                                   ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "24px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: "110px",
-                                        height: "39px",
-                                      }}
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
+                                    // <div
+                                    //   className={`${
+                                    //     noir?.className ?? ""
+                                    //   } button-54`}
+                                    //   style={{
+                                    //     display: "flex",
+                                    //     flexDirection: "row",
+                                    //     marginRight: "0px",
+                                    //     marginLeft: "24px",
+                                    //     alignItems: "center",
+                                    //     justifyContent: "center",
+                                    //     width: "110px",
+                                    //     height: "39px",
+                                    //   }}
+                                    // >
+                                    //   <button
+                                    //     onClick={() =>
+                                    //       handleDeleteFromCart(item, index)
+                                    //     }
+                                    //     style={{
+                                    //       outline: "0px",
+                                    //       fontSize: "21px",
+                                    //       fontWeight: "500",
+                                    //       lineHeight: "20px",
+                                    //       verticalAlign: "middle",
+                                    //       color: "red",
+                                    //       border: "0px",
+                                    //       cursor:
+                                    //         item.quantity === 0
+                                    //           ? "not-allowed"
+                                    //           : "pointer",
+                                    //       backgroundColor: "transparent",
+                                    //     }}
+                                    //   >
+                                    //     <Image
+                                    //       width={30}
+                                    //       height={30}
+                                    //       src={minus}
+                                    //     />
+                                    //   </button>
+                                    //   <p
+                                    //     style={{
+                                    //       marginRight: "3%",
+                                    //       marginLeft: "3%",
+                                    //     }}
+                                    //   >
+                                    //     {productCounts[item.productID]}
+                                    //   </p>
+                                    //   <button
+                                    //     onClick={() =>
+                                    //       handleAddToCart(item, index)
+                                    //     }
+                                    //     style={{
+                                    //       outline: "0px",
+                                    //       fontSize: "21px",
+                                    //       fontWeight: "500",
+                                    //       lineHeight: "20px",
+                                    //       verticalAlign: "middle",
+                                    //       color: "red",
+                                    //       border: "0px",
+                                    //       cursor: "pointer",
+                                    //       backgroundColor: "transparent",
+                                    //     }}
+                                    //   >
+                                    //     <img
+                                    //       style={{
+                                    //         width: "30px",
+                                    //         height: "30px",
+                                    //       }}
+                                    //       src={plus?.src || plus} // добавил защиту на plus.src
+                                    //     />
+                                    //   </button>
+                                    // </div>
+                                    <>
+                                      <div
+                                        className={`${
+                                          noir?.className ?? ""
+                                        } button-54`}
                                         style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
+                                          display: "flex",
+                                          flexDirection: "row",
+                                          marginRight: "0px",
+                                          marginLeft: "24px",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                          width: "auto", // используем auto для гибкости
+                                          height: "39px",
                                         }}
                                       >
-                                        <Image
-                                          width={30}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <img
+                                        <button
+                                          onClick={() =>
+                                            handleDeleteFromCart(item, index)
+                                          }
                                           style={{
-                                            width: "30px",
-                                            height: "30px",
+                                            outline: "0px",
+                                            fontSize: "1.2rem", // Используйте rem для адаптивности
+                                            fontWeight: "500",
+                                            lineHeight: "1.2",
+                                            verticalAlign: "middle",
+                                            color: "red",
+                                            border: "0px",
+                                            cursor:
+                                              item.quantity === 0
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            backgroundColor: "transparent",
                                           }}
-                                          src={plus?.src || plus} // добавил защиту на plus.src
-                                        />
-                                      </button>
-                                    </div>
+                                        >
+                                          <Image
+                                            width={30}
+                                            height={30}
+                                            src={minus}
+                                          />
+                                        </button>
+                                        <p
+                                          style={{
+                                            marginRight: "3%",
+                                            marginLeft: "3%",
+                                            fontSize: "1.2rem", // адаптивный размер шрифта
+                                          }}
+                                        >
+                                          {productCounts[item.productID]}
+                                        </p>
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          style={{
+                                            outline: "0px",
+                                            fontSize: "1.2rem", // адаптивный размер шрифта
+                                            fontWeight: "500",
+                                            lineHeight: "1.2",
+                                            verticalAlign: "middle",
+                                            color: "red",
+                                            border: "0px",
+                                            cursor: "pointer",
+                                            backgroundColor: "transparent",
+                                          }}
+                                        >
+                                          <img
+                                            style={{
+                                              width: "30px",
+                                              height: "30px",
+                                            }}
+                                            src={plus?.src || plus}
+                                          />
+                                        </button>
+                                      </div>
+
+                                      <style jsx>{`
+                                        @media (max-width: 1024px) {
+                                          .button-54 {
+                                            flex-direction: column; /* Стековая ориентация на мобильных */
+                                            width: auto;
+                                          }
+                                          .button-54 button {
+                                            font-size: 1rem; /* Меньше шрифт на мобильных */
+                                            width: 100%;
+                                            margin: 5px 0;
+                                          }
+                                          .button-54 p {
+                                            font-size: 1rem;
+                                            margin: 5px 0;
+                                          }
+                                        }
+
+                                        @media (max-width: 480px) {
+                                          .button-54 {
+                                            flex-direction: column;
+                                          }
+                                          .button-54 button {
+                                            font-size: 0.9rem;
+                                          }
+                                        }
+                                      `}</style>
+                                    </>
                                   )}
                                 </>
                               )}
