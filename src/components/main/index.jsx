@@ -797,7 +797,7 @@ const Index = ({ cartData }) => {
                 width: isMobile && "100%",
               }}
             >
-              <button style={{marginRight:'0px'}} className={`${noir.className} button-55`}>
+              <button style={{marginRight:'0px',borderColor: "black"}} className={`${noir.className} button-55`}>
                 <Link
                   style={{
                     fontSize: "16px",
@@ -819,7 +819,7 @@ const Index = ({ cartData }) => {
               >
                 or
               </p>
-              <button style={{marginRight:'0px'}}
+              <button style={{marginRight:'0px',borderColor: "black"}}
                 className={`${noir.className} button-55`}
               >
                 <Link style={{
