@@ -773,16 +773,22 @@ const Products = ({ cartData }) => {
           Compare Prices
         </h2>
         <p
-          style={{
-            textAlign: "center",
-            paddingTop: "0px",
-            marginTop: "0px",
-            paddingBottom: "18px",
-          }}
-          className={noir.className}
-        >
-          Select stores you'd like to compare grocery prices at
-        </p>
+        style={{
+          textAlign: "center",
+          paddingTop: "0px",
+          marginTop: "0px",
+          paddingBottom: "18px",
+          marginLeft: isMobile ? "5%" : "10%",
+          marginRight: isMobile ? "5%" : "10%",
+        }}
+        className={noir.className}
+      >
+        Select{" "}
+        <span style={{ textDecoration: "underline", fontStyle: "italic" }}>
+          up to 3 stores{" "}
+        </span>
+        you'd like to compare grocery prices at
+      </p>
         {isMobile ? (
           <div
             className="select-container"
@@ -1755,7 +1761,8 @@ const Products = ({ cartData }) => {
                                   fontSize: isMobile ? "14px" : "15px",
                                 }}
                               >
-                                <b>{store.storetype}</b>: {store.store},{" "}
+                                {/* <b>{store.storetype}</b> */}
+                                 {store.store},{" "}
                                 {store.city}
                               </p>
 
