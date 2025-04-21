@@ -7,8 +7,8 @@ import Cart from "../cart";
 import Navigation from "../navigation";
 import Link from "next/link";
 import "./styles.css";
+import { useRouter } from "next/navigation"; 
 import Headroom from "react-headroom";
-import { useRouter } from 'next/navigation';
 const noir = localFont({
   src: [
     {

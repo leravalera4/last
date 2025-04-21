@@ -31,26 +31,18 @@ const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
 
-  const handleResize = () => {
-    if (window.innerWidth <= 1024) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  };
 
   React.useEffect(() => {
-    // Call handleResize on mount to set the correct initial state
-    handleResize();
-
-    // Add resize event listener
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
     };
-  }, []); // Empty dependency array ensures it runs only once on mount
+  
+    handleResize(); // при монтировании
+  
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const pathname = usePathname();
 
   const toggleMenu = () => {

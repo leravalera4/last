@@ -382,23 +382,34 @@ import Script from "next/script";
 const page = () => {
   const [isMobile, setIsMobile] = React.useState(false); // состояние для отслеживания мобильной версии
 
+  // React.useEffect(() => {
+  //   window.addEventListener("storage", () => {
+  //     const handleResize = () => {
+  //       setIsMobile(window.innerWidth <= 1024); // Если ширина меньше 768px, то мобильная версия
+  //     };
+
+  //     // Вызываем функцию сразу при монтировании
+  //     handleResize();
+
+  //     // Добавляем слушатель события изменения размера
+  //     window.addEventListener("resize", handleResize);
+
+  //     // Убираем слушатель при размонтировании компонента
+  //     return () => {
+  //       window.removeEventListener("resize", handleResize);
+  //     };
+  //   });
+  // }, []);
+
   React.useEffect(() => {
-    window.addEventListener("storage", () => {
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 1024); // Если ширина меньше 768px, то мобильная версия
-      };
-      
-      // Вызываем функцию сразу при монтировании
-      handleResize();
-
-      // Добавляем слушатель события изменения размера
-      window.addEventListener("resize", handleResize);
-
-      // Убираем слушатель при размонтировании компонента
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    });
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+  
+    handleResize(); // при монтировании
+  
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
