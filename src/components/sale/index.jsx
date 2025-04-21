@@ -114,6 +114,7 @@ const Index = () => {
   const [mounted, setMounted] = useState(false);
   const [showPopup, setShowPopup] = useState(false); 
   const [popupMessage, setPopupMessage] = useState(""); 
+  const [hasPopupShown, setHasPopupShown] = useState(false);
 
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
