@@ -723,7 +723,7 @@ const Index = ({ cartData }) => {
   };
 
   const handleResize = () => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -792,7 +792,7 @@ const Index = ({ cartData }) => {
               style={{
                 display: "flex",
                 //   width: "320px",
-                flexDirection: isMobile && !isVisible ? "row" : "column",
+                flexDirection: isMobile ? "row" : "column",
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
