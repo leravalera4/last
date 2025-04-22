@@ -129,17 +129,17 @@ const Products = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {
@@ -156,6 +156,16 @@ const Products = ({ cartData }) => {
   // console.log("STO_LEN",storesLength)
 
   //  console.log("STO_LEN",storesLength)
+
+
+  useEffect(() => {
+    const navType = window.performance.getEntriesByType("navigation")[0]?.type;
+  
+    if (navType === "reload") {
+      sessionStorage.clear();
+    }
+  }, []);
+  
 
   function toggle() {
     setIsOpen((isOpen) => !isOpen);
@@ -201,27 +211,27 @@ const Products = ({ cartData }) => {
   //   };
   // }, []);
 
-  useEffect(() => {
-    const clearSession = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const clearSession = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    // 1. ПК и часть Android
-    window.addEventListener("beforeunload", clearSession);
+  //   // 1. ПК и часть Android
+  //   window.addEventListener("beforeunload", clearSession);
 
-    // 2. Мобильные браузеры — когда вкладка уходит в фон
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        clearSession();
-      }
-    });
+  //   // 2. Мобильные браузеры — когда вкладка уходит в фон
+  //   document.addEventListener("visibilitychange", () => {
+  //     if (document.visibilityState === "hidden") {
+  //       clearSession();
+  //     }
+  //   });
 
-    // Очистка обработчиков при размонтировании
-    return () => {
-      window.removeEventListener("beforeunload", clearSession);
-      document.removeEventListener("visibilitychange", clearSession);
-    };
-  }, []);
+  //   // Очистка обработчиков при размонтировании
+  //   return () => {
+  //     window.removeEventListener("beforeunload", clearSession);
+  //     document.removeEventListener("visibilitychange", clearSession);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios
