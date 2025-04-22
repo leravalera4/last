@@ -101,7 +101,7 @@ const Index = () => {
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={first}
+                  key={house}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
@@ -314,12 +314,12 @@ const Index = () => {
           <section style={{ paddingBottom: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <Image
-                src={first}
+                src={house}
                 width={180}
                 height={180}
                 alt="Chart Icon"
                 priority
-                key={first}
+                key={house}
               />
               <div style={{ paddingLeft: "10px" }}>
                 <h4
