@@ -15,7 +15,7 @@ import "./products.css";
 import Link from "next/link";
 import Loading from "../loaders";
 import flag from "../../app/images/flag.svg";
-import Ab from "../ab";
+import Abc from "../abc";
 import del from "../../app/images/de.svg";
 import added from "../../app/images/added_2.svg";
 import Skeleton from "react-loading-skeleton";
@@ -829,7 +829,7 @@ const Index = ({ cartData }) => {
                   }} href="/compare-prices">Start Comparing</Link>
               </button>
             </div>
-            <Ab style={{ marginLeft: "20%", marginRight: "20%" }} />
+            <Abc style={{ marginLeft: "20%", marginRight: "20%" }} />
           </div>
         )}
       </div>
