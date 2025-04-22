@@ -603,17 +603,20 @@ const Index = () => {
   // }, []);
 
   useEffect(() => {
-    const clearSession = () => {
-      sessionStorage.clear();
+    const clearSessionOnReload = () => {
+      const navigationEntries = performance.getEntriesByType("navigation");
+      if (navigationEntries.length > 0 && navigationEntries[0].type === "reload") {
+        sessionStorage.clear();
+      }
     };
   
-    // Срабатывает при перезагрузке, закрытии вкладки или переходе на другой сайт
-    window.addEventListener("beforeunload", clearSession);
+    window.addEventListener("beforeunload", clearSessionOnReload);
   
     return () => {
-      window.removeEventListener("beforeunload", clearSession);
+      window.removeEventListener("beforeunload", clearSessionOnReload);
     };
   }, []);
+  
 
   useEffect(() => {
     if (
