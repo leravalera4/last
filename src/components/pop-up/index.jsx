@@ -41,7 +41,7 @@ const Popup = ({ message, onClose }) => {
   return (
     <div style={styles.popup}>
       <div style={styles.popupContent}>
-        <p className={noir.className}>Item added to the list</p>
+        <p className={noir.className}>Added to your list in all selected stores</p>
         <button onClick={onClose} style={styles.closeButton}>Close</button>
       </div>
     </div>
