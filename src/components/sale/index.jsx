@@ -1620,7 +1620,25 @@ const Index = () => {
                     borderColor: "black",
                     marginRight: isMobile && "0px",
                     fontSize: isMobile && "16px",
-                  }}
+                    borderColor:
+                    len === 3 && checkForStore === false
+                      ? "#ddd"
+                      : isMobile
+                      ? "black"
+                      : undefined, // Если ни одно условие не выполняется, убираем свойство
+                  cursor:
+                    len === 3 && checkForStore === false
+                      ? "not-allowed"
+                      : "pointer",
+                  color:
+                    len === 3 && checkForStore === false
+                      ? "#ccc"
+                      : undefined,
+                }}
+                disabled={
+                  len === 3 && checkForStore === false
+                }
+                  
                   //   style={{
                   //     outline: "0",
                   //     cursor: "pointer",
