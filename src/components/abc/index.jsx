@@ -8,7 +8,7 @@ import Image from "next/image";
 import chart from "../../app/images/chart.svg";
 import sale from "../../app/images/sale.svg";
 import cart from "../../app/images/cart.svg";
-import first from "../../app/images/shop_1.svg";
+import first from "../../app/images/house.svg";
 import second from "../../app/images/shop_2.svg";
 import third from "../../app/images/shop_3.svg";
 import forth from "../../app/images/four.svg";
@@ -73,6 +73,7 @@ const Index = () => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
+                textAlign: "center",
               }}
             >
               <h4
@@ -91,10 +92,11 @@ const Index = () => {
                   display: "flex",
                   alignItems: "center",
                   flexDirection: "column",
+                  textAlign: "center",
                 }}
               >
                 <Image
-                  src={first}
+                  src={house}
                   width={150}
                   height={150}
                   alt="Chart Icon"
@@ -120,6 +122,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Check specials
@@ -159,6 +162,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Add whatever you like to your shopping list
@@ -198,6 +202,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Switch to Compare prices and grab the rest items 
@@ -237,6 +242,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                  Check out totals on your shopping list 
@@ -276,6 +282,7 @@ const Index = () => {
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.3rem",
                   fontWeight: 700,
+                  textAlign: "center",
                 }}
               >
                 Make an informed decision about your upcoming grocery run 
