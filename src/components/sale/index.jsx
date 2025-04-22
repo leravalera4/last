@@ -2048,8 +2048,25 @@ const Index = () => {
                                         justifyContent: "center",
                                         width: isMobile ? "90%" : "80%",
                                         height: isMobile ? "51px" : "39px",
-                                        cursor: "default"
+                                        cursor: "default",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
                                       }}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
                                     >
                                       <button
                                         onClick={() =>
