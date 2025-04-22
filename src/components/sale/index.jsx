@@ -568,17 +568,17 @@ const Index = () => {
     //setSelectedLocation(null);
   };
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     sessionStorage.clear();
-  //   };
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.clear();
+    };
 
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   // useEffect(() => {
   //   const clearSession = () => {
@@ -602,13 +602,13 @@ const Index = () => {
   //   };
   // }, []);
 
-  useEffect(() => {
-    const navType = window.performance.getEntriesByType("navigation")[0]?.type;
-  
-    if (navType === "reload") {
-      sessionStorage.clear();
-    }
-  }, []);
+// useEffect(() => {
+//   const navType = window.performance.getEntriesByType("navigation")[0]?.type;
+
+//   if (navType === "reload") {
+//     sessionStorage.clear();
+//   }
+// }, []);
   
 
   useEffect(() => {
