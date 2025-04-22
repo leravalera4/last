@@ -603,18 +603,11 @@ const Index = () => {
   // }, []);
 
   useEffect(() => {
-    const clearSessionOnReload = () => {
-      const navigationEntries = performance.getEntriesByType("navigation");
-      if (navigationEntries.length > 0 && navigationEntries[0].type === "reload") {
-        sessionStorage.clear();
-      }
-    };
+    const navType = window.performance.getEntriesByType("navigation")[0]?.type;
   
-    window.addEventListener("beforeunload", clearSessionOnReload);
-  
-    return () => {
-      window.removeEventListener("beforeunload", clearSessionOnReload);
-    };
+    if (navType === "reload") {
+      sessionStorage.clear();
+    }
   }, []);
   
 
