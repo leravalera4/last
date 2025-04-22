@@ -580,25 +580,38 @@ const Index = () => {
   //   };
   // }, []);
 
+  // useEffect(() => {
+  //   const clearSession = () => {
+  //     sessionStorage.clear();
+  //   };
+
+  //   // 1. ПК и часть Android
+  //   window.addEventListener("beforeunload", clearSession);
+
+  //   // 2. Мобильные браузеры — когда вкладка уходит в фон
+  //   document.addEventListener("visibilitychange", () => {
+  //     if (document.visibilityState === "hidden") {
+  //       clearSession();
+  //     }
+  //   });
+
+  //   // Очистка обработчиков при размонтировании
+  //   return () => {
+  //     window.removeEventListener("beforeunload", clearSession);
+  //     document.removeEventListener("visibilitychange", clearSession);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const clearSession = () => {
       sessionStorage.clear();
     };
-
-    // 1. ПК и часть Android
+  
+    // Срабатывает при перезагрузке, закрытии вкладки или переходе на другой сайт
     window.addEventListener("beforeunload", clearSession);
-
-    // 2. Мобильные браузеры — когда вкладка уходит в фон
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        clearSession();
-      }
-    });
-
-    // Очистка обработчиков при размонтировании
+  
     return () => {
       window.removeEventListener("beforeunload", clearSession);
-      document.removeEventListener("visibilitychange", clearSession);
     };
   }, []);
 
