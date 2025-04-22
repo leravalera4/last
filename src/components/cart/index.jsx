@@ -220,6 +220,8 @@ const Cart = () => {
     sessionStorage.setItem("cartIDs", JSON.stringify(da));
     sessionStorage.setItem("stores1", JSON.stringify(da));
     sessionStorage.setItem("sel", JSON.stringify(updatedSel));
+    sessionStorage.setItem("storeSale", JSON.stringify(updatedSel));
+    sessionStorage.setItem("storesName", JSON.stringify(updatedSel));
     sessionStorage.setItem("stores", JSON.stringify(da)); //changed
     sessionStorage.setItem("storesLength", JSON.stringify(change));
     window.dispatchEvent(new Event("storage"));
