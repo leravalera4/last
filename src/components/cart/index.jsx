@@ -784,7 +784,7 @@ const Cart = () => {
                       justifyContent: "center",
                     }}
                   >
-                    Nothing here yet, but you can add 3 stores in total to
+                    Nothing here yet but you can add 3 stores in total to
                     compare prices
                   </p>
                 ) : (
