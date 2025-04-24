@@ -701,10 +701,15 @@ const Cart = () => {
             ) : (
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  {response &&
-                    response != null &&
-                    response.map((item) => (
-                      <div>
+                {response &&
+                    response.map((item) => {
+                      const matchedStore = filtered.find(
+                        (f) => f.location === item.storeName
+                      );
+                      const storeType = matchedStore?.store || item.storetype;
+                      console.log("storeType", storeType);
+                      return (
+                        <div key={item.id}>
                         <div
                           style={{
                             display: "flex",
@@ -719,7 +724,7 @@ const Cart = () => {
                                 fontWeight: "700",
                               }}
                             >
-                              {item.storetype}
+                              {storeType}
                             </p>
                             <p style={{ paddingRight: "8%" }}>
                               {item.storeName}
@@ -752,8 +757,8 @@ const Cart = () => {
                             />
                           </button>
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
+                    )}
                 </div>
               </div>
             )}
