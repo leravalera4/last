@@ -948,7 +948,7 @@ const Cart = () => {
                       }}
                     >
                       <p style={{ marginBottom: "0px" }}>
-                        <b>{item.storetype}</b>
+                        <b>{storeType}</b>
                       </p>
                       <p>{item.storeName}</p>
                     </div>
