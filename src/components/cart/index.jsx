@@ -939,241 +939,7 @@ const Cart = () => {
                   const storeType = matchedStore?.store || item.storetype;
                   console.log("storeType", storeType);
                   return (
-                  <TabPanel key={index}>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <p style={{ marginBottom: "0px" }}>
-                        <b>{storeType}</b>
-                      </p>
-                      <p>{item.storeName}</p>
-                    </div>
-
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <ul
-                          style={{
-                            margin: "0",
-                            padding: "0",
-                            width: "50%",
-                            paddingRight: "10%",
-                          }}
-                        >
-                          {item.items.map((li, liIndex) => {
-                            const title =
-                              li.title ||
-                              response[1]?.items?.[liIndex]?.title ||
-                              response[2]?.items?.[liIndex]?.title ||
-                              getTitleByProductID(li.productID); // Берем название из массива
-
-                            return (
-                              <li
-                                key={liIndex}
-                                style={{
-                                  display: "flex",
-                                  borderBottom: "1px solid rgb(204, 204, 204)",
-                                  margin: "10px 0px",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <button
-                                  style={{
-                                    outline: "0px",
-                                    // marginLeft: "20px"
-                                    fontSize: "21px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    color: "red",
-                                    border: "0px",
-                                    cursor: "pointer",
-                                    backgroundColor: "transparent",
-                                  }}
-                                  className={noir.className}
-                                  onClick={() => {
-                                    console.log(
-                                      "item.productID:",
-                                      li.productID
-                                    );
-                                    removeProduct(li.productID);
-                                    console.log("ITEM:", li.productID);
-                                  }}
-                                  title="Delete Product"
-                                >
-                                  <img
-                                    src={del.src || del}
-                                    style={{ width: "30px", height: "30px" }}
-                                  />
-                                </button>
-                                <Zoom>
-                                <img
-                                  alt={title}
-                                  width={30}
-                                  height={30}
-                                  src={li.image}
-                                  style={{ paddingRight: "8px" }}
-                                />
-                                </Zoom>
-                                <p
-                                  style={{
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    width: "200px",
-                                  }}
-                                >
-                                  {li.title || title}
-                                </p>
-                                <p>({li.quantity})</p>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                        <ul
-                          style={{
-                            margin: "0",
-                            padding: "0",
-                            paddingTop: "10px",
-                            width: "40%",
-                          }}
-                        >
-                          {item.items.map((it) => (
-                            <li
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                borderBottom: "1px solid #ccc",
-                                marginBottom: "10px",
-                              }}
-                            >
-                              {it.quantity > 1 &&
-                              it.non_member_price == null &&
-                              it.regprice == null ? (
-                                <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices.toFixed(2)}
-                                  {it.saleprice != null ? (
-                                    <span
-                                      style={{
-                                        color: "rgb(125, 120, 120)",
-                                        marginLeft: "4px",
-                                      }}
-                                    >
-                                      (${it.saleprice} ea)
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{ color: "rgb(125, 120, 120)" }}
-                                    >
-                                      (${it.regprice} ea)
-                                    </span>
-                                  )}
-                                </p>
-                              ) : it.quantity > 1 &&
-                                it.regprice != null &&
-                                it.stock != "Out of Stock" ? (
-                                <p>
-                                  ${it.prices.toFixed(2)}
-                                  {it.saleprice != null ? (
-                                    <span
-                                      style={{
-                                        color: "rgb(125, 120, 120)",
-                                        marginLeft: "4px",
-                                      }}
-                                    >
-                                      (${it.saleprice} ea)
-                                    </span>
-                                  ) : (
-                                    <span
-                                      style={{ color: "rgb(125, 120, 120)" }}
-                                    >
-                                      (${it.regprice} ea)
-                                    </span>
-                                  )}
-                                </p>
-                              ) : it.saleprice != null &&
-                                it.non_member_price != null &&
-                                it.regprice == null &&
-                                it.quantity > 1 ? (
-                                <p style={{ color: "rgb(225, 37, 27)" }}>
-                                  ${it.prices.toFixed(2)}
-                                  {it.saleprice != null && (
-                                    <span
-                                      style={{
-                                        color: "rgb(125, 120, 120)",
-                                        marginLeft: "4px",
-                                      }}
-                                    >
-                                      (${it.non_member_price} ea)
-                                    </span>
-                                  )}
-                                </p>
-                              ) : (
-                                <>
-                                  {it.stock === "Out of Stock" &&
-                                    it.quantity >= 0 && (
-                                      <p style={{ color: "rgb(225, 37, 27)" }}>
-                                        Sold Out ($0)
-                                      </p>
-                                    )}
-                                  {it.non_member_price != null &&
-                                    it.non_member_price !== 0 && (
-                                      <p style={{ color: "rgb(225, 37, 27)" }}>
-                                        ${it.non_member_price}
-                                      </p>
-                                    )}
-                                  {it.saleprice !== null &&
-                                    it.saleprice !== 0 &&
-                                    it.non_member_price && (
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                        }}
-                                      >
-                                        {/* <span style={{ color: "rgb(225, 37, 27)",}}>On sale</span> */}
-                                        {it.quantity > 2 && (
-                                          <p
-                                            style={{
-                                              color: "rgb(225, 37, 27)",
-                                              paddingLeft: "4px",
-                                            }}
-                                          >
-                                            SALE PRICE ${it.non_member_price}
-                                          </p>
-                                        )}
-
-                                        {/* <s
-                                      style={{ color: "rgb(125, 120, 120)" }}
-                                    >
-                                      WAS PRICE (${it.wasprice} ea)
-                                    </s> */}
-                                      </div>
-                                    )}
-                                  {it.regprice != null &&
-                                    it.non_member_price !== 0 && (
-                                      <p>${it.regprice}</p>
-                                    )}
-                                  {it.non_member_price == null &&
-                                    it.regprice == null && (
-                                      <p style={{ color: "rgb(225, 37, 27)" }}>
-                                        ${it.saleprice}
-                                      </p>
-                                    )}
-                                </>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                    <TabPanel key={index}>
                       <div
                         style={{
                           display: "flex",
@@ -1181,30 +947,271 @@ const Cart = () => {
                           alignItems: "center",
                         }}
                       >
-                        <p
+                        <p style={{ marginBottom: "0px" }}>
+                          <b>{storeType}</b>
+                        </p>
+                        <p>{item.storeName}</p>
+                      </div>
+
+                      <div>
+                        <div
                           style={{
                             display: "flex",
-                            justifyContent: "center",
-                            paddingTop: "16px",
-                            fontWeight: "700",
+                            justifyContent: "space-between",
                           }}
                         >
-                          Total: ${item.totalPrices.toFixed(2)}
-                        </p>
-                        <p
+                          <ul
+                            style={{
+                              margin: "0",
+                              padding: "0",
+                              width: "40%",
+                              paddingRight: "10%",
+                            }}
+                          >
+                            {item.items.map((li, liIndex) => {
+                              const title =
+                                li.title ||
+                                response[1]?.items?.[liIndex]?.title ||
+                                response[2]?.items?.[liIndex]?.title ||
+                                getTitleByProductID(li.productID); // Берем название из массива
+
+                              return (
+                                <li
+                                  key={liIndex}
+                                  style={{
+                                    display: "flex",
+                                    borderBottom:
+                                      "1px solid rgb(204, 204, 204)",
+                                    margin: "10px 0px",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <button
+                                    style={{
+                                      outline: "0px",
+                                      // marginLeft: "20px"
+                                      fontSize: "21px",
+                                      fontWeight: "500",
+                                      lineHeight: "20px",
+                                      verticalAlign: "middle",
+                                      color: "red",
+                                      border: "0px",
+                                      cursor: "pointer",
+                                      backgroundColor: "transparent",
+                                    }}
+                                    className={noir.className}
+                                    onClick={() => {
+                                      console.log(
+                                        "item.productID:",
+                                        li.productID
+                                      );
+                                      removeProduct(li.productID);
+                                      console.log("ITEM:", li.productID);
+                                    }}
+                                    title="Delete Product"
+                                  >
+                                    <img
+                                      src={del.src || del}
+                                      style={{ width: "30px", height: "30px" }}
+                                    />
+                                  </button>
+                                  <Zoom>
+                                    <img
+                                      alt={title}
+                                      width={30}
+                                      height={30}
+                                      src={li.image}
+                                      style={{ paddingRight: "8px" }}
+                                    />
+                                  </Zoom>
+                                  <p
+                                    style={{
+                                      textOverflow: "ellipsis",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      width: "200px",
+                                    }}
+                                  >
+                                    {li.title || title}
+                                  </p>
+                                  <p>({li.quantity})</p>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                          <ul
+                            style={{
+                              margin: "0",
+                              padding: "0",
+                              paddingTop: "10px",
+                            }}
+                          >
+                            {item.items.map((it) => (
+                              <li
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  borderBottom: "1px solid #ccc",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                {it.quantity > 1 &&
+                                it.non_member_price == null &&
+                                it.regprice == null ? (
+                                  <p style={{ color: "rgb(225, 37, 27)" }}>
+                                    ${it.prices.toFixed(2)}
+                                    {it.saleprice != null ? (
+                                      <span
+                                        style={{
+                                          color: "rgb(125, 120, 120)",
+                                          marginLeft: "4px",
+                                        }}
+                                      >
+                                        (${it.saleprice} ea)
+                                      </span>
+                                    ) : (
+                                      <span
+                                        style={{ color: "rgb(125, 120, 120)" }}
+                                      >
+                                        (${it.regprice} ea)
+                                      </span>
+                                    )}
+                                  </p>
+                                ) : it.quantity > 1 &&
+                                  it.regprice != null &&
+                                  it.stock != "Out of Stock" ? (
+                                  <p>
+                                    ${it.prices.toFixed(2)}
+                                    {it.saleprice != null ? (
+                                      <span
+                                        style={{
+                                          color: "rgb(125, 120, 120)",
+                                          marginLeft: "4px",
+                                        }}
+                                      >
+                                        (${it.saleprice} ea)
+                                      </span>
+                                    ) : (
+                                      <span
+                                        style={{ color: "rgb(125, 120, 120)" }}
+                                      >
+                                        (${it.regprice} ea)
+                                      </span>
+                                    )}
+                                  </p>
+                                ) : it.saleprice != null &&
+                                  it.non_member_price != null &&
+                                  it.regprice == null &&
+                                  it.quantity > 1 ? (
+                                  <p style={{ color: "rgb(225, 37, 27)" }}>
+                                    ${it.prices.toFixed(2)}
+                                    {it.saleprice != null && (
+                                      <span
+                                        style={{
+                                          color: "rgb(125, 120, 120)",
+                                          marginLeft: "4px",
+                                        }}
+                                      >
+                                        (${it.non_member_price} ea)
+                                      </span>
+                                    )}
+                                  </p>
+                                ) : (
+                                  <>
+                                    {it.stock === "Out of Stock" &&
+                                      it.quantity >= 0 && (
+                                        <p
+                                          style={{ color: "rgb(225, 37, 27)" }}
+                                        >
+                                          Sold Out ($0)
+                                        </p>
+                                      )}
+                                    {it.non_member_price != null &&
+                                      it.non_member_price !== 0 && (
+                                        <p
+                                          style={{ color: "rgb(225, 37, 27)" }}
+                                        >
+                                          ${it.non_member_price}
+                                        </p>
+                                      )}
+                                    {it.saleprice !== null &&
+                                      it.saleprice !== 0 &&
+                                      it.non_member_price && (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                          }}
+                                        >
+                                          {/* <span style={{ color: "rgb(225, 37, 27)",}}>On sale</span> */}
+                                          {it.quantity > 2 && (
+                                            <p
+                                              style={{
+                                                color: "rgb(225, 37, 27)",
+                                                paddingLeft: "4px",
+                                              }}
+                                            >
+                                              SALE PRICE ${it.non_member_price}
+                                            </p>
+                                          )}
+
+                                          {/* <s
+                                      style={{ color: "rgb(125, 120, 120)" }}
+                                    >
+                                      WAS PRICE (${it.wasprice} ea)
+                                    </s> */}
+                                        </div>
+                                      )}
+                                    {it.regprice != null &&
+                                      it.non_member_price !== 0 && (
+                                        <p>${it.regprice}</p>
+                                      )}
+                                    {it.non_member_price == null &&
+                                      it.regprice == null && (
+                                        <p
+                                          style={{ color: "rgb(225, 37, 27)" }}
+                                        >
+                                          ${it.saleprice}
+                                        </p>
+                                      )}
+                                  </>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div
                           style={{
-                            color: "#008000",
-                            fontSize: "14px",
-                            paddingTop: "0px",
-                            marginTop: "0px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
                           }}
                         >
-                          Total discount ${item.difference.toFixed(2)}
-                        </p>
+                          <p
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              paddingTop: "16px",
+                              fontWeight: "700",
+                            }}
+                          >
+                            Total: ${item.totalPrices.toFixed(2)}
+                          </p>
+                          <p
+                            style={{
+                              color: "#008000",
+                              fontSize: "14px",
+                              paddingTop: "0px",
+                              marginTop: "0px",
+                            }}
+                          >
+                            Total discount ${item.difference.toFixed(2)}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </TabPanel>)}
-                )}
+                    </TabPanel>
+                  );
+                })}
             </Tabs>
           </div>
         ) : (
