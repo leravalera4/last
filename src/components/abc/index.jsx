@@ -8,10 +8,11 @@ import Image from "next/image";
 import chart from "../../app/images/chart.svg";
 import sale from "../../app/images/sale.svg";
 import cart from "../../app/images/cart.svg";
-import house from "../../app/images/house.svg";
+// import house from "../../app/images/house.svg";
 import second from "../../app/images/shop_2.svg";
 import third from "../../app/images/shop_3.svg";
 import forth from "../../app/images/four.svg";
+import house from "../../app/images/selectStores.svg";
 
 const noir = localFont({
   src: [
