@@ -867,7 +867,10 @@ const Cart = () => {
 
                               <button
                                 className="exclude-from-pdf"
-                                onClick={() => decreaseQuantity(item.productID)}
+                                onClick={() => {
+                                  if (item.quantity === 0) return;
+                                  decreaseQuantity(item.productID);
+                                }}
                                 style={{
                                   outline: "0px",
                                   fontSize: "21px",
@@ -1252,7 +1255,10 @@ const Cart = () => {
                           >
                               <button
                                 className="exclude-from-pdf"
-                                onClick={() => decreaseQuantity(item.productID)}
+                                onClick={() => {
+                                  if (item.quantity === 0) return;
+                                  decreaseQuantity(item.productID);
+                                }}
                                 style={{
                                   outline: "0px",
                                   fontSize: "21px",
