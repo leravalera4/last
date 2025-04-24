@@ -13,7 +13,7 @@ import Spiner from "../spiner";
 import del from "../../app/images/de.svg";
 import plus from "../../app/images/plus.svg";
 import minus from "../../app/images/minus.svg";
-import block from "../../app/images/minus_block.svg";
+import block from "../../app/images/minus_bl.svg";
 import "./styles.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -1250,32 +1250,30 @@ const Cart = () => {
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
                           >
-                            <button
-                              className="exclude-from-pdf"
-                              disabled={item.quantity === 0}
-                              onClick={() => decreaseQuantity(item.productID)}
-                              style={{
-                                outline: "0px",
-                                fontSize: "21px",
-                                fontWeight: "500",
-                                lineHeight: "20px",
-                                verticalAlign: "middle",
-                                color: "red",
-                                border: "0px",
-                                cursor:
-                                  item.quantity === 0
-                                    ? "not-allowed"
-                                    : "pointer",
-                                backgroundColor: "transparent",
-                              }}
-                            >
-                              {/* // <Image width={30} height={30} src={minus} /> */}
-                              {item.quantity === 0 ? (
-                                <Image width={30} height={30} src={block} />
-                              ) : (
-                                <Image width={30} height={30} src={minus} />
-                              )}
-                            </button>
+                              <button
+                                className="exclude-from-pdf"
+                                onClick={() => decreaseQuantity(item.productID)}
+                                style={{
+                                  outline: "0px",
+                                  fontSize: "21px",
+                                  fontWeight: "500",
+                                  lineHeight: "20px",
+                                  verticalAlign: "middle",
+                                  color: "red",
+                                  border: "0px",
+                                  cursor:
+                                    item.quantity === 0
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  backgroundColor: "transparent",
+                                }}
+                              >
+                                {item.quantity === 0 ? (
+                                  <Image width={30} height={30} src={block} />
+                                ) : (
+                                  <Image width={30} height={30} src={minus} />
+                                )}
+                              </button>
                             <p className="logo">Quantity: </p>
                             <p style={{ width: "20px", textAlign: "center" }}>
                               {item.quantity}
