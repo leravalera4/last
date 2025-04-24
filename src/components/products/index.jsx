@@ -858,6 +858,7 @@ const Products = ({ cartData }) => {
                     style={{
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                       borderColor: "black",
+                      fontSize: "16px",
                     }}
                     //   style={{
                     //     outline: "0",
