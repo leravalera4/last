@@ -39,8 +39,9 @@ const Footer = () => {
         }}
       >
         <p className={noir.className}>
-          &copy; {new Date().getFullYear()} Shoppy Scan. All rights reserved.
+          &copy; {new Date().getFullYear()} Shoppy Scan.
         </p>
+        <p className={noir.className}> The content of this site is intended for personal purposes only and is not guaranteed to be accurate.</p>
         <p className={noir.className}>support@shoppyscan.ca</p>
         <SocialIcons/>
       </div>
