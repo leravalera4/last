@@ -763,8 +763,17 @@ const Cart = () => {
             >
               <TabList>
                 <Tab>Products</Tab>
-                {response != null &&
-                  response.map((item) => <Tab>{item.storetype}</Tab>)}
+                {cart &&
+                  cart.length > 0 &&
+                  response != null &&
+                  response.map((item, index) => {
+                    const matchedStore = filtered.find(
+                      (f) => f.location === item.storeName
+                    );
+                    const storeType = matchedStore?.store || item.storetype;
+                    console.log("storeType", storeType);
+                    return <Tab key={index}>{storeType}</Tab>;
+                  })}
               </TabList>
               <TabPanel>
                 {response && response.length === 0 ? (
@@ -923,7 +932,13 @@ const Cart = () => {
               </TabPanel>
 
               {response != null &&
-                response.map((item, index) => (
+                response.map((item, index) => {
+                  const matchedStore = filtered.find(
+                    (f) => f.location === item.storeName
+                  );
+                  const storeType = matchedStore?.store || item.storetype;
+                  console.log("storeType", storeType);
+                  return (
                   <TabPanel key={index}>
                     <div
                       style={{
@@ -1188,8 +1203,8 @@ const Cart = () => {
                         </p>
                       </div>
                     </div>
-                  </TabPanel>
-                ))}
+                  </TabPanel>)}
+                )}
             </Tabs>
           </div>
         ) : (
