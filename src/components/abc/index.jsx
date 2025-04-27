@@ -9,9 +9,11 @@ import chart from "../../app/images/chart.svg";
 import sale from "../../app/images/sale.svg";
 import cart from "../../app/images/cart.svg";
 // import house from "../../app/images/house.svg";
-import second from "../../app/images/shop_2.svg";
-import third from "../../app/images/shop_3.svg";
-import forth from "../../app/images/four.svg";
+import second from "../../app/images/second_mob.svg";
+import fifth from "../../app/images/fifth_mob.svg";
+import first from "../../app/images/first_mob.svg";
+import forth from "../../app/images/forth_mob.svg";
+import sixth from "../../app/images/sixth_mob.svg";
 import house from "../../app/images/selectStores.svg";
 
 const noir = localFont({
@@ -97,12 +99,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={house}
+                  src={first}
                   width={150}
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={house}
+                  key={first}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
@@ -177,12 +179,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={third}
+                  src={second}
                   width={150}
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={third}
+                  key={second}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
@@ -217,12 +219,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={third}
+                  src={forth}
                   width={150}
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={third}
+                  key={forth}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
@@ -257,12 +259,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={third}
+                  src={fifth}
                   width={150}
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={third}
+                  key={fifth}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
@@ -297,12 +299,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={third}
+                  src={sixth}
                   width={150}
                   height={150}
                   alt="Chart Icon"
                   priority
-                  key={third}
+                  key={sixth}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
