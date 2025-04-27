@@ -100,8 +100,8 @@ const Index = () => {
               >
                 <Image
                   src={first}
-                  width={150}
-                  height={150}
+                  width={200}
+                  height={218}
                   alt="Chart Icon"
                   priority
                   key={first}
@@ -128,7 +128,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Check Shat’s on Special 
+                Check What’s on Special 
               </h4>
 
               <div
@@ -140,8 +140,8 @@ const Index = () => {
               >
                 <Image
                   src={second}
-                  width={150}
-                  height={150}
+                  width={220}
+                  height={238}
                   alt="Chart Icon"
                   priority
                   key={second}
@@ -220,8 +220,8 @@ const Index = () => {
               >
                 <Image
                   src={forth}
-                  width={150}
-                  height={150}
+                  width={240}
+                  height={245}
                   alt="Chart Icon"
                   priority
                   key={forth}
@@ -260,8 +260,8 @@ const Index = () => {
               >
                 <Image
                   src={fifth}
-                  width={150}
-                  height={150}
+                  width={200}
+                  height={218}
                   alt="Chart Icon"
                   priority
                   key={fifth}
