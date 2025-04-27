@@ -126,7 +126,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Check specials
+                Check Shat’s on Special 
               </h4>
 
               <div
@@ -166,7 +166,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Add whatever you like to your shopping list
+                Start Building Your Shopping List
               </h4>
 
               <div
@@ -206,7 +206,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Switch to Compare prices and grab the rest items 
+                Wrap Up Your Haul in “Compare Prices” 
               </h4>
 
               <div
@@ -246,7 +246,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                 Check out totals on your shopping list 
+                 View Totals Per Store
               </h4>
 
               <div
@@ -286,7 +286,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Make an informed decision about your upcoming grocery run 
+                Enjoy Savings on Your Upcoming Grocery Run
               </h4>
 
               <div
