@@ -137,17 +137,32 @@ const Index = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
+
+    useEffect(() => {
+      const handleBeforeUnload = () => {
+        // Проверяем, был ли переход или именно обновление
+        if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
+          sessionStorage.clear();
+        }
+      };
+    
+      window.addEventListener("beforeunload", handleBeforeUnload);
+    
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
+    }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {
@@ -197,17 +212,17 @@ const Index = ({ cartData }) => {
     }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios

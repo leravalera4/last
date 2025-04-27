@@ -129,13 +129,28 @@ const Products = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
+
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
+
+    useEffect(() => {
     const handleBeforeUnload = () => {
-      sessionStorage.clear();
+      // Проверяем, был ли переход или именно обновление
+      if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
+        sessionStorage.clear();
+      }
     };
-
+  
     window.addEventListener("beforeunload", handleBeforeUnload);
-
+  
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
