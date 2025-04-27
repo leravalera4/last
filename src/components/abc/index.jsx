@@ -379,12 +379,12 @@ const Index = () => {
           <section style={{ paddingBottom: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <Image
-                src={third}
+                src={second}
                 width={180}
                 height={180}
                 alt="Chart Icon"
                 priority
-                key={third}
+                key={second}
               />
               <div style={{ marginLeft: "10px" }}>
                 <h4
