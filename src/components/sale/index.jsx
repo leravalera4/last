@@ -639,6 +639,7 @@ const Index = () => {
       JSON.parse(sessionStorage.getItem("storeSale")) || [];
 
     const cartObj = JSON.parse(sessionStorage.getItem("cartObj")) || [];
+    
 
     setArrayOfStores(arrayOfStores); //id из корзины
     setArrayOfStores1(arrayOfStores1); //id из корзины

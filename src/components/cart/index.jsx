@@ -1442,7 +1442,9 @@ const Cart = () => {
                             >
                               {it.quantity > 1 &&
                               it.non_member_price == null &&
-                              it.regprice == null ? (
+                              it.regprice == null 
+                              ?
+                               (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
                                   ${it.prices.toFixed(2)}
                                   {it.saleprice != null ? (
@@ -1462,7 +1464,8 @@ const Cart = () => {
                                     </span>
                                   )}
                                 </p>
-                              ) : it.quantity > 1 &&
+                              ) 
+                              : it.quantity > 1 &&
                                 it.regprice != null &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
@@ -1476,7 +1479,8 @@ const Cart = () => {
                                     >
                                       (${it.saleprice} ea)
                                     </span>
-                                  ) : (
+                                  ) 
+                                  : (
                                     <span
                                       style={{ color: "rgb(125, 120, 120)" }}
                                     >
@@ -1484,10 +1488,13 @@ const Cart = () => {
                                     </span>
                                   )}
                                 </p>
-                              ) : it.saleprice != null &&
+                              ) 
+                              :
+                               it.saleprice != null &&
                                 it.non_member_price != null &&
                                 it.regprice == null &&
-                                it.quantity > 1 ? (
+                                it.quantity > 1 ? 
+                                (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
                                   ${it.prices}
                                   {it.saleprice != null && (
@@ -1509,12 +1516,14 @@ const Cart = () => {
                                         Sold Out ($0)
                                       </p>
                                     )}
+
                                   {it.non_member_price != null &&
                                     it.non_member_price !== 0 && (
                                       <p style={{ color: "rgb(225, 37, 27)" }}>
                                         ${it.non_member_price}
                                       </p>
                                     )}
+                                    
                                   {it.saleprice !== null &&
                                     it.saleprice !== 0 &&
                                     it.non_member_price && (
