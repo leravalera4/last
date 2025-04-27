@@ -149,20 +149,20 @@ const Index = ({ cartData }) => {
   //   };
   // }, []);
 
-    useEffect(() => {
-      const handleBeforeUnload = () => {
-        // Проверяем, был ли переход или именно обновление
-        if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
-          sessionStorage.clear();
-        }
-      };
+    // useEffect(() => {
+    //   const handleBeforeUnload = () => {
+    //     // Проверяем, был ли переход или именно обновление
+    //     if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
+    //       sessionStorage.clear();
+    //     }
+    //   };
     
-      window.addEventListener("beforeunload", handleBeforeUnload);
+    //   window.addEventListener("beforeunload", handleBeforeUnload);
     
-      return () => {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
-      };
-    }, []);
+    //   return () => {
+    //     window.removeEventListener("beforeunload", handleBeforeUnload);
+    //   };
+    // }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {

@@ -129,17 +129,17 @@ const Products = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {
@@ -189,17 +189,17 @@ const Products = ({ cartData }) => {
     }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios

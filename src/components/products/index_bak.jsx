@@ -232,17 +232,17 @@ const Products = ({ cartData }) => {
     return top3Stores; // Возвращаем отсортированные магазины
   };
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {
@@ -351,17 +351,17 @@ console.log("ADDED TO CART", addedToCart)
     }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios
