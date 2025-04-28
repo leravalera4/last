@@ -716,8 +716,10 @@ const Cart = () => {
                             flexDirection: "row",
                             alignItems: "center",
                             alignSelf: "center",
+                            marginBottom:'2%',
                             backgroundColor: "#fff",
                             backgroundImage: "none",
+                            fontSize: "14px",
                             backgroundPosition: "0 90%",
                             backgroundRepeat: "repeat no-repeat",
                             backgroundSize: "4px 3px",
@@ -793,7 +795,7 @@ const Cart = () => {
               selectedIndex={tabIndex}
               onSelect={(index) => setTabIndex(index)}
             >
-              <TabList>
+              <TabList style={{paddingTop: "10%"}}>
                 <Tab>Products</Tab>
                 {cart &&
                   cart.length > 0 &&
