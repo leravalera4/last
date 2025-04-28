@@ -702,19 +702,46 @@ const Cart = () => {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                 {response &&
-                    response.map((item) => {
+                    response.map((item,idx) => {
                       const matchedStore = filtered.find(
                         (f) => f.location === item.storeName
                       );
                       const storeType = matchedStore?.store || item.storetype;
                       console.log("storeType", storeType);
                       return (
-                        <div key={item.id}>
+                        <div key={item.id} onClick={() => setTabIndex(idx + 1)}>
                         <div
                           style={{
                             display: "flex",
                             flexDirection: "row",
                             alignItems: "center",
+                            alignSelf: "center",
+                            backgroundColor: "#fff",
+                            backgroundImage: "none",
+                            backgroundPosition: "0 90%",
+                            backgroundRepeat: "repeat no-repeat",
+                            backgroundSize: "4px 3px",
+                            borderRadius: "15px 225px 255px 15px 15px 255px 225px 15px",
+                            borderStyle: "solid",
+                            borderWidth: "2px",
+                            boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
+                            boxSizing: "border-box",
+                            borderColor: "black",
+                            color: "#41403e",
+                            cursor: "pointer",
+                            lineHeight: "23px",
+                            outline: "none",
+                            padding: ".75rem",
+                            textDecoration: "none",
+                            transition: "all 235ms ease-in-out",
+                            borderBottomLeftRadius: "15px 255px",
+                            borderBottomRightRadius: "225px 15px",
+                            borderTopLeftRadius: "255px 15px",
+                            borderTopRightRadius: "15px 225px",
+                            padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                            userSelect: "none",
+                            WebkitUserSelect: "none",
+                            touchAction: "manipulation",
                           }}
                         >
                           <div style={{ width: "100%" }}>
