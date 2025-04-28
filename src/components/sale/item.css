@@ -360,6 +360,7 @@ button {
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; 
+    overflow-y: hidden;
   }
 
   .react-tabs__tab-list li {
