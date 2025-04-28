@@ -795,7 +795,7 @@ const Cart = () => {
               selectedIndex={tabIndex}
               onSelect={(index) => setTabIndex(index)}
             >
-              <TabList style={{paddingTop: "10%"}}>
+              <TabList>
                 <Tab>Products</Tab>
                 {cart &&
                   cart.length > 0 &&
