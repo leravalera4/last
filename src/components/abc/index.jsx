@@ -11,7 +11,10 @@ import cart from "../../app/images/cart.svg";
 // import house from "../../app/images/house.svg";
 import second from "../../app/images/second_mob.svg";
 import fifth from "../../app/images/fifth_mob.svg";
+import arrow from "../../app/images/arrow.svg";
+import arrow_back from "../../app/images/arrow_back.svg";
 import first from "../../app/images/first_mob.svg";
+import third from "../../app/images/third_mob.svg";
 import forth from "../../app/images/forth_mob.svg";
 import sixth from "../../app/images/sixth_mob.svg";
 import house from "../../app/images/selectStores.svg";
@@ -110,7 +113,6 @@ const Index = () => {
               </div>
             </div>
           </section>
-
           <section style={{ paddingBottom: "1.5rem", paddingTop: "1.5rem" }}>
             <div
               style={{
@@ -128,7 +130,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Check What’s on Special 
+                Check What’s on Special
               </h4>
 
               <div
@@ -179,12 +181,12 @@ const Index = () => {
                 }}
               >
                 <Image
-                  src={second}
-                  width={150}
-                  height={150}
+                  src={third}
+                  width={200}
+                  height={200}
                   alt="Chart Icon"
                   priority
-                  key={second}
+                  key={third}
                   style={{ paddingTop: "18px" }}
                 />
               </div>
@@ -208,7 +210,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                Wrap Up Your Haul in “Compare Prices” 
+                Wrap Up Your Haul in “Compare Prices”
               </h4>
 
               <div
@@ -248,7 +250,7 @@ const Index = () => {
                   textAlign: "center",
                 }}
               >
-                 View Totals Per Store
+                View Totals Per Store
               </h4>
 
               <div
@@ -314,99 +316,295 @@ const Index = () => {
       ) : (
         <div className="h1" style={{ margin: "0 20%", marginTop: "3%" }}>
           {/* Section 1: Compare Prices */}
-          <section style={{ paddingBottom: "1.5rem" }}>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <Image
-                src={house}
-                width={180}
-                height={180}
-                alt="Chart Icon"
-                priority
-                key={house}
-              />
-              <div style={{ paddingLeft: "10px" }}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <section
+              style={{
+                paddingBottom: "1.5rem",
+                paddingTop: "1.5rem",
+                minWidth: "300px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  textAlign: "center",
+                }}
+              >
                 <h4
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.5rem",
+                    fontSize: "1.3rem",
                     fontWeight: 700,
                   }}
                 >
-                  Select Multiple Stores
+                  Select up to 3 stores
                 </h4>
-                <p className={noir.className}>
-                  With Shoppy Scan, you have the power to choose from a vast
-                  array of stores. Whether it's your local supermarket, favorite
-                  online retailer, or specialty boutique, you can effortlessly
-                  add them to your list of selected stores.
-                </p>
-              </div>
-            </div>
-          </section>
 
-          {/* Section 2: Check What's on Sale */}
-          <section style={{ paddingBottom: "1.5rem" }}>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <div style={{ textAlign: "right", marginRight: "10px" }}>
-                <h4
-                  className={noir.className}
+                <div
                   style={{
-                    margin: "0 0 -0.5rem 10px",
-                    fontSize: "1.5rem",
-                    fontWeight: 700,
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    textAlign: "center",
                   }}
                 >
-                  Compare Prices
-                </h4>
-                <p className={noir.className}>
-                  Shoppy Scan empowers you to compare prices across all the
-                  stores you've selected. Easily find the best deals and make
-                  informed decisions on your purchases. Say goodbye to guesswork
-                  and hello to savings!
-                </p>
+                  <Image
+                    src={first}
+                    width={200}
+                    height={218}
+                    alt="Chart Icon"
+                    priority
+                    key={first}
+                    style={{ paddingTop: "18px" }}
+                  />
+                </div>
               </div>
-              <Image
-                src={second}
-                width={180}
-                height={180}
-                alt="Sale Icon"
-                priority
-                key={second}
-              />
-            </div>
-          </section>
-          <section style={{ paddingBottom: "1.5rem" }}>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <Image
-                src={second}
-                width={180}
-                height={180}
-                alt="Chart Icon"
-                priority
-                key={second}
-              />
-              <div style={{ marginLeft: "10px" }}>
+            </section>
+            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
+    <Image src={arrow} width={50} height={50} />
+  </div>
+            <section
+              style={{
+                paddingBottom: "1.5rem",
+                paddingTop: "1.5rem",
+                minWidth: "300px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
                 <h4
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.5rem",
+                    fontSize: "1.3rem",
                     fontWeight: 700,
+                    textAlign: "center",
                   }}
                 >
-                  Add to List for Total Price
+                  Check What’s on Special
                 </h4>
-                <p className={noir.className}>
-                  As you browse through products, simply add them to your cart
-                  with a click. Shop Scan automatically calculates the total
-                  price of your selections in each selected store. This means
-                  you can see the total cost of your shopping list across all
-                  your chosen stores before making a purchase.
-                </p>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Image
+                    src={second}
+                    width={220}
+                    height={238}
+                    alt="Chart Icon"
+                    priority
+                    key={second}
+                    style={{ paddingTop: "18px" }}
+                  />
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
+    <Image src={arrow} width={50} height={50} />
+  </div>
+            <section
+              style={{
+                paddingBottom: "1.5rem",
+                paddingTop: "1.5rem",
+                minWidth: "300px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 0px",
+                    fontSize: "1.3rem",
+                    fontWeight: 700,
+                    textAlign: "center",
+                  }}
+                >
+                  Start Building Your Shopping List
+                </h4>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Image
+                    src={third}
+                    width={200}
+                    height={200}
+                    alt="Chart Icon"
+                    priority
+                    key={third}
+                    style={{ paddingTop: "18px" }}
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "row" }}>
+          <section
+              style={{
+                paddingBottom: "1.5rem",
+                paddingTop: "1.5rem",
+                minWidth: "300px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 0px",
+                    fontSize: "1.3rem",
+                    fontWeight: 700,
+                    textAlign: "center",
+                  }}
+                >
+                  Enjoy Savings on Your Upcoming Grocery Run
+                </h4>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Image
+                    src={sixth}
+                    width={200}
+                    height={200}
+                    alt="Chart Icon"
+                    priority
+                    key={sixth}
+                    style={{ paddingTop: "18px" }}
+                  />
+                </div>
+              </div>
+            </section>
+
+            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
+    <Image src={arrow_back} width={50} height={50} />
+  </div>
+            <section
+              style={{
+                paddingBottom: "1.5rem",
+                paddingTop: "1.5rem",
+                minWidth: "300px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 0px",
+                    fontSize: "1.3rem",
+                    fontWeight: 700,
+                    textAlign: "center",
+                  }}
+                >
+                  View Totals Per Store
+                </h4>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Image
+                    src={fifth}
+                    width={238}
+                    height={260}
+                    alt="Chart Icon"
+                    priority
+                    key={fifth}
+                    style={{ paddingTop: "18px" }}
+                  />
+                </div>
+              </div>
+            </section>
+            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
+    <Image src={arrow_back} width={50} height={50} />
+  </div>
+  <section
+              style={{
+                paddingBottom: "1.5rem",
+                paddingTop: "1.5rem",
+                minWidth: "300px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <h4
+                  className={noir.className}
+                  style={{
+                    margin: "0 0 -0.5rem 0px",
+                    fontSize: "1.3rem",
+                    fontWeight: 700,
+                    textAlign: "center",
+                  }}
+                >
+                  Wrap Up Your Haul in “Compare Prices”
+                </h4>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Image
+                    src={forth}
+                    width={240}
+                    height={250}
+                    alt="Chart Icon"
+                    priority
+                    key={forth}
+                    // style={{ paddingTop: "18px" }}
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       )}
     </>

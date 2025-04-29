@@ -35,15 +35,18 @@ const Footer = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          boxShadow:" rgba(37, 39, 89, 0.08) 0px -8px 8px 0px"
+          boxShadow: " rgba(37, 39, 89, 0.08) 0px -8px 8px 0px",
         }}
       >
         <p className={noir.className}>
           &copy; {new Date().getFullYear()} Shoppy Scan
         </p>
-        <p className={noir.className}> The content of this site is intended for personal purposes only.</p>
+        <p className={noir.className}>
+          {" "}
+          The content of this site is intended for personal use only
+        </p>
         <p className={noir.className}>support@shoppyscan.ca</p>
-        <SocialIcons/>
+        <SocialIcons />
       </div>
     </footer>
   );

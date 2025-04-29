@@ -568,7 +568,7 @@ const Index = () => {
     //setSelectedLocation(null);
   };
 
-  
+
   useEffect(() => {
     const handleBeforeUnload = () => {
       // Проверяем, был ли переход или именно обновление
@@ -1089,7 +1089,7 @@ const Index = () => {
         <span style={{ textDecoration: "underline", fontStyle: "italic" }}>
           up to 3 stores{" "}
         </span>
-        you'd like to compare grocery prices at
+        you would like to view their respective special price discounted items
       </p>
 
       <div className="container">

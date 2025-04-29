@@ -802,7 +802,7 @@ const Products = ({ cartData }) => {
         <span style={{ textDecoration: "underline", fontStyle: "italic" }}>
           up to 3 stores{" "}
         </span>
-        you'd like to compare grocery prices at
+        you would like to view their respective special price discounted items
       </p>
         {isMobile ? (
           <div

@@ -20,12 +20,12 @@ import del from "../../app/images/de.svg";
 import added from "../../app/images/added_2.svg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-// import Fortinos from "../../app/images/Fortinos.svg";
-// import Maxi from "../../app/images/Maxi.svg";
+import Fortinos from "../../app/images/Fortinos.svg";
+import Maxi from "../../app/images/Maxi.svg";
 // Fortinos: "../../app/images/Fortinos.svg",
 // Maxi: "../../app/images/images/Maxi.svg",
 // Zehrs: "../../app/images/images/Zehrs.svg",
-// import Nofrills from "../../app/images/NoFrills_1.svg";
+import Nofrills from "../../app/images/NoFrills_1.svg";
 // Superstore: "../../app/images/images/Superstore.svg",
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
@@ -87,7 +87,7 @@ const play = Playfair({
   display: "swap",
 });
 
-const Index = ({ cartData }) => {
+const Products = ({ cartData }) => {
   const [availableStores, setAvailableStores] = useState([]); //тут весь список магазинов
   const [selectedStore, setSelectedStore] = useState(null); //выбранный магазин из списка
   const [locations, setLocations] = useState([]); //массив из всех локаций выбранного магазина
@@ -137,32 +137,17 @@ const Index = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     sessionStorage.clear();
-  //   };
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.clear();
+    };
 
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
-
-    // useEffect(() => {
-    //   const handleBeforeUnload = () => {
-    //     // Проверяем, был ли переход или именно обновление
-    //     if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
-    //       sessionStorage.clear();
-    //     }
-    //   };
-    
-    //   window.addEventListener("beforeunload", handleBeforeUnload);
-    
-    //   return () => {
-    //     window.removeEventListener("beforeunload", handleBeforeUnload);
-    //   };
-    // }, []);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {
@@ -212,17 +197,17 @@ const Index = ({ cartData }) => {
     }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
-  // useEffect(() => {
-  //   const handleBeforeUnload = () => {
-  //     sessionStorage.clear();
-  //   };
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.clear();
+    };
 
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -738,7 +723,7 @@ const Index = ({ cartData }) => {
   };
 
   const handleResize = () => {
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < 768) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -772,50 +757,96 @@ const Index = ({ cartData }) => {
           marginRight: isMobile ? "5%" : "10%",
         }}
       >
-        <h2
-          style={{
-            textAlign: "center",
-            paddingBottom: "0px",
-            marginBottom: "0px",
-          }}
-          className={noir.className}
-        >
-          ShoppyScan
-        </h2>
-        <p
-          style={{
-            textAlign: "center",
-            paddingTop: "0px",
-            marginTop: "2%",
-            paddingBottom: "18px",
-          }}
-          className={noir.className}
-        >
-          Build Your List. Find the Cheapest Store.
-          <span style={{ fontStyle: "italic" }}>
-            {" "}
-            ShoppyScan compares your grocery list across top Canadian retailers
-            to help you save more.
-          </span>
-        </p>
+        {" "}
+        {!isMobile && (
+          <>
+            <h2
+              style={{
+                textAlign: "center",
+                paddingBottom: "0px",
+                marginBottom: "0px",
+              }}
+              className={noir.className}
+            >
+              Home
+            </h2>
+            <p
+              style={{
+                textAlign: "center",
+                paddingTop: "0px",
+                marginTop: "0px",
+                paddingBottom: "18px",
+              }}
+              className={noir.className}
+            >
+              Build Your List. Find the Cheapest Store.
+              <span style={{ fontStyle: "italic" }}>
+                {" "}
+                ShoppyScan compares your grocery list across top Canadian
+                retailers to help you save more.
+              </span>
+            </p>
+          </>
+        )}
         {isMobile && (
+          <h2
+            style={{
+              textAlign: "center",
+              paddingBottom: "0px",
+              marginBottom: "0px",
+            }}
+            className={noir.className}
+          >
+            ShoppyScan
+          </h2>
+        )}
+        {isMobile && (
+          <p
+            style={{
+              textAlign: "center",
+              paddingTop: "0px",
+              marginTop: "2%",
+              paddingBottom: "18px",
+            }}
+            className={noir.className}
+          >
+            Build Your List. Find the Cheapest Store.
+            <span style={{ fontStyle: "italic" }}>
+              {" "}
+              ShoppyScan compares your grocery list across top Canadian
+              retailers to help you save more.
+            </span>
+          </p>
+        )}
+        {
           <div
+            style={{ display: "flex", flexDirection: !isMobile && "column" }}
             className="select-container"
+            // style={{
+            //   paddingRight: isMobile ? "5%" : "10%",
+            //   paddingLeft: isMobile ? "5%" : "10%",
+            // }}
           >
             <div
               // className="select-store"
               style={{
                 display: "flex",
                 //   width: "320px",
-                flexDirection: isMobile ? "column" : "column",
+                flexDirection: !isMobile ? "row" : "column",
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
             >
-              <button style={{marginRight:'0px',borderColor: "black"}} className={`${noir.className} button-55`}>
+              <button
+                style={{
+                  marginRight: "0px",
+                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                }}
+                className={`${noir.className} button-55`}
+              >
                 <Link
                   style={{
-                    fontSize: "16px",
+                    fontSize: isMobile ? "16px" : "14px",
                     textDecoration: "none",
                     color: "black",
                   }}
@@ -826,7 +857,7 @@ const Index = ({ cartData }) => {
               </button>
               <p
                 style={{
-                  fontSize: "16px",
+                  fontSize: isMobile ? "16px" : "16px",
                   padding: "0px 20px",
                   margin: "8px",
                 }}
@@ -834,22 +865,54 @@ const Index = ({ cartData }) => {
               >
                 or
               </p>
-              <button style={{marginRight:'0px',borderColor: "black"}}
+              <button
+                style={{
+                  marginRight: "0px",
+                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                }}
                 className={`${noir.className} button-55`}
+                // style={{
+                //   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                //   borderColor: "black",
+                // }}
+                //   style={{
+                //     outline: "0",
+                //     width: "auto",
+                //     height: "38px",
+                //     cursor: "pointer",
+                //     padding: "5px 16px",
+                //     fontSize: "14px",
+                //     fontWeight: "500",
+                //     lineHeight: "20px",
+                //     verticalAlign: "middle",
+                //     border: "1px solid",
+                //     borderRadius: " 6px",
+                //     color: " #24292e",
+                //     backgroundColor: "#fafbfc",
+                //     borderColor: "#1b1f2326",
+                //     boxShadow:
+                //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+                //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                //   }}
               >
-                <Link style={{
-                    fontSize: "16px",
+                <Link
+                  style={{
+                    fontSize: isMobile ? "16px" : "14px",
                     textDecoration: "none",
                     color: "black",
-                  }} href="/compare-prices">Start Comparing</Link>
+                  }}
+                  href="/compare-prices"
+                >
+                  Start Comparing
+                </Link>
               </button>
             </div>
             <Abc style={{ marginLeft: "20%", marginRight: "20%" }} />
           </div>
-        )}
+        }
       </div>
     </div>
   );
 };
 
-export default Index;
+export default Products;
