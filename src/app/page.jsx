@@ -120,8 +120,8 @@
 
 //   useEffect(() => {
 //     axios
-//      // .get('https://api.shoppyscan.ca/api/stores')
-//      .get('https://api.shoppyscan.ca/api/stores')   //http://localhost
+//      // .get('http://localhost:8080/api/stores')
+//      .get('http://localhost:8080/api/stores')   //http://localhost
 //       .then((response) => {
 //         setAvailableStores(response.data)
 //       })
@@ -135,7 +135,7 @@
 //     setSelectedStore(selectedStore) // сюда кладем выбранный из списка магазин (из массива выбираем один из)
 //     try {
 //       const response = await axios.get(
-//         `https://api.shoppyscan.ca/api/stores/${selectedStore}`
+//         `http://localhost:8080/api/stores/${selectedStore}`
 //       )
 
 //       if (response.status === 200) {
@@ -174,7 +174,7 @@
 //   const handleButtonClick = async () => {
 //     try {
 //       const response = await axios.post(
-//         'https://api.shoppyscan.ca/api/updateLocation',
+//         'http://localhost:8080/api/updateLocation',
 //         {
 //           selectedStoresID: selectedStoresID,
 //           searchText: searchText,
@@ -353,26 +353,6 @@
 // }
 
 // export default StoreSelector;
-
-// import React from "react";
-// import Sale from "../components/sale";
-// import Script from "next/script";
-
-// const page = () => {
-//   return (
-//     <div>
-//       <Script
-//         async
-//         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
-//         crossOrigin="anonymous"
-//       />
-//       <Sale />
-//     </div>
-//   );
-// };
-
-// export default page;
-
 "use client";
 import React from "react";
 import Sale from "../components/sale";
@@ -382,34 +362,23 @@ import Script from "next/script";
 const page = () => {
   const [isMobile, setIsMobile] = React.useState(false); // состояние для отслеживания мобильной версии
 
-  // React.useEffect(() => {
-  //   window.addEventListener("storage", () => {
-  //     const handleResize = () => {
-  //       setIsMobile(window.innerWidth <= 1024); // Если ширина меньше 768px, то мобильная версия
-  //     };
-
-  //     // Вызываем функцию сразу при монтировании
-  //     handleResize();
-
-  //     // Добавляем слушатель события изменения размера
-  //     window.addEventListener("resize", handleResize);
-
-  //     // Убираем слушатель при размонтировании компонента
-  //     return () => {
-  //       window.removeEventListener("resize", handleResize);
-  //     };
-  //   });
-  // }, []);
-
   React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
-    };
-  
-    handleResize(); // при монтировании
-  
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("storage", () => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 1024); // Если ширина меньше 768px, то мобильная версия
+      };
+
+      // Вызываем функцию сразу при монтировании
+      handleResize();
+
+      // Добавляем слушатель события изменения размера
+      window.addEventListener("resize", handleResize);
+
+      // Убираем слушатель при размонтировании компонента
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    });
   }, []);
 
   return (
@@ -419,7 +388,7 @@ const page = () => {
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1262441687811052"
         crossOrigin="anonymous"
       />
-      {isMobile ? <Main /> : <Sale />}
+      <Main/>
     </div>
   );
 };
