@@ -141,14 +141,14 @@ const Header = () => {
                 src={header}
                 width={70}
                 height={70}
-                onClick={handleClick}
+                // onClick={handleClick}
               />
             </Link>
             <Link style={{ textDecoration: "none" }} href="/">
               <h1
                 style={{ textDecoration: "none", color: "black" }}
                 className={`${noir.className} boxy`}
-                onClick={handleClick}
+                // onClick={handleClick}
               >
                 Shoppy Scan
               </h1>
