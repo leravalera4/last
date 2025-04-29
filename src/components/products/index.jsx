@@ -19,6 +19,7 @@ import del from "../../app/images/de.svg";
 import added from "../../app/images/added.svg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 // import Tour from "../tour/tour.jsx";
 const Tour = dynamic(() => import("../tour/tour"), { ssr: false });
 
@@ -764,6 +765,64 @@ const Products = ({ cartData }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []); // Empty dependency array ensures it runs only once on mount
+
+
+
+  const fruitsAisleCount = responseData.filter(
+    (item) => item.category === "Fruits & Vegetables"
+  ).length;
+  const snacksAisleCount = responseData.filter(
+    (item) => item.category === "Snacks, Chips & Candy"
+  ).length;
+  const dairyAisleCount = responseData.filter(
+    (item) => item.category === "Dairy & Eggs"
+  ).length;
+  const drinksAisleCount = responseData.filter(
+    (item) => item.category === "Drinks"
+  ).length;
+  const bakeryAisleCount = responseData.filter(
+    (item) => item.category === "Bakery"
+  ).length;
+  const deliAisleCount = responseData.filter(
+    (item) => item.category === "Deli"
+  ).length;
+  const naturalAisleCount = responseData.filter(
+    (item) => item.category === "Natural and Organic"
+  ).length;
+  const preparedAisleCount = responseData.filter(
+    (item) => item.category === "Prepared Meals"
+  ).length;
+  const pantryAisleCount = responseData.filter(
+    (item) => item.category === "Pantry"
+  ).length;
+  const internationalAisleCount = responseData.filter(
+    (item) => item.category === "International Foods"
+  ).length;
+  const meatAisleCount = responseData.filter(
+    (item) => item.category === "Meat"
+  ).length;
+  const fishAisleCount = responseData.filter(
+    (item) => item.category === "Fish & Seafood"
+  ).length;
+  const frozenAisleCount = responseData.filter(
+    (item) => item.category === "Frozen Food"
+  ).length;
+
+  const showNotFound =
+  !loading &&
+  responseData.length === 0 &&
+  searchText &&
+  !firstTime &&
+  searchText.length !== 0;
+
+const showAb =
+  !loading &&
+  firstTime &&
+  responseData.length === 0 &&
+  selectedAll.length === 0;
+
+const showLoading = loading;
+
 
   return (
     <div
@@ -1591,368 +1650,5789 @@ const Products = ({ cartData }) => {
                 </div>
               )}
             </div>
-            {loading && firstTime ? (
+            {responseData.length > 0 && (
+              <h1
+                style={{ display: loading && "none", fontSize: "1.5rem" }}
+                className={noir.className}
+              >
+                {responseData.length} search results for {searchText}
+              </h1>
+            )}
+            {showNotFound ? (
+              <NotFound />
+            ) : showAb ? (
+              <Ab style={{ marginLeft: "20%", marginRight: "20%" }} />
+            ) : showLoading ? (
               <Loading />
             ) : (
-              <div className="product-cart-products">
-                {responseData.map((item, index) => (
-                  <div
-                    className="card"
-                    key={index}
-                    itemScope
-                    itemType="http://schema.org/Product"
+              <Tabs>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // paddingRight: "10%"
+                  }}
+                >
+                  <TabList
+                    style={{
+                      display: "flex",
+                      border: "none",
+                      cursor: "pointer",
+                      listStyle: "none",
+                    }}
                   >
-                    <div
+                    {fruitsAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        {isMobile ? "Veggies" : "Veggies"}
+                      </Tab>
+                    )}
+
+                    {snacksAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        {isMobile ? "Snacks" : "Snacks"}
+                      </Tab>
+                    )}
+
+                    {dairyAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        {isMobile ? "Dairy" : "Dairy"}
+                      </Tab>
+                    )}
+
+                    {drinksAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Drinks</Tab>
+                    )}
+                    {bakeryAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Bakery</Tab>
+                    )}
+                    {deliAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Deli</Tab>
+                    )}
+                    {naturalAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Organic</Tab>
+                    )}
+
+                    {preparedAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        Prepared Meals
+                      </Tab>
+                    )}
+
+                    {pantryAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Pantry</Tab>
+                    )}
+
+                    {internationalAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        International Foods
+                      </Tab>
+                    )}
+
+                    {meatAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Meat</Tab>
+                    )}
+
+                    {fishAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        {isMobile ? "Seafood" : " Fish & Seafood"}
+                      </Tab>
+                    )}
+
+                    {frozenAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        Frozen Food
+                      </Tab>
+                    )}
+                  </TabList>
+                </div>
+                {fruitsAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Fruits & Vegetables
+                    </h2>
+                    <ul
+                      className="product-list"
                       style={{
                         display: "flex",
                         flexDirection: "row",
-                        alignItems: "center",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
                       }}
                     >
-                      <p className={`${noir.className} text`} itemProp="price">
-                        {loading ? (
-                          <Skeleton width={230} height={50} />
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
                         ) : (
-                          item.title
-                        )}
-                      </p>
-                      {item.member_price === "Prepared in Canada" && (
-                        <Image
-                          height={30}
-                          style={{
-                            paddingLeft: "10px",
-                            paddingBottom: "14px",
-                          }}
-                          src={flag}
-                        />
-                      )}
-                    </div>
-                    <>
-                      <div
-                        className="add-cart"
-                        style={{
-                          height: "35px",
-                          display: "flex",
-                          flexDirection: "row-reverse",
-                          alignItems: "center",
-                        }}
-                      >
-                        {item.cart == true ? (
-                          <>
-                            <Image
-                              style={{ paddingLeft: "90px" }}
-                              width={30}
-                              height={30}
-                              src={added}
-                            />
-                            <p className={noir.className}>{item.count}x</p>
-                          </>
-                        ) : (
-                          " "
-                        )}
-                      </div>
-                      {loading ? (
-                        <Skeleton width={120} height={120} />
-                      ) : (
-                        <Zoom>
-                          <img
-                            className="image"
-                            style={{
-                              width: "120px",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                            src={item.photo}
-                            alt={`Photo of ${item.title}`}
-                          />
-                        </Zoom>
-                      )}
-                    </>
-                    <div
-                      className={noir.className}
-                      style={{
-                        marginBottom: "20px",
-                        fontWeight: "normal",
-                        color: "grey",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {loading ? (
-                        <Skeleton width={146} height={10} />
-                      ) : item.products[0].weight == "" ? (
-                        "$" +
-                        (item.products[0].prices.unitPriceValue * 10).toFixed(
-                          2
-                        ) +
-                        " / 1" +
-                        " " +
-                        "kg"
-                      ) : (
-                        item.products[0].weight
-                      )}
-                    </div>
-                    {loading ? (
-                      <Skeleton width={121} height={52} />
-                    ) : (
-                      <button
-                        className={`${noir.className} button-55`}
-                        style={{
-                          paddingTop: "4px",
-                          paddingBottom: "4px",
-                          borderColor: "black",
-                        }}
-                        // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
-                        // style={{
-                        //   outline: "0",
-                        //   cursor: "pointer",
-                        //   fontSize: "14px",
-                        //   fontWeight: "500",
-                        //   lineHeight: "20px",
-                        //   verticalAlign: "middle",
-                        //   border: "1px solid",
-                        //   borderRadius: " 6px",
-                        //   color: " #24292e",
-                        //   backgroundColor: "#fafbfc",
-                        //   borderColor: "#1b1f2326",
-                        //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                        // }}
-                        onClick={() => handleAddToCart(item, index)}
-                      >
-                        {addedToCart[index] ? (
-                          <p
-                            style={{
-                              color: "green",
-                            }}
-                          >
-                            Add more
-                          </p>
-                        ) : (
-                          <p
-                            style={{
-                              color: "black",
-                            }}
-                          >
-                            Add to List
-                          </p>
-                        )}
-                      </button>
-                    )}
-                    <div
-                      style={{
-                        display: "flex",
-                        paddingBottom: "20px",
-                        marginTop: "30px",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div
-                        style={{
-                          //paddingRight: "20px", flexDirection: "row"
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        {item.products.map((store, index) =>
-                          loading ? (
-                            <Skeleton width={280} height={25} />
-                          ) : (
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                // justifyContent: "space-between",
-                                marginBottom: "10px",
-                                alignItems: "flex-start",
-                                height: "48px",
-                              }}
-                              key={index}
-                            >
-                              {/* Store Name and City */}
-                              <p
-                                className={noir.className}
-                                style={{
-                                  paddingRight: "12px",
-                                  //   maxWidth: "275px",
-                                  width: "160px",
-                                  fontSize: isMobile ? "14px" : "15px",
-                                }}
-                              >
-                                {/* <b>{store.storetype}</b> */}
-                                 {store.store},{" "}
-                                {store.city}
-                              </p>
-
-                              {/* Pricing + Stock Block */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                  gap: "8px",
-                                  justifyContent: "flex-end",
-                                  flexWrap: "wrap",
-                                  textAlign: "right",
-                                }}
-                              >
-                                {/* Sale Price */}
-                                {store.saleprice != null ? (
-                                  store.mem != null ? (
-                                    store.mem * 2 > store.saleprice ? (
-                                      <p
-                                        itemProp="priceCurrency"
-                                        className={noir.className}
-                                        style={{
-                                          fontWeight: "700",
-                                          color: "rgb(225, 37, 27)",
-                                          fontSize: isMobile ? "14px" : "15px",
-                                        }}
-                                      >
-                                        ${store.mem}
-                                        <span
-                                          style={{
-                                            marginLeft: "4px",
-                                            fontWeight: "400",
-                                            fontSize: isMobile
-                                              ? "14px"
-                                              : "15px",
-                                          }}
-                                        >
-                                          (2 FOR ${store.saleprice} ea)
-                                        </span>
-                                      </p>
-                                    ) : store.for3 < store.saleprice ? (
-                                      <p
-                                        className={noir.className}
-                                        style={{
-                                          fontWeight: "700",
-                                          color: "rgb(225, 37, 27)",
-                                          fontSize: isMobile ? "14px" : "15px",
-                                        }}
-                                      >
-                                        ${store.mem}
-                                        <span
-                                          style={{
-                                            marginLeft: "4px",
-                                            fontWeight: "400",
-                                            fontSize: isMobile
-                                              ? "14px"
-                                              : "15px",
-                                          }}
-                                        >
-                                          (3 FOR ${store.saleprice} ea)
-                                        </span>
-                                      </p>
-                                    ) : store.mem > store.saleprice ? (
-                                      <p
-                                        className={noir.className}
-                                        style={{
-                                          fontWeight: "700",
-                                          color: "rgb(225, 37, 27)",
-                                          fontSize: isMobile ? "14px" : "15px",
-                                        }}
-                                      >
-                                        ${store.mem}
-                                        <span
-                                          style={{
-                                            marginLeft: "4px",
-                                            fontWeight: "400",
-                                            fontSize: isMobile
-                                              ? "14px"
-                                              : "15px",
-                                          }}
-                                        >
-                                          (${store.saleprice} MIN 2)
-                                        </span>
-                                      </p>
-                                    ) : (
-                                      <p
-                                        className={noir.className}
-                                        style={{
-                                          fontWeight: "700",
-                                          color: "rgb(225, 37, 27)",
-                                          fontSize: isMobile ? "14px" : "15px",
-                                        }}
-                                      >
-                                        ${store.saleprice}
-                                      </p>
-                                    )
-                                  ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Fruits & Vegetables" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
                                     <p
-                                      className={noir.className}
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
                                       style={{
-                                        fontWeight: "700",
-                                        color: "rgb(225, 37, 27)",
-                                        fontSize: isMobile ? "14px" : "15px",
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
                                       }}
                                     >
-                                      ${store.saleprice}
-                                    </p>
-                                  )
-                                ) : store.non_member_price != null ? (
-                                  <p
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
                                     className={noir.className}
                                     style={{
-                                      fontWeight: "700",
-                                      fontSize: isMobile ? "14px" : "15px",
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
                                     }}
                                   >
-                                    {store.non_member_price}
-                                    <span>(2 FOR mimi ${store.sale})</span>
-                                  </p>
-                                ) : (
-                                  <p
-                                    className={noir.className}
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
                                     style={{
-                                      fontWeight: "700",
-                                      fontSize: isMobile ? "14px" : "15px",
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
                                     }}
                                   >
-                                    {store.regprice}
-                                  </p>
-                                )}
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
 
-                                {/* Was Price */}
-                                {store.wasprice != null && (
-                                  <p
-                                    className={noir.className}
-                                    style={{
-                                      color: "rgb(125, 120, 120)",
-                                      fontWeight: "400",
-                                      textDecoration: "line-through",
-                                      fontSize: isMobile ? "14px" : "15px",
-                                    }}
-                                  >
-                                    ({store.wasprice})
-                                  </p>
-                                )}
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
 
-                                {/* Stock */}
-                                {store.stock != null && (
-                                  <p
-                                    className={noir.className}
-                                    style={{
-                                      color:
-                                        store.stock === "Out of Stock"
-                                          ? "rgb(225, 37, 27)"
-                                          : "rgb(225, 37, 27)",
-                                      fontWeight: "400",
-                                      fontSize: isMobile ? "14px" : "15px",
-                                    }}
-                                  >
-                                    {store.stock === "Out of Stock"
-                                      ? "Sold Out"
-                                      : store.stock}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
                           )
                         )}
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {snacksAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Snacks, Chips & Candy
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Snacks, Chips & Candy" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+
+                {dairyAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Dairy & Eggs
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Dairy & Eggs" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+
+                {drinksAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Drinks
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Drinks" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+
+                {bakeryAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Bakery
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Bakery" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+
+                {deliAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Deli
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Deli" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {naturalAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Natural and Organic
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Natural and Organic" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {preparedAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Prepared Meals
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Prepared Meals" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {pantryAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Pantry
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Pantry" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {internationalAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      International Foods
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "International Foods" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {meatAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Meat
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Meat" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {fishAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Fish & Seafood
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Fish & Seafood" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+                {frozenAisleCount > 0 && (
+                  <TabPanel>
+                    <h2 id="part4" className={noir.className}>
+                      Frozen Food
+                    </h2>
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      <div className="product-cart-products">
+                        {responseData.length === 0 &&
+                        selectedAll.length != 0 ? (
+                          <NotFound />
+                        ) : (
+                          responseData.map(
+                            (item, index) =>
+                              item.category === "Frozen Food" && (
+                                <div
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
+                                      <Image
+                                        alt={flag}
+                                        height={30}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
+                                      />
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
+                                      style={{
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
+                                    ) : (
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
+                                src={storeIcons[store.storetype]}
+                                width={30}
+                                height={30}
+                              /> */}
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "160px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
+
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
+                                                    style={{
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
+                                                      fontSize: isMobile
+                                                        ? "14px"
+                                                        : "15px",
+                                                    }}
+                                                  >
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
+                                                  </span>
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    fontWeight: "700",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.regprice}
+                                                </p>
+                                              )}
+
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
+
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                          )
+                        )}
+                      </div>
+                    </ul>
+                  </TabPanel>
+                )}
+              </Tabs>
             )}
           </>
         )}
