@@ -1594,7 +1594,7 @@ const showLoading = loading;
           </div>
         )}
 
-        {firstTime && selectedAll.length === 0 && responseData.length === 0 ? (
+        {firstTime && selectedAll.length === 0 && responseData.length === 0 || (selectedAll.length === 0) ? (
           <Ab style={{ marginLeft: "20%", marginRight: "20%" }} />
         ) : (
           <>
