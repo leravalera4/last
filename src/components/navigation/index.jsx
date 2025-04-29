@@ -5,7 +5,6 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import "./style.css";
 import { usePathname } from "next/navigation";
-import icon from "../../app/images/toggleIcon.svg";
 import Image from "next/image";
 
 const noir = localFont({
