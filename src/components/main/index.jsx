@@ -847,7 +847,7 @@ const Products = ({ cartData }) => {
                     color: "black",
                   }}
                 >
-                  Start Comparing
+                  Explore Deals Now
                 </button>
               </Link>
               <p
