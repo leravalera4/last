@@ -7,6 +7,7 @@ import { Playfair } from "next/font/google";
 import Image from "next/image.js";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import NotFound from "../notfound";
 import dynamic from "next/dynamic";
 import SlidingPane from "react-sliding-pane";
 import "react-sliding-pane/dist/react-sliding-pane.css";
