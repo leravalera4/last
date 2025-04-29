@@ -845,6 +845,7 @@ const Products = ({ cartData }) => {
                     padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                     fontSize: isMobile ? "16px" : "14px",
                     color: "black",
+                    borderColor: "black",
                   }}
                 >
                   Explore Deals Now
@@ -868,6 +869,7 @@ const Products = ({ cartData }) => {
                     padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                     fontSize: isMobile ? "16px" : "14px",
                     color: "black",
+                    borderColor: "black",
                   }}
                 >
                   Start Comparing
