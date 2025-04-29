@@ -837,24 +837,19 @@ const Products = ({ cartData }) => {
                 width: isMobile && "100%",
               }}
             >
-              <button
-                style={{
-                  marginRight: "0px",
-                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                }}
-                className={`${noir.className} button-55`}
-              >
-                <Link
+              <Link href="/sale-prices" passHref>
+                <button
+                  className={`${noir.className} button-55`}
                   style={{
+                    marginRight: "0px",
+                    padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                     fontSize: isMobile ? "16px" : "14px",
-                    textDecoration: "none",
                     color: "black",
                   }}
-                  href="/sale-prices"
                 >
-                  Explore Deals Now
-                </Link>
-              </button>
+                  Start Comparing
+                </button>
+              </Link>
               <p
                 style={{
                   fontSize: isMobile ? "16px" : "16px",
