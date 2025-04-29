@@ -865,47 +865,19 @@ const Products = ({ cartData }) => {
               >
                 or
               </p>
-              <button
-                style={{
-                  marginRight: "0px",
-                  padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                }}
-                className={`${noir.className} button-55`}
-                // style={{
-                //   padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                //   borderColor: "black",
-                // }}
-                //   style={{
-                //     outline: "0",
-                //     width: "auto",
-                //     height: "38px",
-                //     cursor: "pointer",
-                //     padding: "5px 16px",
-                //     fontSize: "14px",
-                //     fontWeight: "500",
-                //     lineHeight: "20px",
-                //     verticalAlign: "middle",
-                //     border: "1px solid",
-                //     borderRadius: " 6px",
-                //     color: " #24292e",
-                //     backgroundColor: "#fafbfc",
-                //     borderColor: "#1b1f2326",
-                //     boxShadow:
-                //       "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                //     transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                //   }}
-              >
-                <Link
+              <Link href="/compare-prices" passHref>
+                <button
+                  className={`${noir.className} button-55`}
                   style={{
+                    marginRight: "0px",
+                    padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                     fontSize: isMobile ? "16px" : "14px",
-                    textDecoration: "none",
                     color: "black",
                   }}
-                  href="/compare-prices"
                 >
                   Start Comparing
-                </Link>
-              </button>
+                </button>
+              </Link>
             </div>
             <Abc style={{ marginLeft: "20%", marginRight: "20%" }} />
           </div>
