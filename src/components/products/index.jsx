@@ -348,6 +348,7 @@ const Products = ({ cartData }) => {
 
   const handleButtonClick = async () => {
     setLoading(true);
+    setFirstTime(false);
     const selectedStoresID =
       JSON.parse(sessionStorage.getItem("stores1")) || [];
     try {
