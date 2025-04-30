@@ -830,7 +830,7 @@ const Products = ({ cartData }) => {
             //   paddingLeft: isMobile ? "5%" : "10%",
             // }}
           >
-            <div
+            {isMobile ?             <div
               // className="select-store"
               style={{
                 display: "flex",
@@ -877,7 +877,57 @@ const Products = ({ cartData }) => {
                   Start Comparing
                 </button>
               </Link>
-            </div>
+            </div> :
+                        <div
+                        // className="select-store"
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          width: isMobile && "100%",
+                        }}
+                      >
+                        <Link href="/sale-prices" passHref>
+                          <button
+                            className={`${noir.className} button-55`}
+                            style={{
+                              marginRight: "0px",
+                              padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                              fontSize: isMobile ? "16px" : "16px",
+                              color: "black",
+                              borderColor: "black",
+                            }}
+                          >
+                            Explore Deals Now
+                          </button>
+                        </Link>
+                        <p
+                          style={{
+                            fontSize: isMobile ? "16px" : "16px",
+                            padding: "0px 20px",
+                            margin: "8px",
+                          }}
+                          className={`${noir.className}`}
+                        >
+                          or
+                        </p>
+                        <Link href="/compare-prices" passHref>
+                          <button
+                            className={`${noir.className} button-55`}
+                            style={{
+                              marginRight: "0px",
+                              padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                              fontSize: isMobile ? "16px" : "16px",
+                              color: "black",
+                              borderColor: "black",
+                            }}
+                          >
+                            Start Comparing
+                          </button>
+                        </Link>
+                      </div>
+            }
+
 
             <Abc style={{ marginLeft: "20%", marginRight: "20%" }} />
           </div>
