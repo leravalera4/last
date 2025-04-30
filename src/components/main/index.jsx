@@ -818,6 +818,7 @@ const Products = ({ cartData }) => {
             </span>
           </p>
         )}
+
         {
           <div
             style={{ display: "flex", flexDirection: "column" }}
@@ -832,7 +833,7 @@ const Products = ({ cartData }) => {
               style={{
                 display: "flex",
                 //   width: "320px",
-                flexDirection: isMobile ? "column" : "row",
+                flexDirection: !isMobile ? "row" : "column",
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
@@ -876,6 +877,7 @@ const Products = ({ cartData }) => {
                 </button>
               </Link>
             </div>
+
             <Abc style={{ marginLeft: "20%", marginRight: "20%" }} />
           </div>
         }
