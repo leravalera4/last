@@ -137,17 +137,17 @@ const Products = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   const handleStorage = () => {
@@ -197,17 +197,17 @@ const Products = ({ cartData }) => {
     }
   }, []); // Этот useEffect срабатывает только при монтировании компонента
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      sessionStorage.clear();
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     sessionStorage.clear();
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   useEffect(() => {
     axios
@@ -730,18 +730,18 @@ const Products = ({ cartData }) => {
     }
   };
 
-  React.useEffect(() => {
-    // Call handleResize on mount to set the correct initial state
-    handleResize();
+  // React.useEffect(() => {
+  //   // Call handleResize on mount to set the correct initial state
+  //   handleResize();
 
-    // Add resize event listener
-    window.addEventListener("resize", handleResize);
+  //   // Add resize event listener
+  //   window.addEventListener("resize", handleResize);
 
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []); // Empty dependency array ensures it runs only once on mount
+  //   // Cleanup the event listener on unmount
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []); // Empty dependency array ensures it runs only once on mount
 
   console.log("Response Data", responseData);
 
