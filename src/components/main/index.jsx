@@ -820,30 +820,30 @@ const Products = ({ cartData }) => {
         )}
         {
           <div
-          style={{ display: "flex", flexDirection: !isMobile && "column" }}
-          className="select-container"
-          // style={{
-          //   paddingRight: isMobile ? "5%" : "10%",
-          //   paddingLeft: isMobile ? "5%" : "10%",
-          // }}
-        >
-          <div
-            // className="select-store"
-            style={{
-              display: "flex",
-              //   width: "320px",
-              flexDirection: !isMobile ? "row" : "column",
-              alignItems: "center",
-              width: isMobile && "100%",
-            }}
+            style={{ display: "flex", flexDirection: isMobile && "row" }}
+            className="select-container"
+            // style={{
+            //   paddingRight: isMobile ? "5%" : "10%",
+            //   paddingLeft: isMobile ? "5%" : "10%",
+            // }}
           >
+            <div
+              // className="select-store"
+              style={{
+                display: "flex",
+                //   width: "320px",
+                flexDirection: isMobile ? "column" : "row",
+                alignItems: "center",
+                width: isMobile && "100%",
+              }}
+            >
               <Link href="/sale-prices" passHref>
                 <button
                   className={`${noir.className} button-55`}
                   style={{
                     marginRight: "0px",
                     padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                    fontSize: isMobile ? "16px" : "14px",
+                    fontSize: isMobile ? "16px" : "16px",
                     color: "black",
                     borderColor: "black",
                   }}
@@ -867,7 +867,7 @@ const Products = ({ cartData }) => {
                   style={{
                     marginRight: "0px",
                     padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                    fontSize: isMobile ? "16px" : "14px",
+                    fontSize: isMobile ? "16px" : "16px",
                     color: "black",
                     borderColor: "black",
                   }}
