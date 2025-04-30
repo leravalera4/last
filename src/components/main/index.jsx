@@ -820,7 +820,7 @@ const Products = ({ cartData }) => {
         )}
         {
           <div
-            style={{ display: "flex", flexDirection:"column" }}
+            style={{ display: "flex", flexDirection: "column" }}
             className="select-container"
             // style={{
             //   paddingRight: isMobile ? "5%" : "10%",
@@ -832,7 +832,7 @@ const Products = ({ cartData }) => {
               style={{
                 display: "flex",
                 //   width: "320px",
-                flexDirection: !isMobile ? "row" : "column",
+                flexDirection: isMobile ? "column" : "row",
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
@@ -843,7 +843,7 @@ const Products = ({ cartData }) => {
                   style={{
                     marginRight: "0px",
                     padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                    fontSize: isMobile ? "16px" : "14px",
+                    fontSize: isMobile ? "16px" : "16px",
                     color: "black",
                     borderColor: "black",
                   }}
@@ -867,7 +867,7 @@ const Products = ({ cartData }) => {
                   style={{
                     marginRight: "0px",
                     padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                    fontSize: isMobile ? "16px" : "14px",
+                    fontSize: isMobile ? "16px" : "16px",
                     color: "black",
                     borderColor: "black",
                   }}
