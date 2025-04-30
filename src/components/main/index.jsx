@@ -730,18 +730,18 @@ const Products = ({ cartData }) => {
     }
   };
 
-  // React.useEffect(() => {
-  //   // Call handleResize on mount to set the correct initial state
-  //   handleResize();
+  React.useEffect(() => {
+    // Call handleResize on mount to set the correct initial state
+    handleResize();
 
-  //   // Add resize event listener
-  //   window.addEventListener("resize", handleResize);
+    // Add resize event listener
+    window.addEventListener("resize", handleResize);
 
-  //   // Cleanup the event listener on unmount
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []); // Empty dependency array ensures it runs only once on mount
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   console.log("Response Data", responseData);
 
@@ -788,7 +788,6 @@ const Products = ({ cartData }) => {
             </p>
           </>
         )}
-
         {isMobile && (
           <h2
             style={{
@@ -801,7 +800,6 @@ const Products = ({ cartData }) => {
             ShoppyScan
           </h2>
         )}
-
         {isMobile && (
           <p
             style={{
@@ -820,7 +818,6 @@ const Products = ({ cartData }) => {
             </span>
           </p>
         )}
-
         {
           <div
             style={{ display: "flex", flexDirection: "column" }}
@@ -830,104 +827,105 @@ const Products = ({ cartData }) => {
             //   paddingLeft: isMobile ? "5%" : "10%",
             // }}
           >
-            {isMobile ?             <div
-              // className="select-store"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: isMobile && "100%",
-              }}
-            >
-              <Link href="/sale-prices" passHref>
-                <button
-                  className={`${noir.className} button-55`}
-                  style={{
-                    marginRight: "0px",
-                    padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                    fontSize: isMobile ? "16px" : "16px",
-                    color: "black",
-                    borderColor: "black",
-                  }}
-                >
-                  Explore Deals Now
-                </button>
-              </Link>
-              <p
+            {isMobile ? (
+              <div
+                // className="select-store"
                 style={{
-                  fontSize: isMobile ? "16px" : "16px",
-                  padding: "0px 20px",
-                  margin: "8px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: isMobile && "100%",
                 }}
-                className={`${noir.className}`}
               >
-                or
-              </p>
-              <Link href="/compare-prices" passHref>
-                <button
-                  className={`${noir.className} button-55`}
+                <Link href="/sale-prices" passHref>
+                  <button
+                    className={`${noir.className} button-55`}
+                    style={{
+                      marginRight: "0px",
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      fontSize: isMobile ? "16px" : "16px",
+                      color: "black",
+                      borderColor: "black",
+                    }}
+                  >
+                    Explore Deals Now
+                  </button>
+                </Link>
+                <p
                   style={{
-                    marginRight: "0px",
-                    padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                     fontSize: isMobile ? "16px" : "16px",
-                    color: "black",
-                    borderColor: "black",
+                    padding: "0px 20px",
+                    margin: "8px",
                   }}
+                  className={`${noir.className}`}
                 >
-                  Start Comparing
-                </button>
-              </Link>
-            </div> :
-                        <div
-                        // className="select-store"
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          width: isMobile && "100%",
-                        }}
-                      >
-                        <Link href="/sale-prices" passHref>
-                          <button
-                            className={`${noir.className} button-55`}
-                            style={{
-                              marginRight: "0px",
-                              padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                              fontSize: isMobile ? "16px" : "16px",
-                              color: "black",
-                              borderColor: "black",
-                            }}
-                          >
-                            Explore Deals Now
-                          </button>
-                        </Link>
-                        <p
-                          style={{
-                            fontSize: isMobile ? "16px" : "16px",
-                            padding: "0px 20px",
-                            margin: "8px",
-                          }}
-                          className={`${noir.className}`}
-                        >
-                          or
-                        </p>
-                        <Link href="/compare-prices" passHref>
-                          <button
-                            className={`${noir.className} button-55`}
-                            style={{
-                              marginRight: "0px",
-                              padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                              fontSize: isMobile ? "16px" : "16px",
-                              color: "black",
-                              borderColor: "black",
-                            }}
-                          >
-                            Start Comparing
-                          </button>
-                        </Link>
-                      </div>
-            }
-
+                  or
+                </p>
+                <Link href="/compare-prices" passHref>
+                  <button
+                    className={`${noir.className} button-55`}
+                    style={{
+                      marginRight: "0px",
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      fontSize: isMobile ? "16px" : "16px",
+                      color: "black",
+                      borderColor: "black",
+                    }}
+                  >
+                    Start Comparing
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div
+                // className="select-store"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: isMobile && "100%",
+                }}
+              >
+                <Link href="/sale-prices" passHref>
+                  <button
+                    className={`${noir.className} button-55`}
+                    style={{
+                      marginRight: "0px",
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      fontSize: isMobile ? "16px" : "16px",
+                      color: "black",
+                      borderColor: "black",
+                    }}
+                  >
+                    Explore Deals Now
+                  </button>
+                </Link>
+                <p
+                  style={{
+                    fontSize: isMobile ? "16px" : "16px",
+                    padding: "0px 20px",
+                    margin: "8px",
+                  }}
+                  className={`${noir.className}`}
+                >
+                  or
+                </p>
+                <Link href="/compare-prices" passHref>
+                  <button
+                    className={`${noir.className} button-55`}
+                    style={{
+                      marginRight: "0px",
+                      padding: "0.375rem 0.9rem 0.375rem 0.75rem",
+                      fontSize: isMobile ? "16px" : "16px",
+                      color: "black",
+                      borderColor: "black",
+                    }}
+                  >
+                    Start Comparing
+                  </button>
+                </Link>
+              </div>
+            )}
 
             <Abc style={{ marginLeft: "20%", marginRight: "20%" }} />
           </div>
