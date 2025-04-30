@@ -788,6 +788,7 @@ const Products = ({ cartData }) => {
             </p>
           </>
         )}
+
         {isMobile && (
           <h2
             style={{
@@ -800,6 +801,7 @@ const Products = ({ cartData }) => {
             ShoppyScan
           </h2>
         )}
+
         {isMobile && (
           <p
             style={{
@@ -818,6 +820,7 @@ const Products = ({ cartData }) => {
             </span>
           </p>
         )}
+
         {
           <div
             style={{ display: "flex", flexDirection: "column" }}
@@ -831,7 +834,7 @@ const Products = ({ cartData }) => {
               // className="select-store"
               style={{
                 display: "flex",
-                flexDirection: isMobile ? "column" : '',
+                flexDirection: "column",
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
