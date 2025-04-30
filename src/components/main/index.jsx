@@ -820,7 +820,7 @@ const Products = ({ cartData }) => {
         )}
         {
           <div
-            style={{ display: "flex", flexDirection: isMobile && "column" }}
+            style={{ display: "flex", flexDirection:"column" }}
             className="select-container"
             // style={{
             //   paddingRight: isMobile ? "5%" : "10%",
