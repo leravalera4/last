@@ -833,7 +833,7 @@ const Products = ({ cartData }) => {
               style={{
                 display: "flex",
                 //   width: "320px",
-                flexDirection: !isMobile ? "row" : "column",
+                flexDirection: isMobile && "column",
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
