@@ -818,7 +818,6 @@ const Products = ({ cartData }) => {
             </span>
           </p>
         )}
-
         {
           <div
             style={{ display: "flex", flexDirection: "column" }}
@@ -832,8 +831,7 @@ const Products = ({ cartData }) => {
               // className="select-store"
               style={{
                 display: "flex",
-                //   width: "320px",
-                flexDirection: isMobile && "column",
+                flexDirection: isMobile ? "column" : '',
                 alignItems: "center",
                 width: isMobile && "100%",
               }}
