@@ -62,9 +62,7 @@ function Tour() {
         },
         spotlight: {
           backgroundColor: "#ffffff70",
-        },
-        options: {
-          zIndex: 100,
+          zIndex:'10'
         },
       }}
       showProgress={true}

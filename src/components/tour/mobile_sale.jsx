@@ -4,29 +4,23 @@ import Joyride from "react-joyride";
 import React, { useState, useEffect } from "react";
 
 const steps = [
-  {
-    target:
-      "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(2)",
-    content: "Add multiple stores for price comparing",
-    //disableBeacon: true, // Убедитесь, что beacon включен
-    // spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
-    spotlight: true,
-  },
-  {
-    target:
-      "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > button",
-    content: "Add iteem to the list for price comparing",
-    //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
-    spotlight: true,
-  },
-  {
-    target:
-      "body > div.headroom-wrapper > div > header > div:nth-child(3) > div",
-    content: "All your added items are stored here",
-    //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
-    spotlight: true,
-  },
-];
+    {
+      target: "body > div.headroom-wrapper > div > header > div:nth-child(2)",
+      content: "Use these button to navigate between tabs.",
+      spotlight: true,
+    },
+    {
+      target: "body > div.headroom-wrapper > div > header > div:nth-child(1) > a:nth-child(1)",
+      content: "Click here to return to the homepage at any time.",
+      spotlight: true,
+    },
+    {
+      target: "body > div.headroom-wrapper > div > header > div.cart > div",
+      content: "This is your cart — all selected items appear here.",
+      spotlight: true,
+    },
+  ];
+  
 
 function Tour() {
   const [run, setRun] = useState(false);

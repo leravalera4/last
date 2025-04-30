@@ -23,6 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Popup from "../pop-up/index.jsx";
 import plus from "../../app/images/plus_no.svg";
 import minus from "../../app/images/minus_no.svg";
+import Mobile from "../tour/mobile_sale";
 
 //import { useContext } from "react";
 //import { AppContext } from '../../app/context'
@@ -1061,6 +1062,8 @@ const Index = () => {
     >
       {responseData.length > 0 && !isMobile ? (
         <Tour style={{ zIndex: "10" }} />
+      ) : isMobile && firstTime ? (
+        <Mobile style={{ zIndex: "10" }} />
       ) : (
         <FirstTime style={{ zIndex: "10" }} />
       )}

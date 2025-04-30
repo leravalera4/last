@@ -11,21 +11,21 @@ const steps = [
   // },
   {
     target:
-      "body > main > div > div > div > div > div:nth-child(1) > button:nth-child(1)",
+      "body > main > div > div > div.container > button",
     content: "ShoppyScan will show you a list of nearby stores — personalized to your location. If location access is allowed, we'll detect your nearest stores automatically. If not, you can search by city manually.",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
     target:
-      "body > main > div > div > div > div > div:nth-child(1) > button:nth-child(3)",
+      "body > main > div > div > div.container > select",
     content: "Select storetype (e.g., No Frills) or pick from the popular store options. Once selected, the deals below will show based on your choice.",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
   },
   {
     target:
-      "body > div.headroom-wrapper > div > header > div:nth-child(2) > nav",
+      "body > div.headroom-wrapper > div > header > div:nth-child(2) > nav > a.__className_91264f.link",
     content: "Click it to view a side-by-side breakdown of prices across different retailers — including sale and regular prices.",
     //spotlightClicks: true, // Опционально, чтобы выделить элемент при клике
     spotlight: true,
@@ -63,7 +63,6 @@ function FirstTime() {
       localStorage.setItem("firstTime", "true");
     }
   }, []);
-
   return (
     <Joyride
       steps={steps}
