@@ -820,23 +820,23 @@ const Products = ({ cartData }) => {
         )}
         {
           <div
-            style={{ display: "flex", flexDirection: !isMobile && "column" }}
-            className="select-container"
-            // style={{
-            //   paddingRight: isMobile ? "5%" : "10%",
-            //   paddingLeft: isMobile ? "5%" : "10%",
-            // }}
+          style={{ display: "flex", flexDirection: !isMobile && "column" }}
+          className="select-container"
+          // style={{
+          //   paddingRight: isMobile ? "5%" : "10%",
+          //   paddingLeft: isMobile ? "5%" : "10%",
+          // }}
+        >
+          <div
+            // className="select-store"
+            style={{
+              display: "flex",
+              //   width: "320px",
+              flexDirection: !isMobile ? "row" : "column",
+              alignItems: "center",
+              width: isMobile && "100%",
+            }}
           >
-            <div
-              // className="select-store"
-              style={{
-                display: "flex",
-                //   width: "320px",
-                flexDirection: !isMobile ? "row" : "column",
-                alignItems: "center",
-                width: isMobile && "100%",
-              }}
-            >
               <Link href="/sale-prices" passHref>
                 <button
                   className={`${noir.className} button-55`}
