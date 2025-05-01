@@ -1053,6 +1053,30 @@ const Index = () => {
 
   if (!mounted) return null;
 
+  const removeStore = (storeId) => {
+    const data = JSON.parse(sessionStorage.getItem("stores1"));
+    let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+
+    if (!updatedData) {
+      updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+    }
+    const updatedData1 = updatedData.filter((store) => store.id != storeId);
+    sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+    sessionStorage.setItem("storesName", JSON.stringify(updatedData1));
+    // setSelectedAll(updatedData1);
+    const da = data.filter((store) => store != storeId);
+    sessionStorage.setItem("stores1", JSON.stringify(da));
+    sessionStorage.setItem("stores", JSON.stringify(da));
+    sessionStorage.setItem("cartIDs", JSON.stringify(da));
+    setStoreSale(selectedAll.map((item) => item.location));
+    // setSelectedStoresID(da);
+    // setSelectedStores(selectedAll);
+    //handleButtonClick();
+    //setIsRemoveAction(true);
+    window.dispatchEvent(new Event("storage"));
+  };
+
   return (
     <div
       style={{
