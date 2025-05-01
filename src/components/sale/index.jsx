@@ -1723,8 +1723,9 @@ const Index = () => {
                     backgroundColor: "transparent",
                     flexDirection: isMobile && "column",
                     alignItems: !isMobile && "flex-start",
+                    color: activeButtons[index] && "#4B6F4C"
                   }}
-                  className={activeButtons[index] && "button-active"}
+                  // className={activeButtons[index] && "button-active"}
                   onClick={() => {
                     handleStoreClick(store, index);
                   }}
