@@ -24,6 +24,7 @@ import Popup from "../pop-up/index.jsx";
 import plus from "../../app/images/plus_no.svg";
 import minus from "../../app/images/minus_no.svg";
 import Mobile from "../tour/mobile_sale";
+import del from "../../app/images/de.svg";
 
 //import { useContext } from "react";
 //import { AppContext } from '../../app/context'
@@ -1683,55 +1684,62 @@ const Index = () => {
           )}
           <div style={{ display: "flex", flexDirection: "row" }}>
             {storeSale.map((store, index) => (
-              <button
+              <div
                 className={activeButtons[index] ? "button-active" : "button-55"}
                 style={{
-                  display: "inline-flex",
-                  fontSize: "14px",
-                  padding: !isMobile && "0.150rem 0.375rem 0.150rem 0.375rem",
-                  flexDirection: isMobile && "column",
-                  width: isMobile && "33%",
-                  height: "100%",
-                  borderColor: isMobile && "black",
+                  display: "flex",
+                  flexDirection: isMobile ? "column-reverse" : "row",
+                  alignItems: "center",
+                  marginRight: isMobile && "5px",
                 }}
-                onClick={() => {
-                  handleStoreClick(store, index);
-                }}
-                // style={{
-                //   outline: "0px",
-                //   display: "flex",
-                //   cursor: "pointer",
-                //   padding: "5px 16px",
-                //   fontSize: "13px",
-                //   fontWeight: "500",
-                //   lineHeight: "20px",
-                //   verticalAlign: "middle",
-                //   border: "1px solid rgba(27, 31, 35, 0.15)",
-                //   borderRadius: "6px",
-                //   color: "rgb(36, 41, 46)",
-                //   backgroundColor: "rgb(250, 251, 252)",
-                //   boxShadow:
-                //     "rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
-                //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                //   flexDirection: "row",
-                //   marginRight: "12px",
-                //  }}
-                key={store.id}
               >
-                {
-                  <p
-                    className={noir.className}
-                    style={{ fontWeight: "700", paddingRight: "4px" }}
-                  >
-                    {store.store}:{" "}
+                <button
+                  style={{
+                    border: "none",
+                    backgroundColor: "transparent",
+                    flexDirection: isMobile && "column",
+                    alignItems: !isMobile && "flex-start",
+                  }}
+                  className={activeButtons[index] && "button-active"}
+                  onClick={() => {
+                    handleStoreClick(store, index);
+                  }}
+                  key={store.id}
+                >
+                  {
+                    <p
+                      className={noir.className}
+                      style={{ fontWeight: "700", paddingRight: "4px" }}
+                    >
+                      {store.store}:{" "}
+                    </p>
+                  }
+                  <p className={noir.className}>
+                    {" "}
+                    {store.location}, {store.city} <br />
+                    {store.distance ? ` (${store.distance.toFixed(2)} km)` : ""}
                   </p>
-                }
-                <p className={noir.className}>
-                  {" "}
-                  {store.location}, {store.city}
-                  {store.distance ? ` (${store.distance.toFixed(2)} km)` : ""}
-                </p>
-              </button>
+                </button>
+                <button
+                  style={{
+                    outline: "0px",
+                    // marginLeft: "20px"
+                    fontSize: isMobile ? "14px" : "15px",
+                    fontWeight: "500",
+                    lineHeight: "20px",
+                    verticalAlign: "middle",
+                    color: "red",
+                    border: "0px",
+                    cursor: "pointer",
+                    backgroundColor: "transparent",
+                  }}
+                  className={noir.className}
+                  onClick={() => removeStore(store.id)}
+                  title="Delete Store"
+                >
+                  <Image src={del} width={30} height={30} alt="delete" />
+                </button>
+              </div>
             ))}
           </div>
         </div>
