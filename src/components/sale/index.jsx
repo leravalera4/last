@@ -4908,10 +4908,10 @@ const Index = () => {
         <Location style={{ paddingLeft: "10%", paddingRight: "10px" }} />
       ) : loading && firstTime ? ( // Теперь проверяем сначала, если загрузка идет
         <Loading style={{ paddingLeft: "10%", paddingRight: "10px" }} />
-      ) : firstTime ? (
+      ) : firstTime && responseData.length === 0 ? (
         <About />
       ) : (
-        responseData.length === 0 && <div
+         <div
           style={{
             display: "flex",
             flexDirection: "column",
@@ -4921,7 +4921,7 @@ const Index = () => {
         >
           <Image width={250} height={250} src={error} />
           <p style={{ fontSize: "40px" }} className={noir.className}>
-            LALALA
+            No products found
           </p>
         </div>
       )}
