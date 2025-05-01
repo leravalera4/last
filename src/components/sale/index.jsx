@@ -1737,12 +1737,12 @@ const Index = () => {
                   {
                     <p
                       className={noir.className}
-                      style={{ fontWeight: "700", paddingRight: "4px",fontSize:'16px', color: activeButtons[index] ? "#4B6F4C" : 'black' }}
+                      style={{ fontWeight: "700", paddingRight: "4px",fontSize:'14px', color: activeButtons[index] ? "#4B6F4C" : 'black' }}
                     >
                       {store.store}:{" "}
                     </p>
                   }
-                  <p style={{fontSize:'16px', color: activeButtons[index] ? "#4B6F4C" : 'black'}} className={noir.className}>
+                  <p style={{fontSize:'14px', color: activeButtons[index] ? "#4B6F4C" : 'black'}} className={noir.className}>
                     {" "}
                     {store.location}, {store.city} <br />
                     {store.distance ? ` (${store.distance.toFixed(2)} km)` : ""}
