@@ -1718,6 +1718,7 @@ const Index = () => {
                   flexDirection: isMobile ? "column-reverse" : "row",
                   alignItems: "center",
                   marginRight: isMobile && "5px",
+                  border:"black"
                 }}
               >
                 <button
@@ -1726,7 +1727,6 @@ const Index = () => {
                     backgroundColor: "transparent",
                     flexDirection: isMobile && "column",
                     alignItems: !isMobile && "flex-start",
-                    color: activeButtons[index] && "#4B6F4C",
                   }}
                   // className={activeButtons[index] && "button-active"}
                   onClick={() => {
@@ -1737,12 +1737,12 @@ const Index = () => {
                   {
                     <p
                       className={noir.className}
-                      style={{ fontWeight: "700", paddingRight: "4px" }}
+                      style={{ fontWeight: "700", paddingRight: "4px",fontSize:'16px', color: activeButtons[index] ? "#4B6F4C" : 'black' }}
                     >
                       {store.store}:{" "}
                     </p>
                   }
-                  <p className={noir.className}>
+                  <p style={{fontSize:'16px', color: activeButtons[index] ? "#4B6F4C" : 'black'}} className={noir.className}>
                     {" "}
                     {store.location}, {store.city} <br />
                     {store.distance ? ` (${store.distance.toFixed(2)} km)` : ""}
