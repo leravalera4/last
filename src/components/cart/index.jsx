@@ -410,6 +410,13 @@ const Cart = () => {
   //   window.dispatchEvent(new Event("storage"));
   // };
 
+  const clearProducts = () => {
+    sessionStorage.setItem("cart", JSON.stringify([]));
+    sessionStorage.setItem("names", JSON.stringify([]));
+    sessionStorage.setItem("cartObj", JSON.stringify([]));
+    window.dispatchEvent(new Event("storage"));
+  };
+
   const increaseQuantity = (itemId) => {
     const updatedResponse = response.map((store) => {
       const updatedItems = store.items.map((item) => {
@@ -795,13 +802,53 @@ const Cart = () => {
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <div style={{ paddingTop: "10%" }}>
-                      <p
-                        style={{
-                          alignContent: "center",
-                        }}
-                      >
-                        <b>Products</b>
-                      </p>
+                    <div>
+                        <p
+                          style={{
+                            alignContent: "center",
+                          }}
+                        >
+                          <b>Products</b>
+                        </p>
+                        <button
+                         onClick={() => clearProducts()}
+                          className={noir.className}
+                          style={{
+                            backgroundColor: "#fff",
+                            backgroundImage: "none",
+                            backgroundPosition: "0 90%",
+                            backgroundRepeat: "repeat no-repeat",
+                            backgroundSize: " 4px 3px",
+                            borderRadius:
+                              "15px 225px 255px 15px 15px 255px 225px 15px",
+                            borderStyle: "solid",
+                            borderWidth: "2px",
+                            boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
+                            boxSizing: "border-box",
+                            color: "#41403e",
+                            cursor: "pointer",
+                            fontSize: "14px",
+                            padding: ".75rem",
+                            textDecoration: "none",
+                            transition: "all 235ms ease-in-out",
+                            borderBottomLeftRadius: " 15px 255px",
+                            borderBottomRightRadius: "225px 15px",
+                            borderTopLeftRadius: "255px 15px",
+                            borderTopRightRadius: "15px 225px",
+                            touchAction: "manipulation",
+                            marginRight: "20px",
+                            marginLeft: "auto",
+                            width: "190px",
+                            height: "38px",
+                            padding: "5px 16px",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          Clean product List
+                        </button>
+                      </div>
                       {response &&
                         response.length != null &&
                         response[0].items.map((item, index) => {
