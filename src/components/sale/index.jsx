@@ -138,23 +138,31 @@ const Index = () => {
   }
 
   React.useEffect(() => {
-    window.addEventListener("storage", () => {
-      //const theme = JSON.parse(localStorage.getItem('stores'))
-      const sale = JSON.parse(sessionStorage.getItem("sale"));
-      //  const responseData = JSON.parse(localStorage.getItem("responseData"));
-      //   const special = JSON.parse(sessionStorage.getItem("special"));
+    const handleStorage = () => {
       const names = JSON.parse(sessionStorage.getItem("names"));
-      setProductNames(names);
-
+      const cartIDs = JSON.parse(sessionStorage.getItem("cartIDs"));
       const storeSale = JSON.parse(sessionStorage.getItem("storeSale"));
+      const cart = JSON.parse(sessionStorage.getItem("cart"));
+      const cartObj = JSON.parse(sessionStorage.getItem("cartObj"));
+      setProductNames(names);
       setStoreSale(storeSale);
+      if (cart && cart.length === 0) {
+        setProductCounts(cartObj);
+      }
+      if (cartIDs && cartIDs.length === 0) {
+        setProductCounts([]);
+        setResponseData([]);
+      }
+
+      console.log("PRODUCT_COUNTS", productCounts);
       sessionStorage.setItem("sel", JSON.stringify(storeSale));
-      //   setSpecial(special);
-      // setSelectedStore(sale.store);
-      // setSelectedLocation(sale.location);
-      //  setResponseData(responseData);
-    });
-  }, [selectedLocation, productNames, selectedCity]);
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, []);
 
   console.log("STORE_SALE", storeSale);
 
@@ -570,7 +578,6 @@ const Index = () => {
     //setSelectedLocation(null);
   };
 
-
   useEffect(() => {
     const handleBeforeUnload = () => {
       // Проверяем, был ли переход или именно обновление
@@ -578,9 +585,9 @@ const Index = () => {
         sessionStorage.clear();
       }
     };
-  
+
     window.addEventListener("beforeunload", handleBeforeUnload);
-  
+
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
@@ -608,14 +615,13 @@ const Index = () => {
   //   };
   // }, []);
 
-// useEffect(() => {
-//   const navType = window.performance.getEntriesByType("navigation")[0]?.type;
+  // useEffect(() => {
+  //   const navType = window.performance.getEntriesByType("navigation")[0]?.type;
 
-//   if (navType === "reload") {
-//     sessionStorage.clear();
-//   }
-// }, []);
-  
+  //   if (navType === "reload") {
+  //     sessionStorage.clear();
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (
@@ -645,7 +651,6 @@ const Index = () => {
       JSON.parse(sessionStorage.getItem("storeSale")) || [];
 
     const cartObj = JSON.parse(sessionStorage.getItem("cartObj")) || [];
-    
 
     setArrayOfStores(arrayOfStores); //id из корзины
     setArrayOfStores1(arrayOfStores1); //id из корзины
@@ -1647,24 +1652,20 @@ const Index = () => {
                     marginRight: isMobile && "0px",
                     fontSize: isMobile && "16px",
                     borderColor:
-                    len === 3 && checkForStore === false
-                      ? "#ddd"
-                      : isMobile
-                      ? "black"
-                      : undefined, // Если ни одно условие не выполняется, убираем свойство
-                  cursor:
-                    len === 3 && checkForStore === false
-                      ? "not-allowed"
-                      : "pointer",
-                  color:
-                    len === 3 && checkForStore === false
-                      ? "#ccc"
-                      : undefined,
-                }}
-                disabled={
-                  len === 3 && checkForStore === false
-                }
-                  
+                      len === 3 && checkForStore === false
+                        ? "#ddd"
+                        : isMobile
+                        ? "black"
+                        : undefined, // Если ни одно условие не выполняется, убираем свойство
+                    cursor:
+                      len === 3 && checkForStore === false
+                        ? "not-allowed"
+                        : "pointer",
+                    color:
+                      len === 3 && checkForStore === false ? "#ccc" : undefined,
+                  }}
+                  disabled={len === 3 && checkForStore === false}
+
                   //   style={{
                   //     outline: "0",
                   //     cursor: "pointer",
@@ -1723,7 +1724,7 @@ const Index = () => {
                     backgroundColor: "transparent",
                     flexDirection: isMobile && "column",
                     alignItems: !isMobile && "flex-start",
-                    color: activeButtons[index] && "#4B6F4C"
+                    color: activeButtons[index] && "#4B6F4C",
                   }}
                   // className={activeButtons[index] && "button-active"}
                   onClick={() => {
@@ -2165,9 +2166,9 @@ const Index = () => {
                                         style={{
                                           marginRight: "10px",
                                           marginLeft: "10px",
-                                          fontFamiy:"monospace",
-                                          width: isMobile ? "20px" :"40px",
-                                          textAlign: "center"
+                                          fontFamiy: "monospace",
+                                          width: isMobile ? "20px" : "40px",
+                                          textAlign: "center",
                                         }}
                                       >
                                         {productCounts[item.productID]}
@@ -2188,7 +2189,7 @@ const Index = () => {
                                           backgroundColor: "transparent",
                                         }}
                                       >
-                                         <Image
+                                        <Image
                                           width={20}
                                           height={30}
                                           src={plus}
