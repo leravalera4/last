@@ -1291,15 +1291,62 @@ const Cart = () => {
             ) : (
               <div style={{ display: "flex" }}>
                 <div ref={targetRef}>
-                  <p
+                <div
                     style={{
-                      width: "144px",
-                      height: "131px",
-                      alignContent: "center",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                     }}
                   >
-                    <b>Products</b>
-                  </p>
+                    <p
+                      style={{
+                        width: "144px",
+                        height: "131px",
+                        alignContent: "center",
+                      }}
+                    >
+                      <b>Products</b>
+                    </p>
+                    <button
+                      onClick={() => clearProducts()}
+                      className={noir.className}
+                      style={{
+                        backgroundColor: "#fff",
+                        backgroundImage: "none",
+                        backgroundPosition: "0 90%",
+                        backgroundRepeat: "repeat no-repeat",
+                        backgroundSize: " 4px 3px",
+                        borderRadius:
+                          "15px 225px 255px 15px 15px 255px 225px 15px",
+                        borderStyle: "solid",
+                        borderWidth: "2px",
+                        boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
+                        boxSizing: "border-box",
+                        color: "#41403e",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        padding: ".75rem",
+                        textDecoration: "none",
+                        transition: "all 235ms ease-in-out",
+                        borderBottomLeftRadius: " 15px 255px",
+                        borderBottomRightRadius: "225px 15px",
+                        borderTopLeftRadius: "255px 15px",
+                        borderTopRightRadius: "15px 225px",
+                        touchAction: "manipulation",
+                        marginRight: "20px",
+                        marginLeft: "auto",
+                        width: "190px",
+                        height: "38px",
+                        padding: "5px 16px",
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      Clean product List
+                    </button>
+                  </div>
                   {response.length != null &&
                     response[0].items.map((item, index) => {
                       // Проверка на наличие изображения

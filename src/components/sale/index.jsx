@@ -4911,7 +4911,7 @@ const Index = () => {
       ) : firstTime ? (
         <About />
       ) : (
-        <div
+        responseData.length === 0 && <div
           style={{
             display: "flex",
             flexDirection: "column",
@@ -4921,7 +4921,7 @@ const Index = () => {
         >
           <Image width={250} height={250} src={error} />
           <p style={{ fontSize: "40px" }} className={noir.className}>
-            No products found
+            LALALA
           </p>
         </div>
       )}
