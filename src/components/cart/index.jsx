@@ -802,7 +802,7 @@ const Cart = () => {
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <div style={{ paddingTop: "10%" }}>
-                    <div>
+                    <div style={{display: "flex",alignItems: "center"}}>
                         <p
                           style={{
                             alignContent: "center",
@@ -816,6 +816,7 @@ const Cart = () => {
                           style={{
                             backgroundColor: "#fff",
                             backgroundImage: "none",
+                            borderColor:'black',
                             backgroundPosition: "0 90%",
                             backgroundRepeat: "repeat no-repeat",
                             backgroundSize: " 4px 3px",
@@ -836,7 +837,6 @@ const Cart = () => {
                             borderTopLeftRadius: "255px 15px",
                             borderTopRightRadius: "15px 225px",
                             touchAction: "manipulation",
-                            marginRight: "20px",
                             marginLeft: "auto",
                             width: "190px",
                             height: "38px",
@@ -1314,6 +1314,7 @@ const Cart = () => {
                       style={{
                         backgroundColor: "#fff",
                         backgroundImage: "none",
+                        borderColor:'black',
                         backgroundPosition: "0 90%",
                         backgroundRepeat: "repeat no-repeat",
                         backgroundSize: " 4px 3px",
@@ -1334,7 +1335,6 @@ const Cart = () => {
                         borderTopLeftRadius: "255px 15px",
                         borderTopRightRadius: "15px 225px",
                         touchAction: "manipulation",
-                        marginRight: "20px",
                         marginLeft: "auto",
                         width: "190px",
                         height: "38px",

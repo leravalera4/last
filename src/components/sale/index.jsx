@@ -1718,7 +1718,7 @@ const Index = () => {
                   flexDirection: isMobile ? "column-reverse" : "row",
                   alignItems: "center",
                   marginRight: isMobile && "5px",
-                  border:"black"
+                  borderColor:"black"
                 }}
               >
                 <button
