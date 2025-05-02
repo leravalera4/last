@@ -1494,7 +1494,7 @@ const Cart = () => {
                             style={{
                               textAlign: "center",
                               width: "144px",
-                              height: "99px",
+                              height: "109px",
                               alignContent: "center",
                             }}
                           >
