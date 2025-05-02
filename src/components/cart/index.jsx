@@ -200,31 +200,43 @@ const Cart = () => {
   };
 
   const removeStore = (storeId) => {
-    const updatedData = response.filter((store) => store.id != storeId);
-    setResponseData(updatedData);
-    const get = JSON.parse(sessionStorage.getItem("cartIDs"));
-    const sel = JSON.parse(sessionStorage.getItem("sel"));
-    const st = JSON.parse(sessionStorage.getItem("storesLength"));
-    let updatedSel;
-    if (sel) {
-      updatedSel = sel.filter((store) => store.id != storeId);
+    const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
+    let updatedData = JSON.parse(sessionStorage.getItem("sel"));
+  
+    if (!updatedData) {
+      updatedData = JSON.parse(sessionStorage.getItem("storesName")) || [];
     }
-    const change = st - 1;
-    setChange(change);
-    if (change === 0) {
-      sessionStorage.removeItem("cart");
-      sessionStorage.removeItem("names");
-    }
-    console.log("CHANGE", change);
-    const da = get.filter((store) => store != storeId);
-    sessionStorage.setItem("cartIDs", JSON.stringify(da));
+  
+    // Фильтруем удаляемый магазин
+    const updatedData1 = updatedData.filter((store) => store.id != storeId);
+    const da = data.filter((id) => id != storeId);
+  
+    // Обновляем sessionStorage
+    sessionStorage.setItem("sel", JSON.stringify(updatedData1));
+    sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
+    sessionStorage.setItem("storesName", JSON.stringify(updatedData1));
     sessionStorage.setItem("stores1", JSON.stringify(da));
-    sessionStorage.setItem("sel", JSON.stringify(updatedSel));
-    sessionStorage.setItem("storeSale", JSON.stringify(updatedSel));
-    sessionStorage.setItem("storesName", JSON.stringify(updatedSel));
-    sessionStorage.setItem("stores", JSON.stringify(da)); //changed
-    sessionStorage.setItem("storesLength", JSON.stringify(change));
+    sessionStorage.setItem("stores", JSON.stringify(da));
+    sessionStorage.setItem("cartIDs", JSON.stringify(da));
+  
+    // Обновляем UI
+    setStoreSale(updatedData1.map((item) => item.location));
     window.dispatchEvent(new Event("storage"));
+  
+    // Если остались магазины — кликни на первый
+    if (updatedData1.length > 0) {
+      const nextStore = updatedData1[0];
+      const index = updatedData1.findIndex((s) => s.id === nextStore.id);
+      handleStoreClick(nextStore, index);
+    } else {
+      // Если магазинов не осталось — очисти UI
+      setSelectedStore(null);
+      setSelectedLocation(null);
+      setSelectedCity(null);
+      setCities([]);
+      setLocations([]);
+      setSelectedLocationsObject({});
+    }
   };
 
   const removeProduct = (productID) => {
