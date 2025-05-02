@@ -594,27 +594,43 @@ const Index = () => {
   }, []);
 
   const removeStore = (storeId) => {
-    const data = JSON.parse(sessionStorage.getItem("stores1"));
+    const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
     let updatedData = JSON.parse(sessionStorage.getItem("sel"));
-
+  
     if (!updatedData) {
-      updatedData = JSON.parse(sessionStorage.getItem("storesName"));
+      updatedData = JSON.parse(sessionStorage.getItem("storesName")) || [];
     }
+  
+    // Фильтруем удаляемый магазин
     const updatedData1 = updatedData.filter((store) => store.id != storeId);
+    const da = data.filter((id) => id != storeId);
+  
+    // Обновляем sessionStorage
     sessionStorage.setItem("sel", JSON.stringify(updatedData1));
     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
     sessionStorage.setItem("storesName", JSON.stringify(updatedData1));
-    // setSelectedAll(updatedData1);
-    const da = data.filter((store) => store != storeId);
     sessionStorage.setItem("stores1", JSON.stringify(da));
     sessionStorage.setItem("stores", JSON.stringify(da));
     sessionStorage.setItem("cartIDs", JSON.stringify(da));
-    setStoreSale(selectedAll.map((item) => item.location));
-    // setSelectedStoresID(da);
-    // setSelectedStores(selectedAll);
-    //handleButtonClick();
-    //setIsRemoveAction(true);
+  
+    // Обновляем UI
+    setStoreSale(updatedData1.map((item) => item.location));
     window.dispatchEvent(new Event("storage"));
+  
+    // Если остались магазины — кликни на первый
+    if (updatedData1.length > 0) {
+      const nextStore = updatedData1[0];
+      const index = updatedData1.findIndex((s) => s.id === nextStore.id);
+      handleStoreClick(nextStore, index);
+    } else {
+      // Если магазинов не осталось — очисти UI
+      setSelectedStore(null);
+      setSelectedLocation(null);
+      setSelectedCity(null);
+      setCities([]);
+      setLocations([]);
+      setSelectedLocationsObject({});
+    }
   };
 
   // useEffect(() => {
