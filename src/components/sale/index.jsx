@@ -593,18 +593,6 @@ const Index = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (data.length === 0) {
-      setSelectedStore(null);
-      setSelectedLocation(null);
-      setSelectedCity(null);
-      setCities([]);
-      setLocations([]);
-      setSelectedLocationsObject({});
-      sessionStorage.clear();
-    }
-  }, [data]);
-
 
   useEffect(() => {
     const saleStores = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
@@ -620,7 +608,7 @@ const Index = () => {
   
       console.log("Все магазины удалены — сброс состояний");
     }
-  }, [saleStores]);
+  }, []);
 
   const removeStore = (storeId) => {
     const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
@@ -653,15 +641,12 @@ const Index = () => {
       handleStoreClick(nextStore, index);
     } else {
       // Если магазинов не осталось — очисти UI
-
       setSelectedStore(null);
       setSelectedLocation(null);
       setSelectedCity(null);
       setCities([]);
       setLocations([]);
       setSelectedLocationsObject({});
-      sessionStorage.clear()
-      window.dispatchEvent(new Event("storage"));
     }
   };
 
