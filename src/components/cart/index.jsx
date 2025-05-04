@@ -754,6 +754,7 @@ const Cart = () => {
                               >
                                 Total: ${item.totalPrices.toFixed(2)}
                               </p>
+
                               <button
                                 style={{
                                   outline: "0px",
@@ -816,7 +817,7 @@ const Cart = () => {
                   ) : (
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <div style={{ paddingTop: "10%" }}>
-                        <div>
+                        <div style={{ display: "flex", alignItems: "center" }}>
                           <p
                             style={{
                               alignContent: "center",
@@ -830,6 +831,7 @@ const Cart = () => {
                             style={{
                               backgroundColor: "#fff",
                               backgroundImage: "none",
+                              borderColor: "black",
                               backgroundPosition: "0 90%",
                               backgroundRepeat: "repeat no-repeat",
                               backgroundSize: " 4px 3px",
@@ -851,7 +853,6 @@ const Cart = () => {
                               borderTopLeftRadius: "255px 15px",
                               borderTopRightRadius: "15px 225px",
                               touchAction: "manipulation",
-                              marginRight: "20px",
                               marginLeft: "auto",
                               width: "190px",
                               height: "38px",
@@ -864,7 +865,6 @@ const Cart = () => {
                             Clean product List
                           </button>
                         </div>
-
                         {response &&
                           response.length != null &&
                           response[0].items.map((item, index) => {
@@ -916,7 +916,6 @@ const Cart = () => {
                                 >
                                   <img
                                     src={del.src || del}
-                                    alt="delete"
                                     style={{ width: "30px", height: "30px" }}
                                   />
                                 </button>
@@ -992,7 +991,6 @@ const Cart = () => {
                                   <img
                                     style={{ width: "30px", height: "30px" }}
                                     src={plus.src || plus}
-                                    alt="add"
                                   />
                                 </button>
                               </li>
@@ -1036,7 +1034,7 @@ const Cart = () => {
                               style={{
                                 margin: "0",
                                 padding: "0",
-                                width: "40%",
+                                width: "50%",
                                 paddingRight: "10%",
                               }}
                             >
@@ -1083,7 +1081,6 @@ const Cart = () => {
                                       title="Delete Product"
                                     >
                                       <img
-                                        alt="delete"
                                         src={del.src || del}
                                         style={{
                                           width: "30px",
@@ -1120,6 +1117,7 @@ const Cart = () => {
                                 margin: "0",
                                 padding: "0",
                                 paddingTop: "10px",
+                                width: "40%",
                               }}
                             >
                               {item.items.map((it) => (
@@ -1157,7 +1155,6 @@ const Cart = () => {
                                     </p>
                                   ) : it.quantity > 1 &&
                                     it.regprice != null &&
-                                    it.regprice != 0 &&
                                     it.stock != "Out of Stock" ? (
                                     <p>
                                       ${it.prices.toFixed(2)}
@@ -1199,16 +1196,6 @@ const Cart = () => {
                                     </p>
                                   ) : (
                                     <>
-                                      {it.stock === "Out of Stock" &&
-                                        it.quantity >= 0 && (
-                                          <p
-                                            style={{
-                                              color: "rgb(225, 37, 27)",
-                                            }}
-                                          >
-                                            Sold Out ($0)
-                                          </p>
-                                        )}
                                       {it.val === "Not sold here" &&
                                         it.quantity >= 0 && (
                                           <p
@@ -1219,7 +1206,16 @@ const Cart = () => {
                                             Not sold here ($0)
                                           </p>
                                         )}
-
+                                      {it.stock === "Out of Stock" &&
+                                        it.quantity >= 0 && (
+                                          <p
+                                            style={{
+                                              color: "rgb(225, 37, 27)",
+                                            }}
+                                          >
+                                            Sold Out ($0)
+                                          </p>
+                                        )}
                                       {it.non_member_price != null &&
                                         it.non_member_price !== 0 && (
                                           <p
@@ -1247,15 +1243,16 @@ const Cart = () => {
                                                   paddingLeft: "4px",
                                                 }}
                                               >
+                                                SALE PRICE $
                                                 {it.non_member_price}
                                               </p>
                                             )}
 
                                             {/* <s
-                                          style={{ color: "rgb(125, 120, 120)" }}
-                                        >
-                                          WAS PRICE (${it.wasprice} ea)
-                                        </s> */}
+                                      style={{ color: "rgb(125, 120, 120)" }}
+                                    >
+                                      WAS PRICE (${it.wasprice} ea)
+                                    </s> */}
                                           </div>
                                         )}
                                       {it.regprice != null &&
@@ -1317,8 +1314,7 @@ const Cart = () => {
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
             {(response && response.length === 0) ||
-            (cart && cart.length === 0) ||
-            st === 0 ? (
+            (cart && cart.length === 0) ? (
               <p
                 style={{
                   display: "flex",
@@ -1362,6 +1358,7 @@ const Cart = () => {
                       style={{
                         backgroundColor: "#fff",
                         backgroundImage: "none",
+                        borderColor: "black",
                         backgroundPosition: "0 90%",
                         backgroundRepeat: "repeat no-repeat",
                         backgroundSize: " 4px 3px",
@@ -1382,7 +1379,6 @@ const Cart = () => {
                         borderTopLeftRadius: "255px 15px",
                         borderTopRightRadius: "15px 225px",
                         touchAction: "manipulation",
-                        marginRight: "20px",
                         marginLeft: "auto",
                         width: "190px",
                         height: "38px",
@@ -1395,7 +1391,6 @@ const Cart = () => {
                       Clean product List
                     </button>
                   </div>
-
                   {response.length != null &&
                     response[0].items.map((item, index) => {
                       // Проверка на наличие изображения
@@ -1518,7 +1513,6 @@ const Cart = () => {
                             title="Delete Product"
                           >
                             <img
-                              alt="add"
                               src={del.src || del}
                               style={{ width: "30px", height: "30px" }}
                             />
@@ -1544,7 +1538,7 @@ const Cart = () => {
                             style={{
                               textAlign: "center",
                               width: "144px",
-                              height: "99px",
+                              height: "109px",
                               alignContent: "center",
                             }}
                           >
@@ -1569,7 +1563,6 @@ const Cart = () => {
                             title="Delete Store"
                           >
                             <img
-                            alt='delete'
                               src={del.src || del}
                               style={{ width: "30px", height: "30px" }}
                             />
@@ -1610,7 +1603,6 @@ const Cart = () => {
                                 </p>
                               ) : it.quantity > 1 &&
                                 it.regprice != null &&
-                                it.regprice != 0 &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
                                   ${it.prices.toFixed(2)}
