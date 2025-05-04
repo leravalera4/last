@@ -708,8 +708,8 @@ const Cart = () => {
             ) : (
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                {response &&
-                    response.map((item,idx) => {
+                  {response &&
+                    response.map((item, idx) => {
                       const matchedStore = filtered.find(
                         (f) => f.location === item.storeName
                       );
@@ -717,55 +717,58 @@ const Cart = () => {
                       console.log("storeType", storeType);
                       return (
                         <div key={item.id} onClick={() => setTabIndex(idx + 1)}>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                          }}
-                        >
-                          <div style={{ width: "100%" }}>
-                            <p
-                              style={{
-                                paddingRight: "10%",
-                                fontWeight: "700",
-                              }}
-                            >
-                              {storeType}
-                            </p>
-                            <p style={{ paddingRight: "8%" }}>
-                              {item.storeName}
-                            </p>
-                          </div>
-                          <p style={{ fontWeight: "700", lineHeight: "214%" }}>
-                            Total: ${item.totalPrices.toFixed(2)}
-                          </p>
-
-                          <button
+                          <div
                             style={{
-                              outline: "0px",
-                              // marginLeft: "20px"
-                              fontSize: "21px",
-                              fontWeight: "500",
-                              lineHeight: "20px",
-                              verticalAlign: "middle",
-                              color: "red",
-                              border: "0px",
-                              cursor: "pointer",
-                              backgroundColor: "transparent",
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
                             }}
-                            className={noir.className}
-                            onClick={() => removeStore(item.id)}
-                            title="Delete Store"
                           >
-                            <img
-                              src={del.src || del}
-                              style={{ width: "30px", height: "30px" }}
-                            />
-                          </button>
+                            <div style={{ width: "100%" }}>
+                              <p
+                                style={{
+                                  paddingRight: "10%",
+                                  fontWeight: "700",
+                                }}
+                              >
+                                {storeType}
+                              </p>
+                              <p style={{ paddingRight: "8%" }}>
+                                {item.storeName}
+                              </p>
+                            </div>
+                            <p
+                              style={{ fontWeight: "700", lineHeight: "214%" }}
+                            >
+                              Total: ${item.totalPrices.toFixed(2)}
+                            </p>
+
+                            <button
+                              style={{
+                                outline: "0px",
+                                // marginLeft: "20px"
+                                fontSize: "21px",
+                                fontWeight: "500",
+                                lineHeight: "20px",
+                                verticalAlign: "middle",
+                                color: "red",
+                                border: "0px",
+                                cursor: "pointer",
+                                backgroundColor: "transparent",
+                              }}
+                              className={noir.className}
+                              onClick={() => removeStore(item.id)}
+                              title="Delete Store"
+                            >
+                              <img
+                                src={del.src || del}
+                                style={{ width: "30px", height: "30px" }}
+                              />
+                            </button>
+                          </div>
                         </div>
-                      </div>)}
-                    )}
+                      );
+                    })}
                 </div>
               </div>
             )}
@@ -802,7 +805,7 @@ const Cart = () => {
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     <div style={{ paddingTop: "10%" }}>
-                    <div style={{display: "flex",alignItems: "center"}}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
                         <p
                           style={{
                             alignContent: "center",
@@ -811,12 +814,12 @@ const Cart = () => {
                           <b>Products</b>
                         </p>
                         <button
-                         onClick={() => clearProducts()}
+                          onClick={() => clearProducts()}
                           className={noir.className}
                           style={{
                             backgroundColor: "#fff",
                             backgroundImage: "none",
-                            borderColor:'black',
+                            borderColor: "black",
                             backgroundPosition: "0 90%",
                             backgroundRepeat: "repeat no-repeat",
                             backgroundSize: " 4px 3px",
@@ -904,16 +907,16 @@ const Cart = () => {
                                 />
                               </button>
                               <Zoom>
-                              <img
-                                className="exclude-from-pdf"
-                                alt={title} // Используем title в alt
-                                src={imageSrc} // Используем выбранное изображение
-                                style={{
-                                  paddingRight: "8px",
-                                  height: "30px",
-                                  width: "30px",
-                                }}
-                              />
+                                <img
+                                  className="exclude-from-pdf"
+                                  alt={title} // Используем title в alt
+                                  src={imageSrc} // Используем выбранное изображение
+                                  style={{
+                                    paddingRight: "8px",
+                                    height: "30px",
+                                    width: "30px",
+                                  }}
+                                />
                               </Zoom>
                               <p
                                 style={{
@@ -1096,7 +1099,7 @@ const Cart = () => {
                               margin: "0",
                               padding: "0",
                               paddingTop: "10px",
-                              width: '40%'
+                              width: "40%",
                             }}
                           >
                             {item.items.map((it) => (
@@ -1171,6 +1174,16 @@ const Cart = () => {
                                   </p>
                                 ) : (
                                   <>
+                                    {it.val === "Not sold here" &&
+                                      it.quantity >= 0 && (
+                                        <p
+                                          style={{
+                                            color: "rgb(184, 184, 184)",
+                                          }}
+                                        >
+                                          Not sold here ($0)
+                                        </p>
+                                      )}
                                     {it.stock === "Out of Stock" &&
                                       it.quantity >= 0 && (
                                         <p
@@ -1215,10 +1228,11 @@ const Cart = () => {
                                     </s> */}
                                         </div>
                                       )}
-                                    {it.regprice != null &&
-                                      it.non_member_price !== 0 && (
-                                        <p>${it.regprice}</p>
-                                      )}
+                                      {it.regprice != null &&
+                                        it.val != "Not sold here" &&
+                                        it.non_member_price !== 0 && (
+                                          <p>${it.regprice}</p>
+                                        )}
                                     {it.non_member_price == null &&
                                       it.regprice == null && (
                                         <p
@@ -1291,7 +1305,7 @@ const Cart = () => {
             ) : (
               <div style={{ display: "flex" }}>
                 <div ref={targetRef}>
-                <div
+                  <div
                     style={{
                       display: "flex",
                       flexDirection: "row",
@@ -1314,7 +1328,7 @@ const Cart = () => {
                       style={{
                         backgroundColor: "#fff",
                         backgroundImage: "none",
-                        borderColor:'black',
+                        borderColor: "black",
                         backgroundPosition: "0 90%",
                         backgroundRepeat: "repeat no-repeat",
                         backgroundSize: " 4px 3px",
@@ -1375,33 +1389,33 @@ const Cart = () => {
                           <div
                             style={{ display: "flex", flexDirection: "row" }}
                           >
-                              <button
-                                className="exclude-from-pdf"
-                                onClick={() => {
-                                  if (item.quantity === 0) return;
-                                  decreaseQuantity(item.productID);
-                                }}
-                                style={{
-                                  outline: "0px",
-                                  fontSize: "21px",
-                                  fontWeight: "500",
-                                  lineHeight: "20px",
-                                  verticalAlign: "middle",
-                                  color: "red",
-                                  border: "0px",
-                                  cursor:
-                                    item.quantity === 0
-                                      ? "not-allowed"
-                                      : "pointer",
-                                  backgroundColor: "transparent",
-                                }}
-                              >
-                                {item.quantity === 0 ? (
-                                  <Image width={30} height={30} src={block} />
-                                ) : (
-                                  <Image width={30} height={30} src={minus} />
-                                )}
-                              </button>
+                            <button
+                              className="exclude-from-pdf"
+                              onClick={() => {
+                                if (item.quantity === 0) return;
+                                decreaseQuantity(item.productID);
+                              }}
+                              style={{
+                                outline: "0px",
+                                fontSize: "21px",
+                                fontWeight: "500",
+                                lineHeight: "20px",
+                                verticalAlign: "middle",
+                                color: "red",
+                                border: "0px",
+                                cursor:
+                                  item.quantity === 0
+                                    ? "not-allowed"
+                                    : "pointer",
+                                backgroundColor: "transparent",
+                              }}
+                            >
+                              {item.quantity === 0 ? (
+                                <Image width={30} height={30} src={block} />
+                              ) : (
+                                <Image width={30} height={30} src={minus} />
+                              )}
+                            </button>
                             <p className="logo">Quantity: </p>
                             <p style={{ width: "20px", textAlign: "center" }}>
                               {item.quantity}
@@ -1427,16 +1441,16 @@ const Cart = () => {
                           &nbsp; &nbsp;
                           <p className="logo">Item: </p>
                           <Zoom>
-                          <img
-                            className="exclude-from-pdf"
-                            alt={title} // Используем title в alt
-                            src={imageSrc} // Используем выбранное изображение
-                            style={{
-                              paddingRight: "8px",
-                              height: "30px",
-                              width: "30px",
-                            }}
-                          />
+                            <img
+                              className="exclude-from-pdf"
+                              alt={title} // Используем title в alt
+                              src={imageSrc} // Используем выбранное изображение
+                              style={{
+                                paddingRight: "8px",
+                                height: "30px",
+                                width: "30px",
+                              }}
+                            />
                           </Zoom>
                           <p
                             style={{
@@ -1537,9 +1551,7 @@ const Cart = () => {
                             >
                               {it.quantity > 1 &&
                               it.non_member_price == null &&
-                              it.regprice == null 
-                              ?
-                               (
+                              it.regprice == null ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
                                   ${it.prices.toFixed(2)}
                                   {it.saleprice != null ? (
@@ -1559,8 +1571,7 @@ const Cart = () => {
                                     </span>
                                   )}
                                 </p>
-                              ) 
-                              : it.quantity > 1 &&
+                              ) : it.quantity > 1 &&
                                 it.regprice != null &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
@@ -1574,8 +1585,7 @@ const Cart = () => {
                                     >
                                       (${it.saleprice} ea)
                                     </span>
-                                  ) 
-                                  : (
+                                  ) : (
                                     <span
                                       style={{ color: "rgb(125, 120, 120)" }}
                                     >
@@ -1583,13 +1593,10 @@ const Cart = () => {
                                     </span>
                                   )}
                                 </p>
-                              ) 
-                              :
-                               it.saleprice != null &&
+                              ) : it.saleprice != null &&
                                 it.non_member_price != null &&
                                 it.regprice == null &&
-                                it.quantity > 1 ? 
-                                (
+                                it.quantity > 1 ? (
                                 <p style={{ color: "rgb(225, 37, 27)" }}>
                                   ${it.prices}
                                   {it.saleprice != null && (
@@ -1606,19 +1613,27 @@ const Cart = () => {
                               ) : (
                                 <>
                                   {it.stock === "Out of Stock" &&
-                                    it.quantity >= 0 && (
+                                    it.quantity >= 0 &&
+                                    it.val == null && (
                                       <p style={{ color: "rgb(225, 37, 27)" }}>
                                         Sold Out ($0)
                                       </p>
                                     )}
-
                                   {it.non_member_price != null &&
                                     it.non_member_price !== 0 && (
                                       <p style={{ color: "rgb(225, 37, 27)" }}>
                                         ${it.non_member_price}
                                       </p>
                                     )}
-                                    
+                                  {it.val === "Not sold here" &&
+                                    it.quantity >= 0 && (
+                                      <p
+                                        style={{ color: "rgb(184, 184, 184)" }}
+                                      >
+                                        Not sold here ($0)
+                                      </p>
+                                    )}
+
                                   {it.saleprice !== null &&
                                     it.saleprice !== 0 &&
                                     it.non_member_price && (
@@ -1648,6 +1663,7 @@ const Cart = () => {
                                       </div>
                                     )}
                                   {it.regprice != null &&
+                                    it.val != "Not sold here" &&
                                     it.non_member_price !== 0 && (
                                       <p>${it.regprice}</p>
                                     )}
