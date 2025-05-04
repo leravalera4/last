@@ -693,67 +693,190 @@ const Cart = () => {
         }}
       >
         {isMobile || isIpad ? (
-          cartLength != null && cartLength !== totalQuantity ? (
-            <>
-              <Spiner />
-              <p>Checking latest prices for you...</p>
-            </>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {response && response.length === 0 ? (
-                <p
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  Nothing here yet, but you can add 3 stores in total to compare
-                  prices
-                </p>
-              ) : (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {response && response.length === 0 ? (
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Nothing here yet, but you can add 3 stores in total to compare
+                prices
+              </p>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    {response &&
-                      response.map((item, idx) => {
-                        const matchedStore = filtered.find(
-                          (f) => f.location === item.storeName
-                        );
-                        const storeType = matchedStore?.store || item.storetype;
-                        console.log("storeType", storeType);
-                        return (
+                  {response &&
+                    response.map((item, idx) => {
+                      const matchedStore = filtered.find(
+                        (f) => f.location === item.storeName
+                      );
+                      const storeType = matchedStore?.store || item.storetype;
+                      console.log("storeType", storeType);
+                      return (
+                        <div key={item.id} onClick={() => setTabIndex(idx + 1)}>
                           <div
-                            key={item.id}
-                            onClick={() => setTabIndex(idx + 1)}
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
                           >
-                            <div
+                            <div style={{ width: "100%" }}>
+                              <p
+                                style={{
+                                  paddingRight: "10%",
+                                  fontWeight: "700",
+                                }}
+                              >
+                                {storeType}
+                              </p>
+                              <p style={{ paddingRight: "8%" }}>
+                                {item.storeName}
+                              </p>
+                            </div>
+                            <p
+                              style={{ fontWeight: "700", lineHeight: "214%" }}
+                            >
+                              Total: ${item.totalPrices.toFixed(2)}
+                            </p>
+
+                            <button
+                              style={{
+                                outline: "0px",
+                                // marginLeft: "20px"
+                                fontSize: "21px",
+                                fontWeight: "500",
+                                lineHeight: "20px",
+                                verticalAlign: "middle",
+                                color: "red",
+                                border: "0px",
+                                cursor: "pointer",
+                                backgroundColor: "transparent",
+                              }}
+                              className={noir.className}
+                              onClick={() => removeStore(item.id)}
+                              title="Delete Store"
+                            >
+                              <img
+                                src={del.src || del}
+                                style={{ width: "30px", height: "30px" }}
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
+            <Tabs
+              selectedIndex={tabIndex}
+              onSelect={(index) => setTabIndex(index)}
+            >
+              <TabList>
+                <Tab>Products</Tab>
+                {cart &&
+                  cart.length > 0 &&
+                  response != null &&
+                  response.map((item, index) => {
+                    const matchedStore = filtered.find(
+                      (f) => f.location === item.storeName
+                    );
+                    const storeType = matchedStore?.store || item.storetype;
+                    console.log("storeType", storeType);
+                    return <Tab key={index}>{storeType}</Tab>;
+                  })}
+              </TabList>
+              <TabPanel>
+                {response && response.length === 0 ? (
+                  <p
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Nothing here yet but you can add 3 stores in total to
+                    compare prices
+                  </p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div style={{ paddingTop: "10%" }}>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <p
+                          style={{
+                            alignContent: "center",
+                          }}
+                        >
+                          <b>Products</b>
+                        </p>
+                        <button
+                          onClick={() => clearProducts()}
+                          className={noir.className}
+                          style={{
+                            backgroundColor: "#fff",
+                            backgroundImage: "none",
+                            borderColor: "black",
+                            backgroundPosition: "0 90%",
+                            backgroundRepeat: "repeat no-repeat",
+                            backgroundSize: " 4px 3px",
+                            borderRadius:
+                              "15px 225px 255px 15px 15px 255px 225px 15px",
+                            borderStyle: "solid",
+                            borderWidth: "2px",
+                            boxShadow: "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
+                            boxSizing: "border-box",
+                            color: "#41403e",
+                            cursor: "pointer",
+                            fontSize: "14px",
+                            padding: ".75rem",
+                            textDecoration: "none",
+                            transition: "all 235ms ease-in-out",
+                            borderBottomLeftRadius: " 15px 255px",
+                            borderBottomRightRadius: "225px 15px",
+                            borderTopLeftRadius: "255px 15px",
+                            borderTopRightRadius: "15px 225px",
+                            touchAction: "manipulation",
+                            marginLeft: "auto",
+                            width: "190px",
+                            height: "38px",
+                            padding: "5px 16px",
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          Clean product List
+                        </button>
+                      </div>
+                      {response &&
+                        response.length != null &&
+                        response[0].items.map((item, index) => {
+                          // Проверка на наличие изображения
+                          const imageSrc =
+                            item.image ||
+                            response[1]?.items?.[index]?.image ||
+                            response[2]?.items?.[index]?.image;
+
+                          // Проверка на наличие title
+                          const title =
+                            item.title ||
+                            response[1]?.items?.[index]?.title ||
+                            response[2]?.items?.[index]?.title ||
+                            getTitleByProductID(item.productID); // Берем название из массива
+                          return (
+                            <li
+                              key={item.productID}
                               style={{
                                 display: "flex",
-                                flexDirection: "row",
+                                borderBottom: "1px solid #ccc",
+                                margin: "10px 0",
                                 alignItems: "center",
                               }}
                             >
-                              <div style={{ width: "100%" }}>
-                                <p
-                                  style={{
-                                    paddingRight: "10%",
-                                    fontWeight: "700",
-                                  }}
-                                >
-                                  {storeType}
-                                </p>
-                                <p style={{ paddingRight: "8%" }}>
-                                  {item.storeName}
-                                </p>
-                              </div>
-                              <p
-                                style={{
-                                  fontWeight: "700",
-                                  lineHeight: "214%",
-                                }}
-                              >
-                                Total: ${item.totalPrices.toFixed(2)}
-                              </p>
                               <button
                                 style={{
                                   outline: "0px",
@@ -768,250 +891,362 @@ const Cart = () => {
                                   backgroundColor: "transparent",
                                 }}
                                 className={noir.className}
-                                onClick={() => removeStore(item.id)}
-                                title="Delete Store"
+                                onClick={() => {
+                                  console.log(
+                                    "item.productID:",
+                                    item.productID
+                                  );
+                                  removeProduct(item.productID);
+                                  console.log("ITEM:", item.productID);
+                                }}
+                                title="Delete Product"
                               >
                                 <img
                                   src={del.src || del}
                                   style={{ width: "30px", height: "30px" }}
                                 />
                               </button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-              )}
-              <Tabs
-                selectedIndex={tabIndex}
-                onSelect={(index) => setTabIndex(index)}
-              >
-                <TabList>
-                  <Tab>Products</Tab>
-                  {cart &&
-                    cart.length > 0 &&
-                    response != null &&
-                    response.map((item, index) => {
-                      const matchedStore = filtered.find(
-                        (f) => f.location === item.storeName
-                      );
-                      const storeType = matchedStore?.store || item.storetype;
-                      console.log("storeType", storeType);
-                      return <Tab key={index}>{storeType}</Tab>;
-                    })}
-                </TabList>
-                <TabPanel>
-                  {response && response.length === 0 ? (
-                    <p
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      Nothing here yet but you can add 3 stores in total to
-                      compare prices
-                    </p>
-                  ) : (
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <div style={{ paddingTop: "10%" }}>
-                        <div>
-                          <p
-                            style={{
-                              alignContent: "center",
-                            }}
-                          >
-                            <b>Products</b>
-                          </p>
-                          <button
-                            onClick={() => clearProducts()}
-                            className={noir.className}
-                            style={{
-                              backgroundColor: "#fff",
-                              backgroundImage: "none",
-                              backgroundPosition: "0 90%",
-                              backgroundRepeat: "repeat no-repeat",
-                              backgroundSize: " 4px 3px",
-                              borderRadius:
-                                "15px 225px 255px 15px 15px 255px 225px 15px",
-                              borderStyle: "solid",
-                              borderWidth: "2px",
-                              boxShadow:
-                                "rgba(0, 0, 0, .2) 15px 28px 25px -18px",
-                              boxSizing: "border-box",
-                              color: "#41403e",
-                              cursor: "pointer",
-                              fontSize: "14px",
-                              padding: ".75rem",
-                              textDecoration: "none",
-                              transition: "all 235ms ease-in-out",
-                              borderBottomLeftRadius: " 15px 255px",
-                              borderBottomRightRadius: "225px 15px",
-                              borderTopLeftRadius: "255px 15px",
-                              borderTopRightRadius: "15px 225px",
-                              touchAction: "manipulation",
-                              marginRight: "20px",
-                              marginLeft: "auto",
-                              width: "190px",
-                              height: "38px",
-                              padding: "5px 16px",
-                              fontSize: "14px",
-                              fontWeight: "500",
-                              verticalAlign: "middle",
-                            }}
-                          >
-                            Clean product List
-                          </button>
-                        </div>
-
-                        {response &&
-                          response.length != null &&
-                          response[0].items.map((item, index) => {
-                            // Проверка на наличие изображения
-                            const imageSrc =
-                              item.image ||
-                              response[1]?.items?.[index]?.image ||
-                              response[2]?.items?.[index]?.image;
-
-                            // Проверка на наличие title
-                            const title =
-                              item.title ||
-                              response[1]?.items?.[index]?.title ||
-                              response[2]?.items?.[index]?.title ||
-                              getTitleByProductID(item.productID); // Берем название из массива
-                            return (
-                              <li
-                                key={item.productID}
+                              <Zoom>
+                                <img
+                                  className="exclude-from-pdf"
+                                  alt={title} // Используем title в alt
+                                  src={imageSrc} // Используем выбранное изображение
+                                  style={{
+                                    paddingRight: "8px",
+                                    height: "30px",
+                                    width: "30px",
+                                  }}
+                                />
+                              </Zoom>
+                              <p
                                 style={{
-                                  display: "flex",
-                                  borderBottom: "1px solid #ccc",
-                                  margin: "10px 0",
-                                  alignItems: "center",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                  width: "100%",
                                 }}
                               >
-                                <button
-                                  style={{
-                                    outline: "0px",
-                                    // marginLeft: "20px"
-                                    fontSize: "21px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    color: "red",
-                                    border: "0px",
-                                    cursor: "pointer",
-                                    backgroundColor: "transparent",
-                                  }}
-                                  className={noir.className}
-                                  onClick={() => {
-                                    console.log(
-                                      "item.productID:",
-                                      item.productID
-                                    );
-                                    removeProduct(item.productID);
-                                    console.log("ITEM:", item.productID);
-                                  }}
-                                  title="Delete Product"
-                                >
-                                  <img
-                                    src={del.src || del}
-                                    alt="delete"
-                                    style={{ width: "30px", height: "30px" }}
-                                  />
-                                </button>
-                                <Zoom>
-                                  <img
-                                    className="exclude-from-pdf"
-                                    alt={title} // Используем title в alt
-                                    src={imageSrc} // Используем выбранное изображение
-                                    style={{
-                                      paddingRight: "8px",
-                                      height: "30px",
-                                      width: "30px",
-                                    }}
-                                  />
-                                </Zoom>
-                                <p
-                                  style={{
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    width: "100%",
-                                  }}
-                                >
-                                  {title} {/* Отображаем title */}
-                                </p>
+                                {title} {/* Отображаем title */}
+                              </p>
 
-                                <button
-                                  className="exclude-from-pdf"
-                                  onClick={() => {
-                                    if (item.quantity === 0) return;
-                                    decreaseQuantity(item.productID);
-                                  }}
-                                  style={{
-                                    outline: "0px",
-                                    fontSize: "21px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    color: "red",
-                                    border: "0px",
-                                    cursor:
-                                      item.quantity === 0
-                                        ? "not-allowed"
-                                        : "pointer",
-                                    backgroundColor: "transparent",
-                                  }}
-                                >
-                                  {item.quantity === 0 ? (
-                                    <Image width={30} height={30} src={block} />
-                                  ) : (
-                                    <Image width={30} height={30} src={minus} />
-                                  )}
-                                </button>
-                                <p className="logo">QTY: </p>
-                                <p>{item.quantity}</p>
-                                <button
-                                  className="exclude-from-pdf"
-                                  onClick={() =>
-                                    increaseQuantity(item.productID)
-                                  }
-                                  style={{
-                                    outline: "0px",
-                                    fontSize: "21px",
-                                    fontWeight: "500",
-                                    lineHeight: "20px",
-                                    verticalAlign: "middle",
-                                    color: "red",
-                                    border: "0px",
-                                    cursor: "pointer",
-                                    backgroundColor: "transparent",
-                                  }}
-                                >
-                                  <img
-                                    style={{ width: "30px", height: "30px" }}
-                                    src={plus.src || plus}
-                                    alt="add"
-                                  />
-                                </button>
-                              </li>
-                            );
-                          })}
-                      </div>
+                              <button
+                                className="exclude-from-pdf"
+                                onClick={() => {
+                                  if (item.quantity === 0) return;
+                                  decreaseQuantity(item.productID);
+                                }}
+                                style={{
+                                  outline: "0px",
+                                  fontSize: "21px",
+                                  fontWeight: "500",
+                                  lineHeight: "20px",
+                                  verticalAlign: "middle",
+                                  color: "red",
+                                  border: "0px",
+                                  cursor:
+                                    item.quantity === 0
+                                      ? "not-allowed"
+                                      : "pointer",
+                                  backgroundColor: "transparent",
+                                }}
+                              >
+                                {item.quantity === 0 ? (
+                                  <Image width={30} height={30} src={block} />
+                                ) : (
+                                  <Image width={30} height={30} src={minus} />
+                                )}
+                              </button>
+                              <p className="logo">QTY: </p>
+                              <p>{item.quantity}</p>
+                              <button
+                                className="exclude-from-pdf"
+                                onClick={() => increaseQuantity(item.productID)}
+                                style={{
+                                  outline: "0px",
+                                  fontSize: "21px",
+                                  fontWeight: "500",
+                                  lineHeight: "20px",
+                                  verticalAlign: "middle",
+                                  color: "red",
+                                  border: "0px",
+                                  cursor: "pointer",
+                                  backgroundColor: "transparent",
+                                }}
+                              >
+                                <img
+                                  style={{ width: "30px", height: "30px" }}
+                                  src={plus.src || plus}
+                                />
+                              </button>
+                            </li>
+                          );
+                        })}
                     </div>
-                  )}
-                </TabPanel>
+                  </div>
+                )}
+              </TabPanel>
 
-                {response != null &&
-                  response.map((item, index) => {
-                    const matchedStore = filtered.find(
-                      (f) => f.location === item.storeName
-                    );
-                    const storeType = matchedStore?.store || item.storetype;
-                    console.log("storeType", storeType);
-                    return (
-                      <TabPanel key={index}>
+              {response != null &&
+                response.map((item, index) => {
+                  const matchedStore = filtered.find(
+                    (f) => f.location === item.storeName
+                  );
+                  const storeType = matchedStore?.store || item.storetype;
+                  console.log("storeType", storeType);
+                  return (
+                    <TabPanel key={index}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <p style={{ marginBottom: "0px" }}>
+                          <b>{storeType}</b>
+                        </p>
+                        <p>{item.storeName}</p>
+                      </div>
+
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <ul
+                            style={{
+                              margin: "0",
+                              padding: "0",
+                              width: "50%",
+                              paddingRight: "10%",
+                            }}
+                          >
+                            {item.items.map((li, liIndex) => {
+                              const title =
+                                li.title ||
+                                response[1]?.items?.[liIndex]?.title ||
+                                response[2]?.items?.[liIndex]?.title ||
+                                getTitleByProductID(li.productID); // Берем название из массива
+
+                              return (
+                                <li
+                                  key={liIndex}
+                                  style={{
+                                    display: "flex",
+                                    borderBottom:
+                                      "1px solid rgb(204, 204, 204)",
+                                    margin: "10px 0px",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <button
+                                    style={{
+                                      outline: "0px",
+                                      // marginLeft: "20px"
+                                      fontSize: "21px",
+                                      fontWeight: "500",
+                                      lineHeight: "20px",
+                                      verticalAlign: "middle",
+                                      color: "red",
+                                      border: "0px",
+                                      cursor: "pointer",
+                                      backgroundColor: "transparent",
+                                    }}
+                                    className={noir.className}
+                                    onClick={() => {
+                                      console.log(
+                                        "item.productID:",
+                                        li.productID
+                                      );
+                                      removeProduct(li.productID);
+                                      console.log("ITEM:", li.productID);
+                                    }}
+                                    title="Delete Product"
+                                  >
+                                    <img
+                                      src={del.src || del}
+                                      style={{ width: "30px", height: "30px" }}
+                                    />
+                                  </button>
+                                  <Zoom>
+                                    <img
+                                      alt={title}
+                                      width={30}
+                                      height={30}
+                                      src={li.image}
+                                      style={{ paddingRight: "8px" }}
+                                    />
+                                  </Zoom>
+                                  <p
+                                    style={{
+                                      textOverflow: "ellipsis",
+                                      whiteSpace: "nowrap",
+                                      overflow: "hidden",
+                                      width: "200px",
+                                    }}
+                                  >
+                                    {li.title || title}
+                                  </p>
+                                  <p>({li.quantity})</p>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                          <ul
+                            style={{
+                              margin: "0",
+                              padding: "0",
+                              paddingTop: "10px",
+                              width: "40%",
+                            }}
+                          >
+                            {item.items.map((it) => (
+                              <li
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  borderBottom: "1px solid #ccc",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                {it.quantity > 1 &&
+                                it.non_member_price == null &&
+                                it.regprice == null ? (
+                                  <p style={{ color: "rgb(225, 37, 27)" }}>
+                                    ${it.prices.toFixed(2)}
+                                    {it.saleprice != null ? (
+                                      <span
+                                        style={{
+                                          color: "rgb(125, 120, 120)",
+                                          marginLeft: "4px",
+                                        }}
+                                      >
+                                        (${it.saleprice} ea)
+                                      </span>
+                                    ) : (
+                                      <span
+                                        style={{ color: "rgb(125, 120, 120)" }}
+                                      >
+                                        (${it.regprice} ea)
+                                      </span>
+                                    )}
+                                  </p>
+                                ) : it.quantity > 1 &&
+                                  it.regprice != null &&
+                                  it.stock != "Out of Stock" ? (
+                                  <p>
+                                    ${it.prices.toFixed(2)}
+                                    {it.saleprice != null ? (
+                                      <span
+                                        style={{
+                                          color: "rgb(125, 120, 120)",
+                                          marginLeft: "4px",
+                                        }}
+                                      >
+                                        (${it.saleprice} ea)
+                                      </span>
+                                    ) : (
+                                      <span
+                                        style={{ color: "rgb(125, 120, 120)" }}
+                                      >
+                                        (${it.regprice} ea)
+                                      </span>
+                                    )}
+                                  </p>
+                                ) : it.saleprice != null &&
+                                  it.non_member_price != null &&
+                                  it.regprice == null &&
+                                  it.quantity > 1 ? (
+                                  <p style={{ color: "rgb(225, 37, 27)" }}>
+                                    ${it.prices.toFixed(2)}
+                                    {it.saleprice != null && (
+                                      <span
+                                        style={{
+                                          color: "rgb(125, 120, 120)",
+                                          marginLeft: "4px",
+                                        }}
+                                      >
+                                        (${it.non_member_price} ea)
+                                      </span>
+                                    )}
+                                  </p>
+                                ) : (
+                                  <>
+                                    {it.val === "Not sold here" &&
+                                      it.quantity >= 0 && (
+                                        <p
+                                          style={{
+                                            color: "rgb(184, 184, 184)",
+                                          }}
+                                        >
+                                          Not sold here ($0)
+                                        </p>
+                                      )}
+                                    {it.stock === "Out of Stock" &&
+                                      it.quantity >= 0 && (
+                                        <p
+                                          style={{ color: "rgb(225, 37, 27)" }}
+                                        >
+                                          Sold Out ($0)
+                                        </p>
+                                      )}
+                                    {it.non_member_price != null &&
+                                      it.non_member_price !== 0 && (
+                                        <p
+                                          style={{ color: "rgb(225, 37, 27)" }}
+                                        >
+                                          ${it.non_member_price}
+                                        </p>
+                                      )}
+                                    {it.saleprice !== null &&
+                                      it.saleprice !== 0 &&
+                                      it.non_member_price && (
+                                        <div
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                          }}
+                                        >
+                                          {/* <span style={{ color: "rgb(225, 37, 27)",}}>On sale</span> */}
+                                          {it.quantity > 2 && (
+                                            <p
+                                              style={{
+                                                color: "rgb(225, 37, 27)",
+                                                paddingLeft: "4px",
+                                              }}
+                                            >
+                                              SALE PRICE ${it.non_member_price}
+                                            </p>
+                                          )}
+
+                                          {/* <s
+                                      style={{ color: "rgb(125, 120, 120)" }}
+                                    >
+                                      WAS PRICE (${it.wasprice} ea)
+                                    </s> */}
+                                        </div>
+                                      )}
+                                      {it.regprice != null &&
+                                        it.val != "Not sold here" &&
+                                        it.non_member_price !== 0 && (
+                                          <p>${it.regprice}</p>
+                                        )}
+                                    {it.non_member_price == null &&
+                                      it.regprice == null && (
+                                        <p
+                                          style={{ color: "rgb(225, 37, 27)" }}
+                                        >
+                                          ${it.saleprice}
+                                        </p>
+                                      )}
+                                  </>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                         <div
                           style={{
                             display: "flex",
@@ -1019,306 +1254,37 @@ const Cart = () => {
                             alignItems: "center",
                           }}
                         >
-                          <p style={{ marginBottom: "0px" }}>
-                            <b>{storeType}</b>
+                          <p
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              paddingTop: "16px",
+                              fontWeight: "700",
+                            }}
+                          >
+                            Total: ${item.totalPrices.toFixed(2)}
                           </p>
-                          <p>{item.storeName}</p>
-                        </div>
-
-                        <div>
-                          <div
+                          <p
                             style={{
-                              display: "flex",
-                              justifyContent: "space-between",
+                              color: "#008000",
+                              fontSize: "14px",
+                              paddingTop: "0px",
+                              marginTop: "0px",
                             }}
                           >
-                            <ul
-                              style={{
-                                margin: "0",
-                                padding: "0",
-                                width: "40%",
-                                paddingRight: "10%",
-                              }}
-                            >
-                              {item.items.map((li, liIndex) => {
-                                const title =
-                                  li.title ||
-                                  response[1]?.items?.[liIndex]?.title ||
-                                  response[2]?.items?.[liIndex]?.title ||
-                                  getTitleByProductID(li.productID); // Берем название из массива
-
-                                return (
-                                  <li
-                                    key={liIndex}
-                                    style={{
-                                      display: "flex",
-                                      borderBottom:
-                                        "1px solid rgb(204, 204, 204)",
-                                      margin: "10px 0px",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <button
-                                      style={{
-                                        outline: "0px",
-                                        // marginLeft: "20px"
-                                        fontSize: "21px",
-                                        fontWeight: "500",
-                                        lineHeight: "20px",
-                                        verticalAlign: "middle",
-                                        color: "red",
-                                        border: "0px",
-                                        cursor: "pointer",
-                                        backgroundColor: "transparent",
-                                      }}
-                                      className={noir.className}
-                                      onClick={() => {
-                                        console.log(
-                                          "item.productID:",
-                                          li.productID
-                                        );
-                                        removeProduct(li.productID);
-                                        console.log("ITEM:", li.productID);
-                                      }}
-                                      title="Delete Product"
-                                    >
-                                      <img
-                                        alt="delete"
-                                        src={del.src || del}
-                                        style={{
-                                          width: "30px",
-                                          height: "30px",
-                                        }}
-                                      />
-                                    </button>
-                                    <Zoom>
-                                      <img
-                                        alt={title}
-                                        width={30}
-                                        height={30}
-                                        src={li.image}
-                                        style={{ paddingRight: "8px" }}
-                                      />
-                                    </Zoom>
-                                    <p
-                                      style={{
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap",
-                                        overflow: "hidden",
-                                        width: "200px",
-                                      }}
-                                    >
-                                      {li.title || title}
-                                    </p>
-                                    <p>({li.quantity})</p>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                            <ul
-                              style={{
-                                margin: "0",
-                                padding: "0",
-                                paddingTop: "10px",
-                              }}
-                            >
-                              {item.items.map((it) => (
-                                <li
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    borderBottom: "1px solid #ccc",
-                                    marginBottom: "10px",
-                                  }}
-                                >
-                                  {it.quantity > 1 &&
-                                  it.non_member_price == null &&
-                                  it.regprice == null ? (
-                                    <p style={{ color: "rgb(225, 37, 27)" }}>
-                                      ${it.prices.toFixed(2)}
-                                      {it.saleprice != null ? (
-                                        <span
-                                          style={{
-                                            color: "rgb(125, 120, 120)",
-                                            marginLeft: "4px",
-                                          }}
-                                        >
-                                          (${it.saleprice} ea)
-                                        </span>
-                                      ) : (
-                                        <span
-                                          style={{
-                                            color: "rgb(125, 120, 120)",
-                                          }}
-                                        >
-                                          (${it.regprice} ea)
-                                        </span>
-                                      )}
-                                    </p>
-                                  ) : it.quantity > 1 &&
-                                    it.regprice != null &&
-                                    it.regprice != 0 &&
-                                    it.stock != "Out of Stock" ? (
-                                    <p>
-                                      ${it.prices.toFixed(2)}
-                                      {it.saleprice != null ? (
-                                        <span
-                                          style={{
-                                            color: "rgb(125, 120, 120)",
-                                            marginLeft: "4px",
-                                          }}
-                                        >
-                                          (${it.saleprice} ea)
-                                        </span>
-                                      ) : (
-                                        <span
-                                          style={{
-                                            color: "rgb(125, 120, 120)",
-                                          }}
-                                        >
-                                          (${it.regprice} ea)
-                                        </span>
-                                      )}
-                                    </p>
-                                  ) : it.saleprice != null &&
-                                    it.non_member_price != null &&
-                                    it.regprice == null &&
-                                    it.quantity > 1 ? (
-                                    <p style={{ color: "rgb(225, 37, 27)" }}>
-                                      ${it.prices.toFixed(2)}
-                                      {it.saleprice != null && (
-                                        <span
-                                          style={{
-                                            color: "rgb(125, 120, 120)",
-                                            marginLeft: "4px",
-                                          }}
-                                        >
-                                          (${it.non_member_price} ea)
-                                        </span>
-                                      )}
-                                    </p>
-                                  ) : (
-                                    <>
-                                      {it.stock === "Out of Stock" &&
-                                        it.quantity >= 0 && (
-                                          <p
-                                            style={{
-                                              color: "rgb(225, 37, 27)",
-                                            }}
-                                          >
-                                            Sold Out ($0)
-                                          </p>
-                                        )}
-                                      {it.val === "Not sold here" &&
-                                        it.quantity >= 0 && (
-                                          <p
-                                            style={{
-                                              color: "rgb(184, 184, 184)",
-                                            }}
-                                          >
-                                            Not sold here ($0)
-                                          </p>
-                                        )}
-
-                                      {it.non_member_price != null &&
-                                        it.non_member_price !== 0 && (
-                                          <p
-                                            style={{
-                                              color: "rgb(225, 37, 27)",
-                                            }}
-                                          >
-                                            ${it.non_member_price}
-                                          </p>
-                                        )}
-                                      {it.saleprice !== null &&
-                                        it.saleprice !== 0 &&
-                                        it.non_member_price && (
-                                          <div
-                                            style={{
-                                              display: "flex",
-                                              alignItems: "center",
-                                            }}
-                                          >
-                                            {/* <span style={{ color: "rgb(225, 37, 27)",}}>On sale</span> */}
-                                            {it.quantity > 2 && (
-                                              <p
-                                                style={{
-                                                  color: "rgb(225, 37, 27)",
-                                                  paddingLeft: "4px",
-                                                }}
-                                              >
-                                                {it.non_member_price}
-                                              </p>
-                                            )}
-
-                                            {/* <s
-                                          style={{ color: "rgb(125, 120, 120)" }}
-                                        >
-                                          WAS PRICE (${it.wasprice} ea)
-                                        </s> */}
-                                          </div>
-                                        )}
-                                      {it.regprice != null &&
-                                        it.val != "Not sold here" &&
-                                        it.non_member_price !== 0 && (
-                                          <p>${it.regprice}</p>
-                                        )}
-                                      {it.non_member_price == null &&
-                                        it.regprice == null && (
-                                          <p
-                                            style={{
-                                              color: "rgb(225, 37, 27)",
-                                            }}
-                                          >
-                                            ${it.saleprice}
-                                          </p>
-                                        )}
-                                    </>
-                                  )}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
-                            <p
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                paddingTop: "16px",
-                                fontWeight: "700",
-                              }}
-                            >
-                              Total: ${item.totalPrices.toFixed(2)}
-                            </p>
-                            <p
-                              style={{
-                                color: "#008000",
-                                fontSize: "14px",
-                                paddingTop: "0px",
-                                marginTop: "0px",
-                              }}
-                            >
-                              Total discount ${item.difference.toFixed(2)}
-                            </p>
-                          </div>
+                            Total discount ${item.difference.toFixed(2)}
+                          </p>
                         </div>
-                      </TabPanel>
-                    );
-                  })}
-              </Tabs>
-            </div>
-          )
+                      </div>
+                    </TabPanel>
+                  );
+                })}
+            </Tabs>
+          </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
             {(response && response.length === 0) ||
-            (cart && cart.length === 0) ||
-            st === 0 ? (
+            (cart && cart.length === 0) ? (
               <p
                 style={{
                   display: "flex",
@@ -1362,6 +1328,7 @@ const Cart = () => {
                       style={{
                         backgroundColor: "#fff",
                         backgroundImage: "none",
+                        borderColor: "black",
                         backgroundPosition: "0 90%",
                         backgroundRepeat: "repeat no-repeat",
                         backgroundSize: " 4px 3px",
@@ -1382,7 +1349,6 @@ const Cart = () => {
                         borderTopLeftRadius: "255px 15px",
                         borderTopRightRadius: "15px 225px",
                         touchAction: "manipulation",
-                        marginRight: "20px",
                         marginLeft: "auto",
                         width: "190px",
                         height: "38px",
@@ -1395,7 +1361,6 @@ const Cart = () => {
                       Clean product List
                     </button>
                   </div>
-
                   {response.length != null &&
                     response[0].items.map((item, index) => {
                       // Проверка на наличие изображения
@@ -1518,7 +1483,6 @@ const Cart = () => {
                             title="Delete Product"
                           >
                             <img
-                              alt="add"
                               src={del.src || del}
                               style={{ width: "30px", height: "30px" }}
                             />
@@ -1544,7 +1508,7 @@ const Cart = () => {
                             style={{
                               textAlign: "center",
                               width: "144px",
-                              height: "99px",
+                              height: "109px",
                               alignContent: "center",
                             }}
                           >
@@ -1569,7 +1533,6 @@ const Cart = () => {
                             title="Delete Store"
                           >
                             <img
-                            alt='delete'
                               src={del.src || del}
                               style={{ width: "30px", height: "30px" }}
                             />
@@ -1610,7 +1573,6 @@ const Cart = () => {
                                 </p>
                               ) : it.quantity > 1 &&
                                 it.regprice != null &&
-                                it.regprice != 0 &&
                                 it.stock != "Out of Stock" ? (
                                 <p>
                                   ${it.prices.toFixed(2)}
