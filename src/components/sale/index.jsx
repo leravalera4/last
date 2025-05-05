@@ -4952,7 +4952,7 @@ const Index = () => {
                 ) : (
                   <TabPanel>
                     <h2 id="part10" className={noir.className}>
-                      Frozen Food
+                      Household
                     </h2>
 
                     <p
