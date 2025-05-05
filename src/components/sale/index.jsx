@@ -849,6 +849,10 @@ const Index = () => {
     (item) => item.category === "Frozen Food"
   ).length;
 
+  const houseAisleCount = responseData.filter(
+    (item) => item.category === "Household Supplies"
+  ).length;
+
   // const onTabSelected = (index) => {
   //   console.log(index);
   // };
@@ -1917,6 +1921,11 @@ const Index = () => {
                     {frozenAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         Frozen Food
+                      </Tab>
+                    )}
+                                        {houseAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>
+                        Household
                       </Tab>
                     )}
                   </TabList>
@@ -4749,6 +4758,234 @@ const Index = () => {
                         responseData.map(
                           (item, index) =>
                             item.category === "Frozen Food" && (
+                              <li
+                                key={index}
+                                tabIndex="-1"
+                                className="product-list-item"
+                              >
+                                <div className="product-container">
+                                  <div className="product-info-container">
+                                    <div className="product-image-container">
+                                      {loading ? (
+                                        <Skeleton width={110} height={110} />
+                                      ) : (
+                                        <>
+                                          <div
+                                            style={{
+                                              height: "35px",
+                                              display: "flex",
+
+                                              flexWrap: "nowrap",
+                                              alignItems: "center",
+                                              flexDirection: "row-reverse",
+                                            }}
+                                          >
+                                            {productCounts[item.productID] >
+                                            0 ? (
+                                              <>
+                                                <Image
+                                                  style={{
+                                                    paddingLeft: "90px",
+                                                  }}
+                                                  width={30}
+                                                  height={30}
+                                                  src={added}
+                                                />
+                                                <p className={noir.className}>
+                                                  {
+                                                    productCounts[
+                                                      item.productID
+                                                    ]
+                                                  }
+                                                  x
+                                                </p>
+                                              </>
+                                            ) : (
+                                              ""
+                                            )}
+                                          </div>
+                                          <Zoom>
+                                            <img
+                                              alt="skksks"
+                                              src={item.image}
+                                              //loading="lazy"
+                                              className="product-image"
+                                              //aria-hidden="true"
+                                            />
+                                          </Zoom>
+                                        </>
+                                      )}
+                                    </div>
+                                    <div
+                                      className="price-container"
+                                      data-testid="price-product-tile"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={70} height={16} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} price-paragraph`}
+                                          data-testid="price"
+                                        >
+                                          {item.non_member_price != null ? (
+                                            `${item.non_member_price} `
+                                          ) : (
+                                            <>
+                                              <div
+                                                style={{
+                                                  display: "flex",
+                                                  flexDirection: "row",
+                                                }}
+                                              >
+                                                {item.saleprice}
+                                                {item.wasprice != null ? (
+                                                  <s
+                                                    style={{
+                                                      color:
+                                                        "rgb(125, 120, 120)",
+                                                      fontWeight: "400",
+                                                      marginRight: "10px",
+                                                      paddingLeft: "2px",
+                                                      paddingTop: "2px",
+                                                    }}
+                                                  >
+                                                    {item.wasprice}
+                                                  </s>
+                                                ) : null}
+                                              </div>
+                                            </>
+                                          )}
+                                          <span className="highlighted-price">
+                                            {item.non_member_price != null
+                                              ? `${item.sale}`
+                                              : `${
+                                                  item.sale != null
+                                                    ? item.sale
+                                                    : ""
+                                                }`}
+                                          </span>
+                                        </p>
+                                      )}
+                                    </div>
+                                    {/* <a href="lalal" className="link-box-overlay"> */}
+                                    <div className="overlay-container">
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className={`${noir.className} product-brand-paragraph`}
+                                          data-testid="product-brand"
+                                        >
+                                          {item.brand ? item.brand : "\u00A0"}
+                                        </p>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <h3
+                                          className={`${noir.className} product-title-heading`}
+                                          data-testid="product-title"
+                                        >
+                                          {item.title}
+                                        </h3>
+                                      )}
+                                      {loading ? (
+                                        <Skeleton width={154} height={12} />
+                                      ) : (
+                                        <p
+                                          className="package-size-paragraph"
+                                          data-testid="product-package-size"
+                                        >
+                                          {item.weight}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton />
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${noir.className} button-54`}
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "24px",
+                                        fontSize: isMobile ? "16px" : "14px",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                    >
+                                      {productCounts[item.productID] > 0
+                                        ? "Add more"
+                                        : "Add to List"}
+                                    </button>
+                                  )}
+                                </div>
+                              </li>
+                            )
+                        )}
+                    </ul>
+                  </TabPanel>
+                )}
+              </>
+            )}
+                        {houseAisleCount > 0 && (
+              <>
+                {loading ? (
+                  <Skeleton />
+                ) : (
+                  <TabPanel>
+                    <h2 id="part10" className={noir.className}>
+                      Frozen Food
+                    </h2>
+
+                    <p
+                      style={{ color: "rgb(125, 120, 120)" }}
+                      className={noir.className}
+                    >
+                      *Out-of-stock items are not shown
+                    </p>
+                    {len === 3 && checkForStore === false && (
+                      <p
+                        style={{ color: "rgb(225, 37, 27)" }}
+                        className={noir.className}
+                      >
+                        You have reached the maximum number of stores on the
+                        List and cannot add more
+                      </p>
+                    )}
+                    <ul
+                      className="product-list"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        margin: "0px",
+                        padding: "0px",
+                        justifyContent: "center",
+                        // paddingLeft: "0px"
+                      }}
+                    >
+                      {responseData &&
+                        responseData.map(
+                          (item, index) =>
+                            item.category === "Household Supplies" && (
                               <li
                                 key={index}
                                 tabIndex="-1"
