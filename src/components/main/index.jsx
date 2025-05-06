@@ -209,17 +209,17 @@ const Products = ({ cartData }) => {
   //   };
   // }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/sale/stores")
-  //     .then((response) => {
-  //       setAvailableStores(response.data);
-  //     })
-  //     .catch((error) => {
-  //       setError("Error fetching available stores");
-  //       console.error("Error fetching available stores:", error);
-  //     });
-  // }, []); // получаем список магазинов
+  useEffect(() => {
+    axios
+      .get("https://api.shoppyscan.ca/api/sale/stores")
+      .then((response) => {
+        setAvailableStores(response.data);
+      })
+      .catch((error) => {
+        setError("Error fetching available stores");
+        console.error("Error fetching available stores:", error);
+      });
+  }, []); // получаем список магазинов
 
   // useEffect(() => {
   //   const handleStorageChange = () => {
@@ -235,44 +235,44 @@ const Products = ({ cartData }) => {
   //   };
   // }, []);
 
-  // const handleStoreChange = async (selectedStore) => {
-  //   setIsVisible(false);
-  //   setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
+  const handleStoreChange = async (selectedStore) => {
+    setIsVisible(false);
+    setSelectedStore(selectedStore); // сюда кладем выбранный из списка магазин (из массива выбираем один из)
 
-  //   // Сброс города и локации
-  //   setSelectedCity(null);
-  //   setSelectedLocation(null);
-  //   setLocations([]); // очищаем список локаций
-  //   setCities([]); // очищаем список городов
-  //   setSelectedLocationsObject({}); // очищаем объект локаций
-  //   // setSelectedLocation(null); // сбрасываем выбранную локацию
-  //   // setSelectedCity(null); // сбрасываем выбранный город
-  //   sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
-  //   const store = JSON.parse(sessionStorage.getItem("selectedStore"));
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:8080/api/sale/stores/${selectedStore}`
-  //     );
+    // Сброс города и локации
+    setSelectedCity(null);
+    setSelectedLocation(null);
+    setLocations([]); // очищаем список локаций
+    setCities([]); // очищаем список городов
+    setSelectedLocationsObject({}); // очищаем объект локаций
+    // setSelectedLocation(null); // сбрасываем выбранную локацию
+    // setSelectedCity(null); // сбрасываем выбранный город
+    sessionStorage.setItem("selectedStore", JSON.stringify(selectedStore));
+    const store = JSON.parse(sessionStorage.getItem("selectedStore"));
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/sale/stores/${selectedStore}`
+      );
 
-  //     if (response.status === 200) {
-  //       const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
-  //       const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
-  //       setCities(locationsArray); // сюда кладутся все локации выбранного магазина
-  //       setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
-  //     } else {
-  //       setError(
-  //         `Error fetching locations. Server returned: ${response.status}`
-  //       );
-  //       console.error(
-  //         "Error fetching locations. Server returned:",
-  //         response.status
-  //       );
-  //     }
-  //   } catch (error) {
-  //     setError(`Error fetching locations: ${error.message}`);
-  //     console.error("Error fetching locations:", error.message);
-  //   }
-  // };
+      if (response.status === 200) {
+        const locationsObject = response.data.locations; // сюда приходят все локации выбранного магазина в формате Maxi Lon:3456
+        const locationsArray = Object.keys(locationsObject); // сюда берутся только имена магазинов (ключи)
+        setCities(locationsArray); // сюда кладутся все локации выбранного магазина
+        setSelectedLocationsObject(locationsObject); // сюда кладутся пришедшие с бека данные вида {'Maxi Gatineau':8388,'Maxi Buckingham':8389,'Maxi Maniwaki':8624}}
+      } else {
+        setError(
+          `Error fetching locations. Server returned: ${response.status}`
+        );
+        console.error(
+          "Error fetching locations. Server returned:",
+          response.status
+        );
+      }
+    } catch (error) {
+      setError(`Error fetching locations: ${error.message}`);
+      console.error("Error fetching locations:", error.message);
+    }
+  };
 
   let getStores;
 
@@ -280,28 +280,28 @@ const Products = ({ cartData }) => {
     setSearchText(event.target.value);
   };
 
-  // const handleCityChange = async (city) => {
-  //   setSelectedCity(city);
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
-  //     );
+  const handleCityChange = async (city) => {
+    setSelectedCity(city);
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/sale/stores/${selectedStore}/${city}`
+      );
 
-  //     if (response.status === 200 && response.data.locations) {
-  //       const loc = Object.keys(response.data.locations); // Получаем только ключи
-  //       console.log("RESPONSE (до setState):", loc);
-  //       setLocations(loc);
-  //       setSelectedLocationsObject(response.data.locations);
-  //       sessionStorage.setItem("selectedCity", JSON.stringify(city));
-  //       console.log("LOCATIONS", locations);
-  //       console.log("SELECTED_LOCATIONS_OBJ", selectedLocationsObject);
-  //     } else {
-  //       console.error("Invalid response format for locations:", response.data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching locations:", error);
-  //   }
-  // };
+      if (response.status === 200 && response.data.locations) {
+        const loc = Object.keys(response.data.locations); // Получаем только ключи
+        console.log("RESPONSE (до setState):", loc);
+        setLocations(loc);
+        setSelectedLocationsObject(response.data.locations);
+        sessionStorage.setItem("selectedCity", JSON.stringify(city));
+        console.log("LOCATIONS", locations);
+        console.log("SELECTED_LOCATIONS_OBJ", selectedLocationsObject);
+      } else {
+        console.error("Invalid response format for locations:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching locations:", error);
+    }
+  };
 
   // useEffect(() => {
   //   console.log("Updated LOCATIONS (после setState):", locations);
