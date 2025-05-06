@@ -647,6 +647,8 @@ const Index = () => {
       setCities([]);
       setLocations([]);
       setSelectedLocationsObject({});
+      sessionStorage.clear()
+      window.dispatchEvent(new Event("storage"));
     }
   };
 
