@@ -321,13 +321,13 @@ const Index = () => {
   const handleStoreChange = async (store) => {
     setSelectedStore(store);
     setIsVisible(false);
-    // setSelectedCity(null);
-    // setSelectedLocation(null);
-    // setLocations([]); // очищаем список локаций
-    // setCities([]); // очищаем список городов
-    // setSelectedLocationsObject({}); // очищаем объект локаций
-    // setSelectedCity(null);
-    // setLocations([]); // Сбрасываем список магазинов при смене сети
+    setSelectedCity(null);
+    setSelectedLocation(null);
+    setLocations([]); // очищаем список локаций
+    setCities([]); // очищаем список городов
+    setSelectedLocationsObject({}); // очищаем объект локаций
+    setSelectedCity(null);
+    setLocations([]); // Сбрасываем список магазинов при смене сети
 
     try {
       const response = await axios.get(
@@ -616,7 +616,7 @@ const Index = () => {
   }, []);
 
   const removeStore = (storeId, event) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
     let updatedData = JSON.parse(sessionStorage.getItem("sel"));
 
