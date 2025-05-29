@@ -616,7 +616,7 @@ const Index = () => {
   }, []);
 
   const removeStore = (storeId, event) => {
-    event.stopPropagation();
+    // event.stopPropagation();
     const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
     let updatedData = JSON.parse(sessionStorage.getItem("sel"));
 
