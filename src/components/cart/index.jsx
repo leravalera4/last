@@ -1243,7 +1243,6 @@ const Cart = () => {
                                                   paddingLeft: "4px",
                                                 }}
                                               >
-                                                SALE PRICE $
                                                 {it.non_member_price}
                                               </p>
                                             )}
@@ -1603,7 +1602,7 @@ const Cart = () => {
                                 </p>
                               ) : it.quantity > 1 &&
                                 it.regprice != null &&
-                                it.stock != "Out of Stock" ? (
+                                it.stock != "Out of Stock"  ? (
                                 <p>
                                   ${it.prices.toFixed(2)}
                                   {it.saleprice != null ? (

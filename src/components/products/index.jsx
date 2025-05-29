@@ -1613,7 +1613,7 @@ const showLoading = loading;
                     }}
                   ></div>
                 )}
-              {selectedAll.length > 0 && (
+              {selectedAll && selectedAll.length > 0 ? (
                 <div style={{ paddingTop: "24px" }}>
                   {" "}
                   <h3 className={`${noir.className} h3`}>Selected Stores:</h3>
@@ -1650,7 +1650,7 @@ const showLoading = loading;
                     ))}
                   </ul>
                 </div>
-              )}
+              ) : <Ab/>}
             </div>
             {responseData.length > 0 && (
               <h1

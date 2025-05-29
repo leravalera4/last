@@ -117,6 +117,7 @@ const Index = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [hasPopupShown, setHasPopupShown] = useState(false);
+  const [prevStoresLength, setPrevStoresLength] = useState(null);
 
   useEffect(() => {
     const cart = JSON.parse(sessionStorage.getItem("cart"));
@@ -610,7 +611,8 @@ const Index = () => {
     }
   }, []);
 
-  const removeStore = (storeId) => {
+  const removeStore = (storeId, event) => {
+    event.stopPropagation();
     const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
     let updatedData = JSON.parse(sessionStorage.getItem("sel"));
   
@@ -903,6 +905,29 @@ const Index = () => {
     }
   };
 
+      useEffect(() => {
+    const handleStorageChange = () => {
+      const stores = JSON.parse(sessionStorage.getItem("stores1")) || [];
+      const currentLength = stores.length;
+      
+      // Если длина изменилась и стала меньше предыдущей
+      if (prevStoresLength !== null && currentLength < prevStoresLength) {
+        const storeSale = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+        if (storeSale.length > 0) {
+          // Берем последний магазин из массива
+          const lastStore = storeSale[storeSale.length - 1];
+          const lastIndex = storeSale.length - 1;
+          // Вызываем клик по последнему магазину
+          handleStoreClick(lastStore, lastIndex);
+        }
+      }
+      setPrevStoresLength(currentLength);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [prevStoresLength]);
+
   const toRad = (value) => (value * Math.PI) / 180;
 
   const haversine = (lat1, lng1, lat2, lng2) => {
@@ -959,21 +984,6 @@ const Index = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     const handleStorageChange = () => {
-  //       const activeLocation = JSON.parse(sessionStorage.getItem("selectedLocation"));
-  //       setSelectedLocation(activeLocation); // Обновляем состояние
-  //       console.log("SE_LO",activeLocation)
-  //     };
-
-  //     // Добавляем слушатель события для изменения sessionStorage
-  //     window.addEventListener("storage", handleStorageChange);
-
-  //     // Убираем слушатель при размонтировании компонента
-  //     return () => {
-  //       window.removeEventListener("storage", handleStorageChange);
-  //     };
-  //   }, []); // Пустой массив зависимостей, чтобы эффект сработал один раз
 
   useEffect(() => {
     window.addEventListener("storage", () => {
@@ -1007,58 +1017,7 @@ const Index = () => {
     setSelectedLocation(value);
   };
 
-  // const handleStoreClick = async (store, index) => {
-  //   setIsVisible(false);
-  //   sessionStorage.setItem("activeID", JSON.stringify(store.id));
-  //   sessionStorage.setItem(
-  //     "activeSTORE",
-  //     JSON.stringify(store.store)
-  //   );
-  //   sessionStorage.setItem(
-  //     "activeLOCATION",
-  //     JSON.stringify(store.location)
-  //   );
-  //   sessionStorage.setItem(
-  //     "activeCITY",
-  //     JSON.stringify(store.city)
-  //   );
-  //   sessionStorage.setItem(
-  //     "sale",
-  //     JSON.stringify({
-  //       store: store.store, // assuming store name or another identifier
-  //       location: store.location,
-  //       id: store.id,
-  //       city: store.city,
-  //     })
-  //   );
-  //   setLocValue(store.id); // Это обновит состояние, но может не отразиться немедленно
-  //   setSelectedStore(store.store);
-  //   setSelectedLocation(store.location);
-  //   setSelectedCity(store.city);
-  //   //   console.log("SELECTED LOCATION",store.location)
-  //   console.log("SELECTED STORE", store.store);
-  //   console.log("SELECTED CITY", store.city);
 
-  //   const cityRes = await axios.get(`https://api.shoppyscan.ca/api/sale/stores/${store.store}`);
-  //   const cities = cityRes.data.locations ? Object.keys(cityRes.data.locations) : [];
-  //   setCities(cities);
-
-  //   const locRes = await axios.get(`https://api.shoppyscan.ca/api/sale/stores/${store.store}/${store.city}`);
-  //   const locations = locRes.data.locations ? Object.keys(locRes.data.locations) : [];
-  //   setLocations(locations);
-  //   setSelectedLocationsObject(locRes.data.locations);
-
-  //   console.log("Data fetched and state updated");
-  //   // console.log("Setting locValue to ID:", store.id);
-  //   // console.log("Setting locValue to STORE:", store.store);
-  //   // console.log("Setting locValue to LOCATION:", store.location);
-  //   // console.log("Setting locValue to LOC VALUE:", locValue);
-  //   // console.log("Setting locValue to CITY:", store.city);
-  //   // setSelectedStore(store.store);
-  //   // setSelectedLocation(store.location);
-  //   toggleButton(index);
-  //   handleAddStore(); // Вызываем функцию с актуальными данными
-  // }
 
   const handleStoreClick = async (store, index) => {
     try {
