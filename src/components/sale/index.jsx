@@ -1651,19 +1651,11 @@ const Index = () => {
                     marginRight: isMobile && "0px",
                     fontSize: isMobile && "16px",
                     borderColor:
-                      len === 3 && checkForStore === false
-                        ? "#ddd"
-                        : isMobile
-                        ? "black"
-                        : undefined, // Если ни одно условие не выполняется, убираем свойство
-                    cursor:
-                      len === 3 && checkForStore === false
-                        ? "not-allowed"
-                        : "pointer",
-                    color:
-                      len === 3 && checkForStore === false ? "#ccc" : undefined,
+                      len === 3 ? "#ddd" : isMobile ? "black" : undefined, // Если ни одно условие не выполняется, убираем свойство
+                    cursor: len === 3 ? "not-allowed" : "pointer",
+                    color: len === 3 ? "#ccc" : undefined,
                   }}
-                  disabled={len === 3 && checkForStore === false}
+                  disabled = {len === 3}
 
                   //   style={{
                   //     outline: "0",
@@ -1692,6 +1684,15 @@ const Index = () => {
           </>
         )}
       </div>
+            {len === 3 && (
+        <p
+          style={{ color: "rgb(225, 37, 27)", textAlign: "center" }}
+          className={noir.className}
+        >
+          You have reached the maximum number of stores on the List and cannot
+          add more
+        </p>
+      )}
 
       {storeSale && storeSale.length > 0 ? (
         <div
