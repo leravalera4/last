@@ -321,13 +321,13 @@ const Index = () => {
   const handleStoreChange = async (store) => {
     setSelectedStore(store);
     setIsVisible(false);
-    setSelectedCity(null);
-    setSelectedLocation(null);
-    setLocations([]); // очищаем список локаций
-    setCities([]); // очищаем список городов
-    setSelectedLocationsObject({}); // очищаем объект локаций
-    setSelectedCity(null);
-    setLocations([]); // Сбрасываем список магазинов при смене сети
+    // setSelectedCity(null);
+    // setSelectedLocation(null);
+    // setLocations([]); // очищаем список локаций
+    // setCities([]); // очищаем список городов
+    // setSelectedLocationsObject({}); // очищаем объект локаций
+    // setSelectedCity(null);
+    // setLocations([]); // Сбрасываем список магазинов при смене сети
 
     try {
       const response = await axios.get(
@@ -909,28 +909,28 @@ const Index = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const handleStorageChange = () => {
-  //     const stores = JSON.parse(sessionStorage.getItem("stores1")) || [];
-  //     const currentLength = stores.length;
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const stores = JSON.parse(sessionStorage.getItem("stores1")) || [];
+      const currentLength = stores.length;
 
-  //     // Если длина изменилась и стала меньше предыдущей
-  //     if (prevStoresLength !== null && currentLength < prevStoresLength) {
-  //       const storeSale = JSON.parse(sessionStorage.getItem("storeSale")) || [];
-  //       if (storeSale.length > 0) {
-  //         // Берем последний магазин из массива
-  //         const lastStore = storeSale[storeSale.length - 1];
-  //         const lastIndex = storeSale.length - 1;
-  //         // Вызываем клик по последнему магазину
-  //         handleStoreClick(lastStore, lastIndex);
-  //       }
-  //     }
-  //     setPrevStoresLength(currentLength);
-  //   };
+      // Если длина изменилась и стала меньше предыдущей
+      if (prevStoresLength !== null && currentLength < prevStoresLength) {
+        const storeSale = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+        if (storeSale.length > 0) {
+          // Берем последний магазин из массива
+          const lastStore = storeSale[storeSale.length - 1];
+          const lastIndex = storeSale.length - 1;
+          // Вызываем клик по последнему магазину
+          handleStoreClick(lastStore, lastIndex);
+        }
+      }
+      setPrevStoresLength(currentLength);
+    };
 
-  //   window.addEventListener("storage", handleStorageChange);
-  //   return () => window.removeEventListener("storage", handleStorageChange);
-  // }, [prevStoresLength]);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [prevStoresLength]);
 
   const toRad = (value) => (value * Math.PI) / 180;
 
