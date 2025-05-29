@@ -321,11 +321,11 @@ const Index = () => {
   const handleStoreChange = async (store) => {
     setSelectedStore(store);
     setIsVisible(false);
-    setSelectedCity(null);
-    setSelectedLocation(null);
-    setLocations([]); // очищаем список локаций
-    setCities([]); // очищаем список городов
-    setSelectedLocationsObject({}); // очищаем объект локаций
+    // setSelectedCity(null);
+    // setSelectedLocation(null);
+    // setLocations([]); // очищаем список локаций
+    // setCities([]); // очищаем список городов
+    // setSelectedLocationsObject({}); // очищаем объект локаций
     // setSelectedCity(null);
     // setLocations([]); // Сбрасываем список магазинов при смене сети
 
@@ -599,10 +599,9 @@ const Index = () => {
     };
   }, []);
 
-
   useEffect(() => {
     const saleStores = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
-  
+
     if (saleStores.length === 0) {
       // Все магазины удалены — сбросить селекты и состояния
       setSelectedStore(null);
@@ -611,7 +610,7 @@ const Index = () => {
       setCities([]);
       setLocations([]);
       setSelectedLocationsObject({});
-  
+
       console.log("Все магазины удалены — сброс состояний");
     }
   }, []);
@@ -620,15 +619,15 @@ const Index = () => {
     event.stopPropagation();
     const data = JSON.parse(sessionStorage.getItem("stores1")) || [];
     let updatedData = JSON.parse(sessionStorage.getItem("sel"));
-  
+
     if (!updatedData) {
       updatedData = JSON.parse(sessionStorage.getItem("storesName")) || [];
     }
-  
+
     // Фильтруем удаляемый магазин
     const updatedData1 = updatedData.filter((store) => store.id != storeId);
     const da = data.filter((id) => id != storeId);
-  
+
     // Обновляем sessionStorage
     sessionStorage.setItem("sel", JSON.stringify(updatedData1));
     sessionStorage.setItem("storeSale", JSON.stringify(updatedData1));
@@ -636,11 +635,11 @@ const Index = () => {
     sessionStorage.setItem("stores1", JSON.stringify(da));
     sessionStorage.setItem("stores", JSON.stringify(da));
     sessionStorage.setItem("cartIDs", JSON.stringify(da));
-  
+
     // Обновляем UI
     setStoreSale(updatedData1.map((item) => item.location));
     window.dispatchEvent(new Event("storage"));
-  
+
     // Если остались магазины — кликни на первый
     if (updatedData1.length > 0) {
       const nextStore = updatedData1[0];
@@ -654,7 +653,7 @@ const Index = () => {
       setCities([]);
       setLocations([]);
       setSelectedLocationsObject({});
-      sessionStorage.clear()
+      sessionStorage.clear();
       window.dispatchEvent(new Event("storage"));
     }
   };
@@ -910,11 +909,11 @@ const Index = () => {
     }
   };
 
-      useEffect(() => {
+  useEffect(() => {
     const handleStorageChange = () => {
       const stores = JSON.parse(sessionStorage.getItem("stores1")) || [];
       const currentLength = stores.length;
-      
+
       // Если длина изменилась и стала меньше предыдущей
       if (prevStoresLength !== null && currentLength < prevStoresLength) {
         const storeSale = JSON.parse(sessionStorage.getItem("storeSale")) || [];
@@ -989,7 +988,6 @@ const Index = () => {
     }
   };
 
-
   useEffect(() => {
     window.addEventListener("storage", () => {
       // Сохраняем данные в localStorage
@@ -1021,8 +1019,6 @@ const Index = () => {
     console.log("CHANGING LOCATION TO:", value);
     setSelectedLocation(value);
   };
-
-
 
   const handleStoreClick = async (store, index) => {
     try {
@@ -1084,8 +1080,6 @@ const Index = () => {
   }, []);
 
   if (!mounted) return null;
-
-
 
   return (
     <div
@@ -1721,7 +1715,7 @@ const Index = () => {
                   flexDirection: isMobile ? "column-reverse" : "row",
                   alignItems: "center",
                   marginRight: isMobile && "5px",
-                  borderColor:"black"
+                  borderColor: "black",
                 }}
               >
                 <button
@@ -1740,12 +1734,23 @@ const Index = () => {
                   {
                     <p
                       className={noir.className}
-                      style={{ fontWeight: "700", paddingRight: "4px",fontSize:'14px', color: activeButtons[index] ? "#4B6F4C" : 'black' }}
+                      style={{
+                        fontWeight: "700",
+                        paddingRight: "4px",
+                        fontSize: "14px",
+                        color: activeButtons[index] ? "#4B6F4C" : "black",
+                      }}
                     >
                       {store.store}:{" "}
                     </p>
                   }
-                  <p style={{fontSize:'14px', color: activeButtons[index] ? "#4B6F4C" : 'black'}} className={noir.className}>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      color: activeButtons[index] ? "#4B6F4C" : "black",
+                    }}
+                    className={noir.className}
+                  >
                     {" "}
                     {store.location}, {store.city} <br />
                     {store.distance ? ` (${store.distance.toFixed(2)} km)` : ""}
@@ -1793,8 +1798,7 @@ const Index = () => {
         )
       )}
 
-      {
-      responseData.length !== 0 ? (
+      {responseData.length !== 0 ? (
         <Tabs>
           <div
             style={{
@@ -1888,10 +1892,8 @@ const Index = () => {
                         Frozen Food
                       </Tab>
                     )}
-                                        {houseAisleCount > 0 && (
-                      <Tab className={`${noir.className} links`}>
-                        Household
-                      </Tab>
+                    {houseAisleCount > 0 && (
+                      <Tab className={`${noir.className} links`}>Household</Tab>
                     )}
                   </TabList>
                 </div>
@@ -4910,7 +4912,7 @@ const Index = () => {
                 )}
               </>
             )}
-                        {houseAisleCount > 0 && (
+            {houseAisleCount > 0 && (
               <>
                 {loading ? (
                   <Skeleton />
@@ -5148,7 +5150,7 @@ const Index = () => {
       ) : firstTime || responseData.length === 0 ? (
         <About />
       ) : (
-         <div
+        <div
           style={{
             display: "flex",
             flexDirection: "column",
