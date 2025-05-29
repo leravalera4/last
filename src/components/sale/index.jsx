@@ -321,6 +321,11 @@ const Index = () => {
   const handleStoreChange = async (store) => {
     setSelectedStore(store);
     setIsVisible(false);
+    setSelectedCity(null);
+    setSelectedLocation(null);
+    setLocations([]); // очищаем список локаций
+    setCities([]); // очищаем список городов
+    setSelectedLocationsObject({}); // очищаем объект локаций
     // setSelectedCity(null);
     // setLocations([]); // Сбрасываем список магазинов при смене сети
 
@@ -1788,8 +1793,7 @@ const Index = () => {
         )
       )}
 
-      {selectedStore !== null &&
-      selectedLocation !== null &&
+      {
       responseData.length !== 0 ? (
         <Tabs>
           <div
