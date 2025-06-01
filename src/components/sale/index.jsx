@@ -240,74 +240,74 @@ const Index = () => {
   //   };
   // }, []);
 
-  // useEffect(() => {
-  //   let isUpdating = false;
+  useEffect(() => {
+    let isUpdating = false;
 
-  //   const parseJSON = (key) => {
-  //     try {
-  //       return JSON.parse(sessionStorage.getItem(key) || "null");
-  //     } catch (e) {
-  //       console.error(`Error parsing ${key}:`, e);
-  //       return null;
-  //     }
-  //   };
+    const parseJSON = (key) => {
+      try {
+        return JSON.parse(sessionStorage.getItem(key) || "null");
+      } catch (e) {
+        console.error(`Error parsing ${key}:`, e);
+        return null;
+      }
+    };
 
-  //   const handleStorageChange = () => {
-  //     if (isUpdating) return;
+    const handleStorageChange = () => {
+      if (isUpdating) return;
 
-  //     const sale = parseJSON("sale");
-  //     const cartIDs = parseJSON("cartIDs");
-  //     const storeSale = parseJSON("storeSale");
-  //     const storesName = parseJSON("storesName");
+      const sale = parseJSON("sale");
+      const cartIDs = parseJSON("cartIDs");
+      const storeSale = parseJSON("storeSale");
+      const storesName = parseJSON("storesName");
 
-  //     const saleId = sale?.id?.toString();
-  //     const isInCart = saleId && cartIDs?.includes(saleId);
+      const saleId = sale?.id?.toString();
+      const isInCart = saleId && cartIDs?.includes(saleId);
 
-  //     setCheckForStore(!!isInCart);
+      setCheckForStore(!!isInCart);
 
-  //     // Обновление выбранных значений
-  //     if (sale) {
-  //       setSelectedStore(sale.store);
-  //       handleStoreChange(sale.store);
-  //       setSelectedLocation(sale.location);
-  //       setSelectedCity(sale.city);
-  //     }
+      // Обновление выбранных значений
+      if (sale) {
+        setSelectedStore(sale.store);
+        handleStoreChange(sale.store);
+        setSelectedLocation(sale.location);
+        setSelectedCity(sale.city);
+      }
 
-  //     if (storeSale) {
-  //       setStoreSale(storeSale);
-  //     }
+      if (storeSale) {
+        setStoreSale(storeSale);
+      }
 
-  //     // Обновляем store ID-ы только если они изменились
-  //     if (storesName) {
-  //       const newIds = storesName.map((store) => store.id);
-  //       const newIdsString = JSON.stringify(newIds);
-  //       const prevIdsString = sessionStorage.getItem("cartIDs");
+      // Обновляем store ID-ы только если они изменились
+      if (storesName) {
+        const newIds = storesName.map((store) => store.id);
+        const newIdsString = JSON.stringify(newIds);
+        const prevIdsString = sessionStorage.getItem("cartIDs");
 
-  //       if (prevIdsString !== newIdsString) {
-  //         isUpdating = true;
-  //         sessionStorage.setItem("stores1", newIdsString);
-  //         sessionStorage.setItem("stores", newIdsString);
-  //         sessionStorage.setItem("cartIDs", newIdsString);
-  //         sessionStorage.setItem("storeSale", JSON.stringify(storesName));
+        if (prevIdsString !== newIdsString) {
+          isUpdating = true;
+          sessionStorage.setItem("stores1", newIdsString);
+          sessionStorage.setItem("stores", newIdsString);
+          sessionStorage.setItem("cartIDs", newIdsString);
+          sessionStorage.setItem("storeSale", JSON.stringify(storesName));
 
-  //         // Разблокируем обновление после короткой паузы
-  //         setTimeout(() => {
-  //           isUpdating = false;
-  //         }, 100);
-  //       }
-  //     }
-  //   };
+          // Разблокируем обновление после короткой паузы
+          setTimeout(() => {
+            isUpdating = false;
+          }, 100);
+        }
+      }
+    };
 
-  //   // Первичная инициализация
-  //   handleStorageChange();
+    // Первичная инициализация
+    handleStorageChange();
 
-  //   // Слушаем изменения в sessionStorage (эмуляция через custom dispatch)
-  //   window.addEventListener("storage", handleStorageChange);
+    // Слушаем изменения в sessionStorage (эмуляция через custom dispatch)
+    window.addEventListener("storage", handleStorageChange);
 
-  //   return () => {
-  //     window.removeEventListener("storage", handleStorageChange);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -909,28 +909,28 @@ const Index = () => {
     }
   };
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const stores = JSON.parse(sessionStorage.getItem("stores1")) || [];
-      const currentLength = stores.length;
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     const stores = JSON.parse(sessionStorage.getItem("stores1")) || [];
+  //     const currentLength = stores.length;
 
-      // Если длина изменилась и стала меньше предыдущей
-      if (prevStoresLength !== null && currentLength < prevStoresLength) {
-        const storeSale = JSON.parse(sessionStorage.getItem("storeSale")) || [];
-        if (storeSale.length > 0) {
-          // Берем последний магазин из массива
-          const lastStore = storeSale[storeSale.length - 1];
-          const lastIndex = storeSale.length - 1;
-          // Вызываем клик по последнему магазину
-          handleStoreClick(lastStore, lastIndex);
-        }
-      }
-      setPrevStoresLength(currentLength);
-    };
+  //     // Если длина изменилась и стала меньше предыдущей
+  //     if (prevStoresLength !== null && currentLength < prevStoresLength) {
+  //       const storeSale = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+  //       if (storeSale.length > 0) {
+  //         // Берем последний магазин из массива
+  //         const lastStore = storeSale[storeSale.length - 1];
+  //         const lastIndex = storeSale.length - 1;
+  //         // Вызываем клик по последнему магазину
+  //         handleStoreClick(lastStore, lastIndex);
+  //       }
+  //     }
+  //     setPrevStoresLength(currentLength);
+  //   };
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [prevStoresLength]);
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, [prevStoresLength]);
 
   const toRad = (value) => (value * Math.PI) / 180;
 
