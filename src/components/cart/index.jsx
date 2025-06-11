@@ -785,8 +785,8 @@ const Cart = () => {
                               </button>
                             </div>
                             {(isNotSold || stock) && (
-                              <p style={{ color: "red" }}>
-                                Some of the items doesnt sold here or sold out
+                              <p style={{ color: "rgb(225, 37, 27);" }}>
+                                Some of the items dont sold here or sold out
                               </p>
                             )}
                           </div>
