@@ -720,6 +720,12 @@ const Cart = () => {
                           (f) => f.location === item.storeName
                         );
                         const storeType = matchedStore?.store || item.storetype;
+                        const isNotSold = item.items.some(
+                          (item) => item.val === "Not sold here"
+                        );
+                        const stock = item.items.some(
+                          (item) => item.stock === "Out of stock"
+                        );
                         console.log("storeType", storeType);
                         return (
                           <div
@@ -803,12 +809,7 @@ const Cart = () => {
                         (f) => f.location === item.storeName
                       );
                       const storeType = matchedStore?.store || item.storetype;
-                      const isNotSold = item.items.some(
-                        (item) => item.val === "Not sold here"
-                      );
-                      const stock = item.items.some(
-                        (item) => item.stock === "Out of stock"
-                      );
+
                       console.log("storeType", storeType);
                       return <Tab key={index}>{storeType}</Tab>;
                     })}
