@@ -1419,7 +1419,7 @@ const Index = () => {
               //     "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
               // }}
               onChange={(e) => handleStoreChange(e.target.value)}
-              value={selectedStore}
+              value={selectedStore || ""} // Добавляем значение по умолчанию
             >
               <option
                 style={{ color: "#212529" }}
@@ -1498,7 +1498,7 @@ const Index = () => {
                     borderColor: isMobile ? "black" : undefined,
                   }}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity}
+                  value={selectedCity || ""} // Добавляем значение по умолчанию
                 >
                   <option
                     style={{ color: "#212529" }}
@@ -1549,7 +1549,7 @@ const Index = () => {
                     borderColor: isMobile && "black",
                   }}
                   onChange={(e) => setSelectedLocation(e.target.value)} // ✅ Используем setSelectedLocation
-                  value={selectedLocation}
+                  value={selectedLocation || ""} // Добавляем значение по умолчанию
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
