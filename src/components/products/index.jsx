@@ -593,7 +593,7 @@ const Products = ({ cartData }) => {
   useEffect(() => {
     // Function to handle changes in sessionStorage
     const handleStorageChange = () => {
-      const sale = JSON.parse(sessionStorage.getItem("selectedStore"));
+      // const sale = JSON.parse(sessionStorage.getItem("selectedStore"));
       const selectedAll = JSON.parse(sessionStorage.getItem("sel"));
       const storedResponseData = JSON.parse(
         sessionStorage.getItem("selectedLocation")
@@ -607,10 +607,10 @@ const Products = ({ cartData }) => {
       if (cartNames) {
         setSelectedAll(cartNames);
       }
-      if (sale) {
-        setSelectedStore(sale);
-        handleStoreChange(sale);
-      }
+      // if (sale) {
+      //   setSelectedStore(sale);
+      //   handleStoreChange(sale);
+      // }
       if (storedResponseData) {
         setSelectedLocation(storedResponseData);
       }
@@ -891,7 +891,7 @@ const showLoading = loading;
                   // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
                   // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
                 }}
-                value={selectedStore}
+                value={selectedStore || ""}
                 style={{
                   marginRight: "20px",
                   width: isMobile ? "70%" : "200px",
