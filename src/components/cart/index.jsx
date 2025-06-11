@@ -778,6 +778,11 @@ const Cart = () => {
                                 />
                               </button>
                             </div>
+                            {(isNotSold || stock) && (
+                              <p style={{ color: "red" }}>
+                                Some of the items doesnt sold here or sold out
+                              </p>
+                            )}
                           </div>
                         );
                       })}
@@ -798,6 +803,12 @@ const Cart = () => {
                         (f) => f.location === item.storeName
                       );
                       const storeType = matchedStore?.store || item.storetype;
+                      const isNotSold = item.items.some(
+                        (item) => item.val === "Not sold here"
+                      );
+                      const stock = item.items.some(
+                        (item) => item.stock === "Out of stock"
+                      );
                       console.log("storeType", storeType);
                       return <Tab key={index}>{storeType}</Tab>;
                     })}
@@ -1602,7 +1613,7 @@ const Cart = () => {
                                 </p>
                               ) : it.quantity > 1 &&
                                 it.regprice != null &&
-                                it.stock != "Out of Stock"  ? (
+                                it.stock != "Out of Stock" ? (
                                 <p>
                                   ${it.prices.toFixed(2)}
                                   {it.saleprice != null ? (
