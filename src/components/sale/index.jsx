@@ -2279,21 +2279,6 @@ const Index = () => {
                                           flexDirection: "row-reverse",
                                         }}
                                       >
-                                        {productCounts[item.productID] > 0 ? (
-                                          <>
-                                            <Image
-                                              style={{ paddingLeft: "60px" }}
-                                              width={30}
-                                              height={30}
-                                              src={added}
-                                            />
-                                            <p className={noir.className}>
-                                              {productCounts[item.productID]}x
-                                            </p>
-                                          </>
-                                        ) : (
-                                          ""
-                                        )}
                                       </div>
                                       <Zoom>
                                         <img
@@ -2392,35 +2377,139 @@ const Index = () => {
                               {loading ? (
                                 <Skeleton />
                               ) : (
-                                <button
-                                  onClick={() => handleAddToCart(item, index)}
-                                  className={`${noir.className} button-54`}
-                                  style={{
-                                    marginLeft: isMobile ? "10px" : "24px",
-                                    fontSize: isMobile ? "16px" : "14px",
-                                    borderColor:
-                                      len === 3 && checkForStore === false
-                                        ? "#ddd"
-                                        : isMobile
-                                        ? "black"
-                                        : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                    cursor:
-                                      len === 3 && checkForStore === false
-                                        ? "not-allowed"
-                                        : "pointer",
-                                    color:
-                                      len === 3 && checkForStore === false
-                                        ? "#ccc"
-                                        : undefined,
-                                  }}
-                                  disabled={
-                                    len === 3 && checkForStore === false
-                                  }
-                                >
-                                  {productCounts[item.productID] > 0
-                                    ? "Add more"
-                                    : "Add to List"}
-                                </button>
+                                <>
+                                  {(productCounts &&
+                                    productCounts[item.productID] === 0) ||
+                                  productCounts[item.productID] ===
+                                    undefined ? (
+                                    <button
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                      className={`${
+                                        noir?.className ?? ""
+                                      } button-54`} // добавил защиту от undefined для noir.className
+                                      style={{
+                                        marginLeft: isMobile ? "10px" : "24px",
+                                        fontSize: isMobile ? "15px" : "14px",
+                                        height: isMobile ? "51px" : "39px",
+                                        padding: ".375rem .9rem .375rem .75rem",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                    >
+                                      Add to List
+                                    </button>
+                                  ) : (
+                                    <div
+                                      className={`${
+                                        noir?.className ?? ""
+                                      } button-54`}
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        marginRight: "0px",
+                                        marginLeft: "8px",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width: isMobile ? "90%" : "80%",
+                                        height: isMobile ? "51px" : "39px",
+                                        cursor: "default",
+                                        borderColor:
+                                          len === 3 && checkForStore === false
+                                            ? "#ddd"
+                                            : isMobile
+                                            ? "black"
+                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                        cursor:
+                                          len === 3 && checkForStore === false
+                                            ? "not-allowed"
+                                            : "pointer",
+                                        color:
+                                          len === 3 && checkForStore === false
+                                            ? "#ccc"
+                                            : undefined,
+                                      }}
+                                      disabled={
+                                        len === 3 && checkForStore === false
+                                      }
+                                    >
+                                      <button
+                                        onClick={() =>
+                                          handleDeleteFromCart(item, index)
+                                        }
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor:
+                                            item.quantity === 0
+                                              ? "not-allowed"
+                                              : "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
+                                      >
+                                        <Image
+                                          width={20}
+                                          height={30}
+                                          src={minus}
+                                        />
+                                      </button>
+                                      <p
+                                        style={{
+                                          marginRight: "10px",
+                                          marginLeft: "10px",
+                                          fontFamiy: "monospace",
+                                          width: isMobile ? "20px" : "40px",
+                                          textAlign: "center",
+                                        }}
+                                      >
+                                        {productCounts[item.productID]}
+                                      </p>
+                                      <button
+                                        onClick={() =>
+                                          handleAddToCart(item, index)
+                                        }
+                                        style={{
+                                          outline: "0px",
+                                          fontSize: "21px",
+                                          fontWeight: "500",
+                                          lineHeight: "20px",
+                                          verticalAlign: "middle",
+                                          color: "red",
+                                          border: "0px",
+                                          cursor: "pointer",
+                                          backgroundColor: "transparent",
+                                        }}
+                                      >
+                                        <Image
+                                          width={20}
+                                          height={30}
+                                          src={plus}
+                                        />
+                                      </button>
+                                    </div>
+                                  )}
+                                </>
                               )}
                             </div>
                           </li>
