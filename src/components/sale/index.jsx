@@ -519,9 +519,9 @@ const Index = () => {
       setSelectedCity(selectedCity);
     }
 
-    if (len === 2) {
-      setLen(3);
-    }
+    // if (len === 2) {
+    //   setLen(3);
+    // }
 
     const storesNames = JSON.parse(sessionStorage.getItem("storesName")) || [];
 
@@ -636,6 +636,7 @@ const Index = () => {
     sessionStorage.setItem("stores1", JSON.stringify(da));
     sessionStorage.setItem("stores", JSON.stringify(da));
     sessionStorage.setItem("cartIDs", JSON.stringify(da));
+    sessionStorage.setItem("storesLength", JSON.stringify(da.length));
 
     // Обновляем UI
     setStoreSale(updatedData1.map((item) => item.location));
