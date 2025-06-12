@@ -581,6 +581,15 @@ const Index = () => {
       // Handle the error (display a message to the user, log it, etc.)
     }
 
+    const updatedStores = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+    const justAddedStore = updatedStores[updatedStores.length - 1];
+    const justAddedIndex = updatedStores.length - 1;
+
+    if (justAddedStore) {
+      toggleButton(justAddedIndex);
+      handleStoreClick(justAddedStore, justAddedIndex);
+    }
+
     // Reset selected location for the next selection
     //setSelectedLocation(null);
   };
@@ -1657,7 +1666,7 @@ const Index = () => {
                     cursor: len === 3 ? "not-allowed" : "pointer",
                     color: len === 3 ? "#ccc" : undefined,
                   }}
-                  disabled = {len === 3}
+                  disabled={len === 3}
 
                   //   style={{
                   //     outline: "0",
@@ -1686,7 +1695,7 @@ const Index = () => {
           </>
         )}
       </div>
-            {len === 3 && (
+      {len === 3 && (
         <p
           style={{ color: "rgb(225, 37, 27)", textAlign: "center" }}
           className={noir.className}
@@ -2280,8 +2289,7 @@ const Index = () => {
                                           alignItems: "center",
                                           flexDirection: "row-reverse",
                                         }}
-                                      >
-                                      </div>
+                                      ></div>
                                       <Zoom>
                                         <img
                                           alt="skksks"
@@ -3337,139 +3345,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -3668,139 +3687,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -3999,139 +4029,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -4330,139 +4371,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -4661,139 +4713,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -4992,139 +5055,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -5323,139 +5397,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -5655,139 +5740,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -5987,139 +6083,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
@@ -6317,139 +6424,150 @@ const Index = () => {
                                   {loading ? (
                                     <Skeleton />
                                   ) : (
-                                <>
-                                  {(productCounts &&
-                                    productCounts[item.productID] === 0) ||
-                                  productCounts[item.productID] ===
-                                    undefined ? (
-                                    <button
-                                      onClick={() =>
-                                        handleAddToCart(item, index)
-                                      }
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`} // добавил защиту от undefined для noir.className
-                                      style={{
-                                        marginLeft: isMobile ? "10px" : "24px",
-                                        fontSize: isMobile ? "15px" : "14px",
-                                        height: isMobile ? "51px" : "39px",
-                                        padding: ".375rem .9rem .375rem .75rem",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      Add to List
-                                    </button>
-                                  ) : (
-                                    <div
-                                      className={`${
-                                        noir?.className ?? ""
-                                      } button-54`}
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        marginRight: "0px",
-                                        marginLeft: "8px",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: isMobile ? "90%" : "80%",
-                                        height: isMobile ? "51px" : "39px",
-                                        cursor: "default",
-                                        borderColor:
-                                          len === 3 && checkForStore === false
-                                            ? "#ddd"
-                                            : isMobile
-                                            ? "black"
-                                            : undefined, // Если ни одно условие не выполняется, убираем свойство
-                                        cursor:
-                                          len === 3 && checkForStore === false
-                                            ? "not-allowed"
-                                            : "pointer",
-                                        color:
-                                          len === 3 && checkForStore === false
-                                            ? "#ccc"
-                                            : undefined,
-                                      }}
-                                      disabled={
-                                        len === 3 && checkForStore === false
-                                      }
-                                    >
-                                      <button
-                                        onClick={() =>
-                                          handleDeleteFromCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor:
-                                            item.quantity === 0
-                                              ? "not-allowed"
-                                              : "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={minus}
-                                        />
-                                      </button>
-                                      <p
-                                        style={{
-                                          marginRight: "10px",
-                                          marginLeft: "10px",
-                                          fontFamiy: "monospace",
-                                          width: isMobile ? "20px" : "40px",
-                                          textAlign: "center",
-                                        }}
-                                      >
-                                        {productCounts[item.productID]}
-                                      </p>
-                                      <button
-                                        onClick={() =>
-                                          handleAddToCart(item, index)
-                                        }
-                                        style={{
-                                          outline: "0px",
-                                          fontSize: "21px",
-                                          fontWeight: "500",
-                                          lineHeight: "20px",
-                                          verticalAlign: "middle",
-                                          color: "red",
-                                          border: "0px",
-                                          cursor: "pointer",
-                                          backgroundColor: "transparent",
-                                        }}
-                                      >
-                                        <Image
-                                          width={20}
-                                          height={30}
-                                          src={plus}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
+                                    <>
+                                      {(productCounts &&
+                                        productCounts[item.productID] === 0) ||
+                                      productCounts[item.productID] ===
+                                        undefined ? (
+                                        <button
+                                          onClick={() =>
+                                            handleAddToCart(item, index)
+                                          }
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`} // добавил защиту от undefined для noir.className
+                                          style={{
+                                            marginLeft: isMobile
+                                              ? "10px"
+                                              : "24px",
+                                            fontSize: isMobile
+                                              ? "15px"
+                                              : "14px",
+                                            height: isMobile ? "51px" : "39px",
+                                            padding:
+                                              ".375rem .9rem .375rem .75rem",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          Add to List
+                                        </button>
+                                      ) : (
+                                        <div
+                                          className={`${
+                                            noir?.className ?? ""
+                                          } button-54`}
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            marginRight: "0px",
+                                            marginLeft: "8px",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            width: isMobile ? "90%" : "80%",
+                                            height: isMobile ? "51px" : "39px",
+                                            cursor: "default",
+                                            borderColor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ddd"
+                                                : isMobile
+                                                ? "black"
+                                                : undefined, // Если ни одно условие не выполняется, убираем свойство
+                                            cursor:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "not-allowed"
+                                                : "pointer",
+                                            color:
+                                              len === 3 &&
+                                              checkForStore === false
+                                                ? "#ccc"
+                                                : undefined,
+                                          }}
+                                          disabled={
+                                            len === 3 && checkForStore === false
+                                          }
+                                        >
+                                          <button
+                                            onClick={() =>
+                                              handleDeleteFromCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor:
+                                                item.quantity === 0
+                                                  ? "not-allowed"
+                                                  : "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={minus}
+                                            />
+                                          </button>
+                                          <p
+                                            style={{
+                                              marginRight: "10px",
+                                              marginLeft: "10px",
+                                              fontFamiy: "monospace",
+                                              width: isMobile ? "20px" : "40px",
+                                              textAlign: "center",
+                                            }}
+                                          >
+                                            {productCounts[item.productID]}
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleAddToCart(item, index)
+                                            }
+                                            style={{
+                                              outline: "0px",
+                                              fontSize: "21px",
+                                              fontWeight: "500",
+                                              lineHeight: "20px",
+                                              verticalAlign: "middle",
+                                              color: "red",
+                                              border: "0px",
+                                              cursor: "pointer",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <Image
+                                              width={20}
+                                              height={30}
+                                              src={plus}
+                                            />
+                                          </button>
+                                        </div>
+                                      )}
+                                    </>
                                   )}
                                 </div>
                               </li>
