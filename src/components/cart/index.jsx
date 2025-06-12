@@ -700,13 +700,13 @@ const Cart = () => {
             </>
           ) : (
             <div style={{ display: "flex", flexDirection: "column" }}>
-              {response && response.length === 0 ? (
+              {cartLength === 0 ? (
                 <p
                   style={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                  }}
+                  }} 
                 >
                   Nothing here yet, but you can add 3 stores in total to compare
                   prices
@@ -815,7 +815,7 @@ const Cart = () => {
                     })}
                 </TabList>
                 <TabPanel>
-                  {response && response.length === 0 ? (
+                  {cartLength === 0 ? (
                     <p
                       style={{
                         display: "flex",
@@ -1326,7 +1326,7 @@ const Cart = () => {
           <div style={{ display: "flex", flexDirection: "column" }}>
             {
             // (response && response.length === 0) ||
-            (cart && cart.length === 0) ? (
+            (cartLength === 0) ? (
               <p
                 style={{
                   display: "flex",
