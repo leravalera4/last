@@ -321,6 +321,7 @@ const Index = () => {
   const handleStoreChange = async (store) => {
     setSelectedStore(store);
     setIsVisible(false);
+    setSelectedCity(null);
     // setSelectedCity(null);
     // setSelectedLocation(null);
     // setLocations([]); // очищаем список локаций
