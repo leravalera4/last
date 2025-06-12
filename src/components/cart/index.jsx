@@ -199,41 +199,80 @@ const Cart = () => {
     }
   };
 
+  // const removeStore = (storeId) => {
+  //   const updatedData = response.filter((store) => store.id != storeId);
+  //   setResponseData(updatedData);
+  //   const get = JSON.parse(sessionStorage.getItem("cartIDs"));
+  //   const sel = JSON.parse(sessionStorage.getItem("sel"));
+  //   const st = JSON.parse(sessionStorage.getItem("storesLength"));
+  //   let updatedSel;
+  //   if (sel) {
+  //     updatedSel = sel.filter((store) => store.id != storeId);
+  //   }
+  //   const change = st - 1;
+  //   setChange(change);
+  //   if (change === 0) {
+  //     sessionStorage.clear();
+  //     // sessionStorage.removeItem("cart");
+  //     // sessionStorage.removeItem("names");
+  //     //sessionStorage.setItem("selectedStore");
+  //     sessionStorage.setItem("selectedStore", JSON.stringify(null));
+  //     sessionStorage.setItem("selectedLocation", JSON.stringify(null));
+  //     sessionStorage.setItem("selectedCity", JSON.stringify(null));
+  //     // sessionStorage.removeItem("responseData");
+  //     // sessionStorage.removeItem("cartObj");
+  //     // sessionStorage.removeItem("activeID")
+  //   }
+  //   console.log("CHANGE", change);
+  //   const da = get.filter((store) => store != storeId);
+  //   sessionStorage.setItem("cartIDs", JSON.stringify(da));
+  //   sessionStorage.setItem("stores1", JSON.stringify(da));
+  //   sessionStorage.setItem("sel", JSON.stringify(updatedSel));
+  //   sessionStorage.setItem("storeSale", JSON.stringify(updatedSel));
+  //   sessionStorage.setItem("storesName", JSON.stringify(updatedSel));
+  //   sessionStorage.setItem("stores", JSON.stringify(da)); //changed
+  //   sessionStorage.setItem("storesLength", JSON.stringify(change));
+  //   window.dispatchEvent(new Event("storage"));
+  // };
+
+
   const removeStore = (storeId) => {
-    const updatedData = response.filter((store) => store.id != storeId);
-    setResponseData(updatedData);
-    const get = JSON.parse(sessionStorage.getItem("cartIDs"));
-    const sel = JSON.parse(sessionStorage.getItem("sel"));
-    const st = JSON.parse(sessionStorage.getItem("storesLength"));
-    let updatedSel;
-    if (sel) {
-      updatedSel = sel.filter((store) => store.id != storeId);
-    }
-    const change = st - 1;
-    setChange(change);
-    if (change === 0) {
-      sessionStorage.clear();
-      // sessionStorage.removeItem("cart");
-      // sessionStorage.removeItem("names");
-      //sessionStorage.setItem("selectedStore");
-      sessionStorage.setItem("selectedStore", JSON.stringify(null));
-      sessionStorage.setItem("selectedLocation", JSON.stringify(null));
-      sessionStorage.setItem("selectedCity", JSON.stringify(null));
-      // sessionStorage.removeItem("responseData");
-      // sessionStorage.removeItem("cartObj");
-      // sessionStorage.removeItem("activeID")
-    }
-    console.log("CHANGE", change);
-    const da = get.filter((store) => store != storeId);
-    sessionStorage.setItem("cartIDs", JSON.stringify(da));
-    sessionStorage.setItem("stores1", JSON.stringify(da));
-    sessionStorage.setItem("sel", JSON.stringify(updatedSel));
-    sessionStorage.setItem("storeSale", JSON.stringify(updatedSel));
-    sessionStorage.setItem("storesName", JSON.stringify(updatedSel));
-    sessionStorage.setItem("stores", JSON.stringify(da)); //changed
-    sessionStorage.setItem("storesLength", JSON.stringify(change));
+  const updatedData = response.filter((store) => store.id !== storeId);
+  setResponseData(updatedData);
+
+  const cartIDs = JSON.parse(sessionStorage.getItem("cartIDs") || "[]");
+  const sel = JSON.parse(sessionStorage.getItem("sel") || "[]");
+  const stRaw = sessionStorage.getItem("storesLength");
+  const st = stRaw ? parseInt(stRaw) : 0;
+
+  const updatedSel = sel.filter((store) => store.id !== storeId);
+  const updatedCartIDs = cartIDs.filter((id) => id !== storeId);
+  const change = st - 1;
+
+  setChange?.(change);
+
+  if (change === 0) {
+    sessionStorage.clear();
+    console.log("CHANGE", change, "→ sessionStorage cleared");
     window.dispatchEvent(new Event("storage"));
-  };
+    return; // 💡 Завершаем выполнение, чтобы не записывать ничего после очистки
+  }
+
+  console.log("CHANGE", change);
+
+  // Только если change > 0 — обновляем sessionStorage
+  sessionStorage.setItem("cartIDs", JSON.stringify(updatedCartIDs));
+  sessionStorage.setItem("stores1", JSON.stringify(updatedCartIDs));
+  sessionStorage.setItem("sel", JSON.stringify(updatedSel));
+  sessionStorage.setItem("storeSale", JSON.stringify(updatedSel));
+  sessionStorage.setItem("storesName", JSON.stringify(updatedSel));
+  sessionStorage.setItem("stores", JSON.stringify(updatedCartIDs));
+  sessionStorage.setItem("storesLength", JSON.stringify(change));
+
+  window.dispatchEvent(new Event("storage"));
+};
+
+
 
   const removeProduct = (productID) => {
     const updatedData = response.map((store) => {
