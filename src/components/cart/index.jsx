@@ -214,13 +214,12 @@ const Cart = () => {
     if (change === 0) {
       sessionStorage.removeItem("cart");
       sessionStorage.removeItem("names");
-      sessionStorage.removeItem("selectedStore");
-      sessionStorage.removeItem("selectedLocation");
-      sessionStorage.removeItem("selectedCity");
-      sessionStorage.removeItem("responseData");
+      // sessionStorage.removeItem("selectedStore");
+      // sessionStorage.removeItem("selectedLocation");
+      // sessionStorage.removeItem("selectedCity");
+      // sessionStorage.removeItem("responseData");
       sessionStorage.removeItem("cartObj");
-      sessionStorage.removeItem("activeID");
-
+      sessionStorage.removeItem("activeID")
     }
     console.log("CHANGE", change);
     const da = get.filter((store) => store != storeId);
