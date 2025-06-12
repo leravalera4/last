@@ -609,21 +609,39 @@ const Index = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const saleStores = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
+  // useEffect(() => {
+  //   const saleStores = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
 
+  //   if (saleStores.length === 0) {
+  //     // Все магазины удалены — сбросить селекты и состояния
+  //     setSelectedStore(null);
+  //     setSelectedLocation(null);
+  //     setSelectedCity(null);
+  //     setCities([]);
+  //     setLocations([]);
+  //     setSelectedLocationsObject({});
+
+  //     console.log("Все магазины удалены — сброс состояний");
+  //   }
+  // }, []);
+
+
+    useEffect(() => {
+  const handleStorageChange = () => {
+    const saleStores = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
     if (saleStores.length === 0) {
-      // Все магазины удалены — сбросить селекты и состояния
-      setSelectedStore('');
-      setSelectedLocation('');
-      setSelectedCity('');
+      setSelectedStore(null);
+      setSelectedLocation(null);
+      setSelectedCity(null);
       setCities([]);
       setLocations([]);
       setSelectedLocationsObject({});
-
-      console.log("Все магазины удалены — сброс состояний");
     }
-  }, []);
+  };
+
+  window.addEventListener("storage", handleStorageChange);
+  return () => window.removeEventListener("storage", handleStorageChange);
+}, []);
 
   const removeStore = (storeId, event) => {
     // event.stopPropagation();
