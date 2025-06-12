@@ -581,14 +581,14 @@ const Index = () => {
       // Handle the error (display a message to the user, log it, etc.)
     }
 
-    const updatedStores = JSON.parse(sessionStorage.getItem("storeSale")) || [];
-    const justAddedStore = updatedStores[updatedStores.length - 1];
-    const justAddedIndex = updatedStores.length - 1;
+    // const updatedStores = JSON.parse(sessionStorage.getItem("storeSale")) || [];
+    // const justAddedStore = updatedStores[updatedStores.length - 1];
+    // const justAddedIndex = updatedStores.length - 1;
 
-    if (justAddedStore) {
-      toggleButton(justAddedIndex);
-      handleStoreClick(justAddedStore, justAddedIndex);
-    }
+    // if (justAddedStore) {
+    //   toggleButton(justAddedIndex);
+    //   handleStoreClick(justAddedStore, justAddedIndex);
+    // }
 
     // Reset selected location for the next selection
     //setSelectedLocation(null);
