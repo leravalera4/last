@@ -1324,7 +1324,8 @@ const Cart = () => {
           )
         ) : (
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {(response && response.length === 0) ||
+            {
+            // (response && response.length === 0) ||
             (cart && cart.length === 0) ? (
               <p
                 style={{
@@ -1336,7 +1337,7 @@ const Cart = () => {
                 Nothing here yet, but you can add 3 stores in total to compare
                 prices
               </p>
-            ) : cartLength > 0 && cartLength != null && cartLength !== totalQuantity ? (
+            ) : cartLength != null && cartLength !== totalQuantity ? (
               <>
                 <Spiner />
                 <p>Checking latest prices for you...</p>
