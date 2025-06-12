@@ -614,9 +614,9 @@ const Index = () => {
 
     if (saleStores.length === 0) {
       // Все магазины удалены — сбросить селекты и состояния
-      setSelectedStore(null);
-      setSelectedLocation(null);
-      setSelectedCity(null);
+      setSelectedStore('');
+      setSelectedLocation('');
+      setSelectedCity('');
       setCities([]);
       setLocations([]);
       setSelectedLocationsObject({});
