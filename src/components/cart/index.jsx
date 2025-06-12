@@ -693,7 +693,7 @@ const Cart = () => {
         }}
       >
         {isMobile || isIpad ? (
-          cartLength != null && cartLength !== totalQuantity ? (
+          cartLength > 0 && cartLength != null && cartLength !== totalQuantity ? (
             <>
               <Spiner />
               <p>Checking latest prices for you...</p>
@@ -1336,7 +1336,7 @@ const Cart = () => {
                 Nothing here yet, but you can add 3 stores in total to compare
                 prices
               </p>
-            ) : cartLength != null && cartLength !== totalQuantity ? (
+            ) : cartLength > 0 && cartLength != null && cartLength !== totalQuantity ? (
               <>
                 <Spiner />
                 <p>Checking latest prices for you...</p>
