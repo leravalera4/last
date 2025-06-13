@@ -1218,8 +1218,11 @@ const Cart = () => {
                                     </p>
                                   ) : (
                                     <>
-                                      {it.val === "Not sold here" &&
-                                        it.quantity >= 0 && (
+                                      {
+                                      //it.val === "Not sold here" 
+                                      // 
+                                      isNotSold &&
+                                        it.quantity >= 0 && ( 
                                           <p
                                             style={{
                                               color: "rgb(184, 184, 184)",
@@ -1228,7 +1231,10 @@ const Cart = () => {
                                             Not sold here ($0)
                                           </p>
                                         )}
-                                      {it.stock === "Out of Stock" &&
+                                      {
+                                      //it.stock === "Out of Stock" 
+                                      stock
+                                      &&
                                         it.quantity >= 0 && (
                                           <p
                                             style={{
