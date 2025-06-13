@@ -3129,7 +3129,7 @@ const Cart = () => {
                           item.image ||
                           response[1]?.items?.[index]?.image ||
                           response[2]?.items?.[index]?.image;
-
+                    const storeType = matchedStore?.store || item.storetype;  
                         // Проверка на наличие title
                         const title =
                           item.title ||
@@ -3273,7 +3273,7 @@ const Cart = () => {
                                 alignContent: "center",
                               }}
                             >
-                              <b>{storetype}:</b>
+                              <b>{storeType}:</b>
                               <p>{item.storeName}</p>
                             </p>
                             <button
