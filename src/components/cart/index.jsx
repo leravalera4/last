@@ -2606,7 +2606,6 @@ const Cart = () => {
                         (f) => f.location === item.storeName
                       );
                       const storeType = matchedStore?.store || item.storetype;
-
                       console.log("storeType", storeType);
                       return <Tab key={index}>{storeType}</Tab>;
                     })}
@@ -3274,7 +3273,7 @@ const Cart = () => {
                                 alignContent: "center",
                               }}
                             >
-                              <b>{item.storetype}:</b>
+                              <b>{storetype}:</b>
                               <p>{item.storeName}</p>
                             </p>
                             <button
