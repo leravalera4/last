@@ -2572,7 +2572,9 @@ const Cart = () => {
                                   backgroundColor: "transparent",
                                 }}
                                 className={noir.className}
-                                onClick={() => removeStore(item.id)}
+                                onClick={() => 
+                                  {removeStore(item.id) 
+                                  setTabIndex(idx + 1)}}
                                 title="Delete Store"
                               >
                                 <img
