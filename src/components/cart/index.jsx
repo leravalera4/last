@@ -2606,6 +2606,7 @@ const Cart = () => {
                         (f) => f.location === item.storeName
                       );
                       const storeType = matchedStore?.store || item.storetype;
+
                       console.log("storeType", storeType);
                       return <Tab key={index}>{storeType}</Tab>;
                     })}
@@ -3129,7 +3130,7 @@ const Cart = () => {
                           item.image ||
                           response[1]?.items?.[index]?.image ||
                           response[2]?.items?.[index]?.image;
-                  const storeType = matchedStore?.store || item.storetype;  
+
                         // Проверка на наличие title
                         const title =
                           item.title ||
