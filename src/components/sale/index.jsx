@@ -1833,11 +1833,10 @@ const Index = () => {
         style={{
           paddingLeft: isMobile ? "5%" : "10%",
           paddingRight: isMobile ? "5%" : "10%",
-          paddingBottom: isMobile ? "10%" : "3%",
         }}
       >
         <h2 className={noir.className}>
-          Selected Store: {selectedStore},{selectedLocation}
+          Current Store: {selectedStore}, {selectedLocation}
         </h2>
       </div>
 
