@@ -1829,7 +1829,7 @@ const Index = () => {
         )
       )}
 
-      <div
+     {selectedStore && selectedLocation && <div
         style={{
           paddingLeft: isMobile ? "5%" : "10%",
           paddingRight: isMobile ? "5%" : "10%",
@@ -1838,7 +1838,7 @@ const Index = () => {
         <h2 className={noir.className}>
           Current Store: {selectedStore}, {selectedLocation}
         </h2>
-      </div>
+      </div>}
 
       {responseData.length !== 0 ? (
         <Tabs>
