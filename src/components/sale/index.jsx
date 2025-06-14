@@ -1828,6 +1828,10 @@ const Index = () => {
         )
       )}
 
+      <div>
+        <h2 className={noir.className}>Current Store: {selectedStore} : {selectedLocation}</h2>
+      </div>
+
       {responseData.length !== 0 ? (
         <Tabs>
           <div
