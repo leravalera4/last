@@ -625,23 +625,24 @@ const Index = () => {
   //   }
   // }, []);
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const saleStores = JSON.parse(
+        sessionStorage.getItem("storeSale") || "[]"
+      );
+      if (saleStores.length === 0) {
+        setSelectedStore(null);
+        setSelectedLocation(null);
+        setSelectedCity(null);
+        setCities([]);
+        setLocations([]);
+        setSelectedLocationsObject({});
+      }
+    };
 
-    useEffect(() => {
-  const handleStorageChange = () => {
-    const saleStores = JSON.parse(sessionStorage.getItem("storeSale") || "[]");
-    if (saleStores.length === 0) {
-      setSelectedStore(null);
-      setSelectedLocation(null);
-      setSelectedCity(null);
-      setCities([]);
-      setLocations([]);
-      setSelectedLocationsObject({});
-    }
-  };
-
-  window.addEventListener("storage", handleStorageChange);
-  return () => window.removeEventListener("storage", handleStorageChange);
-}, []);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   const removeStore = (storeId, event) => {
     // event.stopPropagation();
@@ -1828,8 +1829,16 @@ const Index = () => {
         )
       )}
 
-      <div>
-        <h2 className={noir.className}>Current Store: {selectedStore} : {selectedLocation}</h2>
+      <div
+        style={{
+          paddingLeft: isMobile ? "5%" : "10%",
+          paddingRight: isMobile ? "5%" : "10%",
+          paddingBottom: isMobile ? "10%" : "3%",
+        }}
+      >
+        <h2 className={noir.className}>
+          Selected Store: {selectedStore},{selectedLocation}
+        </h2>
       </div>
 
       {responseData.length !== 0 ? (
