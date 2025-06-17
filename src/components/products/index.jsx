@@ -710,6 +710,25 @@ const Products = ({ cartData }) => {
     return R * c; // Расстояние в километрах
   };
 
+      useEffect(() => {
+    const handleStorageChange = () => {
+      const saleStores = JSON.parse(
+        sessionStorage.getItem("storeSale") || "[]"
+      );
+      if (saleStores.length === 0) {
+        setSelectedStore(null);
+        setSelectedLocation(null);
+        setSelectedCity(null);
+        setCities([]);
+        setLocations([]);
+        setSelectedLocationsObject({});
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
   const getClosestStores = (userLat, userLng, stores) => {
     const sortedStores = stores
       .map((store) => {
@@ -822,25 +841,6 @@ const Products = ({ cartData }) => {
     selectedAll.length === 0;
 
   const showLoading = loading;
-
-    useEffect(() => {
-    const handleStorageChange = () => {
-      const saleStores = JSON.parse(
-        sessionStorage.getItem("storeSale") || "[]"
-      );
-      if (saleStores.length === 0) {
-        setSelectedStore(null);
-        setSelectedLocation(null);
-        setSelectedCity(null);
-        setCities([]);
-        setLocations([]);
-        setSelectedLocationsObject({});
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
 
   return (
     <div
