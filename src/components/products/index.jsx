@@ -143,16 +143,16 @@ const Products = ({ cartData }) => {
   //   };
   // }, []);
 
-  useEffect(() => {
+    useEffect(() => {
     const handleBeforeUnload = () => {
       // Проверяем, был ли переход или именно обновление
       if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
         sessionStorage.clear();
       }
     };
-
+  
     window.addEventListener("beforeunload", handleBeforeUnload);
-
+  
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
@@ -453,25 +453,6 @@ const Products = ({ cartData }) => {
     responseData[index].count += 1;
     responseData[index].cart = true;
   };
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const saleStores = JSON.parse(
-        sessionStorage.getItem("storeSale") || "[]"
-      );
-      if (saleStores.length === 0) {
-        setSelectedStore(null);
-        setSelectedLocation(null);
-        setSelectedCity(null);
-        setCities([]);
-        setLocations([]);
-        setSelectedLocationsObject({});
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
 
   const handleAddToCart = async (product, index) => {
     const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || [];
@@ -787,6 +768,8 @@ const Products = ({ cartData }) => {
     };
   }, []); // Empty dependency array ensures it runs only once on mount
 
+
+
   const fruitsAisleCount = responseData.filter(
     (item) => item.category === "Fruits & Vegetables"
   ).length;
@@ -828,19 +811,20 @@ const Products = ({ cartData }) => {
   ).length;
 
   const showNotFound =
-    !loading &&
-    responseData.length === 0 &&
-    searchText &&
-    !firstTime &&
-    searchText.length !== 0;
+  !loading &&
+  responseData.length === 0 &&
+  searchText &&
+  !firstTime &&
+  searchText.length !== 0;
 
-  const showAb =
-    !loading &&
-    firstTime &&
-    responseData.length === 0 &&
-    selectedAll.length === 0;
+const showAb =
+  !loading &&
+  firstTime &&
+  responseData.length === 0 &&
+  selectedAll.length === 0;
 
-  const showLoading = loading;
+const showLoading = loading;
+
 
   return (
     <div
@@ -865,22 +849,22 @@ const Products = ({ cartData }) => {
           Compare Prices
         </h2>
         <p
-          style={{
-            textAlign: "center",
-            paddingTop: "0px",
-            marginTop: "0px",
-            paddingBottom: "18px",
-            marginLeft: isMobile ? "5%" : "10%",
-            marginRight: isMobile ? "5%" : "10%",
-          }}
-          className={noir.className}
-        >
-          Select{" "}
-          <span style={{ textDecoration: "underline", fontStyle: "italic" }}>
-            up to 3 stores{" "}
-          </span>
-          you would like to view their respective special price discounted items
-        </p>
+        style={{
+          textAlign: "center",
+          paddingTop: "0px",
+          marginTop: "0px",
+          paddingBottom: "18px",
+          marginLeft: isMobile ? "5%" : "10%",
+          marginRight: isMobile ? "5%" : "10%",
+        }}
+        className={noir.className}
+      >
+        Select{" "}
+        <span style={{ textDecoration: "underline", fontStyle: "italic" }}>
+          up to 3 stores{" "}
+        </span>
+        you would like to view their respective special price discounted items
+      </p>
         {isMobile ? (
           <div
             className="select-container"
@@ -922,7 +906,7 @@ const Products = ({ cartData }) => {
                   className={noir.className}
                   value=""
                   //   disabled
-                  //  selected
+                //  selected
                 >
                   Select Store...
                 </option>
@@ -1008,13 +992,13 @@ const Products = ({ cartData }) => {
                   // }}
                   // onChange={(e) => handleStoreChange(e.target.value)}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity || ""}
+                  value={selectedCity}
                 >
                   <option
                     style={{ color: "#212529" }}
                     value=""
                     //   disabled
-                    //  selected
+                  //  selected
                     //   hidden
                     // disabled
                     //   selected
@@ -1082,7 +1066,7 @@ const Products = ({ cartData }) => {
                     //   selected
                     //   hidden
                     // disabled
-                    //  selected
+                  //  selected
                     className={noir.className}
                   >
                     Select Location...
@@ -1266,7 +1250,7 @@ const Products = ({ cartData }) => {
                   // setSelectedCity(""); // Сбрасываем выбранный город при изменении сети
                   // setSelectedLocation(""); // Сбрасываем выбранный город при изменении сети
                 }}
-                // value={selectedStore}
+               // value={selectedStore}
                 style={{
                   marginRight: "20px",
                   width: isMobile ? "100%" : "200px",
@@ -1282,7 +1266,7 @@ const Products = ({ cartData }) => {
                   className={noir.className}
                   value=""
                   //   disabled
-                  // selected
+                 // selected
                 >
                   Select Store...
                 </option>
@@ -1385,13 +1369,13 @@ const Products = ({ cartData }) => {
                   // }}
                   // onChange={(e) => handleStoreChange(e.target.value)}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity || ""}
+                  value={selectedCity}
                 >
                   <option
                     style={{ color: "#212529" }}
                     value=""
                     //   disabled
-                    //   selected
+                 //   selected
                     //   hidden
                     // disabled
                     //   selected
@@ -1443,7 +1427,7 @@ const Products = ({ cartData }) => {
                   }}
                   className={`${noir.className} button-55`}
                   onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
-                  value={selectedLocation || ""}
+                  value={selectedLocation}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
@@ -1459,7 +1443,7 @@ const Products = ({ cartData }) => {
                     //   selected
                     //   hidden
                     // disabled
-                    //   selected
+                 //   selected
                     className={noir.className}
                   >
                     Select Location...
@@ -1610,8 +1594,7 @@ const Products = ({ cartData }) => {
           </div>
         )}
 
-        {(firstTime && selectedAll.length === 0 && responseData.length === 0) ||
-        selectedAll.length === 0 ? (
+        {firstTime && selectedAll.length === 0 && responseData.length === 0 || (selectedAll.length === 0) ? (
           <Ab style={{ marginLeft: "20%", marginRight: "20%" }} />
         ) : (
           <>
@@ -1667,9 +1650,7 @@ const Products = ({ cartData }) => {
                     ))}
                   </ul>
                 </div>
-              ) : (
-                <Ab />
-              )}
+              ) : <Ab/>}
             </div>
             {responseData.length > 0 && (
               <h1
@@ -1704,12 +1685,10 @@ const Products = ({ cartData }) => {
                       listStyle: "none",
                     }}
                   >
-                    {responseData.length > 0 && (
-                      <Tab className={`${noir.className} links`}>
+                                          {responseData.length> 0 && <Tab className={`${noir.className} links`}>
                         {isMobile ? "All" : "All"}
-                      </Tab>
-                    )}
-
+                      </Tab>}
+                      
                     {fruitsAisleCount > 0 && (
                       <Tab className={`${noir.className} links`}>
                         {isMobile ? "Veggies" : "Veggies"}
@@ -1796,295 +1775,351 @@ const Products = ({ cartData }) => {
                         selectedAll.length != 0 ? (
                           <NotFound />
                         ) : (
-                          responseData.map((item, index) => (
-                            <div
-                              className="card"
-                              key={index}
-                              itemScope
-                              itemType="http://schema.org/Product"
-                            >
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <p
-                                  className={`${noir.className} text`}
-                                  itemProp="price"
-                                >
-                                  {loading ? (
-                                    <Skeleton width={230} height={50} />
-                                  ) : (
-                                    item.title
-                                  )}
-                                </p>
-                                {item.member_price === "Prepared in Canada" && (
-                                  <Image
-                                    alt={flag}
-                                    height={30}
-                                    style={{
-                                      paddingLeft: "10px",
-                                      paddingBottom: "14px",
-                                    }}
-                                    src={flag}
-                                  />
-                                )}
-                              </div>
-                              <>
+                          responseData.map(
+                            (item, index) =>
+                               (
                                 <div
-                                  className="add-cart"
-                                  style={{
-                                    height: "35px",
-                                    display: "flex",
-                                    flexDirection: "row-reverse",
-                                    alignItems: "center",
-                                  }}
+                                  className="card"
+                                  key={index}
+                                  itemScope
+                                  itemType="http://schema.org/Product"
                                 >
-                                  {item.cart == true ? (
-                                    <>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <p
+                                      className={`${noir.className} text`}
+                                      itemProp="price"
+                                    >
+                                      {loading ? (
+                                        <Skeleton width={230} height={50} />
+                                      ) : (
+                                        item.title
+                                      )}
+                                    </p>
+                                    {item.member_price ===
+                                      "Prepared in Canada" && (
                                       <Image
-                                        style={{ paddingLeft: "90px" }}
-                                        width={30}
+                                        alt={flag}
                                         height={30}
-                                        src={added}
-                                        alt={added}
+                                        style={{
+                                          paddingLeft: "10px",
+                                          paddingBottom: "14px",
+                                        }}
+                                        src={flag}
                                       />
-                                      <p className={noir.className}>
-                                        {item.count}x
-                                      </p>
-                                    </>
-                                  ) : (
-                                    " "
-                                  )}
-                                </div>
-                                {loading ? (
-                                  <Skeleton width={120} height={120} />
-                                ) : (
-                                  <Zoom>
-                                    <img
-                                      className="image"
+                                    )}
+                                  </div>
+                                  <>
+                                    <div
+                                      className="add-cart"
                                       style={{
-                                        width: "120px",
-                                        justifyContent: "center",
+                                        height: "35px",
+                                        display: "flex",
+                                        flexDirection: "row-reverse",
                                         alignItems: "center",
                                       }}
-                                      src={item.photo}
-                                      alt={`Photo of ${item.title}`}
-                                    />
-                                  </Zoom>
-                                )}
-                              </>
-                              <div
-                                className={noir.className}
-                                style={{
-                                  marginBottom: "20px",
-                                  fontWeight: "normal",
-                                  color: "grey",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                {loading ? (
-                                  <Skeleton width={146} height={10} />
-                                ) : item.products[0].weight == "" ? (
-                                  "$" +
-                                  (
-                                    item.products[0].prices.unitPriceValue * 10
-                                  ).toFixed(2) +
-                                  " / 1" +
-                                  " " +
-                                  "kg"
-                                ) : (
-                                  item.products[0].weight
-                                )}
-                              </div>
-                              {loading ? (
-                                <Skeleton width={121} height={52} />
-                              ) : (
-                                <button
-                                  className={`${noir.className} button-55`}
-                                  style={{
-                                    paddingTop: "4px",
-                                    paddingBottom: "4px",
-                                    borderColor: "black",
-                                  }}
-                                  // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
-                                  // style={{
-                                  //   outline: "0",
-                                  //   cursor: "pointer",
-                                  //   fontSize: "14px",
-                                  //   fontWeight: "500",
-                                  //   lineHeight: "20px",
-                                  //   verticalAlign: "middle",
-                                  //   border: "1px solid",
-                                  //   borderRadius: " 6px",
-                                  //   color: " #24292e",
-                                  //   backgroundColor: "#fafbfc",
-                                  //   borderColor: "#1b1f2326",
-                                  //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
-                                  // }}
-                                  onClick={() => handleAddToCart(item, index)}
-                                >
-                                  {addedToCart[index] ? (
-                                    <p
-                                      style={{
-                                        color: "green",
-                                      }}
                                     >
-                                      Add more
-                                    </p>
-                                  ) : (
-                                    <p
-                                      style={{
-                                        color: "black",
-                                      }}
-                                    >
-                                      Add to List
-                                    </p>
-                                  )}
-                                </button>
-                              )}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  paddingBottom: "20px",
-                                  marginTop: "30px",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    //paddingRight: "20px", flexDirection: "row"
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  {item.products.map((store, index) =>
-                                    loading ? (
-                                      <Skeleton width={280} height={25} />
+                                      {item.cart == true ? (
+                                        <>
+                                          <Image
+                                            style={{ paddingLeft: "90px" }}
+                                            width={30}
+                                            height={30}
+                                            src={added}
+                                            alt={added}
+                                          />
+                                          <p className={noir.className}>
+                                            {item.count}x
+                                          </p>
+                                        </>
+                                      ) : (
+                                        " "
+                                      )}
+                                    </div>
+                                    {loading ? (
+                                      <Skeleton width={120} height={120} />
                                     ) : (
-                                      <div
-                                        style={{
-                                          display: "flex",
-                                          flexDirection: "row",
-                                          // justifyContent: "space-between",
-                                          marginBottom: "10px",
-                                          alignItems: "flex-start",
-                                          height: "48px",
-                                        }}
-                                        key={index}
-                                      >
-                                        {/* <Image
+                                      <Zoom>
+                                        <img
+                                          className="image"
+                                          style={{
+                                            width: "120px",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                          }}
+                                          src={item.photo}
+                                          alt={`Photo of ${item.title}`}
+                                        />
+                                      </Zoom>
+                                    )}
+                                  </>
+                                  <div
+                                    className={noir.className}
+                                    style={{
+                                      marginBottom: "20px",
+                                      fontWeight: "normal",
+                                      color: "grey",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <Skeleton width={146} height={10} />
+                                    ) : item.products[0].weight == "" ? (
+                                      "$" +
+                                      (
+                                        item.products[0].prices.unitPriceValue *
+                                        10
+                                      ).toFixed(2) +
+                                      " / 1" +
+                                      " " +
+                                      "kg"
+                                    ) : (
+                                      item.products[0].weight
+                                    )}
+                                  </div>
+                                  {loading ? (
+                                    <Skeleton width={121} height={52} />
+                                  ) : (
+                                    <button
+                                      className={`${noir.className} button-55`}
+                                      style={{
+                                        paddingTop: "4px",
+                                        paddingBottom: "4px",
+                                        borderColor: "black",
+                                      }}
+                                      // style={{ padding: "0.375rem 0.9rem 0.375rem 0.75rem" }}
+                                      // style={{
+                                      //   outline: "0",
+                                      //   cursor: "pointer",
+                                      //   fontSize: "14px",
+                                      //   fontWeight: "500",
+                                      //   lineHeight: "20px",
+                                      //   verticalAlign: "middle",
+                                      //   border: "1px solid",
+                                      //   borderRadius: " 6px",
+                                      //   color: " #24292e",
+                                      //   backgroundColor: "#fafbfc",
+                                      //   borderColor: "#1b1f2326",
+                                      //   transition: "0.2s cubic-bezier(0.3, 0, 0.5, 1)",
+                                      // }}
+                                      onClick={() =>
+                                        handleAddToCart(item, index)
+                                      }
+                                    >
+                                      {addedToCart[index] ? (
+                                        <p
+                                          style={{
+                                            color: "green",
+                                          }}
+                                        >
+                                          Add more
+                                        </p>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "black",
+                                          }}
+                                        >
+                                          Add to List
+                                        </p>
+                                      )}
+                                    </button>
+                                  )}
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      paddingBottom: "20px",
+                                      marginTop: "30px",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        //paddingRight: "20px", flexDirection: "row"
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      {item.products.map((store, index) =>
+                                        loading ? (
+                                          <Skeleton width={280} height={25} />
+                                        ) : (
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              // justifyContent: "space-between",
+                                              marginBottom: "10px",
+                                              alignItems: "flex-start",
+                                              height: "48px",
+                                            }}
+                                            key={index}
+                                          >
+                                            {/* <Image
                                 src={storeIcons[store.storetype]}
                                 width={30}
                                 height={30}
                               /> */}
-                                        <p
-                                          className={noir.className}
-                                          style={{
-                                            paddingRight: "12px",
-                                            //   maxWidth: "275px",
-                                            width: "190px",
-                                            fontSize: isMobile
-                                              ? "14px"
-                                              : "15px",
-                                          }}
-                                        >
-                                          <b>{store.storetype}</b>:{" "}
-                                          {store.store}, {store.city}
-                                        </p>
+                                            <p
+                                              className={noir.className}
+                                              style={{
+                                                paddingRight: "12px",
+                                                //   maxWidth: "275px",
+                                                width: "190px",
+                                                fontSize: isMobile
+                                                  ? "14px"
+                                                  : "15px",
+                                              }}
+                                            >
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
+                                            </p>
 
-                                        {/* Pricing + Stock Block */}
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                            gap: "8px",
-                                            justifyContent: "flex-end",
-                                            flexWrap: "wrap",
-                                            textAlign: "right",
-                                          }}
-                                        >
-                                          {/* Sale Price */}
-                                          {store.saleprice != null ? (
-                                            store.mem != null ? (
-                                              store.mem * 2 >
-                                              store.saleprice ? (
-                                                <p
-                                                  itemProp="priceCurrency"
-                                                  className={noir.className}
-                                                  style={{
-                                                    fontWeight: "700",
-                                                    color: "rgb(225, 37, 27)",
-                                                    fontSize: isMobile
-                                                      ? "14px"
-                                                      : "15px",
-                                                  }}
-                                                >
-                                                  ${store.mem}
-                                                  <span
+                                            {/* Pricing + Stock Block */}
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                gap: "8px",
+                                                justifyContent: "flex-end",
+                                                flexWrap: "wrap",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Sale Price */}
+                                              {store.saleprice != null ? (
+                                                store.mem != null ? (
+                                                  store.mem * 2 >
+                                                  store.saleprice ? (
+                                                    <p
+                                                      itemProp="priceCurrency"
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (2 / $
+                                                        {store.saleprice * 2})
+                                                      </span>
+                                                    </p>
+                                                  ) : store.for3 <
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (3 FOR $
+                                                        {store.saleprice} ea)
+                                                      </span>
+                                                    </p>
+                                                  ) : store.mem >
+                                                    store.saleprice ? (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.mem}
+                                                      <span
+                                                        style={{
+                                                          marginLeft: "4px",
+                                                          fontWeight: "400",
+                                                          fontSize: isMobile
+                                                            ? "14px"
+                                                            : "15px",
+                                                        }}
+                                                      >
+                                                        (${store.saleprice} MIN
+                                                        2)
+                                                      </span>
+                                                    </p>
+                                                  ) : (
+                                                    <p
+                                                      className={noir.className}
+                                                      style={{
+                                                        fontWeight: "700",
+                                                        color:
+                                                          "rgb(225, 37, 27)",
+                                                        fontSize: isMobile
+                                                          ? "14px"
+                                                          : "15px",
+                                                      }}
+                                                    >
+                                                      ${store.saleprice}
+                                                    </p>
+                                                  )
+                                                ) : (
+                                                  <p
+                                                    className={noir.className}
                                                     style={{
-                                                      marginLeft: "4px",
-                                                      fontWeight: "400",
+                                                      fontWeight: "700",
+                                                      color: "rgb(225, 37, 27)",
                                                       fontSize: isMobile
                                                         ? "14px"
                                                         : "15px",
                                                     }}
                                                   >
-                                                    (2 / ${store.saleprice * 2})
-                                                  </span>
-                                                </p>
-                                              ) : store.for3 <
-                                                store.saleprice ? (
+                                                    ${store.saleprice}
+                                                  </p>
+                                                )
+                                              ) : store.non_member_price !=
+                                                null ? (
                                                 <p
                                                   className={noir.className}
                                                   style={{
                                                     fontWeight: "700",
-                                                    color: "rgb(225, 37, 27)",
                                                     fontSize: isMobile
                                                       ? "14px"
                                                       : "15px",
                                                   }}
                                                 >
-                                                  ${store.mem}
-                                                  <span
-                                                    style={{
-                                                      marginLeft: "4px",
-                                                      fontWeight: "400",
-                                                      fontSize: isMobile
-                                                        ? "14px"
-                                                        : "15px",
-                                                    }}
-                                                  >
-                                                    (3 FOR ${store.saleprice}{" "}
-                                                    ea)
-                                                  </span>
-                                                </p>
-                                              ) : store.mem >
-                                                store.saleprice ? (
-                                                <p
-                                                  className={noir.className}
-                                                  style={{
-                                                    fontWeight: "700",
-                                                    color: "rgb(225, 37, 27)",
-                                                    fontSize: isMobile
-                                                      ? "14px"
-                                                      : "15px",
-                                                  }}
-                                                >
-                                                  ${store.mem}
-                                                  <span
-                                                    style={{
-                                                      marginLeft: "4px",
-                                                      fontWeight: "400",
-                                                      fontSize: isMobile
-                                                        ? "14px"
-                                                        : "15px",
-                                                    }}
-                                                  >
-                                                    (${store.saleprice} MIN 2)
+                                                  {store.non_member_price}
+                                                  <span>
+                                                    (2 FOR min ${store.sale})
                                                   </span>
                                                 </p>
                                               ) : (
@@ -2092,103 +2127,64 @@ const Products = ({ cartData }) => {
                                                   className={noir.className}
                                                   style={{
                                                     fontWeight: "700",
-                                                    color: "rgb(225, 37, 27)",
                                                     fontSize: isMobile
                                                       ? "14px"
                                                       : "15px",
                                                   }}
                                                 >
-                                                  ${store.saleprice}
+                                                  {store.regprice}
                                                 </p>
-                                              )
-                                            ) : (
-                                              <p
-                                                className={noir.className}
-                                                style={{
-                                                  fontWeight: "700",
-                                                  color: "rgb(225, 37, 27)",
-                                                  fontSize: isMobile
-                                                    ? "14px"
-                                                    : "15px",
-                                                }}
-                                              >
-                                                ${store.saleprice}
-                                              </p>
-                                            )
-                                          ) : store.non_member_price != null ? (
-                                            <p
-                                              className={noir.className}
-                                              style={{
-                                                fontWeight: "700",
-                                                fontSize: isMobile
-                                                  ? "14px"
-                                                  : "15px",
-                                              }}
-                                            >
-                                              {store.non_member_price}
-                                              <span>
-                                                (2 FOR min ${store.sale})
-                                              </span>
-                                            </p>
-                                          ) : (
-                                            <p
-                                              className={noir.className}
-                                              style={{
-                                                fontWeight: "700",
-                                                fontSize: isMobile
-                                                  ? "14px"
-                                                  : "15px",
-                                              }}
-                                            >
-                                              {store.regprice}
-                                            </p>
-                                          )}
+                                              )}
 
-                                          {/* Was Price */}
-                                          {store.wasprice != null && (
-                                            <p
-                                              className={noir.className}
-                                              style={{
-                                                color: "rgb(125, 120, 120)",
-                                                fontWeight: "400",
-                                                textDecoration: "line-through",
-                                                fontSize: isMobile
-                                                  ? "14px"
-                                                  : "15px",
-                                              }}
-                                            >
-                                              ({store.wasprice})
-                                            </p>
-                                          )}
+                                              {/* Was Price */}
+                                              {store.wasprice != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color: "rgb(125, 120, 120)",
+                                                    fontWeight: "400",
+                                                    textDecoration:
+                                                      "line-through",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  ({store.wasprice})
+                                                </p>
+                                              )}
 
-                                          {/* Stock */}
-                                          {store.stock != null && (
-                                            <p
-                                              className={noir.className}
-                                              style={{
-                                                color:
-                                                  store.stock === "Out of Stock"
-                                                    ? "rgb(225, 37, 27)"
-                                                    : "rgb(225, 37, 27)",
-                                                fontWeight: "400",
-                                                fontSize: isMobile
-                                                  ? "14px"
-                                                  : "15px",
-                                              }}
-                                            >
-                                              {store.stock === "Out of Stock"
-                                                ? "Sold Out"
-                                                : store.stock}
-                                            </p>
-                                          )}
-                                        </div>
-                                      </div>
-                                    )
-                                  )}
+                                              {/* Stock */}
+                                              {store.stock != null && (
+                                                <p
+                                                  className={noir.className}
+                                                  style={{
+                                                    color:
+                                                      store.stock ===
+                                                      "Out of Stock"
+                                                        ? "rgb(225, 37, 27)"
+                                                        : "rgb(225, 37, 27)",
+                                                    fontWeight: "400",
+                                                    fontSize: isMobile
+                                                      ? "14px"
+                                                      : "15px",
+                                                  }}
+                                                >
+                                                  {store.stock ===
+                                                  "Out of Stock"
+                                                    ? "Sold Out"
+                                                    : store.stock}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                          ))
+                              )
+                          )
                         )}
                       </div>
                     </ul>
@@ -2417,8 +2413,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -2854,8 +2850,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -3292,8 +3288,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -3730,8 +3726,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -4168,8 +4164,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -4606,8 +4602,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -5043,8 +5039,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -5480,8 +5476,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -5917,8 +5913,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -6354,8 +6350,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -6791,8 +6787,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -7228,8 +7224,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
@@ -7665,8 +7661,8 @@ const Products = ({ cartData }) => {
                                                   : "15px",
                                               }}
                                             >
-                                              <b>{store.storetype}</b>:{" "}
-                                              {store.store}, {store.city}
+                                              <b>{store.storetype}</b>: {store.store},{" "}
+                                              {store.city}
                                             </p>
 
                                             {/* Pricing + Stock Block */}
