@@ -1008,7 +1008,7 @@ const Products = ({ cartData }) => {
                   // }}
                   // onChange={(e) => handleStoreChange(e.target.value)}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity}
+                  value={selectedCity || ""} 
                 >
                   <option
                     style={{ color: "#212529" }}
