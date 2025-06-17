@@ -1385,7 +1385,7 @@ const Products = ({ cartData }) => {
                   // }}
                   // onChange={(e) => handleStoreChange(e.target.value)}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity}
+                  value={selectedCity || ""} // Используем пустую строку, если selectedCity равно null
                 >
                   <option
                     style={{ color: "#212529" }}
@@ -1443,7 +1443,7 @@ const Products = ({ cartData }) => {
                   }}
                   className={`${noir.className} button-55`}
                   onChange={(e) => handleLocationChange(e.target.value)} // ✅ Используем setSelectedLocation
-                  value={selectedLocation}
+                  value={selectedLocation |""}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
