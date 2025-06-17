@@ -454,6 +454,25 @@ const Products = ({ cartData }) => {
     responseData[index].cart = true;
   };
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const saleStores = JSON.parse(
+        sessionStorage.getItem("storeSale") || "[]"
+      );
+      if (saleStores.length === 0) {
+        setSelectedStore(null);
+        setSelectedLocation(null);
+        setSelectedCity(null);
+        setCities([]);
+        setLocations([]);
+        setSelectedLocationsObject({});
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
   const handleAddToCart = async (product, index) => {
     const arrayOfStores = JSON.parse(sessionStorage.getItem("cartIDs")) || [];
 
@@ -709,25 +728,6 @@ const Products = ({ cartData }) => {
 
     return R * c; // Расстояние в километрах
   };
-
-      useEffect(() => {
-    const handleStorageChange = () => {
-      const saleStores = JSON.parse(
-        sessionStorage.getItem("storeSale") || "[]"
-      );
-      if (saleStores.length === 0) {
-        setSelectedStore(null);
-        setSelectedLocation(null);
-        setSelectedCity(null);
-        setCities([]);
-        setLocations([]);
-        setSelectedLocationsObject({});
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
 
   const getClosestStores = (userLat, userLng, stores) => {
     const sortedStores = stores
@@ -1008,7 +1008,7 @@ const Products = ({ cartData }) => {
                   // }}
                   // onChange={(e) => handleStoreChange(e.target.value)}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  value={selectedCity || ""} 
+                  value={selectedCity || ""} // ✅ Используем setSelectedCity
                 >
                   <option
                     style={{ color: "#212529" }}
