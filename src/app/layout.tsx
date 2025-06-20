@@ -83,6 +83,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta
           name="google-site-verification"
           content="j0SKXll7FJFhpuNBjySgfPXEnc-UOLgsQAnoeGTn6l0"
@@ -130,17 +132,17 @@ export default function RootLayout({
         </Script>
 
         <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-SYZK17BNW5"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
+          src="https://www.googletagmanager.com/gtag/js?id=G-SYZK17BNW5"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'G-SYZK17BNW5');
         `}
-      </Script>
+        </Script>
         <Script
           strategy="afterInteractive"
           type="text/javascript"
