@@ -86,7 +86,7 @@ const Index = () => {
                 className={noir.className}
                 style={{
                   margin: "0 0 -0.5rem 0px",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: 700,
                 }}
               >
@@ -125,7 +125,7 @@ const Index = () => {
                 className={noir.className}
                 style={{
                   margin: "0 0 -0.5rem 0px",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: 700,
                   textAlign: "center",
                 }}
@@ -165,7 +165,7 @@ const Index = () => {
                 className={noir.className}
                 style={{
                   margin: "0 0 -0.5rem 0px",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: 700,
                   textAlign: "center",
                 }}
@@ -205,7 +205,7 @@ const Index = () => {
                 className={noir.className}
                 style={{
                   margin: "0 0 -0.5rem 0px",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: 700,
                   textAlign: "center",
                 }}
@@ -245,7 +245,7 @@ const Index = () => {
                 className={noir.className}
                 style={{
                   margin: "0 0 -0.5rem 0px",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: 700,
                   textAlign: "center",
                 }}
@@ -285,7 +285,7 @@ const Index = () => {
                 className={noir.className}
                 style={{
                   margin: "0 0 -0.5rem 0px",
-                  fontSize: "1.3rem",
+                  fontSize: "1.2rem",
                   fontWeight: 700,
                   textAlign: "center",
                 }}
@@ -336,7 +336,7 @@ const Index = () => {
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.3rem",
+                    fontSize: "1.2rem",
                     fontWeight: 700,
                   }}
                 >
@@ -384,7 +384,7 @@ const Index = () => {
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.3rem",
+                    fontSize: "1.2rem",
                     fontWeight: 700,
                     textAlign: "center",
                   }}
@@ -432,7 +432,7 @@ const Index = () => {
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.3rem",
+                    fontSize: "1.2rem",
                     fontWeight: 700,
                     textAlign: "center",
                   }}
@@ -480,7 +480,7 @@ const Index = () => {
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.3rem",
+                    fontSize: "1.2rem",
                     fontWeight: 700,
                     textAlign: "center",
                   }}
@@ -529,7 +529,7 @@ const Index = () => {
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.3rem",
+                    fontSize: "1.2rem",
                     fontWeight: 700,
                     textAlign: "center",
                   }}
@@ -577,7 +577,7 @@ const Index = () => {
                   className={noir.className}
                   style={{
                     margin: "0 0 -0.5rem 0px",
-                    fontSize: "1.3rem",
+                    fontSize: "1.2rem",
                     fontWeight: 700,
                     textAlign: "center",
                   }}

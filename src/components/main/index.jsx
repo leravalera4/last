@@ -843,7 +843,7 @@ const Products = ({ cartData }) => {
                     style={{
                       marginRight: "0px",
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                      fontSize: isMobile ? "16px" : "14px",
+                      fontSize: isMobile ? "16px" : "18px",
                       color: "black",
                       borderColor: "black",
                     }}
@@ -867,7 +867,7 @@ const Products = ({ cartData }) => {
                     style={{
                       marginRight: "0px",
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                      fontSize: isMobile ? "16px" : "14px",
+                      fontSize: isMobile ? "16px" : "18px",
                       color: "black",
                       borderColor: "black",
                     }}
@@ -892,7 +892,7 @@ const Products = ({ cartData }) => {
                     style={{
                       marginRight: "0px",
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                      fontSize: isMobile ? "16px" : "14px",
+                      fontSize: isMobile ? "16px" : "18px",
                       color: "black",
                       borderColor: "black",
                     }}
@@ -916,7 +916,7 @@ const Products = ({ cartData }) => {
                     style={{
                       marginRight: "0px",
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
-                      fontSize: isMobile ? "16px" : "14px",
+                      fontSize: isMobile ? "16px" : "18px",
                       color: "black",
                       borderColor: "black",
                     }}
