@@ -68,7 +68,13 @@ const SocialIcons = () => {
           style={{ filter: "brightness(0)" }}
         />
       </a>
-      <FaRedditAlien width={25} height={25} />
+      <a
+        href="https://www.reddit.com/r/ShoppyScan/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FaReddit style={{ width: "25", height: "25" }} />
+      </a>
     </div>
   );
 };
