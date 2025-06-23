@@ -7,7 +7,7 @@ import {
   FaReddit,
   FaMedium,
 } from "react-icons/fa6";
-
+import { FaRedditAlien } from "react-icons/fa6";
 import instagram from "../../app/images/instagram.svg";
 import linkedin from "../../app/images/linkedIn.svg";
 import facebook from "../../app/images/facebook.svg";
@@ -16,17 +16,21 @@ import Image from "next/image.js";
 
 const SocialIcons = () => {
   return (
-<div style={{ display: "flex", gap: "1rem",alignItems: "center" }}>
-  <a href="https://www.instagram.com/shoppyscan.ca/" target="_blank" rel="noopener noreferrer">
-    <Image
-      className="image"
-      src={instagram}
-      width={30}
-      height={30}
-      style={{ filter: "brightness(0)" }}
-    />
-  </a>
-  {/* <a href="https://www.facebook.com/shoppyscan" target="_blank" rel="noopener noreferrer">
+    <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+      <a
+        href="https://www.instagram.com/shoppyscan.ca/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Image
+          className="image"
+          src={instagram}
+          width={30}
+          height={30}
+          style={{ filter: "brightness(0)" }}
+        />
+      </a>
+      {/* <a href="https://www.facebook.com/shoppyscan" target="_blank" rel="noopener noreferrer">
     <Image
       className="image"
       alt="Facebook"
@@ -36,28 +40,36 @@ const SocialIcons = () => {
       style={{ filter: "brightness(0)" }}
     />
   </a> */}
-  <a href="https://www.linkedin.com/company/shoppyscan" target="_blank" rel="noopener noreferrer">
-    <Image
-      className="image"
-      alt="LinkedIn"
-      src={linkedin}
-      width={30}
-      height={30}
-      style={{ filter: "brightness(0)" }}
-    />
-  </a>
-  <a href="https://x.com/shoppyscan" target="_blank" rel="noopener noreferrer">
-    <Image
-      className="image"
-      alt="X"
-      src={x}
-      width={25}
-      height={25}
-      style={{ filter: "brightness(0)" }}
-    />
-  </a>
-</div>
-
+      <a
+        href="https://www.linkedin.com/company/shoppyscan"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Image
+          className="image"
+          alt="LinkedIn"
+          src={linkedin}
+          width={30}
+          height={30}
+          style={{ filter: "brightness(0)" }}
+        />
+      </a>
+      <a
+        href="https://x.com/shoppyscan"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Image
+          className="image"
+          alt="X"
+          src={x}
+          width={25}
+          height={25}
+          style={{ filter: "brightness(0)" }}
+        />
+      </a>
+      <FaRedditAlien width={25} height={25} />
+    </div>
   );
 };
 
