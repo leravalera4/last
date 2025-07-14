@@ -1268,7 +1268,7 @@ const Products = ({ cartData }) => {
                 }}
                 value={selectedStore || ""}
                 style={{
-                  marginRight: "20px",
+                  marginRight: "0px",
                   width: isMobile ? "100%" : "200px",
                   marginBottom: isMobile && "10px",
                   fontSize: isMobile && "16px",
