@@ -851,7 +851,7 @@ const Products = ({ cartData }) => {
                     Explore Deals Now
                   </button>
                 </Link>
-                <p
+                {/* <p
                   style={{
                     fontSize: isMobile ? "16px" : "16px",
                     padding: "0px 20px",
@@ -860,7 +860,7 @@ const Products = ({ cartData }) => {
                   className={`${noir.className}`}
                 >
                   or
-                </p>
+                </p> */}
                 <Link href="/compare-prices" passHref>
                   <button
                     className={`${noir.className} button-55`}
@@ -869,7 +869,9 @@ const Products = ({ cartData }) => {
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                       fontSize: isMobile ? "16px" : "18px",
                       color: "black",
+                      background: "rgb(238, 148, 64)",
                       borderColor: "black",
+                      marginLeft: "20px",
                     }}
                   >
                     Start Comparing
@@ -900,7 +902,7 @@ const Products = ({ cartData }) => {
                     Explore Deals Now
                   </button>
                 </Link>
-                <p
+                {/* <p
                   style={{
                     fontSize: isMobile ? "16px" : "16px",
                     padding: "0px 20px",
@@ -909,7 +911,7 @@ const Products = ({ cartData }) => {
                   className={`${noir.className}`}
                 >
                   or
-                </p>
+                </p> */}
                 <Link href="/compare-prices" passHref>
                   <button
                     className={`${noir.className} button-55`}
@@ -918,7 +920,9 @@ const Products = ({ cartData }) => {
                       padding: "0.375rem 0.9rem 0.375rem 0.75rem",
                       fontSize: isMobile ? "16px" : "18px",
                       color: "black",
+                      background: "rgb(238, 148, 64)",
                       borderColor: "black",
+                      marginLeft: "20px",
                     }}
                   >
                     Start Comparing

@@ -87,7 +87,7 @@ const Index = () => {
                 style={{
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.2rem",
-                  fontWeight: 700,
+                  fontWeight: 500,
                 }}
               >
                 Select up to 3 stores
@@ -126,7 +126,7 @@ const Index = () => {
                 style={{
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.2rem",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   textAlign: "center",
                 }}
               >
@@ -166,7 +166,7 @@ const Index = () => {
                 style={{
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.2rem",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   textAlign: "center",
                 }}
               >
@@ -206,7 +206,7 @@ const Index = () => {
                 style={{
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.2rem",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   textAlign: "center",
                 }}
               >
@@ -246,7 +246,7 @@ const Index = () => {
                 style={{
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.2rem",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   textAlign: "center",
                 }}
               >
@@ -286,7 +286,7 @@ const Index = () => {
                 style={{
                   margin: "0 0 -0.5rem 0px",
                   fontSize: "1.2rem",
-                  fontWeight: 700,
+                  fontWeight: 500,
                   textAlign: "center",
                 }}
               >
@@ -317,6 +317,16 @@ const Index = () => {
         <div className="h1" style={{ margin: "0 20%", marginTop: "3%" }}>
           {/* Section 1: Compare Prices */}
           <div style={{ display: "flex", flexDirection: "row" }}>
+                        <h2
+              style={{
+                textAlign: "center",
+                paddingBottom: "0px",
+                marginBottom: "12px",
+              }}
+              className={noir.className}
+            >
+              How Does ShoppyScan Work?
+            </h2>
             <section
               style={{
                 paddingBottom: "1.5rem",
@@ -337,7 +347,7 @@ const Index = () => {
                   style={{
                     margin: "0 0 -0.5rem 0px",
                     fontSize: "1.2rem",
-                    fontWeight: 700,
+                    fontWeight: 500,
                   }}
                 >
                   Select up to 3 stores
@@ -385,7 +395,7 @@ const Index = () => {
                   style={{
                     margin: "0 0 -0.5rem 0px",
                     fontSize: "1.2rem",
-                    fontWeight: 700,
+                    fontWeight: 500,
                     textAlign: "center",
                   }}
                 >
@@ -433,7 +443,7 @@ const Index = () => {
                   style={{
                     margin: "0 0 -0.5rem 0px",
                     fontSize: "1.2rem",
-                    fontWeight: 700,
+                    fontWeight: 500,
                     textAlign: "center",
                   }}
                 >
@@ -481,7 +491,7 @@ const Index = () => {
                   style={{
                     margin: "0 0 -0.5rem 0px",
                     fontSize: "1.2rem",
-                    fontWeight: 700,
+                    fontWeight: 500,
                     textAlign: "center",
                   }}
                 >
@@ -530,7 +540,7 @@ const Index = () => {
                   style={{
                     margin: "0 0 -0.5rem 0px",
                     fontSize: "1.2rem",
-                    fontWeight: 700,
+                    fontWeight: 500,
                     textAlign: "center",
                   }}
                 >
@@ -578,7 +588,7 @@ const Index = () => {
                   style={{
                     margin: "0 0 -0.5rem 0px",
                     fontSize: "1.2rem",
-                    fontWeight: 700,
+                    fontWeight: 500,
                     textAlign: "center",
                   }}
                 >
