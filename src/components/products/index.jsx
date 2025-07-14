@@ -131,6 +131,12 @@ const Products = ({ cartData }) => {
 
   const [isMobile, setIsMobile] = useState(false);
 
+  const [sortBy, setSortBy] = useState("name"); // 'name', 'price', 'similarity'
+  const [sortOrder, setSortOrder] = useState("asc"); // 'asc', 'desc'
+  const [priceFilter, setPriceFilter] = useState({ min: "", max: "" });
+  const [storeFilter, setStoreFilter] = useState("all");
+  const [showFilters, setShowFilters] = useState(false);
+
   // useEffect(() => {
   //   const handleBeforeUnload = () => {
   //     sessionStorage.clear();
@@ -787,43 +793,97 @@ const Products = ({ cartData }) => {
     };
   }, []); // Empty dependency array ensures it runs only once on mount
 
-  const fruitsAisleCount = responseData.filter(
+
+    const filterAndSortProducts = (products) => {
+    let filtered = [...products];
+
+    // Price filter
+    if (priceFilter.min || priceFilter.max) {
+      filtered = filtered.filter(product => {
+        const price = parseFloat(product.products[0]?.saleprice || product.products[0]?.regprice?.replace(/[^0-9.-]+/g, '') || 0);
+        const min = parseFloat(priceFilter.min) || 0;
+        const max = parseFloat(priceFilter.max) || Infinity;
+        return price >= min && price <= max;
+      });
+    }
+
+    // Store filter
+    if (storeFilter !== 'all') {
+      filtered = filtered.filter(product => 
+        product.products.some(p => p.storeID === storeFilter)
+      );
+    }
+
+    // Sorting
+    filtered.sort((a, b) => {
+      let aValue, bValue;
+      
+      switch (sortBy) {
+        case 'name':
+          aValue = a.title?.toLowerCase() || '';
+          bValue = b.title?.toLowerCase() || '';
+          break;
+        case 'price':
+          aValue = parseFloat(a.products[0]?.saleprice || a.products[0]?.regprice?.replace(/[^0-9.-]+/g, '') || 0);
+          bValue = parseFloat(b.products[0]?.saleprice || b.products[0]?.regprice?.replace(/[^0-9.-]+/g, '') || 0);
+          break;
+        case 'similarity':
+          aValue = a.products[0]?.similarity || 0;
+          bValue = b.products[0]?.similarity || 0;
+          break;
+        default:
+          return 0;
+      }
+
+      if (sortOrder === 'desc') {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      }
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    });
+
+    return filtered;
+  };
+
+  // Get filtered and sorted products
+  const filteredResponseData = filterAndSortProducts(responseData);
+
+  const fruitsAisleCount = filteredResponseData.filter(
     (item) => item.category === "Fruits & Vegetables"
   ).length;
-  const snacksAisleCount = responseData.filter(
+  const snacksAisleCount = filteredResponseData.filter(
     (item) => item.category === "Snacks, Chips & Candy"
   ).length;
-  const dairyAisleCount = responseData.filter(
+  const dairyAisleCount = filteredResponseData.filter(
     (item) => item.category === "Dairy & Eggs"
   ).length;
-  const drinksAisleCount = responseData.filter(
+  const drinksAisleCount = filteredResponseData.filter(
     (item) => item.category === "Drinks"
   ).length;
-  const bakeryAisleCount = responseData.filter(
+  const bakeryAisleCount = filteredResponseData.filter(
     (item) => item.category === "Bakery"
   ).length;
-  const deliAisleCount = responseData.filter(
+  const deliAisleCount = filteredResponseData.filter(
     (item) => item.category === "Deli"
   ).length;
-  const naturalAisleCount = responseData.filter(
+  const naturalAisleCount = filteredResponseData.filter(
     (item) => item.category === "Natural and Organic"
   ).length;
-  const preparedAisleCount = responseData.filter(
+  const preparedAisleCount = filteredResponseData.filter(
     (item) => item.category === "Prepared Meals"
   ).length;
-  const pantryAisleCount = responseData.filter(
+  const pantryAisleCount = filteredResponseData.filter(
     (item) => item.category === "Pantry"
   ).length;
-  const internationalAisleCount = responseData.filter(
+  const internationalAisleCount = filteredResponseData.filter(
     (item) => item.category === "International Foods"
   ).length;
-  const meatAisleCount = responseData.filter(
+  const meatAisleCount = filteredResponseData.filter(
     (item) => item.category === "Meat"
   ).length;
-  const fishAisleCount = responseData.filter(
+  const fishAisleCount = filteredResponseData.filter(
     (item) => item.category === "Fish & Seafood"
   ).length;
-  const frozenAisleCount = responseData.filter(
+  const frozenAisleCount = filteredResponseData.filter(
     (item) => item.category === "Frozen Food"
   ).length;
 
@@ -841,6 +901,14 @@ const Products = ({ cartData }) => {
     selectedAll.length === 0;
 
   const showLoading = loading;
+
+    const uniqueStores = [...new Set(
+    responseData.flatMap(product => 
+      product.products.map(p => ({ id: p.storeID, name: p.store }))
+    )
+  )].filter((store, index, self) => 
+    index === self.findIndex(s => s.id === store.id)
+  );
 
   return (
     <div
@@ -1672,12 +1740,194 @@ const Products = ({ cartData }) => {
               )}
             </div>
             {responseData.length > 0 && (
-              <h1
-                style={{ display: loading && "none", fontSize: "1.5rem" }}
-                className={noir.className}
-              >
-                {responseData.length} search results for {searchText}
-              </h1>
+              <>
+                            <>
+                <h1
+                  style={{ display: loading && "none", fontSize: "1.5rem" }}
+                  className={noir.className}
+                >
+                  {filteredResponseData.length} of {responseData.length} search results for {searchText}
+                </h1>
+                
+                {/* Filter and Sort Controls */}
+                <div style={{ 
+                  margin: "20px 0", 
+                  padding: "15px", 
+                  backgroundColor: "#f8f9fa", 
+                  borderRadius: "8px",
+                  border: "1px solid #e9ecef"
+                }}>
+                  <div style={{ 
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "space-between",
+                    marginBottom: showFilters ? "15px" : "0"
+                  }}>
+                    <h3 className={noir.className} style={{ margin: 0 }}>
+                      Filters & Sort
+                    </h3>
+                    <button
+                      onClick={() => setShowFilters(!showFilters)}
+                      className={noir.className}
+                      style={{
+                        padding: "5px 10px",
+                        backgroundColor: "#007bff",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer"
+                      }}
+                    >
+                      {showFilters ? "Hide" : "Show"} Filters
+                    </button>
+                  </div>
+                  
+                  {showFilters && (
+                    <div style={{ 
+                      display: "grid", 
+                      gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(200px, 1fr))", 
+                      gap: "15px" 
+                    }}>
+                      {/* Sort Controls */}
+                      <div>
+                        <label className={noir.className} style={{ display: "block", marginBottom: "5px" }}>
+                          Sort by:
+                        </label>
+                        <select
+                          value={sortBy}
+                          onChange={(e) => setSortBy(e.target.value)}
+                          className={noir.className}
+                          style={{ 
+                            width: "100%", 
+                            padding: "5px", 
+                            borderRadius: "4px", 
+                            border: "1px solid #ccc" 
+                          }}
+                        >
+                          <option value="name">Name (A-Z)</option>
+                          <option value="price">Price</option>
+                          <option value="similarity">Relevance</option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <label className={noir.className} style={{ display: "block", marginBottom: "5px" }}>
+                          Order:
+                        </label>
+                        <select
+                          value={sortOrder}
+                          onChange={(e) => setSortOrder(e.target.value)}
+                          className={noir.className}
+                          style={{ 
+                            width: "100%", 
+                            padding: "5px", 
+                            borderRadius: "4px", 
+                            border: "1px solid #ccc" 
+                          }}
+                        >
+                          <option value="asc">
+                            {sortBy === 'name' ? 'A-Z' : sortBy === 'price' ? 'Low to High' : 'Low to High'}
+                          </option>
+                          <option value="desc">
+                            {sortBy === 'name' ? 'Z-A' : sortBy === 'price' ? 'High to Low' : 'High to Low'}
+                          </option>
+                        </select>
+                      </div>
+                      
+                      {/* Price Filter */}
+                      <div>
+                        <label className={noir.className} style={{ display: "block", marginBottom: "5px" }}>
+                          Price Range:
+                        </label>
+                        <div style={{ display: "flex", gap: "5px" }}>
+                          <input
+                            type="number"
+                            placeholder="Min"
+                            value={priceFilter.min}
+                            onChange={(e) => setPriceFilter({...priceFilter, min: e.target.value})}
+                            className={noir.className}
+                            style={{ 
+                              width: "50%", 
+                              padding: "5px", 
+                              borderRadius: "4px", 
+                              border: "1px solid #ccc" 
+                            }}
+                          />
+                          <input
+                            type="number"
+                            placeholder="Max"
+                            value={priceFilter.max}
+                            onChange={(e) => setPriceFilter({...priceFilter, max: e.target.value})}
+                            className={noir.className}
+                            style={{ 
+                              width: "50%", 
+                              padding: "5px", 
+                              borderRadius: "4px", 
+                              border: "1px solid #ccc" 
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Store Filter */}
+                      <div>
+                        <label className={noir.className} style={{ display: "block", marginBottom: "5px" }}>
+                          Store:
+                        </label>
+                        <select
+                          value={storeFilter}
+                          onChange={(e) => setStoreFilter(e.target.value)}
+                          className={noir.className}
+                          style={{ 
+                            width: "100%", 
+                            padding: "5px", 
+                            borderRadius: "4px", 
+                            border: "1px solid #ccc" 
+                          }}
+                        >
+                          <option value="all">All Stores</option>
+                          {uniqueStores.map(store => (
+                            <option key={store.id} value={store.id}>
+                              {store.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      
+                      {/* Clear Filters */}
+                      <div style={{ display: "flex", alignItems: "end" }}>
+                        <button
+                          onClick={() => {
+                            setSortBy('name');
+                            setSortOrder('asc');
+                            setPriceFilter({ min: '', max: '' });
+                            setStoreFilter('all');
+                          }}
+                          className={noir.className}
+                          style={{
+                            padding: "5px 15px",
+                            backgroundColor: "#6c757d",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            cursor: "pointer",
+                            width: "100%"
+                          }}
+                        >
+                          Clear Filters
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+              </>
+              // <h1
+              //   style={{ display: loading && "none", fontSize: "1.5rem" }}
+              //   className={noir.className}
+              // >
+              //   {responseData.length} search results for {searchText}
+              // </h1>
             )}
             {showNotFound ? (
               <NotFound />
@@ -1792,11 +2042,11 @@ const Products = ({ cartData }) => {
                       }}
                     >
                       <div className="product-cart-products">
-                        {responseData.length === 0 &&
+                        {filteredResponseData.length === 0 &&
                         selectedAll.length != 0 ? (
                           <NotFound />
                         ) : (
-                          responseData.map((item, index) => (
+                          filteredResponseData.map((item, index) => (
                             <div
                               className="card"
                               key={index}
@@ -2212,7 +2462,7 @@ const Products = ({ cartData }) => {
                       }}
                     >
                       <div className="product-cart-products">
-                        {responseData.length === 0 &&
+                        {filteredResponseData.length === 0 &&
                         selectedAll.length != 0 ? (
                           <NotFound />
                         ) : (
