@@ -316,17 +316,17 @@ const Index = () => {
       ) : (
         <div className="h1" style={{ margin: "0 20%", marginTop: "3%" }}>
           {/* Section 1: Compare Prices */}
+          <h2
+            style={{
+              textAlign: "center",
+              paddingBottom: "0px",
+              marginBottom: "12px",
+            }}
+            className={noir.className}
+          >
+            How Does ShoppyScan Work?
+          </h2>
           <div style={{ display: "flex", flexDirection: "row" }}>
-                        <h2
-              style={{
-                textAlign: "center",
-                paddingBottom: "0px",
-                marginBottom: "12px",
-              }}
-              className={noir.className}
-            >
-              How Does ShoppyScan Work?
-            </h2>
             <section
               style={{
                 paddingBottom: "1.5rem",
@@ -373,9 +373,15 @@ const Index = () => {
                 </div>
               </div>
             </section>
-            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
-    <Image src={arrow} width={50} height={50} />
-  </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "0 1rem",
+              }}
+            >
+              <Image src={arrow} width={50} height={50} />
+            </div>
             <section
               style={{
                 paddingBottom: "1.5rem",
@@ -421,9 +427,15 @@ const Index = () => {
                 </div>
               </div>
             </section>
-            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
-    <Image src={arrow} width={50} height={50} />
-  </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "0 1rem",
+              }}
+            >
+              <Image src={arrow} width={50} height={50} />
+            </div>
             <section
               style={{
                 paddingBottom: "1.5rem",
@@ -472,7 +484,7 @@ const Index = () => {
           </div>
 
           <div style={{ display: "flex", flexDirection: "row" }}>
-          <section
+            <section
               style={{
                 paddingBottom: "1.5rem",
                 paddingTop: "1.5rem",
@@ -518,9 +530,15 @@ const Index = () => {
               </div>
             </section>
 
-            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
-    <Image src={arrow_back} width={50} height={50} />
-  </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "0 1rem",
+              }}
+            >
+              <Image src={arrow_back} width={50} height={50} />
+            </div>
             <section
               style={{
                 paddingBottom: "1.5rem",
@@ -566,10 +584,16 @@ const Index = () => {
                 </div>
               </div>
             </section>
-            <div style={{ display: "flex", alignItems: "center", padding: "0 1rem" }}>
-    <Image src={arrow_back} width={50} height={50} />
-  </div>
-  <section
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "0 1rem",
+              }}
+            >
+              <Image src={arrow_back} width={50} height={50} />
+            </div>
+            <section
               style={{
                 paddingBottom: "1.5rem",
                 paddingTop: "1.5rem",
