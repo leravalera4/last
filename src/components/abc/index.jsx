@@ -324,7 +324,7 @@ const Index = () => {
             }}
             className={noir.className}
           >
-            How Does ShoppyScan Work?
+            How Does Shoppy Scan Work?
           </h2>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <section
