@@ -2928,7 +2928,7 @@ const Cart = () => {
                                 margin: "0",
                                 padding: "0",
                                 paddingTop: "10px",
-                                width: "40%",
+                                width: "35%",
                               }}
                             >
                               {item.items.map((it) => (
