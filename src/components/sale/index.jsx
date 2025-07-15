@@ -1072,7 +1072,7 @@ const Index = () => {
 
       // Получаем список городов
       const cityRes = await axios.get(
-        `https://api.shoppyscan.ca/api/sale/stores/${store.city}`
+        `https://api.shoppyscan.ca/api/sale/stores/${store.store}`
       );
       const cities = cityRes.data.locations
         ? Object.keys(cityRes.data.locations)
