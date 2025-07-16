@@ -797,6 +797,8 @@ const Products = ({ cartData }) => {
     const filterAndSortProducts = (products) => {
     let filtered = [...products];
 
+    if(showFilters){
+
     // Price filter
     if (priceFilter.min || priceFilter.max) {
       filtered = filtered.filter(product => {
@@ -813,6 +815,8 @@ const Products = ({ cartData }) => {
         product.products.some(p => p.storeID === storeFilter)
       );
     }
+
+  }
 
     // Sorting
     filtered.sort((a, b) => {
@@ -843,6 +847,8 @@ const Products = ({ cartData }) => {
 
     return filtered;
   };
+
+
 
   // Get filtered and sorted products
   const filteredResponseData = filterAndSortProducts(responseData);
